@@ -30,9 +30,13 @@ $aModule = array(
     ),
     'files'       => array(
         'makaira_connect_endpoint' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
+        'makaira_connect_events' => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
     ),
     'templates'   => array(),
     'blocks'      => array(),
-    'events'      => array(),
+    'events'      => array(
+        'onActivate'   => 'makaira_connect_events::onActivate',
+        'onDeactivate' => 'makaira_connect_events::onDeactivate',
+    ),
     'settings'    => array(),
 );
