@@ -9,5 +9,5 @@
   },
   "autoload": {
     "classmap": ["src/"]
-  },
+  }
 }

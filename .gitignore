@@ -1,0 +1,11 @@
+vendor/bin/
+vendor/doctrine/
+vendor/pdepend/
+vendor/phpdocumentor/
+vendor/phpmd/
+vendor/phpspec/
+vendor/phpunit/
+vendor/sebastian/
+vendor/squizlabs/
+vendor/symfony/
+vendor/webmozart/
