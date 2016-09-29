@@ -29,6 +29,7 @@ $aModule = array(
     'extend'      => array(
     ),
     'files'       => array(
+        'makaira_connect_endpoint' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
     ),
     'templates'   => array(),
     'blocks'      => array(),
