@@ -74,7 +74,17 @@ class makaira_connect_endpoint extends oxUBase
 
     public function getUpdatesAction()
     {
-        return 'Hello World';
+        // @TODO: Verify shared secret
+
+        $since = isset($_GET['since']) ? $_GET['since'] : 0;
+        $repository = oxRegistry::get('yamm_dic')['makaira.connect.repository.product'];
+        $changes = $repository->getChangesSince($since);
+        return array(
+            'ok' => true,
+            'since' => $since,
+            'count' => count($changes),
+            'changes' => $changes,
+        );
     }
 
     protected function setStatusHeader($statusCode) {
