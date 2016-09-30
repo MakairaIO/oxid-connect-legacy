@@ -69,6 +69,7 @@ class Product
         }
 
         return new Changes(array(
+            'type' => 'product',
             'since' => $since,
             'count' => count($changes),
             'changes' => $changes,
