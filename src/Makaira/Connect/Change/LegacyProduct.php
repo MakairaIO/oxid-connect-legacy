@@ -2,6 +2,10 @@
 
 namespace Makaira\Connect\Change;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class LegacyProduct extends \Kore\DataObject\DataObject
 {
     public $id;
