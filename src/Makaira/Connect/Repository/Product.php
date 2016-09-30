@@ -54,6 +54,7 @@ class Product
         $changes = array();
         foreach ($result as $row) {
             $change = new Change();
+            $change->id = $row['id'];
             $change->sequence = $row['sequence'];
             unset($row['sequence']);
 
