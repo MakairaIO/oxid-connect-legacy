@@ -1,5 +1,7 @@
 <?php
 
+use Makaira\Connect\Result\Error;
+
 class makaira_connect_endpoint extends oxUBase
 {
     protected $statusCodes = array (
@@ -57,16 +59,10 @@ class makaira_connect_endpoint extends oxUBase
             echo json_encode($this->getUpdatesAction());
         } catch (ForbiddenException $e) {
             $this->setStatusHeader(403);
-            echo json_encode(array(
-                'ok' => false,
-                'error' => 'Forbidden',
-            ));
+            echo json_encode(new Error('Forbidden'));
         } catch (\Exception $e) {
             $this->setStatusHeader(500);
-            echo json_encode(array(
-                'ok' => false,
-                'error' => $e->getMessage(),
-            ));
+            echo json_encode(new Error($e->getMessage()));
         }
 
         exit();
@@ -78,13 +74,7 @@ class makaira_connect_endpoint extends oxUBase
 
         $since = oxRegistry::getConfig()->getRequestParameter('since');
         $repository = oxRegistry::get('yamm_dic')['makaira.connect.repository.product'];
-        $changes = $repository->getChangesSince($since);
-        return array(
-            'ok' => true,
-            'since' => $since,
-            'count' => count($changes),
-            'changes' => $changes,
-        );
+        return $repository->getChangesSince($since);
     }
 
     protected function setStatusHeader($statusCode) {

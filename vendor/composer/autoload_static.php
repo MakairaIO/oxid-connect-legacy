@@ -148,7 +148,13 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Generic_Sniffs_WhiteSpace_DisallowSpaceIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowSpaceIndentSniff.php',
         'Generic_Sniffs_WhiteSpace_DisallowTabIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
         'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
+        'Makaira\\Connect\\Change' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change.php',
+        'Makaira\\Connect\\Change\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product.php',
+        'Makaira\\Connect\\Database' => __DIR__ . '/../..' . '/src/Makaira/Connect/Database.php',
         'Makaira\\Connect\\Repository\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/Product.php',
+        'Makaira\\Connect\\Result' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result.php',
+        'Makaira\\Connect\\Result\\Changes' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Changes.php',
+        'Makaira\\Connect\\Result\\Error' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Error.php',
         'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
         'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
         'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',
@@ -772,6 +778,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Zend_Sniffs_Files_ClosingTagSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/Files/ClosingTagSniff.php',
         'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
         'makaira_connect_endpoint' => __DIR__ . '/../..' . '/src/oxid/application/controllers/makaira_connect_endpoint.php',
+        'makaira_connect_events' => __DIR__ . '/../..' . '/src/oxid/core/makaira_connect_events.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

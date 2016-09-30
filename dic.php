@@ -3,7 +3,9 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 $dic['oxid.database'] = function ($dic) {
-    return oxDB::getInstance();
+    return new \Makaira\Connect\Database(
+        oxDB::getInstance()->getDb()
+    );
 };
 
 $dic['makaira.connect.repository.product'] = function ($dic) {
