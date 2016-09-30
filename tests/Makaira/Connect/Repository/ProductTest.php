@@ -22,11 +22,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Changes(array(
+                'type' => 'product',
                 'since' => 0,
                 'count' => 1,
                 'changes' => array(
                     new Change(array(
                         'sequence' => 1,
+                        'id' => 42,
                         'data' => new Change\LegacyProduct(array(
                             'id' => 42,
                         ))
