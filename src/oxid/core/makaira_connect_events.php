@@ -43,7 +43,7 @@ class makaira_connect_events
         $sSql = "CREATE TABLE IF NOT EXISTS `makaira_connect_product_changes` (
             `SEQUENCE` BIGINT NOT NULL AUTO_INCREMENT,
             `OXID` CHAR(32) COLLATE latin1_general_ci NOT NULL,
-            `CHNAGED` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            `CHANGED` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             INDEX (`OXID`),
             PRIMARY KEY (`SEQUENCE`)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
