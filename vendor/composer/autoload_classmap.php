@@ -71,7 +71,7 @@ return array(
     'Generic_Sniffs_WhiteSpace_DisallowTabIndentSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
     'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
     'Makaira\\Connect\\Change' => $baseDir . '/src/Makaira/Connect/Change.php',
-    'Makaira\\Connect\\Change\\Product' => $baseDir . '/src/Makaira/Connect/Change/Product.php',
+    'Makaira\\Connect\\Change\\LegacyProduct' => $baseDir . '/src/Makaira/Connect/Change/LegacyProduct.php',
     'Makaira\\Connect\\Database' => $baseDir . '/src/Makaira/Connect/Database.php',
     'Makaira\\Connect\\Repository\\Product' => $baseDir . '/src/Makaira/Connect/Repository/Product.php',
     'Makaira\\Connect\\Result' => $baseDir . '/src/Makaira/Connect/Result.php',

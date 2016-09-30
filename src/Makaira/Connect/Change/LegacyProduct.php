@@ -2,7 +2,7 @@
 
 namespace Makaira\Connect\Change;
 
-class Product extends \Kore\DataObject\DataObject
+class LegacyProduct extends \Kore\DataObject\DataObject
 {
     public $id;
     public $timestamp;

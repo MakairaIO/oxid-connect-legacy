@@ -149,7 +149,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Generic_Sniffs_WhiteSpace_DisallowTabIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
         'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
         'Makaira\\Connect\\Change' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change.php',
-        'Makaira\\Connect\\Change\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product.php',
+        'Makaira\\Connect\\Change\\LegacyProduct' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/LegacyProduct.php',
         'Makaira\\Connect\\Database' => __DIR__ . '/../..' . '/src/Makaira/Connect/Database.php',
         'Makaira\\Connect\\Repository\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/Product.php',
         'Makaira\\Connect\\Result' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result.php',

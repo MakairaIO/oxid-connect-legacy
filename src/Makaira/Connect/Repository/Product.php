@@ -52,7 +52,7 @@ class Product
                     $change->sequence = $row['sequence'];
                     unset($row['sequence']);
 
-                    $change->data = new Change\Product($row);
+                    $change->data = new Change\LegacyProduct($row);
                     return $change;
                 },
                 $result
