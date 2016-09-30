@@ -1501,5 +1501,41 @@
             "phpcs",
             "standards"
         ]
+    },
+    {
+        "name": "kore/data-object",
+        "version": "1.1",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kore/DataObject.git",
+            "reference": "d460aa076b3fd227cc64c66a92b7f769ab0464ce"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kore/DataObject/zipball/d460aa076b3fd227cc64c66a92b7f769ab0464ce",
+            "reference": "d460aa076b3fd227cc64c66a92b7f769ab0464ce",
+            "shasum": ""
+        },
+        "require-dev": {
+            "pdepend/pdepend": "@stable",
+            "phpmd/phpmd": "@stable",
+            "phpunit/phpunit": "@stable",
+            "sebastian/phpcpd": "@stable",
+            "squizlabs/php_codesniffer": "@stable"
+        },
+        "time": "2014-06-24 08:26:49",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Kore": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Simple base class for data objects."
     }
 ]

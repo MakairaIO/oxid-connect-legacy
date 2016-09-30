@@ -1,0 +1,19 @@
+{
+    "name":         "kore/data-object",
+    "description":  "Simple base class for data objects.",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "Kore": "src/"
+        }
+    },
+    "require":      {
+    },
+    "require-dev": {
+        "pdepend/pdepend": "@stable",
+        "phpmd/phpmd": "@stable",
+        "phpunit/phpunit": "@stable",
+        "sebastian/phpcpd": "@stable",
+        "squizlabs/php_codesniffer": "@stable"
+    }
+}

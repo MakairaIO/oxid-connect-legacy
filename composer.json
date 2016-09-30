@@ -9,5 +9,8 @@
   },
   "autoload": {
     "classmap": ["src/"]
+  },
+  "require": {
+    "kore/data-object": "@stable"
   }
 }

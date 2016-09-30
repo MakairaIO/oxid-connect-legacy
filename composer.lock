@@ -4,9 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cf6d23394454b764291085c156d9b7d5",
-    "content-hash": "045943f72c0dd75afe50a53a1ae1c49c",
-    "packages": [],
+    "hash": "b62cfd1e90248b336a8cbc8e8579c33f",
+    "content-hash": "05e4eda90d5abc903822e961cfb84d8c",
+    "packages": [
+        {
+            "name": "kore/data-object",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kore/DataObject.git",
+                "reference": "d460aa076b3fd227cc64c66a92b7f769ab0464ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kore/DataObject/zipball/d460aa076b3fd227cc64c66a92b7f769ab0464ce",
+                "reference": "d460aa076b3fd227cc64c66a92b7f769ab0464ce",
+                "shasum": ""
+            },
+            "require-dev": {
+                "pdepend/pdepend": "@stable",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "@stable",
+                "sebastian/phpcpd": "@stable",
+                "squizlabs/php_codesniffer": "@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Kore": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple base class for data objects.",
+            "time": "2014-06-24 08:26:49"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -1461,6 +1496,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "kore/data-object": 0,
         "pdepend/pdepend": 0,
         "phpmd/phpmd": 0,
         "squizlabs/php_codesniffer": 0

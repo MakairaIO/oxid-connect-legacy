@@ -81,6 +81,13 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
                 0 => __DIR__ . '/..' . '/phpmd/phpmd/src/main/php',
             ),
         ),
+        'K' => 
+        array (
+            'Kore' => 
+            array (
+                0 => __DIR__ . '/..' . '/kore/data-object/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -150,6 +157,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
         'Makaira\\Connect\\Change' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change.php',
         'Makaira\\Connect\\Change\\LegacyProduct' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/LegacyProduct.php',
+        'Makaira\\Connect\\Change\\Product\\Modifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/Modifier.php',
         'Makaira\\Connect\\Database' => __DIR__ . '/../..' . '/src/Makaira/Connect/Database.php',
         'Makaira\\Connect\\Repository\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/Product.php',
         'Makaira\\Connect\\Result' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result.php',
