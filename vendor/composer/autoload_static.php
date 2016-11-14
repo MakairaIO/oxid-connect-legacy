@@ -157,6 +157,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
         'Makaira\\Connect\\Change' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change.php',
         'Makaira\\Connect\\Change\\Common\\Attribute' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Common/Attribute.php',
+        'Makaira\\Connect\\Change\\Product\\ActiveModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/ActiveModifier.php',
         'Makaira\\Connect\\Change\\Product\\AttributeModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/AttributeModifier.php',
         'Makaira\\Connect\\Change\\Product\\LegacyProduct' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/LegacyProduct.php',
         'Makaira\\Connect\\Change\\Product\\Modifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/Modifier.php',

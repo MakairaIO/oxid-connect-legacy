@@ -32,3 +32,8 @@ $dic['makaira.connect.modifiers.product.vat'] = function (\Marm\Yamm\DIC $dic) {
 };
 $dic->tag('makaira.connect.modifiers.product.vat', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.product.active'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Change\Product\ActiveModifier();
+};
+$dic->tag('makaira.connect.modifiers.product.active', 'makaira.importer.modifier.product');
+

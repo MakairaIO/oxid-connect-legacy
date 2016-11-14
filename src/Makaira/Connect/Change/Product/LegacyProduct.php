@@ -123,6 +123,8 @@ class LegacyProduct extends \Kore\DataObject\DataObject
     public $OXISDOWNLOADABLE;
     public $OXSHOWCUSTOMAGREEMENT;
 
+    public $OXHIDDEN;
+
     public $OXLONGDESC;
     public $OXTAGS;
 

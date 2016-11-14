@@ -72,6 +72,7 @@ return array(
     'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
     'Makaira\\Connect\\Change' => $baseDir . '/src/Makaira/Connect/Change.php',
     'Makaira\\Connect\\Change\\Common\\Attribute' => $baseDir . '/src/Makaira/Connect/Change/Common/Attribute.php',
+    'Makaira\\Connect\\Change\\Product\\ActiveModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/ActiveModifier.php',
     'Makaira\\Connect\\Change\\Product\\AttributeModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/AttributeModifier.php',
     'Makaira\\Connect\\Change\\Product\\LegacyProduct' => $baseDir . '/src/Makaira/Connect/Change/Product/LegacyProduct.php',
     'Makaira\\Connect\\Change\\Product\\Modifier' => $baseDir . '/src/Makaira/Connect/Change/Product/Modifier.php',
