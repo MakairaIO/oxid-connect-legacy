@@ -30,10 +30,10 @@ class Product
             LEFT JOIN oxartextends ON oxarticles.oxid = oxartextends.oxid
             LEFT JOIN oxmanufacturers ON oxarticles.oxmanufacturerid = oxmanufacturers.oxid
         WHERE
-            oxparentid = \"\"
+            oxparentid = ''
             AND sequence > :since
-		ORDER BY
-			sequence ASC
+        ORDER BY
+            sequence ASC
         LIMIT :limit";
 
     public function __construct(Database $database, array $modifiers = array())
