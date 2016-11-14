@@ -72,8 +72,7 @@ class Product
             $change->sequence = $row['sequence'];
             unset($row['sequence']);
 
-            // @TODO: Do we want to pass the full product / changes list to
-            // themodifier to allow aggregated queries?
+            // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
             $product = new Change\LegacyProduct($row);
             foreach ($this->modifiers as $modifier) {
                 $product = $modifier->apply($product);

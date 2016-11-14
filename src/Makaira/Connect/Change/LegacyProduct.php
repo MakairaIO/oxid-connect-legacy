@@ -122,9 +122,21 @@ class LegacyProduct extends \Kore\DataObject\DataObject
     public $OXUPDATEPRICETIME;
     public $OXISDOWNLOADABLE;
     public $OXSHOWCUSTOMAGREEMENT;
+
+    public $OXLONGDESC;
+    public $OXTAGS;
+
     public $MARM_OXSEARCH_BOOST;
     public $MARM_OXSEARCH_PROFITMARGIN;
-    public $oxlongdesc;
-    public $oxtags;
     public $MARM_OXSEARCH_MANUFACTURERTITLE;
+    public $MARM_OXSEARCH_REQCOUNT = 0;
+    public $MARM_OXSEARCH_BASKETCOUNT = 0;
+    public $attribute = [];
+    public $category = [];
+    public $suggest = [];
+    public $activefrom = null;
+    public $activeto = null;
+    public $variantactive = 1;
+    public $active = true;
+    public $TRACKING = null;
 }
