@@ -77,6 +77,7 @@ return array(
     'Makaira\\Connect\\Change\\Product\\LegacyProduct' => $baseDir . '/src/Makaira/Connect/Change/Product/LegacyProduct.php',
     'Makaira\\Connect\\Change\\Product\\Modifier' => $baseDir . '/src/Makaira/Connect/Change/Product/Modifier.php',
     'Makaira\\Connect\\Change\\Product\\PriceModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/PriceModifier.php',
+    'Makaira\\Connect\\Change\\Product\\SuggestModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/SuggestModifier.php',
     'Makaira\\Connect\\Database' => $baseDir . '/src/Makaira/Connect/Database.php',
     'Makaira\\Connect\\Repository\\Product' => $baseDir . '/src/Makaira/Connect/Repository/Product.php',
     'Makaira\\Connect\\Result' => $baseDir . '/src/Makaira/Connect/Result.php',

@@ -37,3 +37,10 @@ $dic['makaira.connect.modifiers.product.active'] = function (\Marm\Yamm\DIC $dic
 };
 $dic->tag('makaira.connect.modifiers.product.active', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.product.suggest'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Change\Product\SuggestModifier(
+        $dic['marm_oxsearch']['oxsearch_configuration']['search']['suggestfields']
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.suggest', 'makaira.importer.modifier.product');
+
