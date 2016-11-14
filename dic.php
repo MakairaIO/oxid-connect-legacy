@@ -22,3 +22,13 @@ $dic['makaira.connect.modifiers.product.attribute'] = function (\Marm\Yamm\DIC $
 };
 $dic->tag('makaira.connect.modifiers.product.attribute', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.product.vat'] = function (\Marm\Yamm\DIC $dic) {
+    $config = oxRegistry::getConfig();
+    return new \Makaira\Connect\Change\Product\PriceModifier(
+        $config->getConfigParam('blEnterNetPrice'),
+        $config->getConfigParam('blShowNetPrice'),
+        $config->getConfigParam('dDefaultVAT')
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.vat', 'makaira.importer.modifier.product');
+
