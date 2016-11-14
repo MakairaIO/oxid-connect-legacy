@@ -64,4 +64,17 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $changes->changes[0]->data
         );
     }
+
+    public function testTouchProduct()
+    {
+        $databaseMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $repository = new Product($databaseMock, []);
+
+        $databaseMock
+            ->expects($this->once())
+            ->method('query')
+            ->with($this->anything(), ['oxid' => 42]);
+
+        $repository->touch(42);
+    }
 }

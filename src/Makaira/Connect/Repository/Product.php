@@ -36,6 +36,14 @@ class Product
             sequence ASC
         LIMIT :limit";
 
+    protected $productTouchQuery = "
+        INSERT INTO
+          makaira_connect_product_changes
+        (OXID, CHANGED)
+          VALUES
+        (:oxid, NOW());
+    ";
+
     public function __construct(Database $database, array $modifiers = array())
     {
         $this->database = $database;
@@ -47,6 +55,12 @@ class Product
         $this->modifiers[] = $modifier;
     }
 
+    /**
+     * Fetch and serialize changes.
+     * @param int $since Sequence offset
+     * @param int $limit Fetch limit
+     * @return Changes
+     */
     public function getChangesSince($since, $limit = 50)
     {
         $result = $this->database->query($this->productSelectQuery, ['since' => $since, 'limit' => $limit]);
@@ -74,5 +88,14 @@ class Product
             'count' => count($changes),
             'changes' => $changes,
         ));
+    }
+
+    /**
+     * Mark an object as updated.
+     * @param string $oxid
+     */
+    public function touch($oxid)
+    {
+        $this->database->query($this->productTouchQuery, ['oxid' => $oxid]);
     }
 }
