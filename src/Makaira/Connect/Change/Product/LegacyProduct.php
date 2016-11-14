@@ -1,6 +1,6 @@
 <?php
 
-namespace Makaira\Connect\Change;
+namespace Makaira\Connect\Change\Product;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)

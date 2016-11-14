@@ -13,6 +13,9 @@ class Product
      */
     private $database;
 
+    /**
+     * @var Change\Product\Modifier[]
+     */
     private $modifiers;
 
     protected $productSelectQuery = "
@@ -21,8 +24,8 @@ class Product
             oxarticles.oxid AS `id`,
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
-            oxartextends.oxlongdesc,
-            oxartextends.oxtags,
+            oxartextends.oxlongdesc as `OXLONGDESC`,
+            oxartextends.oxtags as `OXTAGS`,
             oxmanufacturers.oxtitle AS MARM_OXSEARCH_MANUFACTURERTITLE
         FROM
             makaira_connect_product_changes
@@ -73,9 +76,9 @@ class Product
             unset($row['sequence']);
 
             // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
-            $product = new Change\LegacyProduct($row);
+            $product = new Change\Product\LegacyProduct($row);
             foreach ($this->modifiers as $modifier) {
-                $product = $modifier->apply($product);
+                $product = $modifier->apply($product, $this->database);
             }
             $change->data = $product;
             $changes[] = $change;

@@ -29,7 +29,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                     new Change(array(
                         'sequence' => 1,
                         'id' => 42,
-                        'data' => new Change\LegacyProduct(array(
+                        'data' => new Change\Product\LegacyProduct(array(
                             'id' => 42,
                         ))
                     ))
