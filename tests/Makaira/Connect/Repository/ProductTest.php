@@ -51,7 +51,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('query')
             ->will($this->returnValue([['id' => 42, 'sequence' => 1]]));
 
-        $product = new \StdClass();
+        $product = new \stdClass();
         $modifierMock
             ->expects($this->once())
             ->method('apply')
