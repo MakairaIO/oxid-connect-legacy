@@ -56,7 +56,7 @@ class PdoDatabase implements DatabaseInterface
     {
         $stmt = $this->connection->prepare($query);
         foreach ($parameters as $key => $value) {
-            $stmt->bindParam(":$key", $value, $this->getPDOType($value));
+            $stmt->bindValue(":$key", $value, $this->getPDOType($value));
         }
         if (!$stmt->execute()) {
             $error = $stmt->errorInfo();
