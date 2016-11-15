@@ -50,7 +50,9 @@ class Product
     public function __construct(DatabaseInterface $database, array $modifiers = array())
     {
         $this->database = $database;
-        $this->modifiers = $modifiers;
+        foreach ($modifiers as $modifier) {
+            $this->addModifier($modifier);
+        }
     }
 
     /**

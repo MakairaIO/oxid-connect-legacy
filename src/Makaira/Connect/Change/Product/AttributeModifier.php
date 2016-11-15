@@ -10,7 +10,7 @@ use Makaira\Connect\DatabaseInterface;
  * Class AttributeModifier
  * @package Makaira\Connect\Change\Product
  */
-class AttributeModifier
+class AttributeModifier extends Modifier
 {
     private $selectAttributesQuery = "
                         ( SELECT
