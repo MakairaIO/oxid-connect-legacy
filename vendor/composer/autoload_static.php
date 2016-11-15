@@ -176,7 +176,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Makaira\\Connect\\Types\\Product\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Types/Product/Product.php',
         'Makaira\\Connect\\Types\\Product\\SuggestModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Types/Product/SuggestModifier.php',
         'Makaira\\Connect\\Types\\Product\\TrackingModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Types/Product/TrackingModifier.php',
-        'Makaira\\Connect\\Types\\Product\\Variant' => __DIR__ . '/../..' . '/src/Makaira/Connect/Types/Product/Variant.php',
+        'Makaira\\Connect\\Types\\Variant\\Variant' => __DIR__ . '/../..' . '/src/Makaira/Connect/Types/Variant/Variant.php',
         'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
         'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
         'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',

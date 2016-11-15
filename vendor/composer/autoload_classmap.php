@@ -91,7 +91,7 @@ return array(
     'Makaira\\Connect\\Types\\Product\\Product' => $baseDir . '/src/Makaira/Connect/Types/Product/Product.php',
     'Makaira\\Connect\\Types\\Product\\SuggestModifier' => $baseDir . '/src/Makaira/Connect/Types/Product/SuggestModifier.php',
     'Makaira\\Connect\\Types\\Product\\TrackingModifier' => $baseDir . '/src/Makaira/Connect/Types/Product/TrackingModifier.php',
-    'Makaira\\Connect\\Types\\Product\\Variant' => $baseDir . '/src/Makaira/Connect/Types/Product/Variant.php',
+    'Makaira\\Connect\\Types\\Variant\\Variant' => $baseDir . '/src/Makaira/Connect/Types/Variant/Variant.php',
     'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
     'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
     'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',

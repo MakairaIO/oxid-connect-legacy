@@ -1,6 +1,6 @@
 <?php
 
-namespace Makaira\Connect\Types\Product;
+namespace Makaira\Connect\Types\Variant;
 
 
 use Makaira\Connect\Types\Common\BaseProduct;
