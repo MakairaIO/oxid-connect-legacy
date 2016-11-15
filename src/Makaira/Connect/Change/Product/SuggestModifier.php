@@ -9,7 +9,7 @@
 namespace Makaira\Connect\Change\Product;
 
 
-use Makaira\Connect\Database;
+use Makaira\Connect\DatabaseInterface as Database;
 
 class SuggestModifier extends Modifier
 {

@@ -7,7 +7,7 @@ namespace Makaira\Connect;
  *
  * @version $Revision$
  */
-class Database
+class OxidDatabase implements DatabaseInterface
 {
     /**
      * @var \oxLegacyDb
@@ -35,6 +35,7 @@ class Database
             if (!is_numeric($value)) {
                 $value = $this->database->quote($value);
             }
+            // This will explode as soon as someone uses e.g. ['OXPRICE' => 1, 'OXPRICEA' => 2] as parameters
             $query = str_replace(':' . $key, $value, $query);
         }
 

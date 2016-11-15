@@ -5,14 +5,29 @@ require_once __DIR__ . '/vendor/autoload.php';
 /** @var \Marm\Yamm\DIC $dic */
 
 $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Database(
+    return new \Makaira\Connect\OxidDatabase(
         oxDb::getInstance()->getDb()
     );
 };
 
+$dic['pdo.database'] = function (\Marm\Yamm\DIC $dic) {
+    $config = oxRegistry::getConfig();
+    return new \Makaira\Connect\PdoDatabase(
+        $config->getConfigParam('dbHost'),
+        $config->getConfigParam('dbName'),
+        $config->getConfigParam('dbUser'),
+        $config->getConfigParam('dbPwd'),
+        $config->isUtf()
+    );
+};
+
+$dic['makaira.database'] = function (\Marm\Yamm\DIC $dic) {
+    return $dic['pdo.database'];
+};
+
 $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\Product(
-        $dic['oxid.database'],
+        $dic['makaira.database'],
         $dic->getTagged('makaira.importer.modifier.product')
     );
 };

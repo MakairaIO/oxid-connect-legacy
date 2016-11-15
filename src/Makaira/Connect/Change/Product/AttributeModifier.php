@@ -4,7 +4,7 @@ namespace Makaira\Connect\Change\Product;
 
 
 use Makaira\Connect\Change\Common\Attribute;
-use Makaira\Connect\Database;
+use Makaira\Connect\DatabaseInterface as Database;
 
 /**
  * Class AttributeModifier

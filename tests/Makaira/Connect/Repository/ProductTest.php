@@ -2,7 +2,7 @@
 
 namespace Makaira\Connect\Repository;
 
-use Makaira\Connect\Database;
+use Makaira\Connect\DatabaseInterface as Database;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Change;
 
