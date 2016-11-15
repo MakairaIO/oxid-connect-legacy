@@ -16,7 +16,7 @@ class Product
     /**
      * @var Change\Product\Modifier[]
      */
-    private $modifiers;
+    private $modifiers = [];
 
     protected $productSelectQuery = "
         SELECT
