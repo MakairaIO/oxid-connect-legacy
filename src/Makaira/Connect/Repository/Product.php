@@ -2,14 +2,14 @@
 
 namespace Makaira\Connect\Repository;
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Change;
 
 class Product
 {
     /**
-     * @var Database
+     * @var DatabaseInterface
      */
     private $database;
 
@@ -47,12 +47,17 @@ class Product
         (:oxid, NOW());
     ";
 
-    public function __construct(Database $database, array $modifiers = array())
+    public function __construct(DatabaseInterface $database, array $modifiers = array())
     {
         $this->database = $database;
         $this->modifiers = $modifiers;
     }
 
+    /**
+     * Add a modifier.
+     * @codeCoverageIgnore
+     * @param Change\Product\Modifier $modifier
+     */
     public function addModifier(Change\Product\Modifier $modifier)
     {
         $this->modifiers[] = $modifier;

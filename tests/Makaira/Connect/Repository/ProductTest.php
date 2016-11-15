@@ -2,7 +2,7 @@
 
 namespace Makaira\Connect\Repository;
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Change;
 
@@ -10,7 +10,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadProduct()
     {
-        $databaseMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $repository = new Product($databaseMock);
 
         $databaseMock
@@ -41,7 +41,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testRunModifierLoadProduct()
     {
-        $databaseMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $modifierMock = $this->getMock(Change\Product\Modifier::class);
 
         $repository = new Product($databaseMock, [$modifierMock]);
@@ -67,7 +67,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testTouchProduct()
     {
-        $databaseMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $repository = new Product($databaseMock, []);
 
         $databaseMock
