@@ -2,16 +2,18 @@
 
 namespace Makaira\Connect\Repository;
 
+use Makaira\Connect\Change;
+use Makaira\Connect\Types\Common\Modifier;
+use Makaira\Connect\Types\Product\Product;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
-use Makaira\Connect\Change;
 
-class ProductTest extends \PHPUnit_Framework_TestCase
+class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new Product($databaseMock);
+        $repository = new ProductRepository($databaseMock);
 
         $databaseMock
             ->expects($this->once())
@@ -29,7 +31,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                     new Change(array(
                         'sequence' => 1,
                         'id' => 42,
-                        'data' => new Change\Product\LegacyProduct(array(
+                        'data' => new Product(array(
                             'id' => 42,
                         ))
                     ))
@@ -42,9 +44,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testRunModifierLoadProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $modifierMock = $this->getMock(Change\Product\Modifier::class);
+        $modifierMock = $this->getMock(Modifier::class);
 
-        $repository = new Product($databaseMock, [$modifierMock]);
+        $repository = new ProductRepository($databaseMock, [$modifierMock]);
 
         $databaseMock
             ->expects($this->once())
@@ -68,7 +70,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testTouchProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new Product($databaseMock, []);
+        $repository = new ProductRepository($databaseMock, []);
 
         $databaseMock
             ->expects($this->once())

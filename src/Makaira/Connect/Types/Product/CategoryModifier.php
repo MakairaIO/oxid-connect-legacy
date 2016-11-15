@@ -1,10 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Product;
 
 
-use Makaira\Connect\Change\Common\Category;
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Types\Common\BaseProduct;
+use Makaira\Connect\Types\Common\Category;
+use Makaira\Connect\Types\Common\Modifier;
 
 class CategoryModifier extends Modifier
 {
@@ -58,11 +60,11 @@ class CategoryModifier extends Modifier
     /**
      * Modify product and return modified product
      *
-     * @param LegacyProduct $product
+     * @param BaseProduct $product
      * @param DatabaseInterface $database
-     * @return LegacyProduct
+     * @return BaseProduct
      */
-    public function apply(LegacyProduct $product, DatabaseInterface $database)
+    public function apply(BaseProduct $product, DatabaseInterface $database)
     {
         $categories = $database->query(
             $this->selectCategoriesQuery,

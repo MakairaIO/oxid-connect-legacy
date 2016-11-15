@@ -6,7 +6,7 @@
  * Time: 13:48
  */
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Product;
 
 
 use Makaira\Connect\DatabaseInterface;
@@ -44,7 +44,7 @@ class TrackingModifierTest extends \PHPUnit_Framework_TestCase
                 )
             );
         $modifier = new TrackingModifier($trackingMock);
-        $product = new LegacyProduct();
+        $product = new Product();
         $product->id = 'abc';
         $product = $modifier->apply($product, $dbMock);
 

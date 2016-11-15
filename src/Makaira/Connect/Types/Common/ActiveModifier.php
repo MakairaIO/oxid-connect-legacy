@@ -1,6 +1,6 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
@@ -11,11 +11,11 @@ class ActiveModifier extends Modifier
     /**
      * Modify product and return modified product
      *
-     * @param LegacyProduct $product
+     * @param BaseProduct $product
      * @param DatabaseInterface $database
-     * @return LegacyProduct
+     * @return BaseProduct
      */
-    public function apply(LegacyProduct $product, DatabaseInterface $database)
+    public function apply(BaseProduct $product, DatabaseInterface $database)
     {
         $product->active = (bool)$product->OXACTIVE;
         if (isset($product->OXHIDDEN)) {

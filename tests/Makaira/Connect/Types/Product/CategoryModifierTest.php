@@ -1,9 +1,9 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Product;
 
 
-use Makaira\Connect\Change\Common\Category;
+use Makaira\Connect\Types\Common\Category;
 use Makaira\Connect\DatabaseInterface;
 
 class CategoryModifierTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $product = new LegacyProduct();
+        $product = new Product();
         $product->id = 'abc';
         $product->OXACTIVE = 1;
 
@@ -90,7 +90,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $product = new LegacyProduct();
+        $product = new Product();
         $product->id = 'abc';
         $product->OXACTIVE = 1;
 

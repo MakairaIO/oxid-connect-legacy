@@ -1,6 +1,6 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
@@ -11,11 +11,11 @@ class LongDescriptionModifier extends Modifier
     /**
      * Modify product and return modified product
      *
-     * @param LegacyProduct $product
+     * @param BaseProduct $product
      * @param DatabaseInterface $database
-     * @return LegacyProduct
+     * @return BaseProduct
      */
-    public function apply(LegacyProduct $product, DatabaseInterface $database)
+    public function apply(BaseProduct $product, DatabaseInterface $database)
     {
         $product->OXLONGDESC = trim(strip_tags($product->OXLONGDESC));
         return $product;

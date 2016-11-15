@@ -1,8 +1,9 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 
+use Makaira\Connect\Types\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
 
 class PriceModifierTest extends \PHPUnit_Framework_TestCase
@@ -10,7 +11,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
 
     private function productFactory()
     {
-        $product = new LegacyProduct();
+        $product = new BaseProduct();
         $product->OXBPRICE = 10;
         $product->OXPRICE = 10;
         $product->OXTPRICE = 10;

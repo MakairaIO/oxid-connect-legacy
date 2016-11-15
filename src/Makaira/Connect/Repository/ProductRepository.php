@@ -2,11 +2,13 @@
 
 namespace Makaira\Connect\Repository;
 
+use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
-use Makaira\Connect\Change;
+use Makaira\Connect\Types\Common\Modifier;
+use Makaira\Connect\Types\Product\Product;
 
-class Product
+class ProductRepository implements RepositoryInterface
 {
     /**
      * @var DatabaseInterface
@@ -14,7 +16,7 @@ class Product
     private $database;
 
     /**
-     * @var Change\Product\Modifier[]
+     * @var Change\Common\Modifier[]
      */
     private $modifiers = [];
 
@@ -58,9 +60,9 @@ class Product
     /**
      * Add a modifier.
      * @codeCoverageIgnore
-     * @param Change\Product\Modifier $modifier
+     * @param Modifier $modifier
      */
-    public function addModifier(Change\Product\Modifier $modifier)
+    public function addModifier(Modifier $modifier)
     {
         $this->modifiers[] = $modifier;
     }
@@ -83,7 +85,7 @@ class Product
             unset($row['sequence']);
 
             // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
-            $product = new Change\Product\LegacyProduct($row);
+            $product = new Product($row);
             foreach ($this->modifiers as $modifier) {
                 $product = $modifier->apply($product, $this->database);
             }

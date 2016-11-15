@@ -1,14 +1,14 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
 
 class PriceModifier extends Modifier
 {
-    private $isNetto = false;
-    private $showNetto = false;
+    private $isNetto    = false;
+    private $showNetto  = false;
     private $defaultVAT = 16;
 
     /**
@@ -27,11 +27,11 @@ class PriceModifier extends Modifier
     /**
      * Modify product and return modified product
      *
-     * @param LegacyProduct $product
+     * @param BaseProduct $product
      * @param DatabaseInterface $database
-     * @return LegacyProduct
+     * @return BaseProduct
      */
-    public function apply(LegacyProduct $product, DatabaseInterface $database)
+    public function apply(BaseProduct $product, DatabaseInterface $database)
     {
         if ($this->isNetto && !$this->showNetto) {
             $prices = array_filter(
@@ -40,7 +40,7 @@ class PriceModifier extends Modifier
                     return strpos(strtolower($key), 'price') !== false;
                 }
             );
-            $vat = 1 + (isset($product->OXVAT) ? $product->OXVAT : $this->defaultVAT)/100.0;
+            $vat = 1 + (isset($product->OXVAT) ? $product->OXVAT : $this->defaultVAT) / 100.0;
             foreach ($prices as $price) {
                 $product->$price *= $vat;
             }

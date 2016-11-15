@@ -1,12 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class LegacyProduct extends \Kore\DataObject\DataObject
+class BaseProduct extends \Kore\DataObject\DataObject
 {
     public $id;
     public $timestamp;
@@ -130,15 +130,6 @@ class LegacyProduct extends \Kore\DataObject\DataObject
 
     public $MARM_OXSEARCH_BOOST;
     public $MARM_OXSEARCH_PROFITMARGIN;
-    public $MARM_OXSEARCH_MANUFACTURERTITLE;
-    public $MARM_OXSEARCH_REQCOUNT = 0;
-    public $MARM_OXSEARCH_BASKETCOUNT = 0;
+    public $active    = true;
     public $attribute = [];
-    public $category = [];
-    public $suggest = [];
-    public $activefrom = null;
-    public $activeto = null;
-    public $variantactive = 1;
-    public $active = true;
-    public $TRACKING = null;
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 
-use Makaira\Connect\Change\Common\Attribute;
+use Makaira\Connect\Types\Common\Attribute;
+use Makaira\Connect\Types\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
 
 class AttributeModifierTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +28,7 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 
         $modifier = new AttributeModifier();
 
-        $product = $modifier->apply(new LegacyProduct(['id' => $oxid, 'OXACTIVE' => 1]), $dbMock);
+        $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]), $dbMock);
 
         $this->assertArraySubset([new Attribute($dbResult)], $product->attribute);
     }

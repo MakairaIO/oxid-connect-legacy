@@ -1,14 +1,13 @@
 <?php
 
-namespace Makaira\Connect\Change\Product;
+namespace Makaira\Connect\Types\Common;
 
 
-use Makaira\Connect\Change\Common\Attribute;
 use Makaira\Connect\DatabaseInterface;
 
 /**
  * Class AttributeModifier
- * @package Makaira\Connect\Change\Product
+ * @package Makaira\Connect\Types\ProductRepository
  */
 class AttributeModifier extends Modifier
 {
@@ -42,19 +41,23 @@ class AttributeModifier extends Modifier
     /**
      * Modify product and return modified product
      *
-     * @param LegacyProduct $product
+     * @param BaseProduct $product
      * @param DatabaseInterface $database
-     * @return LegacyProduct
+     * @return BaseProduct
      */
-    public function apply(LegacyProduct $product, DatabaseInterface $database)
+    public function apply(BaseProduct $product, DatabaseInterface $database)
     {
-        $attributes = $database->query($this->selectAttributesQuery, [
+        $attributes = $database->query(
+            $this->selectAttributesQuery, [
             'productActive' => $product->OXACTIVE,
-            'productId' => $product->id
-        ]);
-        $product->attribute = array_map(function($row) {
-            return new Attribute($row);
-        }, $attributes);
+            'productId'     => $product->id,
+        ]
+        );
+        $product->attribute = array_map(
+            function ($row) {
+                return new Attribute($row);
+            }, $attributes
+        );
 
         return $product;
     }

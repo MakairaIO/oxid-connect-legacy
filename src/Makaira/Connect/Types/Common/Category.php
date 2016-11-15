@@ -1,6 +1,6 @@
 <?php
 
-namespace Makaira\Connect\Change\Common;
+namespace Makaira\Connect\Types\Common;
 
 
 use Kore\DataObject\DataObject;
