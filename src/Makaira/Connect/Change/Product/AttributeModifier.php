@@ -4,7 +4,7 @@ namespace Makaira\Connect\Change\Product;
 
 
 use Makaira\Connect\Change\Common\Attribute;
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 /**
  * Class AttributeModifier
@@ -43,10 +43,10 @@ class AttributeModifier
      * Modify product and return modified product
      *
      * @param LegacyProduct $product
-     * @param Database $database
+     * @param DatabaseInterface $database
      * @return LegacyProduct
      */
-    public function apply(LegacyProduct $product, Database $database)
+    public function apply(LegacyProduct $product, DatabaseInterface $database)
     {
         $attributes = $database->query($this->selectAttributesQuery, [
             'productActive' => $product->OXACTIVE,

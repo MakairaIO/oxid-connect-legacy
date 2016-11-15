@@ -9,13 +9,13 @@
 namespace Makaira\Connect\Change\Product;
 
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testActiveNotHidden()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = new LegacyProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = "0";
@@ -25,7 +25,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNotActiveNotHidden()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = new LegacyProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = "0";
@@ -35,7 +35,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNotActiveHidden()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = new LegacyProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = "1";
@@ -45,7 +45,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testActiveHidden()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = new LegacyProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = "1";
@@ -55,7 +55,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testActiveHiddenNull()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = new LegacyProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = null;
@@ -65,7 +65,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNotActiveHiddenNull()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = new LegacyProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = null;

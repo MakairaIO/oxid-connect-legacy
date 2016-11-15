@@ -56,10 +56,11 @@ class makaira_connect_endpoint extends oxUBase
         header("Content-Type: application/json");
 
         try {
-            echo json_encode($this->getUpdatesAction());
-        } catch (ForbiddenException $e) {
+            $updates = $this->getUpdatesAction();
+            echo json_encode($updates);
+        /*} catch (ForbiddenException $e) {
             $this->setStatusHeader(403);
-            echo json_encode(new Error('Forbidden'));
+            echo json_encode(new Error('Forbidden'));*/
         } catch (\Exception $e) {
             $this->setStatusHeader(500);
             echo json_encode(new Error($e->getMessage()));

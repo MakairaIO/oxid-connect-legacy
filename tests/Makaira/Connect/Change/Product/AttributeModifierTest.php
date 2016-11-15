@@ -4,14 +4,14 @@ namespace Makaira\Connect\Change\Product;
 
 
 use Makaira\Connect\Change\Common\Attribute;
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testApply()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $oxid = 'abcdef';
         $dbResult = [
             'active' => 1,

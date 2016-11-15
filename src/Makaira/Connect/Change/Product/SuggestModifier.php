@@ -9,7 +9,7 @@
 namespace Makaira\Connect\Change\Product;
 
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 class SuggestModifier extends Modifier
 {
@@ -28,10 +28,10 @@ class SuggestModifier extends Modifier
      * Modify product and return modified product
      *
      * @param LegacyProduct $product
-     * @param Database $database
+     * @param DatabaseInterface $database
      * @return LegacyProduct
      */
-    public function apply(LegacyProduct $product, Database $database)
+    public function apply(LegacyProduct $product, DatabaseInterface $database)
     {
         $suggest = [];
         foreach ($this->suggestFields as $suggestField) {

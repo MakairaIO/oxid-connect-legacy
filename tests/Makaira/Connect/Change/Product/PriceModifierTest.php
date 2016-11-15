@@ -9,7 +9,7 @@
 namespace Makaira\Connect\Change\Product;
 
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 class PriceModifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
     public function testBruttoBrutto()
     {
         $modifier = new PriceModifier(false, false, 16);
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = $modifier->apply($this->productFactory(), $dbMock);
         $this->assertEquals(10, $product->OXPRICE);
     }
@@ -44,7 +44,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
     public function testBruttoNetto()
     {
         $modifier = new PriceModifier(false, true, 16);
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = $modifier->apply($this->productFactory(), $dbMock);
         $this->assertEquals(10, $product->OXPRICE);
     }
@@ -52,7 +52,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
     public function testNettoBrutto()
     {
         $modifier = new PriceModifier(true, false, 16);
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = $modifier->apply($this->productFactory(), $dbMock);
         $this->assertEquals(11.6, $product->OXPRICE);
     }
@@ -60,7 +60,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
     public function testNettoNetto()
     {
         $modifier = new PriceModifier(true, true, 16);
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = $modifier->apply($this->productFactory(), $dbMock);
         $this->assertEquals(10, $product->OXPRICE);
     }
@@ -68,7 +68,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
     public function testAllPrices()
     {
         $modifier = new PriceModifier(true, false, 16);
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $product = $modifier->apply($this->productFactory(), $dbMock);
         $this->assertEquals(11.6, $product->OXBPRICE);
         $this->assertEquals(11.6, $product->OXPRICE);

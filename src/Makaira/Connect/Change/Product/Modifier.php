@@ -2,7 +2,7 @@
 
 namespace Makaira\Connect\Change\Product;
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 abstract class Modifier
 {
@@ -10,8 +10,8 @@ abstract class Modifier
      * Modify product and return modified product
      *
      * @param LegacyProduct $product
-     * @param Database $database
+     * @param DatabaseInterface $database
      * @return LegacyProduct
      */
-    abstract public function apply(LegacyProduct $product, Database $database);
+    abstract public function apply(LegacyProduct $product, DatabaseInterface $database);
 }

@@ -9,13 +9,13 @@
 namespace Makaira\Connect\Change\Product;
 
 
-use Makaira\Connect\DatabaseInterface as Database;
+use Makaira\Connect\DatabaseInterface;
 
 class SuggestModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testModifier()
     {
-        $dbMock = $this->getMock(Database::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
         $modifier = new SuggestModifier(['OXTITLE', 'OXTAGS']);
         $product = new LegacyProduct();
         $product->OXTITLE = 'Test case';
