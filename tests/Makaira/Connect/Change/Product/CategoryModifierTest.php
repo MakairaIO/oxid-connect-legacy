@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: benjamin
- * Date: 15.11.16
- * Time: 11:12
- */
 
 namespace Makaira\Connect\Change\Product;
 
