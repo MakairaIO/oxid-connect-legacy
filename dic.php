@@ -59,3 +59,10 @@ $dic['makaira.connect.modifiers.product.suggest'] = function (\Marm\Yamm\DIC $di
 };
 $dic->tag('makaira.connect.modifiers.product.suggest', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.product.category'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Change\Product\CategoryModifier(
+        $dic['marm_oxsearch']['oxsearch_configuration']['general']['extra']['deepCategories']
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product');
+
