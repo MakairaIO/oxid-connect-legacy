@@ -81,6 +81,7 @@ return array(
     'Makaira\\Connect\\Change\\Product\\Modifier' => $baseDir . '/src/Makaira/Connect/Change/Product/Modifier.php',
     'Makaira\\Connect\\Change\\Product\\PriceModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/PriceModifier.php',
     'Makaira\\Connect\\Change\\Product\\SuggestModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/SuggestModifier.php',
+    'Makaira\\Connect\\Change\\Product\\TrackingModifier' => $baseDir . '/src/Makaira/Connect/Change/Product/TrackingModifier.php',
     'Makaira\\Connect\\DatabaseInterface' => $baseDir . '/src/Makaira/Connect/DatabaseInterface.php',
     'Makaira\\Connect\\OxidDatabase' => $baseDir . '/src/Makaira/Connect/OxidDatabase.php',
     'Makaira\\Connect\\PdoDatabase' => $baseDir . '/src/Makaira/Connect/PdoDatabase.php',

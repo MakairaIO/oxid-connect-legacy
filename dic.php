@@ -71,3 +71,8 @@ $dic['makaira.connect.modifiers.product.longdescription'] = function (\Marm\Yamm
 };
 $dic->tag('makaira.connect.modifiers.product.longdescription', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.product.tracking'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Change\Product\TrackingModifier($dic['marm_oxsearch']['tracking']);
+};
+$dic->tag('makaira.connect.modifiers.product.tracking', 'makaira.importer.modifier.product');
+

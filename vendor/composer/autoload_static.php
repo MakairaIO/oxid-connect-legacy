@@ -166,6 +166,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Makaira\\Connect\\Change\\Product\\Modifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/Modifier.php',
         'Makaira\\Connect\\Change\\Product\\PriceModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/PriceModifier.php',
         'Makaira\\Connect\\Change\\Product\\SuggestModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/SuggestModifier.php',
+        'Makaira\\Connect\\Change\\Product\\TrackingModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/TrackingModifier.php',
         'Makaira\\Connect\\DatabaseInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/DatabaseInterface.php',
         'Makaira\\Connect\\OxidDatabase' => __DIR__ . '/../..' . '/src/Makaira/Connect/OxidDatabase.php',
         'Makaira\\Connect\\PdoDatabase' => __DIR__ . '/../..' . '/src/Makaira/Connect/PdoDatabase.php',
