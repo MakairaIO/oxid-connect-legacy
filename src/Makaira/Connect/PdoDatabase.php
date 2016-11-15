@@ -39,7 +39,7 @@ class PdoDatabase implements DatabaseInterface
     {
         if (is_int($value)) {
             return \PDO::PARAM_INT;
-        } elseif (isset($value)) {
+        } elseif (!isset($value)) {
             return \PDO::PARAM_NULL;
         } else {
             return \PDO::PARAM_STR;
