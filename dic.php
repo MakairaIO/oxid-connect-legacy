@@ -66,3 +66,8 @@ $dic['makaira.connect.modifiers.product.category'] = function (\Marm\Yamm\DIC $d
 };
 $dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.product.longdescription'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Change\Product\LongDescriptionModifier();
+};
+$dic->tag('makaira.connect.modifiers.product.longdescription', 'makaira.importer.modifier.product');
+

@@ -162,6 +162,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Makaira\\Connect\\Change\\Product\\AttributeModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/AttributeModifier.php',
         'Makaira\\Connect\\Change\\Product\\CategoryModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/CategoryModifier.php',
         'Makaira\\Connect\\Change\\Product\\LegacyProduct' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/LegacyProduct.php',
+        'Makaira\\Connect\\Change\\Product\\LongDescriptionModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/LongDescriptionModifier.php',
         'Makaira\\Connect\\Change\\Product\\Modifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/Modifier.php',
         'Makaira\\Connect\\Change\\Product\\PriceModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/PriceModifier.php',
         'Makaira\\Connect\\Change\\Product\\SuggestModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/SuggestModifier.php',
