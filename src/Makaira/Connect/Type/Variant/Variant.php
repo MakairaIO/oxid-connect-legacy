@@ -7,5 +7,5 @@ use Makaira\Connect\Type\Common\BaseProduct;
 
 class Variant extends BaseProduct
 {
-
+    public $parent;
 }

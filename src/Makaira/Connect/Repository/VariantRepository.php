@@ -3,9 +3,11 @@
 namespace Makaira\Connect\Repository;
 
 
+use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Type\Variant\Variant;
 
 class VariantRepository implements RepositoryInterface
 {
@@ -19,20 +21,42 @@ class VariantRepository implements RepositoryInterface
      */
     private $modifiers = [];
 
+    protected $selectQuery = "
+        SELECT
+            makaira_connect_changes.sequence,
+            oxarticles.oxid AS `id`,
+            oxarticles.oxparentid AS `parent`,
+            UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
+            oxarticles.*,
+            oxartextends.oxlongdesc as `OXLONGDESC`,
+            oxartextends.oxtags as `OXTAGS`
+        FROM
+            makaira_connect_changes
+            LEFT JOIN oxarticles ON oxarticles.oxid = makaira_connect_changes.oxid
+            LEFT JOIN oxartextends ON oxarticles.oxid = oxartextends.oxid
+        WHERE
+            oxarticles.oxparentid != ''
+            AND makaira_connect_changes.sequence > :since
+            AND makaira_connect_changes.type = 'variant'
+        ORDER BY
+            sequence ASC
+        LIMIT :limit
+    ";
+
     protected $touchQuery = "
         INSERT INTO
           makaira_connect_changes
         (OXID, TYPE, CHANGED)
           VALUES
         (:oxid, 'variant', NOW());
-        ";
+    ";
 
     /**
      * VariantRepository constructor.
      * @param DatabaseInterface $database
      * @param \Makaira\Connect\Type\Common\Modifier[] $modifiers
      */
-    public function __construct(DatabaseInterface $database, array $modifiers)
+    public function __construct(DatabaseInterface $database, array $modifiers = [])
     {
         $this->database = $database;
         foreach ($modifiers as $modifier) {
@@ -57,7 +81,30 @@ class VariantRepository implements RepositoryInterface
      */
     public function getChangesSince($since, $limit = 50)
     {
-        // TODO: Implement getChangesSince() method.
+        $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
+
+        $changes = array();
+        foreach ($result as $row) {
+            $change = new Change();
+            $change->id = $row['id'];
+            $change->sequence = $row['sequence'];
+            unset($row['sequence']);
+
+            // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
+            $variant = new Variant($row);
+            foreach ($this->modifiers as $modifier) {
+                $variant = $modifier->apply($variant, $this->database);
+            }
+            $change->data = $variant;
+            $changes[] = $change;
+        }
+
+        return new Changes(array(
+                               'type' => 'variant',
+                               'since' => $since,
+                               'count' => count($changes),
+                               'changes' => $changes,
+                           ));
     }
 
     /**

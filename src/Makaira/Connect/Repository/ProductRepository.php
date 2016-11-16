@@ -20,7 +20,7 @@ class ProductRepository implements RepositoryInterface
      */
     private $modifiers = [];
 
-    protected $productSelectQuery = "
+    protected $selectQuery = "
         SELECT
             makaira_connect_changes.sequence,
             oxarticles.oxid AS `id`,
@@ -40,7 +40,8 @@ class ProductRepository implements RepositoryInterface
             AND makaira_connect_changes.type = 'product'
         ORDER BY
             sequence ASC
-        LIMIT :limit";
+        LIMIT :limit
+    ";
 
     protected $touchQuery = "
         INSERT INTO
@@ -75,7 +76,7 @@ class ProductRepository implements RepositoryInterface
      */
     public function getChangesSince($since, $limit = 50)
     {
-        $result = $this->database->query($this->productSelectQuery, ['since' => $since, 'limit' => $limit]);
+        $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
 
         $changes = array();
         foreach ($result as $row) {
