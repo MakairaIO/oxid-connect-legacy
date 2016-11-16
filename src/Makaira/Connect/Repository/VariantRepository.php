@@ -24,7 +24,7 @@ class VariantRepository implements RepositoryInterface
     protected $selectQuery = "
         SELECT
             makaira_connect_changes.sequence,
-            oxarticles.oxid AS `id`,
+            makaira_connect_changes.oxid AS `id`,
             oxarticles.oxparentid AS `parent`,
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
@@ -35,7 +35,7 @@ class VariantRepository implements RepositoryInterface
             LEFT JOIN oxarticles ON oxarticles.oxid = makaira_connect_changes.oxid
             LEFT JOIN oxartextends ON oxarticles.oxid = oxartextends.oxid
         WHERE
-            oxarticles.oxparentid != ''
+            (oxarticles.oxid is null OR oxarticles.oxparentid != '')
             AND makaira_connect_changes.sequence > :since
             AND makaira_connect_changes.type = 'variant'
         ORDER BY
@@ -48,7 +48,32 @@ class VariantRepository implements RepositoryInterface
           makaira_connect_changes
         (OXID, TYPE, CHANGED)
           VALUES
-        (:oxid, 'variant', NOW());
+        (:oxid, 'variant', NOW())
+    ";
+
+    protected $deleteQuery = "
+        REPLACE INTO
+          makaira_connect_deletions
+        (OXID, TYPE, CHANGED)
+          VALUES
+        (:oxid, 'variant', NOW())
+    ";
+
+    protected $undeleteQuery = "
+        DELETE FROM
+          makaira_connect_deletions
+        WHERE
+          OXID = :oxid
+          AND TYPE = 'variant'
+    ";
+
+    protected $isDeletedQuery = "
+        SELECT * FROM
+          makaira_connect_deletions
+        WHERE
+          OXID = :oxid
+          AND TYPE = 'variant'
+        LIMIT 1
     ";
 
     /**
@@ -90,12 +115,16 @@ class VariantRepository implements RepositoryInterface
             $change->sequence = $row['sequence'];
             unset($row['sequence']);
 
-            // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
-            $variant = new Variant($row);
-            foreach ($this->modifiers as $modifier) {
-                $variant = $modifier->apply($variant, $this->database);
+            if (!isset($row['OXID']) && $this->isDeleted($change->id)) {
+                $change->deleted = true;
+            } else {
+                // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
+                $variant = new Variant($row);
+                foreach ($this->modifiers as $modifier) {
+                    $variant = $modifier->apply($variant, $this->database);
+                }
+                $change->data = $variant;
             }
-            $change->data = $variant;
             $changes[] = $change;
         }
 
@@ -110,9 +139,32 @@ class VariantRepository implements RepositoryInterface
     /**
      * Mark an object as updated.
      * @param string $oxid
+     * @codeCoverageIgnore
      */
     public function touch($oxid)
     {
         $this->database->query($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->query($this->undeleteQuery, ['oxid' => $oxid]);
+    }
+
+    /**
+     * Mark an object as deleted.
+     * @param string $oxid
+     * @codeCoverageIgnore
+     */
+    public function delete($oxid)
+    {
+        $this->database->query($this->deleteQuery, ['oxid' => $oxid]);
+    }
+
+    /**
+     * Check if an object has been marked as deleted.
+     * @param string $oxid
+     * @return bool
+     */
+    public function isDeleted($oxid)
+    {
+        $result = $this->database->query($this->isDeletedQuery, ['oxid' => $oxid]);
+        return count($result) > 0;
     }
 }

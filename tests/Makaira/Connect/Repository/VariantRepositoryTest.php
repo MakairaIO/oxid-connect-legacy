@@ -19,7 +19,7 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
         $databaseMock
             ->expects($this->once())
             ->method('query')
-            ->will($this->returnValue([['id' => 42, 'sequence' => 1]]));
+            ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
 
         $changes = $repository->getChangesSince(0);
 
@@ -36,7 +36,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
                                 'id'       => 42,
                                 'data'     => new Variant(
                                     array(
-                                        'id' => 42,
+                                        'id'   => 42,
+                                        'OXID' => 42,
                                     )
                                 ),
                             )
@@ -58,7 +59,7 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
         $databaseMock
             ->expects($this->once())
             ->method('query')
-            ->will($this->returnValue([['id' => 42, 'sequence' => 1]]));
+            ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
 
         $product = new \stdClass();
         $modifierMock
@@ -74,16 +75,22 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testTouchVariant()
+    public function testSetDeletedMarker()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new VariantRepository($databaseMock, []);
+        $repository = new VariantRepository($databaseMock);
 
         $databaseMock
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('query')
-            ->with($this->anything(), ['oxid' => 42]);
+            ->willReturnOnConsecutiveCalls(
+                $this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => null]]),
+                $this->returnValue([['OXID' => 42, 'TYPE' => 'variant']])
+            );
 
-        $repository->touch(42);
+        $changes = $repository->getChangesSince(0);
+
+        $this->assertEquals(true, $changes->changes[0]->deleted);
+        $this->assertEquals(null, $changes->changes[0]->data);
     }
 }
