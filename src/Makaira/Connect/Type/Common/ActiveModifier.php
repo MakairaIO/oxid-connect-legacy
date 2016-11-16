@@ -1,11 +1,11 @@
 <?php
 
-namespace Makaira\Connect\Types\Common;
+namespace Makaira\Connect\Type\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
 
-class LongDescriptionModifier extends Modifier
+class ActiveModifier extends Modifier
 {
 
     /**
@@ -17,7 +17,10 @@ class LongDescriptionModifier extends Modifier
      */
     public function apply(BaseProduct $product, DatabaseInterface $database)
     {
-        $product->OXLONGDESC = trim(strip_tags($product->OXLONGDESC));
+        $product->active = (bool)$product->OXACTIVE;
+        if (isset($product->OXHIDDEN)) {
+            $product->active = $product->active && !(bool)$product->OXHIDDEN;
+        }
         return $product;
     }
 }

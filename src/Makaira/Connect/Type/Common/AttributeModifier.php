@@ -1,13 +1,13 @@
 <?php
 
-namespace Makaira\Connect\Types\Common;
+namespace Makaira\Connect\Type\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
 
 /**
  * Class AttributeModifier
- * @package Makaira\Connect\Types\ProductRepository
+ * @package Makaira\Connect\Type\ProductRepository
  */
 class AttributeModifier extends Modifier
 {

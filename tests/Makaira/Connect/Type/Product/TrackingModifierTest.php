@@ -6,7 +6,7 @@
  * Time: 13:48
  */
 
-namespace Makaira\Connect\Types\Product;
+namespace Makaira\Connect\Type\Product;
 
 
 use Makaira\Connect\DatabaseInterface;

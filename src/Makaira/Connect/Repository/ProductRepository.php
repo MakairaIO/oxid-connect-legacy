@@ -5,8 +5,8 @@ namespace Makaira\Connect\Repository;
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
-use Makaira\Connect\Types\Common\Modifier;
-use Makaira\Connect\Types\Product\Product;
+use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Type\Product\Product;
 
 class ProductRepository implements RepositoryInterface
 {
@@ -16,7 +16,7 @@ class ProductRepository implements RepositoryInterface
     private $database;
 
     /**
-     * @var Change\Common\Modifier[]
+     * @var Modifier[]
      */
     private $modifiers = [];
 

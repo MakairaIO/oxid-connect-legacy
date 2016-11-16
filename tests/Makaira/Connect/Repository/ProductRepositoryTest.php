@@ -3,8 +3,8 @@
 namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\Change;
-use Makaira\Connect\Types\Common\Modifier;
-use Makaira\Connect\Types\Product\Product;
+use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Type\Product\Product;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 

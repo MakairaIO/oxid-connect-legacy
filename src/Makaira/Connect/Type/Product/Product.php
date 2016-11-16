@@ -1,9 +1,9 @@
 <?php
 
-namespace Makaira\Connect\Types\Product;
+namespace Makaira\Connect\Type\Product;
 
 
-use Makaira\Connect\Types\Common\BaseProduct;
+use Makaira\Connect\Type\Common\BaseProduct;
 
 class Product extends BaseProduct
 {

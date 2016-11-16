@@ -1,6 +1,6 @@
 <?php
 
-namespace Makaira\Connect\Types\Product;
+namespace Makaira\Connect\Type\Product;
 
 
 use Makaira\Connect\DatabaseInterface;

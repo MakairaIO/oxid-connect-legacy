@@ -1,10 +1,10 @@
 <?php
 
-namespace Makaira\Connect\Types\Common;
+namespace Makaira\Connect\Type\Common;
 
 
-use Makaira\Connect\Types\Common\Attribute;
-use Makaira\Connect\Types\Common\BaseProduct;
+use Makaira\Connect\Type\Common\Attribute;
+use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
 
 class AttributeModifierTest extends \PHPUnit_Framework_TestCase

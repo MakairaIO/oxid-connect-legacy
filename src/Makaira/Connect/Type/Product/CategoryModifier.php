@@ -1,12 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Types\Product;
+namespace Makaira\Connect\Type\Product;
 
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Types\Common\BaseProduct;
-use Makaira\Connect\Types\Common\Category;
-use Makaira\Connect\Types\Common\Modifier;
+use Makaira\Connect\Type\Common\BaseProduct;
+use Makaira\Connect\Type\Common\Category;
+use Makaira\Connect\Type\Common\Modifier;
 
 class CategoryModifier extends Modifier
 {

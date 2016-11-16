@@ -35,14 +35,14 @@ $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Types\Common\AttributeModifier();
+    return new \Makaira\Connect\Type\Common\AttributeModifier();
 };
 $dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.variant');
 
 $dic['makaira.connect.modifiers.common.vat'] = function (\Marm\Yamm\DIC $dic) {
     $config = oxRegistry::getConfig();
-    return new \Makaira\Connect\Types\Common\PriceModifier(
+    return new \Makaira\Connect\Type\Common\PriceModifier(
         $config->getConfigParam('blEnterNetPrice'),
         $config->getConfigParam('blShowNetPrice'),
         $config->getConfigParam('dDefaultVAT')
@@ -52,13 +52,13 @@ $dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.pro
 $dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.variant');
 
 $dic['makaira.connect.modifiers.common.active'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Types\Common\ActiveModifier();
+    return new \Makaira\Connect\Type\Common\ActiveModifier();
 };
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant');
 
 $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Types\Common\LongDescriptionModifier();
+    return new \Makaira\Connect\Type\Common\LongDescriptionModifier();
 };
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.variant');
@@ -66,21 +66,21 @@ $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.product.suggest'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Types\Product\SuggestModifier(
+    return new \Makaira\Connect\Type\Product\SuggestModifier(
         $dic['marm_oxsearch']['oxsearch_configuration']['search']['suggestfields']
     );
 };
 $dic->tag('makaira.connect.modifiers.product.suggest', 'makaira.importer.modifier.product');
 
 $dic['makaira.connect.modifiers.product.category'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Types\Product\CategoryModifier(
+    return new \Makaira\Connect\Type\Product\CategoryModifier(
         $dic['marm_oxsearch']['oxsearch_configuration']['general']['extra']['deepCategories']
     );
 };
 $dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product');
 
 $dic['makaira.connect.modifiers.product.tracking'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Types\Product\TrackingModifier($dic['marm_oxsearch']['tracking']);
+    return new \Makaira\Connect\Type\Product\TrackingModifier($dic['marm_oxsearch']['tracking']);
 };
 $dic->tag('makaira.connect.modifiers.product.tracking', 'makaira.importer.modifier.product');
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Makaira\Connect\Types\Product;
+namespace Makaira\Connect\Type\Product;
 
 
-use Makaira\Connect\Types\Common\Category;
+use Makaira\Connect\Type\Common\Category;
 use Makaira\Connect\DatabaseInterface;
 
 class CategoryModifierTest extends \PHPUnit_Framework_TestCase
