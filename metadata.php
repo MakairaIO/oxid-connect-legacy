@@ -27,6 +27,7 @@ $aModule = array(
     'url'         => 'http://www.marmalade.de',
     'email'       => 'support@marmalade.de',
     'extend'      => array(
+        'oxarticle' => 'makaira/connect/src/oxid/application/makaira_connect_oxarticle',
     ),
     'files'       => array(
         'makaira_connect_endpoint' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
