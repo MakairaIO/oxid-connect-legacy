@@ -10,7 +10,9 @@ class BaseProduct extends \Kore\DataObject\DataObject
 {
     public $id;
     public $timestamp;
+    public $shop;
     public $OXID;
+    public $OXMAPID;
     public $OXSHOPID;
     public $OXPARENTID;
     public $OXACTIVE;

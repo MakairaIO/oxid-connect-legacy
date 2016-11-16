@@ -41,6 +41,12 @@ $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
 
 // --------------------------------------
 
+$dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Type\Common\Product2ShopModifier(oxRegistry::getConfig()->isMall());
+};
+$dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.product');
+$dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.variant');
+
 $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Type\Common\AttributeModifier();
 };

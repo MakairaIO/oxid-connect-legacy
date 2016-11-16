@@ -88,6 +88,7 @@ return array(
     'Makaira\\Connect\\Type\\Common\\LongDescriptionModifier' => $baseDir . '/src/Makaira/Connect/Type/Common/LongDescriptionModifier.php',
     'Makaira\\Connect\\Type\\Common\\Modifier' => $baseDir . '/src/Makaira/Connect/Type/Common/Modifier.php',
     'Makaira\\Connect\\Type\\Common\\PriceModifier' => $baseDir . '/src/Makaira/Connect/Type/Common/PriceModifier.php',
+    'Makaira\\Connect\\Type\\Common\\Product2ShopModifier' => $baseDir . '/src/Makaira/Connect/Type/Common/Product2ShopModifier.php',
     'Makaira\\Connect\\Type\\Product\\CategoryModifier' => $baseDir . '/src/Makaira/Connect/Type/Product/CategoryModifier.php',
     'Makaira\\Connect\\Type\\Product\\Product' => $baseDir . '/src/Makaira/Connect/Type/Product/Product.php',
     'Makaira\\Connect\\Type\\Product\\SuggestModifier' => $baseDir . '/src/Makaira/Connect/Type/Product/SuggestModifier.php',
