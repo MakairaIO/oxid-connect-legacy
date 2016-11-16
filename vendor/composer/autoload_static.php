@@ -161,6 +161,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Makaira\\Connect\\PdoDatabase' => __DIR__ . '/../..' . '/src/Makaira/Connect/PdoDatabase.php',
         'Makaira\\Connect\\Repository\\ProductRepository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/ProductRepository.php',
         'Makaira\\Connect\\Repository\\RepositoryInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/RepositoryInterface.php',
+        'Makaira\\Connect\\Repository\\VariantRepository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/VariantRepository.php',
         'Makaira\\Connect\\Result' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result.php',
         'Makaira\\Connect\\Result\\Changes' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Changes.php',
         'Makaira\\Connect\\Result\\Error' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Error.php',
@@ -801,6 +802,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
         'makaira_connect_endpoint' => __DIR__ . '/../..' . '/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_events' => __DIR__ . '/../..' . '/src/oxid/core/makaira_connect_events.php',
+        'makaira_connect_oxarticle' => __DIR__ . '/../..' . '/src/oxid/application/makaira_connect_oxarticle.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

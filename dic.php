@@ -32,6 +32,13 @@ $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
+$dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Repository\VariantRepository(
+        $dic['makaira.database'],
+        $dic->getTagged('makaira.importer.modifier.variant')
+    );
+};
+
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $dic) {

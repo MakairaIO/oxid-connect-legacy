@@ -22,7 +22,7 @@ class ProductRepository implements RepositoryInterface
 
     protected $productSelectQuery = "
         SELECT
-            makaira_connect_product_changes.sequence,
+            makaira_connect_changes.sequence,
             oxarticles.oxid AS `id`,
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
@@ -30,23 +30,24 @@ class ProductRepository implements RepositoryInterface
             oxartextends.oxtags as `OXTAGS`,
             oxmanufacturers.oxtitle AS MARM_OXSEARCH_MANUFACTURERTITLE
         FROM
-            makaira_connect_product_changes
-            LEFT JOIN oxarticles ON oxarticles.oxid = makaira_connect_product_changes.oxid
+            makaira_connect_changes
+            LEFT JOIN oxarticles ON oxarticles.oxid = makaira_connect_changes.oxid
             LEFT JOIN oxartextends ON oxarticles.oxid = oxartextends.oxid
             LEFT JOIN oxmanufacturers ON oxarticles.oxmanufacturerid = oxmanufacturers.oxid
         WHERE
-            oxparentid = ''
-            AND sequence > :since
+            oxarticles.oxparentid = ''
+            AND makaira_connect_changes.sequence > :since
+            AND makaira_connect_changes.type = 'product'
         ORDER BY
             sequence ASC
         LIMIT :limit";
 
-    protected $productTouchQuery = "
+    protected $touchQuery = "
         INSERT INTO
-          makaira_connect_product_changes
-        (OXID, CHANGED)
+          makaira_connect_changes
+        (OXID, TYPE, CHANGED)
           VALUES
-        (:oxid, NOW());
+        (:oxid, 'product', NOW());
     ";
 
     public function __construct(DatabaseInterface $database, array $modifiers = array())
@@ -59,7 +60,6 @@ class ProductRepository implements RepositoryInterface
 
     /**
      * Add a modifier.
-     * @codeCoverageIgnore
      * @param Modifier $modifier
      */
     public function addModifier(Modifier $modifier)
@@ -107,6 +107,6 @@ class ProductRepository implements RepositoryInterface
      */
     public function touch($oxid)
     {
-        $this->database->query($this->productTouchQuery, ['oxid' => $oxid]);
+        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
     }
 }

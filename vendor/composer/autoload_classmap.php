@@ -76,6 +76,7 @@ return array(
     'Makaira\\Connect\\PdoDatabase' => $baseDir . '/src/Makaira/Connect/PdoDatabase.php',
     'Makaira\\Connect\\Repository\\ProductRepository' => $baseDir . '/src/Makaira/Connect/Repository/ProductRepository.php',
     'Makaira\\Connect\\Repository\\RepositoryInterface' => $baseDir . '/src/Makaira/Connect/Repository/RepositoryInterface.php',
+    'Makaira\\Connect\\Repository\\VariantRepository' => $baseDir . '/src/Makaira/Connect/Repository/VariantRepository.php',
     'Makaira\\Connect\\Result' => $baseDir . '/src/Makaira/Connect/Result.php',
     'Makaira\\Connect\\Result\\Changes' => $baseDir . '/src/Makaira/Connect/Result/Changes.php',
     'Makaira\\Connect\\Result\\Error' => $baseDir . '/src/Makaira/Connect/Result/Error.php',
@@ -716,4 +717,5 @@ return array(
     'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
     'makaira_connect_endpoint' => $baseDir . '/src/oxid/application/controllers/makaira_connect_endpoint.php',
     'makaira_connect_events' => $baseDir . '/src/oxid/core/makaira_connect_events.php',
+    'makaira_connect_oxarticle' => $baseDir . '/src/oxid/application/makaira_connect_oxarticle.php',
 );
