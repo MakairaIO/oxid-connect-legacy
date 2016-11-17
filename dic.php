@@ -25,6 +25,19 @@ $dic['makaira.database'] = function (\Marm\Yamm\DIC $dic) {
     return $dic['pdo.database'];
 };
 
+$dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Utils\OxidSmartyParser(
+        oxRegistry::getLang(),
+        oxRegistry::get('oxutilsview')
+    );
+};
+
+$dic['makaira.content_parser'] = function (\Marm\Yamm\DIC $dic) {
+    return $dic['content_parsers.oxid.smarty'];
+};
+
+// --------------------------------------
+
 $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\ProductRepository(
         $dic['makaira.database'],
@@ -71,7 +84,7 @@ $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant');
 
 $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Type\Common\LongDescriptionModifier();
+    return new \Makaira\Connect\Type\Common\LongDescriptionModifier($dic['makaira.content_parser']);
 };
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.variant');
