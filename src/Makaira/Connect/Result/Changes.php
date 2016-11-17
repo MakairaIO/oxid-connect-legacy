@@ -4,6 +4,11 @@ namespace Makaira\Connect\Result;
 
 use Makaira\Connect\Result;
 
+/**
+ * Class Changes
+ * @package Makaira\Connect\Result
+ * @codeCoverageIgnore
+ */
 class Changes extends Result
 {
     public $type = null;

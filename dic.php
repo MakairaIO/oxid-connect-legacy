@@ -12,12 +12,17 @@ $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['pdo.database'] = function (\Marm\Yamm\DIC $dic) {
     $config = oxRegistry::getConfig();
-    return new \Makaira\Connect\PdoDatabase(
+    $dsn = \Makaira\Connect\PdoDatabase::buildMySqlDsn(
         $config->getConfigParam('dbHost'),
         $config->getConfigParam('dbName'),
-        $config->getConfigParam('dbUser'),
-        $config->getConfigParam('dbPwd'),
         $config->isUtf()
+    );
+    return new \Makaira\Connect\PdoDatabase(
+        new \PDO(
+            $dsn,
+            $config->getConfigParam('dbUser'),
+            $config->getConfigParam('dbPwd')
+        )
     );
 };
 

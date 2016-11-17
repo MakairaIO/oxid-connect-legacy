@@ -2,7 +2,10 @@
 
 namespace Makaira\Connect;
 
-
+/**
+ * Class PdoDatabase
+ * @package Makaira\Connect
+ */
 class PdoDatabase implements DatabaseInterface
 {
     /** @var \PDO */
@@ -11,7 +14,18 @@ class PdoDatabase implements DatabaseInterface
     /**
      * PdoDatabase constructor.
      */
-    public function __construct($host, $db, $user, $password, $isUTF8)
+    public function __construct(\PDO $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
+     * @param $host
+     * @param $db
+     * @param $isUTF8
+     * @return array
+     */
+    public static function buildMySqlDsn($host, $db, $isUTF8)
     {
         if (strpos($host, ':') !== false) {
             list($host, $port) = explode(':', $host, 2);
@@ -28,22 +42,8 @@ class PdoDatabase implements DatabaseInterface
         if ($isUTF8) {
             $dsn[] = 'charset=utf8';
         }
-        $this->connection = new \PDO(
-            'mysql:' . implode(';', $dsn),
-            $user,
-            $password
-        );
-    }
-
-    private function getPDOType($value)
-    {
-        if (is_int($value)) {
-            return \PDO::PARAM_INT;
-        } elseif (!isset($value)) {
-            return \PDO::PARAM_NULL;
-        } else {
-            return \PDO::PARAM_STR;
-        }
+        $dsn = 'mysql:' . implode(';', $dsn);
+        return $dsn;
     }
 
     /**
@@ -63,5 +63,16 @@ class PdoDatabase implements DatabaseInterface
             throw new \Exception($error[2], $error[1]);
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    private function getPDOType($value)
+    {
+        if (is_int($value)) {
+            return \PDO::PARAM_INT;
+        } elseif (!isset($value)) {
+            return \PDO::PARAM_NULL;
+        } else {
+            return \PDO::PARAM_STR;
+        }
     }
 }

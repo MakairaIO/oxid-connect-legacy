@@ -2,6 +2,11 @@
 
 namespace Makaira\Connect;
 
+/**
+ * Class Change
+ * @package Makaira\Connect
+ * @codeCoverageIgnore
+ */
 class Change extends \Kore\DataObject\DataObject
 {
     public $id;
