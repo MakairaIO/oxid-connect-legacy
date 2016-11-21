@@ -167,7 +167,9 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Makaira\\Connect\\Result' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result.php',
         'Makaira\\Connect\\Result\\Changes' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Changes.php',
         'Makaira\\Connect\\Result\\Error' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Error.php',
+        'Makaira\\Connect\\Type\\Category\\AssignedOxObject' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Category/AssignedOxObject.php',
         'Makaira\\Connect\\Type\\Category\\Category' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Category/Category.php',
+        'Makaira\\Connect\\Type\\Category\\OxObjectModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Category/OxObjectModifier.php',
         'Makaira\\Connect\\Type\\Common\\ActiveModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Common/ActiveModifier.php',
         'Makaira\\Connect\\Type\\Common\\AssignedAttribute' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Common/AssignedAttribute.php',
         'Makaira\\Connect\\Type\\Common\\AssignedCategory' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Common/AssignedCategory.php',
@@ -809,7 +811,8 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
         'makaira_connect_endpoint' => __DIR__ . '/../..' . '/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_events' => __DIR__ . '/../..' . '/src/oxid/core/makaira_connect_events.php',
-        'makaira_connect_oxarticle' => __DIR__ . '/../..' . '/src/oxid/application/makaira_connect_oxarticle.php',
+        'makaira_connect_oxarticle' => __DIR__ . '/../..' . '/src/oxid/application/models/makaira_connect_oxarticle.php',
+        'makaira_connect_oxcategory' => __DIR__ . '/../..' . '/src/oxid/application/models/makaira_connect_oxcategory.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

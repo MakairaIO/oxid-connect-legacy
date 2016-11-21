@@ -9,9 +9,9 @@ abstract class Modifier
     /**
      * Modify product and return modified product
      *
-     * @param ChangeDatum $product
+     * @param ChangeDatum $datum
      * @param DatabaseInterface $database
      * @return ChangeDatum
      */
-    abstract public function apply(ChangeDatum $product, DatabaseInterface $database);
+    abstract public function apply(ChangeDatum $datum, DatabaseInterface $database);
 }

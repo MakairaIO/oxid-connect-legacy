@@ -82,7 +82,9 @@ return array(
     'Makaira\\Connect\\Result' => $baseDir . '/src/Makaira/Connect/Result.php',
     'Makaira\\Connect\\Result\\Changes' => $baseDir . '/src/Makaira/Connect/Result/Changes.php',
     'Makaira\\Connect\\Result\\Error' => $baseDir . '/src/Makaira/Connect/Result/Error.php',
+    'Makaira\\Connect\\Type\\Category\\AssignedOxObject' => $baseDir . '/src/Makaira/Connect/Type/Category/AssignedOxObject.php',
     'Makaira\\Connect\\Type\\Category\\Category' => $baseDir . '/src/Makaira/Connect/Type/Category/Category.php',
+    'Makaira\\Connect\\Type\\Category\\OxObjectModifier' => $baseDir . '/src/Makaira/Connect/Type/Category/OxObjectModifier.php',
     'Makaira\\Connect\\Type\\Common\\ActiveModifier' => $baseDir . '/src/Makaira/Connect/Type/Common/ActiveModifier.php',
     'Makaira\\Connect\\Type\\Common\\AssignedAttribute' => $baseDir . '/src/Makaira/Connect/Type/Common/AssignedAttribute.php',
     'Makaira\\Connect\\Type\\Common\\AssignedCategory' => $baseDir . '/src/Makaira/Connect/Type/Common/AssignedCategory.php',
@@ -724,5 +726,6 @@ return array(
     'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
     'makaira_connect_endpoint' => $baseDir . '/src/oxid/application/controllers/makaira_connect_endpoint.php',
     'makaira_connect_events' => $baseDir . '/src/oxid/core/makaira_connect_events.php',
-    'makaira_connect_oxarticle' => $baseDir . '/src/oxid/application/makaira_connect_oxarticle.php',
+    'makaira_connect_oxarticle' => $baseDir . '/src/oxid/application/models/makaira_connect_oxarticle.php',
+    'makaira_connect_oxcategory' => $baseDir . '/src/oxid/application/models/makaira_connect_oxcategory.php',
 );

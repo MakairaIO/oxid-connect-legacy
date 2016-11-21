@@ -57,6 +57,13 @@ $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
+$dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Repository\CategoryRepository(
+        $dic['makaira.database'],
+        $dic->getTagged('makaira.importer.modifier.category')
+    );
+};
+
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC $dic) {
@@ -114,4 +121,9 @@ $dic['makaira.connect.modifiers.product.tracking'] = function (\Marm\Yamm\DIC $d
     return new \Makaira\Connect\Type\Product\TrackingModifier($dic['marm_oxsearch']['tracking']);
 };
 $dic->tag('makaira.connect.modifiers.product.tracking', 'makaira.importer.modifier.product');
+
+$dic['makaira.connect.modifiers.category.oxobject'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Type\Category\OxObjectModifier();
+};
+$dic->tag('makaira.connect.modifiers.category.oxobject', 'makaira.importer.modifier.category');
 
