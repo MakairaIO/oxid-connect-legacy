@@ -3,7 +3,6 @@
 namespace Makaira\Connect\Type\Common;
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\ChangeDatum;
 
 abstract class Modifier
 {
@@ -12,7 +11,7 @@ abstract class Modifier
      *
      * @param ChangeDatum $product
      * @param DatabaseInterface $database
-     * @return BaseProduct
+     * @return ChangeDatum
      */
     abstract public function apply(ChangeDatum $product, DatabaseInterface $database);
 }

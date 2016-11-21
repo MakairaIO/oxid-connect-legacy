@@ -1,7 +1,6 @@
 <?php
 
 namespace Makaira\Connect\Type\Common;
-use Makaira\Connect\Type\ChangeDatum;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)

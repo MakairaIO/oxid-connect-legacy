@@ -4,7 +4,6 @@ namespace Makaira\Connect\Type\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\ChangeDatum;
 
 class PriceModifier extends Modifier
 {

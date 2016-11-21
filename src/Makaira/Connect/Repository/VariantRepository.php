@@ -6,20 +6,18 @@ namespace Makaira\Connect\Repository;
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
+use Makaira\Connect\Type\Common\ChangeDatum;
 use Makaira\Connect\Type\Common\Modifier;
 use Makaira\Connect\Type\Variant\Variant;
 
 class VariantRepository implements RepositoryInterface
 {
+    use WithModifiersTrait;
+
     /**
      * @var DatabaseInterface
      */
     private $database;
-
-    /**
-     * @var Modifier[]
-     */
-    private $modifiers = [];
 
     protected $selectQuery = "
         SELECT
@@ -90,15 +88,6 @@ class VariantRepository implements RepositoryInterface
     }
 
     /**
-     * Add a modifier.
-     * @param Modifier $modifier
-     */
-    public function addModifier(Modifier $modifier)
-    {
-        $this->modifiers[] = $modifier;
-    }
-
-    /**
      * Fetch and serialize changes.
      * @param int $since Sequence offset
      * @param int $limit Fetch limit
@@ -120,9 +109,7 @@ class VariantRepository implements RepositoryInterface
             } else {
                 // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
                 $variant = new Variant($row);
-                foreach ($this->modifiers as $modifier) {
-                    $variant = $modifier->apply($variant, $this->database);
-                }
+                $variant = $this->applyModifiers($variant, $this->database);
                 $change->data = $variant;
             }
             $changes[] = $change;

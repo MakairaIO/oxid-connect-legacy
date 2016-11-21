@@ -1,13 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: benjamin
- * Date: 15.11.16
- * Time: 16:34
- */
 namespace Makaira\Connect\Repository;
 
+use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
+use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type\Common\Modifier;
 
 interface RepositoryInterface
 {
@@ -37,4 +34,18 @@ interface RepositoryInterface
      * @return bool
      */
     public function isDeleted($oxid);
+
+    /**
+     * Add a modifier.
+     * @param Modifier $modifier
+     */
+    public function addModifier(Modifier $modifier);
+
+    /**
+     * Apply modifiers to datum.
+     * @param ChangeDatum $datum
+     * @param DatabaseInterface $database
+     * @return ChangeDatum
+     */
+    public function applyModifiers(ChangeDatum $datum, DatabaseInterface $database);
 }

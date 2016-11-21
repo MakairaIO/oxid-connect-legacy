@@ -4,8 +4,8 @@ namespace Makaira\Connect\Type\Product;
 
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\ChangeDatum;
 use Makaira\Connect\Type\Common\BaseProduct;
+use Makaira\Connect\Type\Common\ChangeDatum;
 use Makaira\Connect\Type\Common\Modifier;
 
 class SuggestModifier extends Modifier

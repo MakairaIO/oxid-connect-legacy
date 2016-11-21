@@ -10,6 +10,8 @@ use Makaira\Connect\Type\Product\Product;
 
 class ProductRepository implements RepositoryInterface
 {
+    use WithModifiersTrait;
+
     /**
      * @var DatabaseInterface
      */
@@ -85,15 +87,6 @@ class ProductRepository implements RepositoryInterface
     }
 
     /**
-     * Add a modifier.
-     * @param Modifier $modifier
-     */
-    public function addModifier(Modifier $modifier)
-    {
-        $this->modifiers[] = $modifier;
-    }
-
-    /**
      * Fetch and serialize changes.
      * @param int $since Sequence offset
      * @param int $limit Fetch limit
@@ -115,9 +108,7 @@ class ProductRepository implements RepositoryInterface
             } else {
                 // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
                 $product = new Product($row);
-                foreach ($this->modifiers as $modifier) {
-                    $product = $modifier->apply($product, $this->database);
-                }
+                $product = $this->applyModifiers($product, $this->database);
                 $change->data = $product;
             }
             $changes[] = $change;

@@ -78,6 +78,7 @@ return array(
     'Makaira\\Connect\\Repository\\ProductRepository' => $baseDir . '/src/Makaira/Connect/Repository/ProductRepository.php',
     'Makaira\\Connect\\Repository\\RepositoryInterface' => $baseDir . '/src/Makaira/Connect/Repository/RepositoryInterface.php',
     'Makaira\\Connect\\Repository\\VariantRepository' => $baseDir . '/src/Makaira/Connect/Repository/VariantRepository.php',
+    'Makaira\\Connect\\Repository\\WithModifiersTrait' => $baseDir . '/src/Makaira/Connect/Repository/WithModifiersTrait.php',
     'Makaira\\Connect\\Result' => $baseDir . '/src/Makaira/Connect/Result.php',
     'Makaira\\Connect\\Result\\Changes' => $baseDir . '/src/Makaira/Connect/Result/Changes.php',
     'Makaira\\Connect\\Result\\Error' => $baseDir . '/src/Makaira/Connect/Result/Error.php',
