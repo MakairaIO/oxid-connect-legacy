@@ -6,7 +6,7 @@ namespace Makaira\Connect\Type\Common;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class BaseProduct extends \Kore\DataObject\DataObject
+class BaseProduct extends ChangeDatum
 {
     public $id;
     public $timestamp;

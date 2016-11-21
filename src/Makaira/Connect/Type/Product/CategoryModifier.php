@@ -4,8 +4,9 @@ namespace Makaira\Connect\Type\Product;
 
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\ChangeDatum;
 use Makaira\Connect\Type\Common\BaseProduct;
-use Makaira\Connect\Type\Common\Category;
+use Makaira\Connect\Type\Common\AssignedCategory;
 use Makaira\Connect\Type\Common\Modifier;
 
 class CategoryModifier extends Modifier
@@ -64,7 +65,7 @@ class CategoryModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(BaseProduct $product, DatabaseInterface $database)
+    public function apply(ChangeDatum $product, DatabaseInterface $database)
     {
         $categories = $database->query(
             $this->selectCategoriesQuery,
@@ -75,11 +76,11 @@ class CategoryModifier extends Modifier
         );
         $categories = array_map(
             function ($cat) {
-                return new Category($cat);
+                return new AssignedCategory($cat);
             }, $categories
         );
         if ($this->deepInheritance) {
-            /** @var Category $category */
+            /** @var AssignedCategory $category */
             foreach ($categories as $category) {
                 $leftRightRoot = $database->query($this->selectLeftRightRootQuery, ['catid' => $category->catid]);
                 if (!empty($leftRightRoot)) {
@@ -87,7 +88,7 @@ class CategoryModifier extends Modifier
                     $leftRightRoot['shopid'] = $category->shopid;
                     $categoryPath = $database->query($this->selectDeepCategoriesQuery, $leftRightRoot);
                     foreach ($categoryPath as $cat) {
-                        $categories[] = new Category($cat);
+                        $categories[] = new AssignedCategory($cat);
                     }
                 }
             }

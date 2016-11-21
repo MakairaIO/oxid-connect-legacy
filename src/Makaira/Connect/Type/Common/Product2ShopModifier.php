@@ -4,6 +4,7 @@ namespace Makaira\Connect\Type\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\ChangeDatum;
 
 class Product2ShopModifier extends Modifier
 {
@@ -34,7 +35,7 @@ class Product2ShopModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(BaseProduct $product, DatabaseInterface $database)
+    public function apply(ChangeDatum $product, DatabaseInterface $database)
     {
         if ($this->isMultiShop) {
             $product->shop = $database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);

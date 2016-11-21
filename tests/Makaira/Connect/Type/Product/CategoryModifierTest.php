@@ -3,7 +3,7 @@
 namespace Makaira\Connect\Type\Product;
 
 
-use Makaira\Connect\Type\Common\Category;
+use Makaira\Connect\Type\Common\AssignedCategory;
 use Makaira\Connect\DatabaseInterface;
 
 class CategoryModifierTest extends \PHPUnit_Framework_TestCase
@@ -38,7 +38,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                new Category(
+                new AssignedCategory(
                     [
                         'catid'  => 'def',
                         'oxpos'  => 1,
@@ -100,14 +100,14 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                new Category(
+                new AssignedCategory(
                     [
                         'catid'  => 'def',
                         'oxpos'  => 1,
                         'shopid' => 1,
                     ]
                 ),
-                new Category(
+                new AssignedCategory(
                     [
                         'catid'  => 'ghi',
                         'oxpos'  => 9999,

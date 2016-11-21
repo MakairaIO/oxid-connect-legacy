@@ -3,7 +3,7 @@
 namespace Makaira\Connect\Type\Common;
 
 
-use Makaira\Connect\Type\Common\Attribute;
+use Makaira\Connect\Type\Common\AssignedAttribute;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
 
@@ -30,6 +30,6 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 
         $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]), $dbMock);
 
-        $this->assertArraySubset([new Attribute($dbResult)], $product->attribute);
+        $this->assertArraySubset([new AssignedAttribute($dbResult)], $product->attribute);
     }
 }

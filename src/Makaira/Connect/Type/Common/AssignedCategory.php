@@ -3,9 +3,9 @@
 namespace Makaira\Connect\Type\Common;
 
 
-use Kore\DataObject\DataObject;
+use Makaira\Connect\Type\ChangeDatum;
 
-class Category extends DataObject
+class AssignedCategory extends ChangeDatum
 {
     public $catid;
     public $oxpos;

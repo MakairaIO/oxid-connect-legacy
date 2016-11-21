@@ -4,6 +4,7 @@ namespace Makaira\Connect\Type\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\ChangeDatum;
 
 /**
  * Class AttributeModifier
@@ -45,7 +46,7 @@ class AttributeModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(BaseProduct $product, DatabaseInterface $database)
+    public function apply(ChangeDatum $product, DatabaseInterface $database)
     {
         $attributes = $database->query(
             $this->selectAttributesQuery, [
@@ -55,7 +56,7 @@ class AttributeModifier extends Modifier
         );
         $product->attribute = array_map(
             function ($row) {
-                return new Attribute($row);
+                return new AssignedAttribute($row);
             }, $attributes
         );
 
