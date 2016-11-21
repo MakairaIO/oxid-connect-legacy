@@ -8,10 +8,6 @@ namespace Makaira\Connect\Type\Common;
  */
 class BaseProduct extends ChangeDatum
 {
-    public $id;
-    public $timestamp;
-    public $shop;
-    public $OXID;
     public $OXMAPID;
     public $OXSHOPID;
     public $OXPARENTID;
@@ -132,6 +128,5 @@ class BaseProduct extends ChangeDatum
 
     public $MARM_OXSEARCH_BOOST;
     public $MARM_OXSEARCH_PROFITMARGIN;
-    public $active    = true;
     public $attribute = [];
 }
