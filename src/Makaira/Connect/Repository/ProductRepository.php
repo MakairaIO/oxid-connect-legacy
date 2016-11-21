@@ -17,11 +17,6 @@ class ProductRepository implements RepositoryInterface
      */
     private $database;
 
-    /**
-     * @var Modifier[]
-     */
-    private $modifiers = [];
-
     protected $selectQuery = "
         SELECT
             makaira_connect_changes.sequence,
@@ -140,6 +135,7 @@ class ProductRepository implements RepositoryInterface
      */
     public function delete($oxid)
     {
+        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
         $this->database->query($this->deleteQuery, ['oxid' => $oxid]);
     }
 

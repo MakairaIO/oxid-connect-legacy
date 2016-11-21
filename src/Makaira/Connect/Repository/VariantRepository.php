@@ -141,6 +141,7 @@ class VariantRepository implements RepositoryInterface
      */
     public function delete($oxid)
     {
+        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
         $this->database->query($this->deleteQuery, ['oxid' => $oxid]);
     }
 
