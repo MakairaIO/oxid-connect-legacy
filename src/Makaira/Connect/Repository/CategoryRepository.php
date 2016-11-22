@@ -2,11 +2,11 @@
 
 namespace Makaira\Connect\Repository;
 
-
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Category\Category;
+use Makaira\Connect\RepositoryInterface;
 
 class CategoryRepository implements RepositoryInterface
 {

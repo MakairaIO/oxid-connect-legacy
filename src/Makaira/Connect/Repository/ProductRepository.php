@@ -7,6 +7,7 @@ use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\Modifier;
 use Makaira\Connect\Type\Product\Product;
+use Makaira\Connect\RepositoryInterface;
 
 class ProductRepository implements RepositoryInterface
 {

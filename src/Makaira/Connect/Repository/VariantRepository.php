@@ -2,13 +2,13 @@
 
 namespace Makaira\Connect\Repository;
 
-
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\ChangeDatum;
 use Makaira\Connect\Type\Common\Modifier;
 use Makaira\Connect\Type\Variant\Variant;
+use Makaira\Connect\RepositoryInterface;
 
 class VariantRepository implements RepositoryInterface
 {

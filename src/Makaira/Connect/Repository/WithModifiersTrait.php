@@ -2,14 +2,12 @@
 
 namespace Makaira\Connect\Repository;
 
-
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\ChangeDatum;
 use Makaira\Connect\Modifier;
 
 trait WithModifiersTrait
 {
-
     /** @var Modifier[] */
     private $modifiers = [];
 

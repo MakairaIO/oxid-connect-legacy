@@ -1,10 +1,8 @@
 <?php
-namespace Makaira\Connect\Repository;
+namespace Makaira\Connect;
 
-use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\ChangeDatum;
-use Makaira\Connect\Modifier;
 
 interface RepositoryInterface
 {
