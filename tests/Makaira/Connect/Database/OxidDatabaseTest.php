@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: benjamin
- * Date: 17.11.16
- * Time: 14:39
- */
 
-namespace Makaira\Connect;
-
+namespace Makaira\Connect\Database;
 
 class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
 {

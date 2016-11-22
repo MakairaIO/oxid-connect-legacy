@@ -1,6 +1,8 @@
 <?php
 
-namespace Makaira\Connect;
+namespace Makaira\Connect\Database;
+
+use Makaira\Connect\DatabaseInterface;
 
 /**
  * Simple database facade so we do not need to set fetch mode before each query
