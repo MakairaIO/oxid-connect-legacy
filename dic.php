@@ -10,10 +10,6 @@ $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
-$dic['makaira.database'] = function (\Marm\Yamm\DIC $dic) {
-    return $dic['oxid.database'];
-};
-
 $dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Utils\OxidSmartyParser(
         oxRegistry::getLang(),
@@ -29,7 +25,7 @@ $dic['makaira.content_parser'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\ProductRepository(
-        $dic['makaira.database'],
+        $dic['oxid.database'],
         new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.product')
         )
@@ -38,7 +34,7 @@ $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\VariantRepository(
-        $dic['makaira.database'],
+        $dic['oxid.database'],
         new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.variant')
         )
@@ -47,7 +43,7 @@ $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\CategoryRepository(
-        $dic['makaira.database'],
+        $dic['oxid.database'],
         new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.category')
         )
