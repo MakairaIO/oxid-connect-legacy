@@ -35,14 +35,14 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
         $dbMock
             ->expects($this->once())
             ->method('getAll')
-            ->with('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXPRICEA = 10')
+            ->with('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10')
             ->will($this->returnValue([['OXID' => 'abc']]));
 
         $db = new OxidDatabase($dbMock);
 
         $this->assertEquals(
             [['OXID' => 'abc']],
-            $db->query('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXPRICEA = 10')
+            $db->query('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10')
         );
     }
 
@@ -62,7 +62,7 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
         $dbMock
             ->expects($this->once())
             ->method('getAll')
-            ->with('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXPRICEA = 10')
+            ->with('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10')
             ->will($this->returnValue([['OXID' => 'abc']]));
 
         $db = new OxidDatabase($dbMock);
@@ -70,10 +70,10 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [['OXID' => 'abc']],
             $db->query(
-                'SELECT OXID FROM oxarticles WHERE OXPRICE = :price AND OXPRICEA = :priceA',
+                'SELECT OXID FROM oxarticles WHERE OXPRICE = :price AND OXSTOCK = :stock',
                 [
                     'price'  => 5,
-                    'priceA' => 10,
+                    'stock' => 10,
                 ]
             )
         );
@@ -115,4 +115,39 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testReplaceStringsWithPartialMatches()
+    {
+        $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
+
+        $dbMock
+            ->expects($this->once())
+            ->method('getAll')
+            ->with("SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXPRICEA = 6 AND OXPRICEB = 7")
+            ->will($this->returnValue([['OXID' => 'abc']]));
+
+        $db = new OxidDatabase($dbMock);
+
+        $this->assertEquals(
+            [['OXID' => 'abc']],
+            $db->query(
+                'SELECT OXID FROM oxarticles WHERE OXPRICE = :price AND OXPRICEA = :priceA AND OXPRICEB = :priceB',
+                [
+                    'price'  => 5,
+                    'priceA' => 6,
+                    'priceB' => 7,
+                ]
+            )
+        );
+    }
+
+    /**
+     * @expectedException \OutOfBoundsException
+     */
+    public function testUnknownReplacementParameter()
+    {
+        $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
+
+        $db = new OxidDatabase($dbMock);
+        $db->query('SELECT OXID FROM oxarticles WHERE OXPRICE = :unknown', []);
+    }
 }
