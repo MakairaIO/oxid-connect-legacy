@@ -140,4 +140,36 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             $result
         );
     }
+
+    public function testTouchExecutesQuery()
+    {
+        $databaseMock = $this->getMock(DatabaseInterface::class);
+        $repository = new Repository($databaseMock);
+
+        $databaseMock
+            ->expects($this->any())
+            ->method('execute')
+            ->withConsecutive(
+                [$this->stringContains('INSERT INTO'), ['type' => 'product', 'id' => 42]],
+                [$this->stringContains('DELETE FROM'), ['type' => 'product', 'id' => 42]]
+            );
+
+        $repository->touch('product', 42);
+    }
+
+    public function testDeleteExecutesQuery()
+    {
+        $databaseMock = $this->getMock(DatabaseInterface::class);
+        $repository = new Repository($databaseMock);
+
+        $databaseMock
+            ->expects($this->any())
+            ->method('execute')
+            ->withConsecutive(
+                [$this->stringContains('INSERT INTO'), ['type' => 'product', 'id' => 42]],
+                [$this->stringContains('REPLACE INTO'), ['type' => 'product', 'id' => 42]]
+            );
+
+        $repository->delete('product', 42);
+    }
 }

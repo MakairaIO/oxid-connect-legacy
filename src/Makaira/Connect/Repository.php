@@ -25,6 +25,30 @@ class Repository
         LIMIT :limit
     ";
 
+    protected $touchQuery = "
+        INSERT INTO
+          makaira_connect_changes
+        (OXID, TYPE, CHANGED)
+          VALUES
+        (:id, :type, NOW());
+    ";
+
+    protected $deleteQuery = "
+        REPLACE INTO
+          makaira_connect_deletions
+        (OXID, TYPE, CHANGED)
+          VALUES
+        (:id, :type, NOW())
+    ";
+
+    protected $undeleteQuery = "
+        DELETE FROM
+          makaira_connect_deletions
+        WHERE
+          OXID = :id
+          AND TYPE = :type
+    ";
+
     public function __construct(DatabaseInterface $database, array $repositoryMapping = array())
     {
         $this->database = $database;
@@ -63,5 +87,29 @@ class Repository
         }
 
         return $this->repositoryMapping[$type];
+    }
+
+    /**
+     * Mark an object as updated.
+     *
+     * @param string $type
+     * @param string $id
+     */
+    public function touch($type, $id)
+    {
+        $this->database->execute($this->touchQuery, ['type' => $type, 'id' => $id]);
+        $this->database->execute($this->undeleteQuery, ['type' => $type, 'id' => $id]);
+    }
+
+    /**
+     * Mark an object as deleted.
+     *
+     * @param string $type
+     * @param string $id
+     */
+    public function delete($type, $id)
+    {
+        $this->database->execute($this->touchQuery, ['type' => $type, 'id' => $id]);
+        $this->database->execute($this->deleteQuery, ['type' => $type, 'id' => $id]);
     }
 }
