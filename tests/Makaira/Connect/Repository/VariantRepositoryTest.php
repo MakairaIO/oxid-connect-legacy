@@ -5,88 +5,91 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Result\Changes;
-use Makaira\Connect\Modifier;
 use Makaira\Connect\Type\Variant\Variant;
 
 class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadVariant()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new VariantRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
             ->method('query')
-            ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
+            ->will($this->returnValue([['id' => 42]]));
 
-        $changes = $repository->getChangesSince(0);
+        $modifiersMock
+            ->expects($this->any())
+            ->method('applyModifiers')
+            ->will($this->returnArgument(0));
 
+        $change = $repository->get(42);
         $this->assertEquals(
-            new Changes(
+            new Change(
                 array(
-                    'type'    => 'variant',
-                    'since'   => 0,
-                    'count'   => 1,
-                    'changes' => array(
-                        new Change(
-                            array(
-                                'sequence' => 1,
-                                'id'       => 42,
-                                'data'     => null,
-                            )
-                        ),
+                    'data' => new Variant(
+                        array(
+                            'id' => 42,
+                        )
                     ),
                 )
             ),
-            $changes
-        );
-    }
-
-    public function testRunModifierLoadVariant()
-    {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $modifiersMock = $this->getMock(ModifierList::class);
-        $repository = new VariantRepository($databaseMock, $modifiersMock);
-
-        $databaseMock
-            ->expects($this->once())
-            ->method('query')
-            ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
-
-        $product = new \stdClass();
-        $modifiersMock
-            ->expects($this->once())
-            ->method('applyModifiers')
-            ->will($this->returnValue($product));
-
-        $changes = $repository->getChangesSince(0);
-
-        $this->assertSame(
-            $product,
-            $changes->changes[0]->data
+            $change
         );
     }
 
     public function testSetDeletedMarker()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new VariantRepository($databaseMock, $modifiersMock);
 
         $databaseMock
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('query')
-            ->willReturnOnConsecutiveCalls(
-                $this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => null]]),
-                $this->returnValue([['OXID' => 42, 'TYPE' => 'variant']])
-            );
+            ->will($this->returnValue([]));
 
-        $changes = $repository->getChangesSince(0);
+        $modifiersMock
+            ->expects($this->never())
+            ->method('applyModifiers');
 
-        $this->assertEquals(true, $changes->changes[0]->deleted);
-        $this->assertEquals(null, $changes->changes[0]->data);
+        $change = $repository->get(42);
+        $this->assertEquals(
+            new Change(
+                array(
+                    'deleted' => true,
+                )
+            ),
+            $change
+        );
+    }
+
+    public function testRunModifierLoadVariant()
+    {
+        $databaseMock = $this->getMock(DatabaseInterface::class);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new VariantRepository($databaseMock, $modifiersMock);
+
+        $databaseMock
+            ->expects($this->once())
+            ->method('query')
+            ->will($this->returnValue([['id' => 42]]));
+
+        $modifiersMock
+            ->expects($this->once())
+            ->method('applyModifiers')
+            ->will($this->returnValue('modified'));
+
+        $change = $repository->get(42);
+        $this->assertEquals(
+            new Change(
+                array(
+                    'data' => 'modified',
+                )
+            ),
+            $change
+        );
     }
 }

@@ -180,6 +180,7 @@ class ComposerStaticInitd36003a9dfa2385d7902e29564cbe773
         'Makaira\\Connect\\Modifier\\Product\\CategoryModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Product/CategoryModifier.php',
         'Makaira\\Connect\\Modifier\\Product\\SuggestModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Product/SuggestModifier.php',
         'Makaira\\Connect\\Modifier\\Product\\TrackingModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Product/TrackingModifier.php',
+        'Makaira\\Connect\\Repository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository.php',
         'Makaira\\Connect\\RepositoryInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/RepositoryInterface.php',
         'Makaira\\Connect\\Repository\\CategoryRepository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/CategoryRepository.php',
         'Makaira\\Connect\\Repository\\ModifierList' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/ModifierList.php',

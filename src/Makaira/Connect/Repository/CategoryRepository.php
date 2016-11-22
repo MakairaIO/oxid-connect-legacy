@@ -5,22 +5,11 @@ namespace Makaira\Connect\Repository;
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\RepositoryInterface;
-use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Category\Category;
 
 class CategoryRepository implements RepositoryInterface
 {
-    /**
-     * @var DatabaseInterface
-     */
-    private $database;
-
-    /**
-     * @var ModifierList
-     */
-    private $modifiers;
-
-    protected $selectQuery = "
+    protected $selectQuery    = "
       SELECT
         makaira_connect_changes.sequence,
         makaira_connect_changes.oxid AS `id`,
@@ -36,21 +25,21 @@ class CategoryRepository implements RepositoryInterface
         sequence ASC
       LIMIT :limit
     ";
-    protected $touchQuery = "
+    protected $touchQuery     = "
         INSERT INTO
           makaira_connect_changes
         (OXID, TYPE, CHANGED)
           VALUES
         (:oxid, 'category', NOW())
     ";
-    protected $deleteQuery = "
+    protected $deleteQuery    = "
         REPLACE INTO
           makaira_connect_deletions
         (OXID, TYPE, CHANGED)
           VALUES
         (:oxid, 'category', NOW())
     ";
-    protected $undeleteQuery = "
+    protected $undeleteQuery  = "
         DELETE FROM
           makaira_connect_deletions
         WHERE
@@ -65,51 +54,35 @@ class CategoryRepository implements RepositoryInterface
           AND TYPE = 'category'
         LIMIT 1
     ";
+    /**
+     * @var DatabaseInterface
+     */
+    private $database;
+    /**
+     * @var ModifierList
+     */
+    private $modifiers;
 
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
-        $this->database  = $database;
+        $this->database = $database;
         $this->modifiers = $modifiers;
     }
 
-    /**
-     * Fetch and serialize changes.
-     *
-     * @param int $since Sequence offset
-     * @param int $limit Fetch limit
-     *
-     * @return Changes
-     */
-    public function getChangesSince($since, $limit = 50)
+    public function get($id)
     {
-        $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
+        $result = $this->database->query($this->selectQuery, ['id' => $id]);
 
-        $changes = array();
-        foreach ($result as $row) {
-            $change           = new Change();
-            $change->id       = $row['id'];
-            $change->sequence = $row['sequence'];
-            unset($row['sequence']);
+        $change = new Change();
 
-            if (!isset($row['OXID']) && $this->isDeleted($change->id)) {
-                $change->deleted = true;
-            } else {
-                // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
-                $category     = new Category($row);
-                $category     = $this->modifiers->applyModifiers($category, $this->database);
-                $change->data = $category;
-            }
-            $changes[] = $change;
+        if (empty($result)) {
+            $change->deleted = true;
+            return $change;
         }
-
-        return new Changes(
-            array(
-                'type'    => 'category',
-                'since'   => $since,
-                'count'   => count($changes),
-                'changes' => $changes,
-            )
-        );
+        $category = new Category($result[0]);
+        $category = $this->modifiers->applyModifiers($category, $this->database);
+        $change->data = $category;
+        return $change;
     }
 
     /**
@@ -121,8 +94,8 @@ class CategoryRepository implements RepositoryInterface
      */
     public function touch($oxid)
     {
-        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->query($this->undeleteQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->undeleteQuery, ['oxid' => $oxid]);
     }
 
     /**
@@ -134,8 +107,8 @@ class CategoryRepository implements RepositoryInterface
      */
     public function delete($oxid)
     {
-        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->query($this->deleteQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->deleteQuery, ['oxid' => $oxid]);
     }
 
     /**

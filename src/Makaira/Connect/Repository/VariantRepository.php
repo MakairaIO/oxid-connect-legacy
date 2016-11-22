@@ -5,43 +5,24 @@ namespace Makaira\Connect\Repository;
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\RepositoryInterface;
-use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Variant\Variant;
 
 class VariantRepository implements RepositoryInterface
 {
-    /**
-     * @var DatabaseInterface
-     */
-    private $database;
-
-    /**
-     * @var ModifierList
-     */
-    private $modifiers;
-
     protected $selectQuery = "
         SELECT
-            makaira_connect_changes.sequence,
-            makaira_connect_changes.oxid AS `id`,
             oxarticles.oxparentid AS `parent`,
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
-            oxartextends.oxlongdesc as `OXLONGDESC`,
-            oxartextends.oxtags as `OXTAGS`
+            oxartextends.oxlongdesc AS `OXLONGDESC`,
+            oxartextends.oxtags AS `OXTAGS`
         FROM
-            makaira_connect_changes
-            LEFT JOIN oxarticles ON oxarticles.oxid = makaira_connect_changes.oxid
+            oxarticles
             LEFT JOIN oxartextends ON oxarticles.oxid = oxartextends.oxid
         WHERE
-            (oxarticles.oxid is null OR oxarticles.oxparentid != '')
-            AND makaira_connect_changes.sequence > :since
-            AND makaira_connect_changes.type = 'variant'
-        ORDER BY
-            sequence ASC
-        LIMIT :limit
+            oxarticles.oxid = :id
+            AND oxarticles.oxparentid != ''
     ";
-
     protected $touchQuery = "
         INSERT INTO
           makaira_connect_changes
@@ -49,7 +30,6 @@ class VariantRepository implements RepositoryInterface
           VALUES
         (:oxid, 'variant', NOW())
     ";
-
     protected $deleteQuery = "
         REPLACE INTO
           makaira_connect_deletions
@@ -57,7 +37,6 @@ class VariantRepository implements RepositoryInterface
           VALUES
         (:oxid, 'variant', NOW())
     ";
-
     protected $undeleteQuery = "
         DELETE FROM
           makaira_connect_deletions
@@ -65,7 +44,6 @@ class VariantRepository implements RepositoryInterface
           OXID = :oxid
           AND TYPE = 'variant'
     ";
-
     protected $isDeletedQuery = "
         SELECT * FROM
           makaira_connect_deletions
@@ -74,51 +52,35 @@ class VariantRepository implements RepositoryInterface
           AND TYPE = 'variant'
         LIMIT 1
     ";
+    /**
+     * @var DatabaseInterface
+     */
+    private $database;
+    /**
+     * @var ModifierList
+     */
+    private $modifiers;
 
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
-        $this->database  = $database;
+        $this->database = $database;
         $this->modifiers = $modifiers;
     }
 
-    /**
-     * Fetch and serialize changes.
-     *
-     * @param int $since Sequence offset
-     * @param int $limit Fetch limit
-     *
-     * @return Changes
-     */
-    public function getChangesSince($since, $limit = 50)
+    public function get($id)
     {
-        $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
+        $result = $this->database->query($this->selectQuery, ['id' => $id]);
 
-        $changes = array();
-        foreach ($result as $row) {
-            $change           = new Change();
-            $change->id       = $row['id'];
-            $change->sequence = $row['sequence'];
-            unset($row['sequence']);
+        $change = new Change();
 
-            if (!isset($row['OXID']) && $this->isDeleted($change->id)) {
-                $change->deleted = true;
-            } else {
-                // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
-                $variant      = new Variant($row);
-                $variant      = $this->modifiers->applyModifiers($variant, $this->database);
-                $change->data = $variant;
-            }
-            $changes[] = $change;
+        if (empty($result)) {
+            $change->deleted = true;
+            return $change;
         }
-
-        return new Changes(
-            array(
-                'type'    => 'variant',
-                'since'   => $since,
-                'count'   => count($changes),
-                'changes' => $changes,
-            )
-        );
+        $variant = new Variant($result[0]);
+        $variant = $this->modifiers->applyModifiers($variant);
+        $change->data = $variant;
+        return $change;
     }
 
     /**
@@ -130,8 +92,8 @@ class VariantRepository implements RepositoryInterface
      */
     public function touch($oxid)
     {
-        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->query($this->undeleteQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->undeleteQuery, ['oxid' => $oxid]);
     }
 
     /**
@@ -143,8 +105,8 @@ class VariantRepository implements RepositoryInterface
      */
     public function delete($oxid)
     {
-        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->query($this->deleteQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->deleteQuery, ['oxid' => $oxid]);
     }
 
     /**

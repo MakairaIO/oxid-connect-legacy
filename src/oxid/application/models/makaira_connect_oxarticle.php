@@ -27,7 +27,7 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
             return parent::getParentId();
         } else {
             /** @var \Makaira\Connect\DatabaseInterface $db */
-            $db = oxRegistry::get('yamm_dic')['makaira.database'];
+            $db = oxRegistry::get('yamm_dic')['oxid.database'];
             $parentId = $db->query('SELECT OXPARENTID FROM oxarticles WHERE OXID = :id', ['id' => $sOXID]);
             return empty($parentId) ? null : $parentId[0]['OXPARENTID'];
         }
@@ -43,7 +43,7 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         } else {
             $this->getProductRepo()->$method($id);
             /** @var \Makaira\Connect\DatabaseInterface $db */
-            $db = oxRegistry::get('yamm_dic')['makaira.database'];
+            $db = oxRegistry::get('yamm_dic')['oxid.database'];
             $variants = $db->query(
                 'SELECT OXID FROM oxarticles WHERE OXPARENTID = :parentId',
                 ['parentId' => $id]

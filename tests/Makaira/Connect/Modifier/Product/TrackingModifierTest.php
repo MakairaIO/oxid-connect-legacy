@@ -10,7 +10,7 @@ class TrackingModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testTracking()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $trackingMock = $this->getMock(
             \AbstractOxSearchTracking::class, [
             'get',

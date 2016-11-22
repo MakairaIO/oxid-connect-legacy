@@ -10,7 +10,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testActiveNotHidden()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = "0";
@@ -20,7 +20,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNotActiveNotHidden()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = "0";
@@ -30,7 +30,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNotActiveHidden()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = "1";
@@ -40,7 +40,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testActiveHidden()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = "1";
@@ -50,7 +50,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testActiveHiddenNull()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = null;
@@ -60,7 +60,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNotActiveHiddenNull()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = null;
