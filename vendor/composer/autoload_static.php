@@ -81,6 +81,14 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
                 0 => __DIR__ . '/..' . '/phpmd/phpmd/src/main/php',
             ),
         ),
+        'M' => 
+        array (
+            'Makaira' => 
+            array (
+                0 => __DIR__ . '/../..' . '/src',
+                1 => __DIR__ . '/../..' . '/tests',
+            ),
+        ),
         'K' => 
         array (
             'Kore' => 
