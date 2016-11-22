@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect\Utils;
 
-
 class OxidSmartyParser implements ContentParserInterface
 {
     /** @var  \oxLang */

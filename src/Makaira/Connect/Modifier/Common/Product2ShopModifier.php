@@ -8,7 +8,7 @@ use Makaira\Connect\Modifier;
 
 class Product2ShopModifier extends Modifier
 {
-    private   $isMultiShop = false;
+    private $isMultiShop = false;
     protected $selectQuery = '
         SELECT
           OXSHOPID
@@ -43,10 +43,16 @@ class Product2ShopModifier extends Modifier
     {
         if ($this->isMultiShop) {
             $product->shop = $this->database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);
-            $product->shop = array_map(function($x) { return $x['OXSHOPID']; }, $product->shop);
+            $product->shop = array_map(
+                function ($x) {
+                    return $x['OXSHOPID'];
+                },
+                $product->shop
+            );
         } else {
             $product->shop = [$product->OXSHOPID];
         }
+
         return $product;
     }
 }

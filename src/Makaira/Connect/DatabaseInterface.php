@@ -1,6 +1,6 @@
 <?php
-namespace Makaira\Connect;
 
+namespace Makaira\Connect;
 
 /**
  * Simple database facade so we do not have to access either PDO nor oxDb directly.

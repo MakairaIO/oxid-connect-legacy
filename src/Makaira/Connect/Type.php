@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect;
 
-
 use Kore\DataObject\DataObject;
 
 class Type extends DataObject
