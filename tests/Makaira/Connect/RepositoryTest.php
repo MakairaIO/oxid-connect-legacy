@@ -58,6 +58,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                         'id' => 42,
                         'sequence' => 1,
                         'data' => 'product-42',
+                        'type' => 'product',
                     ])
                 ],
             ]),
@@ -120,16 +121,19 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                         'id' => 42,
                         'sequence' => 1,
                         'data' => 'data',
+                        'type' => 'firstRepo',
                     ]),
                     new Change([
                         'id' => 43,
                         'sequence' => 2,
                         'data' => 'data',
+                        'type' => 'secondRepo',
                     ]),
                     new Change([
                         'id' => 44,
                         'sequence' => 3,
                         'data' => 'data',
+                        'type' => 'firstRepo',
                     ]),
                 ],
             ]),
