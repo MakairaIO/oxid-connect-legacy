@@ -38,10 +38,10 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         $id = $oxid ?: $this->getId();
         $method = $delete ? 'delete' : 'touch';
         if ($parentId = $this->getParentId($oxid)) {
-            $this->getProductRepo()->touch($parentId); // We need to touch the parent, but mustn't delete it
-            $this->getVariantRepo()->$method($id);
+            $this->getRepository()->touch('product', $parentId); // We need to touch the parent, but mustn't delete it
+            $this->getRepository()->$method('variant', $id);
         } else {
-            $this->getProductRepo()->$method($id);
+            $this->getRepository()->$method('product', $id);
             /** @var \Makaira\Connect\DatabaseInterface $db */
             $db = oxRegistry::get('yamm_dic')['oxid.database'];
             $variants = $db->query(
@@ -49,25 +49,17 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
                 ['parentId' => $id]
             );
             foreach ($variants as $variant) {
-                $this->getVariantRepo()->$method($variant['OXID']);
+                $this->getRepository()->$method('variant', $variant['OXID']);
             }
         }
     }
 
     /**
-     * @return \Makaira\Connect\Repository\RepositoryInterface
+     * @return \Makaira\Connect\Repository
      */
-    private function getProductRepo()
+    private function getRepository()
     {
-        return oxRegistry::get('yamm_dic')['makaira.connect.repository.product'];
-    }
-
-    /**
-     * @return \Makaira\Connect\Repository\RepositoryInterface
-     */
-    private function getVariantRepo()
-    {
-        return oxRegistry::get('yamm_dic')['makaira.connect.repository.variant'];
+        return oxRegistry::get('yamm_dic')['makaira.connect.repository'];
     }
 
 }

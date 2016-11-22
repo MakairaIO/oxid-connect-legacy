@@ -4,18 +4,18 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
 {
 
     /**
-     * @return \Makaira\Connect\Repository\RepositoryInterface
+     * @return \Makaira\Connect\Repository
      */
-    private function getCategoryRepo()
+    private function getRepository()
     {
-        return oxRegistry::get('yamm_dic')['makaira.connect.repository.category'];
+        return oxRegistry::get('yamm_dic')['makaira.connect.repository'];
     }
 
     public function save()
     {
         $result = parent::save();
         if ($result) {
-            $this->getCategoryRepo()->touch($this->getId());
+            $this->getRepository()->touch('category', $this->getId());
         }
         return $result;
     }
@@ -24,7 +24,7 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     {
         $result = parent::delete($sOXID);
         if ($result) {
-            $this->getCategoryRepo()->delete($sOXID ?: $this->getId());
+            $this->getRepository()->delete('category', $sOXID ?: $this->getId());
         }
         return $result;
     }
