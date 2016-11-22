@@ -49,13 +49,5 @@ class makaira_connect_events
             PRIMARY KEY (`SEQUENCE`)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
         oxDb::getDb()->execute($sSql);
-        $sSql = "CREATE TABLE IF NOT EXISTS `makaira_connect_deletions` (
-            `TYPE` VARCHAR(32) COLLATE latin1_general_ci NOT NULL,
-            `OXID` CHAR(32) COLLATE latin1_general_ci NOT NULL,
-            `CHANGED` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            INDEX (`OXID`),
-            PRIMARY KEY (`TYPE`, `OXID`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
-        oxDb::getDb()->execute($sSql);
     }
 }
