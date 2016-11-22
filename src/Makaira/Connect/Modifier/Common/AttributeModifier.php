@@ -3,12 +3,13 @@
 namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 use Makaira\Connect\Type\Common\AssignedAttribute;
-use Makaira\Connect\Modifier;
 
 /**
  * Class AttributeModifier
+ *
  * @package Makaira\Connect\Type\ProductRepository
  */
 class AttributeModifier extends Modifier
@@ -54,20 +55,23 @@ class AttributeModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
+     *
      * @return BaseProduct
      */
     public function apply(Type $product)
     {
-        $attributes = $this->database->query(
-            $this->selectAttributesQuery, [
-            'productActive' => $product->OXACTIVE,
-            'productId'     => $product->id,
-        ]
+        $attributes         = $this->database->query(
+            $this->selectAttributesQuery,
+            [
+                'productActive' => $product->OXACTIVE,
+                'productId'     => $product->id,
+            ]
         );
         $product->attribute = array_map(
             function ($row) {
                 return new AssignedAttribute($row);
-            }, $attributes
+            },
+            $attributes
         );
 
         return $product;

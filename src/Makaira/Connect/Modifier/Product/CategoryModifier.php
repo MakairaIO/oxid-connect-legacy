@@ -3,10 +3,10 @@
 namespace Makaira\Connect\Modifier\Product;
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\Common\BaseProduct;
-use Makaira\Connect\Type\Common\AssignedCategory;
-use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
+use Makaira\Connect\Type;
+use Makaira\Connect\Type\Common\AssignedCategory;
+use Makaira\Connect\Type\Common\BaseProduct;
 
 class CategoryModifier extends Modifier
 {
@@ -55,11 +55,11 @@ class CategoryModifier extends Modifier
 
     /**
      * @param DatabaseInterface $database
-     * @param bool $deepInheritance
+     * @param bool              $deepInheritance
      */
     public function __construct(DatabaseInterface $database, $deepInheritance)
     {
-        $this->database = $database;
+        $this->database        = $database;
         $this->deepInheritance = $deepInheritance;
     }
 
@@ -67,6 +67,7 @@ class CategoryModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
+     *
      * @return BaseProduct
      */
     public function apply(Type $product)
@@ -74,23 +75,24 @@ class CategoryModifier extends Modifier
         $categories = $this->database->query(
             $this->selectCategoriesQuery,
             [
-                'productId' => $product->id,
+                'productId'     => $product->id,
                 'productActive' => $product->OXACTIVE,
             ]
         );
         $categories = array_map(
             function ($cat) {
                 return new AssignedCategory($cat);
-            }, $categories
+            },
+            $categories
         );
         if ($this->deepInheritance) {
             /** @var AssignedCategory $category */
             foreach ($categories as $category) {
                 $leftRightRoot = $this->database->query($this->selectLeftRightRootQuery, ['catid' => $category->catid]);
                 if (!empty($leftRightRoot)) {
-                    $leftRightRoot = reset($leftRightRoot);
+                    $leftRightRoot           = reset($leftRightRoot);
                     $leftRightRoot['shopid'] = $category->shopid;
-                    $categoryPath = $this->database->query($this->selectDeepCategoriesQuery, $leftRightRoot);
+                    $categoryPath            = $this->database->query($this->selectDeepCategoriesQuery, $leftRightRoot);
                     foreach ($categoryPath as $cat) {
                         $categories[] = new AssignedCategory($cat);
                     }
@@ -98,6 +100,7 @@ class CategoryModifier extends Modifier
             }
         }
         $product->category = $categories;
+
         return $product;
     }
 }
