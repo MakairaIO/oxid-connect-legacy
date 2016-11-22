@@ -21,9 +21,9 @@ class OxObjectModifierTest extends \PHPUnit_Framework_TestCase
             ->method('query')
             ->will($this->returnValue([$dbResult]));
 
-        $modifier = new OxObjectModifier();
+        $modifier = new OxObjectModifier($dbMock);
 
-        $category = $modifier->apply(new Category(['id' => 'ghijkl']), $dbMock);
+        $category = $modifier->apply(new Category(['id' => 'ghijkl']));
 
         $this->assertArraySubset([new AssignedOxObject($dbResult)], $category->oxobject);
     }

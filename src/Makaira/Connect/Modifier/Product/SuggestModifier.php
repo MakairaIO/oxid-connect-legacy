@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect\Modifier\Product;
 
-use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
@@ -24,10 +23,9 @@ class SuggestModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
-     * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(Type $product, DatabaseInterface $database)
+    public function apply(Type $product)
     {
         $suggest = [];
         foreach ($this->suggestFields as $suggestField) {

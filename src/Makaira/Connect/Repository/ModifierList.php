@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect\Repository;
 
-use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
@@ -10,6 +9,13 @@ class ModifierList
 {
     /** @var Modifier[] */
     private $modifiers = [];
+
+    public function __construct(array $modifiers = array())
+    {
+        foreach ($modifiers as $modifier) {
+            $this->addModifier($modifier);
+        }
+    }
 
     /**
      * Add a modifier.
@@ -22,15 +28,14 @@ class ModifierList
 
     /**
      * Apply modifiers to datum.
-     * @param Type $datum
-     * @param DatabaseInterface $database
+     * @param Type $type
      * @return Type
      */
-    public function applyModifiers(Type $datum, DatabaseInterface $database)
+    public function applyModifiers(Type $type)
     {
         foreach ($this->modifiers as $modifier) {
-            $datum = $modifier->apply($datum, $database);
+            $type = $modifier->apply($type);
         }
-        return $datum;
+        return $type;
     }
 }

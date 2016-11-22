@@ -26,9 +26,9 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
             ->method('query')
             ->will($this->returnValue([$dbResult]));
 
-        $modifier = new AttributeModifier();
+        $modifier = new AttributeModifier($dbMock);
 
-        $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]), $dbMock);
+        $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]));
 
         $this->assertArraySubset([new AssignedAttribute($dbResult)], $product->attribute);
     }

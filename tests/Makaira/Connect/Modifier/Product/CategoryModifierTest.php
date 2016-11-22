@@ -31,9 +31,9 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
         $product->id = 'abc';
         $product->OXACTIVE = 1;
 
-        $modifier = new CategoryModifier(false);
+        $modifier = new CategoryModifier($dbMock, false);
 
-        $product = $modifier->apply($product, $dbMock);
+        $product = $modifier->apply($product);
 
         $this->assertEquals(
             [
@@ -93,9 +93,9 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
         $product->id = 'abc';
         $product->OXACTIVE = 1;
 
-        $modifier = new CategoryModifier(true);
+        $modifier = new CategoryModifier($dbMock, true);
 
-        $product = $modifier->apply($product, $dbMock);
+        $product = $modifier->apply($product);
 
         $this->assertEquals(
             [

@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
-use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Utils\ContentParserInterface;
 use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
@@ -25,10 +24,9 @@ class LongDescriptionModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
-     * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(Type $product, DatabaseInterface $database)
+    public function apply(Type $product)
     {
         $product->OXLONGDESC = trim(strip_tags($this->contentParser->parseContent($product->OXLONGDESC)));
         return $product;

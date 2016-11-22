@@ -41,15 +41,24 @@ class AttributeModifier extends Modifier
                         ";
 
     /**
+     * @var DatabaseInterface
+     */
+    private $database;
+
+    public function __construct(DatabaseInterface $database)
+    {
+        $this->database = $database;
+    }
+
+    /**
      * Modify product and return modified product
      *
      * @param BaseProduct $product
-     * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(Type $product, DatabaseInterface $database)
+    public function apply(Type $product)
     {
-        $attributes = $database->query(
+        $attributes = $this->database->query(
             $this->selectAttributesQuery, [
             'productActive' => $product->OXACTIVE,
             'productId'     => $product->id,

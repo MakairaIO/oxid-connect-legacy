@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
-use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
@@ -29,10 +28,9 @@ class PriceModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
-     * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(Type $product, DatabaseInterface $database)
+    public function apply(Type $product)
     {
         if ($this->isNetto && !$this->showNetto) {
             $prices = array_filter(

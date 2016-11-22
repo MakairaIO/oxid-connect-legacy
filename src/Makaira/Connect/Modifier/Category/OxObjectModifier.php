@@ -20,15 +20,24 @@ class OxObjectModifier extends Modifier
     ";
 
     /**
+     * @var DatabaseInterface
+     */
+    private $database;
+
+    public function __construct(DatabaseInterface $database)
+    {
+        $this->database = $database;
+    }
+
+    /**
      * Modify product and return modified product
      *
      * @param Category $category
-     * @param DatabaseInterface $database
      * @return Category
      */
-    public function apply(Type $category, DatabaseInterface $database)
+    public function apply(Type $category)
     {
-        $objects = $database->query($this->selectQuery, ['categoryId' => $category->id]);
+        $objects = $this->database->query($this->selectQuery, ['categoryId' => $category->id]);
         if (!empty($objects)) {
             foreach ($objects as $object) {
                 $category->oxobject[] = new AssignedOxObject($object);

@@ -19,11 +19,17 @@ class Product2ShopModifier extends Modifier
     ';
 
     /**
-     * Product2ShopModifier constructor.
-     * @param bool $isMall
+     * @var DatabaseInterface
      */
-    public function __construct($isMultiShop)
+    private $database;
+
+    /**
+     * @param DatabaseInterface $database
+     * @param bool $isMultiShop
+     */
+    public function __construct(DatabaseInterface $database, $isMultiShop)
     {
+        $this->database = $database;
         $this->isMultiShop = $isMultiShop;
     }
 
@@ -31,13 +37,12 @@ class Product2ShopModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
-     * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(Type $product, DatabaseInterface $database)
+    public function apply(Type $product)
     {
         if ($this->isMultiShop) {
-            $product->shop = $database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);
+            $product->shop = $this->database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);
             $product->shop = array_map(function($x) { return $x['OXSHOPID']; }, $product->shop);
         } else {
             $product->shop = [$product->OXSHOPID];

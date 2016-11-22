@@ -15,8 +15,8 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
             ->method('query');
         $product = new BaseProduct();
         $product->OXSHOPID = 'test';
-        $modifier = new Product2ShopModifier(false);
-        $product = $modifier->apply($product, $dbMock);
+        $modifier = new Product2ShopModifier($dbMock, false);
+        $product = $modifier->apply($product);
         $this->assertEquals(['test'], $product->shop);
     }
 
@@ -30,8 +30,8 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([['OXSHOPID' => 1], ['OXSHOPID' => 2]]));
         $product = new BaseProduct();
         $product->OXMAPID = 1;
-        $modifier = new Product2ShopModifier(true);
-        $product = $modifier->apply($product, $dbMock);
+        $modifier = new Product2ShopModifier($dbMock, true);
+        $product = $modifier->apply($product);
         $this->assertEquals([1, 2], $product->shop);
     }
 }

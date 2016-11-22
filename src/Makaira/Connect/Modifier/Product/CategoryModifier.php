@@ -49,11 +49,17 @@ class CategoryModifier extends Modifier
                          ";
 
     /**
-     * CategoryModifier constructor.
+     * @var DatabaseInterface
+     */
+    private $database;
+
+    /**
+     * @param DatabaseInterface $database
      * @param bool $deepInheritance
      */
-    public function __construct($deepInheritance)
+    public function __construct(DatabaseInterface $database, $deepInheritance)
     {
+        $this->database = $database;
         $this->deepInheritance = $deepInheritance;
     }
 
@@ -61,12 +67,11 @@ class CategoryModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
-     * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(Type $product, DatabaseInterface $database)
+    public function apply(Type $product)
     {
-        $categories = $database->query(
+        $categories = $this->database->query(
             $this->selectCategoriesQuery,
             [
                 'productId' => $product->id,
@@ -81,11 +86,11 @@ class CategoryModifier extends Modifier
         if ($this->deepInheritance) {
             /** @var AssignedCategory $category */
             foreach ($categories as $category) {
-                $leftRightRoot = $database->query($this->selectLeftRightRootQuery, ['catid' => $category->catid]);
+                $leftRightRoot = $this->database->query($this->selectLeftRightRootQuery, ['catid' => $category->catid]);
                 if (!empty($leftRightRoot)) {
                     $leftRightRoot = reset($leftRightRoot);
                     $leftRightRoot['shopid'] = $category->shopid;
-                    $categoryPath = $database->query($this->selectDeepCategoriesQuery, $leftRightRoot);
+                    $categoryPath = $this->database->query($this->selectDeepCategoriesQuery, $leftRightRoot);
                     foreach ($categoryPath as $cat) {
                         $categories[] = new AssignedCategory($cat);
                     }
