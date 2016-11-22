@@ -1,11 +1,11 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
+namespace Makaira\Connect;
 
 
 use Kore\DataObject\DataObject;
 
-class ChangeDatum extends DataObject
+class Type extends DataObject
 {
     public $id;
     public $timestamp;

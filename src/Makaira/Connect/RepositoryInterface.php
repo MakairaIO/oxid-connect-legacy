@@ -2,7 +2,7 @@
 namespace Makaira\Connect;
 
 use Makaira\Connect\Result\Changes;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 
 interface RepositoryInterface
 {
@@ -41,9 +41,9 @@ interface RepositoryInterface
 
     /**
      * Apply modifiers to datum.
-     * @param ChangeDatum $datum
+     * @param Type $datum
      * @param DatabaseInterface $database
-     * @return ChangeDatum
+     * @return Type
      */
-    public function applyModifiers(ChangeDatum $datum, DatabaseInterface $database);
+    public function applyModifiers(Type $datum, DatabaseInterface $database);
 }

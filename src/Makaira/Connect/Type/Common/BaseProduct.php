@@ -2,11 +2,13 @@
 
 namespace Makaira\Connect\Type\Common;
 
+use Makaira\Connect\Type;
+
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class BaseProduct extends ChangeDatum
+class BaseProduct extends Type
 {
     public $OXMAPID;
     public $OXSHOPID;

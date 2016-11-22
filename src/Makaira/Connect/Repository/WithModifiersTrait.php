@@ -3,7 +3,7 @@
 namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
 trait WithModifiersTrait
@@ -22,11 +22,11 @@ trait WithModifiersTrait
 
     /**
      * Apply modifiers to datum.
-     * @param ChangeDatum $datum
+     * @param Type $datum
      * @param DatabaseInterface $database
-     * @return ChangeDatum
+     * @return Type
      */
-    public function applyModifiers(ChangeDatum $datum, DatabaseInterface $database)
+    public function applyModifiers(Type $datum, DatabaseInterface $database)
     {
         foreach ($this->modifiers as $modifier) {
             $datum = $modifier->apply($datum, $database);

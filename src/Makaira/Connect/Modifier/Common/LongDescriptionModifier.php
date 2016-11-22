@@ -4,7 +4,7 @@ namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Utils\ContentParserInterface;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
 class LongDescriptionModifier extends Modifier
@@ -21,7 +21,6 @@ class LongDescriptionModifier extends Modifier
         $this->contentParser = $contentParser;
     }
 
-
     /**
      * Modify product and return modified product
      *
@@ -29,7 +28,7 @@ class LongDescriptionModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(ChangeDatum $product, DatabaseInterface $database)
+    public function apply(Type $product, DatabaseInterface $database)
     {
         $product->OXLONGDESC = trim(strip_tags($this->contentParser->parseContent($product->OXLONGDESC)));
         return $product;

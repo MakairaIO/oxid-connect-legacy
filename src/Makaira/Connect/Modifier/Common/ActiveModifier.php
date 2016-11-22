@@ -2,15 +2,13 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
-
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Product\Product;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
 class ActiveModifier extends Modifier
 {
-
     /**
      * Modify product and return modified product
      *
@@ -18,7 +16,7 @@ class ActiveModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(ChangeDatum $product, DatabaseInterface $database)
+    public function apply(Type $product, DatabaseInterface $database)
     {
         $product->active = (bool)$product->OXACTIVE;
         if (isset($product->OXHIDDEN)) {

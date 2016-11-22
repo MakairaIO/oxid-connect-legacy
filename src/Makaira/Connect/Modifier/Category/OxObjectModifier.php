@@ -2,15 +2,13 @@
 
 namespace Makaira\Connect\Modifier\Category;
 
-
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Type\Category\AssignedOxObject;
 use Makaira\Connect\Modifier;
 
 class OxObjectModifier extends Modifier
 {
-
     protected $selectQuery = "
       SELECT
         oxobject2category.oxobjectid AS `oxid`,
@@ -28,7 +26,7 @@ class OxObjectModifier extends Modifier
      * @param DatabaseInterface $database
      * @return Category
      */
-    public function apply(ChangeDatum $category, DatabaseInterface $database)
+    public function apply(Type $category, DatabaseInterface $database)
     {
         $objects = $database->query($this->selectQuery, ['categoryId' => $category->id]);
         if (!empty($objects)) {

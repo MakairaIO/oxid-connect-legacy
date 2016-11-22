@@ -2,16 +2,14 @@
 
 namespace Makaira\Connect;
 
-use Makaira\Connect\Type\Common\ChangeDatum;
-
 abstract class Modifier
 {
     /**
      * Modify product and return modified product
      *
-     * @param ChangeDatum $datum
+     * @param Type $type
      * @param DatabaseInterface $database
-     * @return ChangeDatum
+     * @return Type
      */
-    abstract public function apply(ChangeDatum $datum, DatabaseInterface $database);
+    abstract public function apply(Type $type, DatabaseInterface $database);
 }

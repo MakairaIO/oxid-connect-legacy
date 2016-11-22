@@ -2,9 +2,8 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
-
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Type\Common\AssignedAttribute;
 use Makaira\Connect\Modifier;
 
@@ -48,7 +47,7 @@ class AttributeModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(ChangeDatum $product, DatabaseInterface $database)
+    public function apply(Type $product, DatabaseInterface $database)
     {
         $attributes = $database->query(
             $this->selectAttributesQuery, [

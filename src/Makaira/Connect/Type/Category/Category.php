@@ -2,14 +2,13 @@
 
 namespace Makaira\Connect\Type\Category;
 
-
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Category extends ChangeDatum
+class Category extends Type
 {
     public $oxobject = [];
     public $OXACTIVE;

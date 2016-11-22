@@ -3,7 +3,7 @@
 namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
 class PriceModifier extends Modifier
@@ -32,7 +32,7 @@ class PriceModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(ChangeDatum $product, DatabaseInterface $database)
+    public function apply(Type $product, DatabaseInterface $database)
     {
         if ($this->isNetto && !$this->showNetto) {
             $prices = array_filter(

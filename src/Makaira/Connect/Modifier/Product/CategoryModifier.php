@@ -5,7 +5,7 @@ namespace Makaira\Connect\Modifier\Product;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\Type\Common\AssignedCategory;
-use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
 class CategoryModifier extends Modifier
@@ -64,7 +64,7 @@ class CategoryModifier extends Modifier
      * @param DatabaseInterface $database
      * @return BaseProduct
      */
-    public function apply(ChangeDatum $product, DatabaseInterface $database)
+    public function apply(Type $product, DatabaseInterface $database)
     {
         $categories = $database->query(
             $this->selectCategoriesQuery,
