@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
+class ComposerStaticInitd36003a9dfa2385d7902e29564cbe773
 {
     public static $prefixLengthsPsr4 = array (
         'p' => 
@@ -635,6 +635,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'PHP_Token_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_VARNAME' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_SUPER' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_SWITCH' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_Stream' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream.php',
         'PHP_Token_Stream_CachingFactory' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream/CachingFactory.php',
@@ -649,6 +650,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'PHP_Token_UNSET' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_UNSET_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_USE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_USE_FUNCTION' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VAR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VARIABLE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_WHERE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -831,10 +833,10 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$classMap;
 
         }, null, ClassLoader::class);
     }
