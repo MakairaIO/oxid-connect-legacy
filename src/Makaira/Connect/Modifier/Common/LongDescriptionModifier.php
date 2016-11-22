@@ -1,10 +1,11 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
-
+namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Utils\ContentParserInterface;
+use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Modifier;
 
 class LongDescriptionModifier extends Modifier
 {

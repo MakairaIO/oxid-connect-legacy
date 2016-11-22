@@ -1,13 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Type\Product;
-
+namespace Makaira\Connect\Modifier\Product;
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\Type\Common\AssignedCategory;
 use Makaira\Connect\Type\Common\ChangeDatum;
-use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Modifier;
 
 class CategoryModifier extends Modifier
 {

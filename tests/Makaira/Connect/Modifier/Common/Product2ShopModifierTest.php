@@ -1,9 +1,9 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
-
+namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\Common\BaseProduct;
 
 class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
 {

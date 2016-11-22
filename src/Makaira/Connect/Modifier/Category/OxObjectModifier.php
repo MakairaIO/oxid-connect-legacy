@@ -1,11 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Type\Category;
+namespace Makaira\Connect\Modifier\Category;
 
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\ChangeDatum;
-use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Type\Category\AssignedOxObject;
+use Makaira\Connect\Modifier;
 
 class OxObjectModifier extends Modifier
 {

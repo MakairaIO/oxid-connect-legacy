@@ -1,10 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
+namespace Makaira\Connect\Modifier\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Product\Product;
+use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Modifier;
 
 class ActiveModifier extends Modifier
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Makaira\Connect\Type\Product;
+namespace Makaira\Connect\Modifier\Product;
 
-
+use Makaira\Connect\Type\Product\Product;
 use Makaira\Connect\DatabaseInterface;
 
 class SuggestModifierTest extends \PHPUnit_Framework_TestCase

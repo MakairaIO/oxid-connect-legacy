@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: benjamin
- * Date: 15.11.16
- * Time: 13:48
- */
 
-namespace Makaira\Connect\Type\Product;
-
+namespace Makaira\Connect\Modifier\Product;
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\Product\Product;
 
 class TrackingModifierTest extends \PHPUnit_Framework_TestCase
 {

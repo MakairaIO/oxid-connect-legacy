@@ -1,9 +1,10 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
-
+namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Modifier;
 
 class Product2ShopModifier extends Modifier
 {

@@ -6,7 +6,7 @@ namespace Makaira\Connect\Repository;
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
-use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Modifier;
 use Makaira\Connect\Type\Variant\Variant;
 
 class VariantRepositoryTest extends \PHPUnit_Framework_TestCase

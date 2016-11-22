@@ -1,14 +1,13 @@
 <?php
 
-namespace Makaira\Connect\Type\Product;
-
+namespace Makaira\Connect\Modifier\Product;
 
 use Makaira\Connect\Type\Common\AssignedCategory;
+use Makaira\Connect\Type\Product\Product;
 use Makaira\Connect\DatabaseInterface;
 
 class CategoryModifierTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testUnnested()
     {
         $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);

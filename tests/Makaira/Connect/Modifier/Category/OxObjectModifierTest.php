@@ -1,9 +1,10 @@
 <?php
 
-namespace Makaira\Connect\Type\Category;
-
+namespace Makaira\Connect\Modifier\Category;
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\Category\Category;
+use Makaira\Connect\Type\Category\AssignedOxObject;
 
 class OxObjectModifierTest extends \PHPUnit_Framework_TestCase
 {

@@ -5,7 +5,7 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\ChangeDatum;
-use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Modifier;
 
 trait WithModifiersTrait
 {

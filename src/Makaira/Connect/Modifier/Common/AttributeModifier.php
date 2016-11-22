@@ -1,9 +1,12 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
+namespace Makaira\Connect\Modifier\Common;
 
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\Common\ChangeDatum;
+use Makaira\Connect\Type\Common\AssignedAttribute;
+use Makaira\Connect\Modifier;
 
 /**
  * Class AttributeModifier

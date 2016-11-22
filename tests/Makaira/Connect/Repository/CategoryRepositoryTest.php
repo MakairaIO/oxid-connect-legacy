@@ -7,7 +7,7 @@ use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Category\Category;
-use Makaira\Connect\Type\Common\Modifier;
+use Makaira\Connect\Modifier;
 
 class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 {

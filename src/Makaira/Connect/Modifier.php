@@ -1,8 +1,8 @@
 <?php
 
-namespace Makaira\Connect\Type\Common;
+namespace Makaira\Connect;
 
-use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Type\Common\ChangeDatum;
 
 abstract class Modifier
 {
