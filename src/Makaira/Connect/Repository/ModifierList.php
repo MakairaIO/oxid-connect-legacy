@@ -2,8 +2,8 @@
 
 namespace Makaira\Connect\Repository;
 
-use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
+use Makaira\Connect\Type;
 
 class ModifierList
 {
@@ -19,6 +19,7 @@ class ModifierList
 
     /**
      * Add a modifier.
+     *
      * @param Modifier $modifier
      */
     public function addModifier(Modifier $modifier)
@@ -28,7 +29,9 @@ class ModifierList
 
     /**
      * Apply modifiers to datum.
+     *
      * @param Type $type
+     *
      * @return Type
      */
     public function applyModifiers(Type $type)
@@ -36,6 +39,7 @@ class ModifierList
         foreach ($this->modifiers as $modifier) {
             $type = $modifier->apply($type);
         }
+
         return $type;
     }
 }

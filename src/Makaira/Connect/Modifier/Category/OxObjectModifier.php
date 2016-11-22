@@ -3,9 +3,9 @@
 namespace Makaira\Connect\Modifier\Category;
 
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 use Makaira\Connect\Type\Category\AssignedOxObject;
-use Makaira\Connect\Modifier;
 
 class OxObjectModifier extends Modifier
 {
@@ -33,6 +33,7 @@ class OxObjectModifier extends Modifier
      * Modify product and return modified product
      *
      * @param Category $category
+     *
      * @return Category
      */
     public function apply(Type $category)
@@ -43,6 +44,7 @@ class OxObjectModifier extends Modifier
                 $category->oxobject[] = new AssignedOxObject($object);
             }
         }
+
         return $category;
     }
 }

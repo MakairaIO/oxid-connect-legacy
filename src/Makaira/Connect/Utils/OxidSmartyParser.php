@@ -12,12 +12,13 @@ class OxidSmartyParser implements ContentParserInterface
 
     /**
      * OxidSmartyParser constructor.
-     * @param \oxLang $oxLang
+     *
+     * @param \oxLang      $oxLang
      * @param \oxUtilsView $oxUtilsView
      */
     public function __construct(\oxLang $oxLang, \oxUtilsView $oxUtilsView)
     {
-        $this->oxLang = $oxLang;
+        $this->oxLang      = $oxLang;
         $this->oxUtilsView = $oxUtilsView;
     }
 
@@ -28,7 +29,9 @@ class OxidSmartyParser implements ContentParserInterface
 
     /**
      * Parse content through a templating engine
+     *
      * @param string $content
+     *
      * @return string
      */
     public function parseContent($content)

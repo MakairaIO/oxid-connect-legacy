@@ -2,9 +2,9 @@
 
 namespace Makaira\Connect\Modifier\Product;
 
-use Makaira\Connect\Type\Common\BaseProduct;
-use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
+use Makaira\Connect\Type;
+use Makaira\Connect\Type\Common\BaseProduct;
 
 class SuggestModifier extends Modifier
 {
@@ -12,6 +12,7 @@ class SuggestModifier extends Modifier
 
     /**
      * SuggestModifier constructor.
+     *
      * @param array $suggestFields
      */
     public function __construct(array $suggestFields)
@@ -23,6 +24,7 @@ class SuggestModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
+     *
      * @return BaseProduct
      */
     public function apply(Type $product)
@@ -31,8 +33,8 @@ class SuggestModifier extends Modifier
         foreach ($this->suggestFields as $suggestField) {
             $suggest[] = $product->$suggestField;
         }
-        $suggest = explode(',', join(',', $suggest));
-        $suggest = array_unique(array_map('trim', $suggest));
+        $suggest          = explode(',', join(',', $suggest));
+        $suggest          = array_unique(array_map('trim', $suggest));
         $product->suggest = $suggest;
 
         return $product;

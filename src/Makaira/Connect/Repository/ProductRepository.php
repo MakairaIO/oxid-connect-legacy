@@ -4,10 +4,10 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\RepositoryInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\Modifier;
 use Makaira\Connect\Type\Product\Product;
-use Makaira\Connect\RepositoryInterface;
 
 class ProductRepository implements RepositoryInterface
 {
@@ -79,14 +79,16 @@ class ProductRepository implements RepositoryInterface
 
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
-        $this->database = $database;
+        $this->database  = $database;
         $this->modifiers = $modifiers;
     }
 
     /**
      * Fetch and serialize changes.
+     *
      * @param int $since Sequence offset
      * @param int $limit Fetch limit
+     *
      * @return Changes
      */
     public function getChangesSince($since, $limit = 50)
@@ -95,8 +97,8 @@ class ProductRepository implements RepositoryInterface
 
         $changes = array();
         foreach ($result as $row) {
-            $change = new Change();
-            $change->id = $row['id'];
+            $change           = new Change();
+            $change->id       = $row['id'];
             $change->sequence = $row['sequence'];
             unset($row['sequence']);
 
@@ -104,24 +106,28 @@ class ProductRepository implements RepositoryInterface
                 $change->deleted = true;
             } else {
                 // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
-                $product = new Product($row);
-                $product = $this->modifiers->applyModifiers($product, $this->database);
+                $product      = new Product($row);
+                $product      = $this->modifiers->applyModifiers($product, $this->database);
                 $change->data = $product;
             }
             $changes[] = $change;
         }
 
-        return new Changes(array(
-            'type' => 'product',
-            'since' => $since,
-            'count' => count($changes),
-            'changes' => $changes,
-        ));
+        return new Changes(
+            array(
+                'type'    => 'product',
+                'since'   => $since,
+                'count'   => count($changes),
+                'changes' => $changes,
+            )
+        );
     }
 
     /**
      * Mark an object as updated.
+     *
      * @param string $oxid
+     *
      * @codeCoverageIgnore
      */
     public function touch($oxid)
@@ -132,7 +138,9 @@ class ProductRepository implements RepositoryInterface
 
     /**
      * Mark an object as deleted.
+     *
      * @param string $oxid
+     *
      * @codeCoverageIgnore
      */
     public function delete($oxid)
@@ -143,12 +151,15 @@ class ProductRepository implements RepositoryInterface
 
     /**
      * Check if an object has been marked as deleted.
+     *
      * @param string $oxid
+     *
      * @return bool
      */
     public function isDeleted($oxid)
     {
         $result = $this->database->query($this->isDeletedQuery, ['oxid' => $oxid]);
+
         return count($result) > 0;
     }
 }
