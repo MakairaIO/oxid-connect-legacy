@@ -101,6 +101,7 @@ return array(
     'Makaira\\Connect\\Type\\Variant\\Variant' => $baseDir . '/src/Makaira/Connect/Type/Variant/Variant.php',
     'Makaira\\Connect\\Utils\\ContentParserInterface' => $baseDir . '/src/Makaira/Connect/Utils/ContentParserInterface.php',
     'Makaira\\Connect\\Utils\\OxidSmartyParser' => $baseDir . '/src/Makaira/Connect/Utils/OxidSmartyParser.php',
+    'Marm\\Yamm\\DIC' => $vendorDir . '/marm/yamm/src/Yamm/DIC.php',
     'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
     'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
     'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',
@@ -727,4 +728,5 @@ return array(
     'makaira_connect_events' => $baseDir . '/src/oxid/core/makaira_connect_events.php',
     'makaira_connect_oxarticle' => $baseDir . '/src/oxid/application/models/makaira_connect_oxarticle.php',
     'makaira_connect_oxcategory' => $baseDir . '/src/oxid/application/models/makaira_connect_oxcategory.php',
+    'marm_yamm_oxshopcontrol' => $vendorDir . '/marm/yamm/src/oxid/core/marm_yamm_oxshopcontrol.php',
 );

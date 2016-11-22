@@ -1537,5 +1537,91 @@
             "MIT"
         ],
         "description": "Simple base class for data objects."
+    },
+    {
+        "name": "pimple/pimple",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/silexphp/Pimple.git",
+            "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/silexphp/Pimple/zipball/a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+            "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-09-11 15:10:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Pimple": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Pimple, a simple Dependency Injection Container",
+        "homepage": "http://pimple.sensiolabs.org",
+        "keywords": [
+            "container",
+            "dependency injection"
+        ]
+    },
+    {
+        "name": "marm/yamm",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/marmaladeDE/yamm.git",
+            "reference": "05d2251baa0e824b750628a2c680153aa786b364"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/05d2251baa0e824b750628a2c680153aa786b364",
+            "reference": "05d2251baa0e824b750628a2c680153aa786b364",
+            "shasum": ""
+        },
+        "require": {
+            "kore/data-object": "@stable",
+            "pimple/pimple": "@stable"
+        },
+        "require-dev": {
+            "pdepend/pdepend": "@stable",
+            "phpmd/phpmd": "@stable",
+            "phpunit/phpunit": "^4.0",
+            "squizlabs/php_codesniffer": "@stable"
+        },
+        "time": "2016-11-09 16:00:08",
+        "type": "oxid-module",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ]
     }
 ]

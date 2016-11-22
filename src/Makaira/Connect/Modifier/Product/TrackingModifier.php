@@ -15,7 +15,7 @@ class TrackingModifier extends Modifier
      * TrackingModifier constructor.
      * @param \AbstractOxSearchTracking $tracking
      */
-    public function __construct(\AbstractOxSearchTracking $tracking)
+    public function __construct(\AbstractOxSearchTracking $tracking = null)
     {
         $this->tracking = $tracking;
     }
@@ -28,6 +28,10 @@ class TrackingModifier extends Modifier
      */
     public function apply(Type $product)
     {
+        if (!$this->tracking) {
+            return $product;
+        }
+
         $product->TRACKING = $this->tracking->get('product', $product->id);
         $product->OXRATINGCNT = $product->TRACKING['rated'];
         $product->MARM_OXSEARCH_BASKETCOUNT = $product->TRACKING['basketed'];

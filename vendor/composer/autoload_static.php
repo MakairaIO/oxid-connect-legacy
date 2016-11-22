@@ -76,6 +76,10 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
             'PHPMD\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpmd/phpmd/src/main/php',
@@ -194,6 +198,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Makaira\\Connect\\Type\\Variant\\Variant' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Variant/Variant.php',
         'Makaira\\Connect\\Utils\\ContentParserInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/Utils/ContentParserInterface.php',
         'Makaira\\Connect\\Utils\\OxidSmartyParser' => __DIR__ . '/../..' . '/src/Makaira/Connect/Utils/OxidSmartyParser.php',
+        'Marm\\Yamm\\DIC' => __DIR__ . '/..' . '/marm/yamm/src/Yamm/DIC.php',
         'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
         'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
         'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',
@@ -820,6 +825,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'makaira_connect_events' => __DIR__ . '/../..' . '/src/oxid/core/makaira_connect_events.php',
         'makaira_connect_oxarticle' => __DIR__ . '/../..' . '/src/oxid/application/models/makaira_connect_oxarticle.php',
         'makaira_connect_oxcategory' => __DIR__ . '/../..' . '/src/oxid/application/models/makaira_connect_oxcategory.php',
+        'marm_yamm_oxshopcontrol' => __DIR__ . '/..' . '/marm/yamm/src/oxid/core/marm_yamm_oxshopcontrol.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
