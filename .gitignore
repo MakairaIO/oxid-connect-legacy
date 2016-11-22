@@ -11,3 +11,4 @@ vendor/symfony/
 vendor/webmozart/
 vendor/pimple/
 vendor/marm/yamm/
+.idea/

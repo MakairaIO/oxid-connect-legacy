@@ -6,6 +6,7 @@ use Makaira\Connect\Result;
 
 /**
  * Class Error
+ *
  * @package Makaira\Connect\Result
  * @codeCoverageIgnore
  */

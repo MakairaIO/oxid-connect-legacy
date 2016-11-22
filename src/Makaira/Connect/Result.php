@@ -4,6 +4,7 @@ namespace Makaira\Connect;
 
 /**
  * Class Result
+ *
  * @package Makaira\Connect
  * @codeCoverageIgnore
  */

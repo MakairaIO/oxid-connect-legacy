@@ -2,9 +2,9 @@
 
 namespace Makaira\Connect\Modifier\Product;
 
-use Makaira\Connect\Type\Common\BaseProduct;
-use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
+use Makaira\Connect\Type;
+use Makaira\Connect\Type\Common\BaseProduct;
 
 class TrackingModifier extends Modifier
 {
@@ -13,6 +13,7 @@ class TrackingModifier extends Modifier
 
     /**
      * TrackingModifier constructor.
+     *
      * @param \AbstractOxSearchTracking $tracking
      */
     public function __construct(\AbstractOxSearchTracking $tracking = null)
@@ -24,6 +25,7 @@ class TrackingModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
+     *
      * @return BaseProduct
      */
     public function apply(Type $product)
@@ -32,11 +34,12 @@ class TrackingModifier extends Modifier
             return $product;
         }
 
-        $product->TRACKING = $this->tracking->get('product', $product->id);
-        $product->OXRATINGCNT = $product->TRACKING['rated'];
+        $product->TRACKING                  = $this->tracking->get('product', $product->id);
+        $product->OXRATINGCNT               = $product->TRACKING['rated'];
         $product->MARM_OXSEARCH_BASKETCOUNT = $product->TRACKING['basketed'];
-        $product->MARM_OXSEARCH_REQCOUNT = $product->TRACKING['requested'];
-        $product->OXSOLDAMOUNT = $product->TRACKING['sold'];
+        $product->MARM_OXSEARCH_REQCOUNT    = $product->TRACKING['requested'];
+        $product->OXSOLDAMOUNT              = $product->TRACKING['sold'];
+
         return $product;
     }
 }

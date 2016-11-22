@@ -4,10 +4,10 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\RepositoryInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\Modifier;
 use Makaira\Connect\Type\Product\Product;
-use Makaira\Connect\RepositoryInterface;
 
 class ProductRepository implements RepositoryInterface
 {
@@ -66,7 +66,7 @@ class ProductRepository implements RepositoryInterface
 
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
-        $this->database = $database;
+        $this->database  = $database;
         $this->modifiers = $modifiers;
     }
 
@@ -89,7 +89,9 @@ class ProductRepository implements RepositoryInterface
 
     /**
      * Mark an object as updated.
+     *
      * @param string $oxid
+     *
      * @codeCoverageIgnore
      */
     // @TODO: Move to Makaira\Connect\Repository
@@ -101,7 +103,9 @@ class ProductRepository implements RepositoryInterface
 
     /**
      * Mark an object as deleted.
+     *
      * @param string $oxid
+     *
      * @codeCoverageIgnore
      */
     // @TODO: Move to Makaira\Connect\Repository

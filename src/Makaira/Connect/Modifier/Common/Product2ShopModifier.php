@@ -3,8 +3,8 @@
 namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
+use Makaira\Connect\Type;
 
 class Product2ShopModifier extends Modifier
 {
@@ -25,11 +25,11 @@ class Product2ShopModifier extends Modifier
 
     /**
      * @param DatabaseInterface $database
-     * @param bool $isMultiShop
+     * @param bool              $isMultiShop
      */
     public function __construct(DatabaseInterface $database, $isMultiShop)
     {
-        $this->database = $database;
+        $this->database    = $database;
         $this->isMultiShop = $isMultiShop;
     }
 
@@ -37,6 +37,7 @@ class Product2ShopModifier extends Modifier
      * Modify product and return modified product
      *
      * @param BaseProduct $product
+     *
      * @return BaseProduct
      */
     public function apply(Type $product)
