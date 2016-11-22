@@ -61,7 +61,8 @@ class Repository
      * @param int $limit Fetch limit
      * @return Changes
      */
-    public function getChangesSince($since, $limit = 50) {
+    public function getChangesSince($since, $limit = 50)
+    {
         $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
 
         $changes = array();
@@ -72,7 +73,7 @@ class Repository
             $changes[] = $change;
         }
 
-        return new Changes( array(
+        return new Changes(array(
             'since' => $since,
             'count' => count($changes),
             'changes' => $changes,
