@@ -10,24 +10,8 @@ $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
-$dic['pdo.database'] = function (\Marm\Yamm\DIC $dic) {
-    $config = oxRegistry::getConfig();
-    $dsn = \Makaira\Connect\PdoDatabase::buildMySqlDsn(
-        $config->getConfigParam('dbHost'),
-        $config->getConfigParam('dbName'),
-        $config->isUtf()
-    );
-    return new \Makaira\Connect\PdoDatabase(
-        new \PDO(
-            $dsn,
-            $config->getConfigParam('dbUser'),
-            $config->getConfigParam('dbPwd')
-        )
-    );
-};
-
 $dic['makaira.database'] = function (\Marm\Yamm\DIC $dic) {
-    return $dic['pdo.database'];
+    return $dic['oxid.database'];
 };
 
 $dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
