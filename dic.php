@@ -23,6 +23,17 @@ $dic['makaira.content_parser'] = function (\Marm\Yamm\DIC $dic) {
 
 // --------------------------------------
 
+$dic['makaira.connect.repository'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Repository(
+        $dic['oxid.database'],
+        [
+            'product'  => $dic['makaira.connect.repository.product'],
+            'variant'  => $dic['makaira.connect.repository.variant'],
+            'category' => $dic['makaira.connect.repository.category'],
+        ]
+    );
+};
+
 $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\ProductRepository(
         $dic['oxid.database'],

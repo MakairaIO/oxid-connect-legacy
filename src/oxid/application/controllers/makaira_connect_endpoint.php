@@ -75,13 +75,8 @@ class makaira_connect_endpoint extends oxUBase
         /** @var \Marm\Yamm\DIC $dic */
         $dic = oxRegistry::get('yamm_dic');
         $since = oxRegistry::getConfig()->getRequestParameter('since');
-        $repository = oxRegistry::getConfig()->getRequestParameter('repository') ?: 'product';
-        $repository = "makaira.connect.repository.{$repository}";
-        if (!$dic->offsetExists($repository)) {
-            throw new Exception('Repository not found', 404);
-        }
-        /** @var \Makaira\Connect\Repository\RepositoryInterface $repository */
-        $repository = $dic[$repository];
+        /** @var \Makaira\Connect\Repository $repository */
+        $repository = $dic['makaira.connect.repository'];
         return $repository->getChangesSince($since);
     }
 

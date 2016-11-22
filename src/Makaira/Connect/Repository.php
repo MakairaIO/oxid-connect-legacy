@@ -70,6 +70,7 @@ class Repository
             $change = $this->getRepositoryForType($row['type'])->get($row['id']);
             $change->id = $row['id'];
             $change->sequence = $row['sequence'];
+            $change->type = $row['type'];
             $changes[] = $change;
         }
 
