@@ -24,7 +24,7 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     {
         $result = parent::delete($sOXID);
         if ($result) {
-            $this->getRepository()->delete('category', $sOXID ?: $this->getId());
+            $this->getRepository()->touch('category', $sOXID ?: $this->getId());
         }
         return $result;
     }
