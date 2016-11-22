@@ -72,6 +72,11 @@ class CategoryRepository implements RepositoryInterface
         $this->modifiers = $modifiers;
     }
 
+    public function get($id)
+    {
+        return null;
+    }
+
     /**
      * Fetch and serialize changes.
      * @param int $since Sequence offset
@@ -117,8 +122,8 @@ class CategoryRepository implements RepositoryInterface
      */
     public function touch($oxid)
     {
-        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->query($this->undeleteQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->undeleteQuery, ['oxid' => $oxid]);
     }
 
     /**
@@ -128,8 +133,8 @@ class CategoryRepository implements RepositoryInterface
      */
     public function delete($oxid)
     {
-        $this->database->query($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->query($this->deleteQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
+        $this->database->execute($this->deleteQuery, ['oxid' => $oxid]);
     }
 
     /**

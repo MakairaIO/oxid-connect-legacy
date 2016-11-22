@@ -83,6 +83,7 @@ return array(
     'Makaira\\Connect\\Modifier\\Product\\CategoryModifier' => $baseDir . '/src/Makaira/Connect/Modifier/Product/CategoryModifier.php',
     'Makaira\\Connect\\Modifier\\Product\\SuggestModifier' => $baseDir . '/src/Makaira/Connect/Modifier/Product/SuggestModifier.php',
     'Makaira\\Connect\\Modifier\\Product\\TrackingModifier' => $baseDir . '/src/Makaira/Connect/Modifier/Product/TrackingModifier.php',
+    'Makaira\\Connect\\Repository' => $baseDir . '/src/Makaira/Connect/Repository.php',
     'Makaira\\Connect\\RepositoryInterface' => $baseDir . '/src/Makaira/Connect/RepositoryInterface.php',
     'Makaira\\Connect\\Repository\\CategoryRepository' => $baseDir . '/src/Makaira/Connect/Repository/CategoryRepository.php',
     'Makaira\\Connect\\Repository\\ModifierList' => $baseDir . '/src/Makaira/Connect/Repository/ModifierList.php',

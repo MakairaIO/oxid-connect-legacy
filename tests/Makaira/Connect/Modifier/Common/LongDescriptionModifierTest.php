@@ -12,7 +12,7 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testShortText()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $parserMock = $this->getMock(ContentParserInterface::class);
         $parserMock
             ->expects($this->once())
@@ -27,7 +27,7 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testShortTextWithHTML()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $parserMock = $this->getMock(ContentParserInterface::class);
         $parserMock
             ->expects($this->once())
@@ -42,7 +42,7 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testTrimming()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $parserMock = $this->getMock(ContentParserInterface::class);
         $parserMock
             ->expects($this->once())

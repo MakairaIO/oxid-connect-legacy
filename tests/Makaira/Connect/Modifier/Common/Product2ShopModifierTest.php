@@ -9,7 +9,7 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testCEPE()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $dbMock
             ->expects($this->never())
             ->method('query');
@@ -22,7 +22,7 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testEE()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $dbMock
             ->expects($this->once())
             ->method('query')

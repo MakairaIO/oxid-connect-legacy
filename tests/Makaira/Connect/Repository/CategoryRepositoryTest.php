@@ -14,7 +14,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadProduct()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
@@ -48,7 +48,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testRunModifierLoadProduct()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
@@ -73,7 +73,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDeletedMarker()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 

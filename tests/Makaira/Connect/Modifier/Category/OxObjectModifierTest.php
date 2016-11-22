@@ -11,7 +11,7 @@ class OxObjectModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testApply()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $dbResult = [
             'oxid' => 'abcdef',
             'oxpos' => 42,

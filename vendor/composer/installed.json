@@ -36,44 +36,6 @@
         "description": "Simple base class for data objects."
     },
     {
-        "name": "marm/yamm",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/marmaladeDE/yamm.git",
-            "reference": "05d2251baa0e824b750628a2c680153aa786b364"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/05d2251baa0e824b750628a2c680153aa786b364",
-            "reference": "05d2251baa0e824b750628a2c680153aa786b364",
-            "shasum": ""
-        },
-        "require": {
-            "kore/data-object": "@stable",
-            "pimple/pimple": "@stable"
-        },
-        "require-dev": {
-            "pdepend/pdepend": "@stable",
-            "phpmd/phpmd": "@stable",
-            "phpunit/phpunit": "^4.0",
-            "squizlabs/php_codesniffer": "@stable"
-        },
-        "time": "2016-11-09 16:00:08",
-        "type": "oxid-module",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ]
-    },
-    {
         "name": "symfony/yaml",
         "version": "v3.1.7",
         "version_normalized": "3.1.7.0",
@@ -1623,6 +1585,44 @@
         "keywords": [
             "container",
             "dependency injection"
+        ]
+    },
+    {
+        "name": "marm/yamm",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/marmaladeDE/yamm.git",
+            "reference": "05d2251baa0e824b750628a2c680153aa786b364"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/05d2251baa0e824b750628a2c680153aa786b364",
+            "reference": "05d2251baa0e824b750628a2c680153aa786b364",
+            "shasum": ""
+        },
+        "require": {
+            "kore/data-object": "@stable",
+            "pimple/pimple": "@stable"
+        },
+        "require-dev": {
+            "pdepend/pdepend": "@stable",
+            "phpmd/phpmd": "@stable",
+            "phpunit/phpunit": "^4.0",
+            "squizlabs/php_codesniffer": "@stable"
+        },
+        "time": "2016-11-09 16:00:08",
+        "type": "oxid-module",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
         ]
     }
 ]

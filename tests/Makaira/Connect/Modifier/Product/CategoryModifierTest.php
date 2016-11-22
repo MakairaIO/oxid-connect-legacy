@@ -10,7 +10,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testUnnested()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $dbMock
             ->expects($this->once())
             ->method('query')
@@ -50,7 +50,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testNested()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $dbMock
             ->expects($this->exactly(3))
             ->method('query')

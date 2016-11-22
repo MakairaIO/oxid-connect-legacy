@@ -9,7 +9,7 @@ class SuggestModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testModifier()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $modifier = new SuggestModifier(['OXTITLE', 'OXTAGS']);
         $product = new Product();
         $product->OXTITLE = 'Test case';

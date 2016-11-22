@@ -12,7 +12,7 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 
     public function testApply()
     {
-        $dbMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $dbMock = $this->getMock(DatabaseInterface::class);
         $oxid = 'abcdef';
         $dbResult = [
             'active' => 1,

@@ -13,7 +13,7 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadVariant()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new VariantRepository($databaseMock, $modifiersMock);
 
@@ -47,7 +47,7 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testRunModifierLoadVariant()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new VariantRepository($databaseMock, $modifiersMock);
 
@@ -72,7 +72,7 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDeletedMarker()
     {
-        $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
+        $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
         $repository = new VariantRepository($databaseMock, $modifiersMock);
 
