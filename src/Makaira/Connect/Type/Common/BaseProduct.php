@@ -1,16 +1,16 @@
 <?php
 
-namespace Makaira\Connect\Change;
+namespace Makaira\Connect\Type\Common;
+
+use Makaira\Connect\Type;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class LegacyProduct extends \Kore\DataObject\DataObject
+class BaseProduct extends Type
 {
-    public $id;
-    public $timestamp;
-    public $OXID;
+    public $OXMAPID;
     public $OXSHOPID;
     public $OXPARENTID;
     public $OXACTIVE;
@@ -122,9 +122,13 @@ class LegacyProduct extends \Kore\DataObject\DataObject
     public $OXUPDATEPRICETIME;
     public $OXISDOWNLOADABLE;
     public $OXSHOWCUSTOMAGREEMENT;
+
+    public $OXHIDDEN;
+
+    public $OXLONGDESC;
+    public $OXTAGS;
+
     public $MARM_OXSEARCH_BOOST;
     public $MARM_OXSEARCH_PROFITMARGIN;
-    public $oxlongdesc;
-    public $oxtags;
-    public $MARM_OXSEARCH_MANUFACTURERTITLE;
+    public $attribute = [];
 }

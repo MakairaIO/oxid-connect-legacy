@@ -1,13 +1,15 @@
 <?php
 
-namespace Makaira\Connect;
+namespace Makaira\Connect\Database;
+
+use Makaira\Connect\DatabaseInterface;
 
 /**
  * Simple database facade so we do not need to set fetch mode before each query
  *
  * @version $Revision$
  */
-class Database
+class OxidDatabase implements DatabaseInterface
 {
     /**
      * @var \oxLegacyDb
@@ -33,10 +35,21 @@ class Database
     {
         foreach ($parameters as $key => $value) {
             if (!is_numeric($value)) {
-                $value = $this->database->quote($value);
+                $parameters[$key] = $this->database->quote($value);
             }
-            $query = str_replace(':' . $key, $value, $query);
         }
+
+        $query = preg_replace_callback(
+            '(:(?P<key>[A-Za-z0-9]+)(?P<end>[^A-Za-z0-9]|$))',
+            function ($match) use ($parameters) {
+                if (!isset($parameters[$match['key']])) {
+                    throw new \OutOfBoundsException("Parameter for " . $match['key'] . " missing.");
+                }
+
+                return $parameters[$match['key']] . $match['end'];
+            },
+            $query
+        );
 
         $this->database->setFetchMode(ADODB_FETCH_ASSOC);
         return $this->database->getAll($query);

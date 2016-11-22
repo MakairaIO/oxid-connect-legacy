@@ -8,9 +8,13 @@
     "squizlabs/php_codesniffer": "@stable"
   },
   "autoload": {
-    "classmap": ["src/"]
+    "classmap": ["src/"],
+    "psr-0": {
+        "Makaira": ["src/", "tests/"]
+    }
   },
   "require": {
-    "kore/data-object": "@stable"
+    "kore/data-object": "@stable",
+    "marm/yamm": "@stable"
   }
 }

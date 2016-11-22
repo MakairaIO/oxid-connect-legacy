@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
+class ComposerStaticInitd36003a9dfa2385d7902e29564cbe773
 {
     public static $prefixLengthsPsr4 = array (
         'p' => 
@@ -76,9 +76,21 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
             'PHPMD\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpmd/phpmd/src/main/php',
+            ),
+        ),
+        'M' => 
+        array (
+            'Makaira' => 
+            array (
+                0 => __DIR__ . '/../..' . '/src',
+                1 => __DIR__ . '/../..' . '/tests',
             ),
         ),
         'K' => 
@@ -156,13 +168,37 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Generic_Sniffs_WhiteSpace_DisallowTabIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
         'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
         'Makaira\\Connect\\Change' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change.php',
-        'Makaira\\Connect\\Change\\LegacyProduct' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/LegacyProduct.php',
-        'Makaira\\Connect\\Change\\Product\\Modifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Change/Product/Modifier.php',
-        'Makaira\\Connect\\Database' => __DIR__ . '/../..' . '/src/Makaira/Connect/Database.php',
-        'Makaira\\Connect\\Repository\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/Product.php',
+        'Makaira\\Connect\\DatabaseInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/DatabaseInterface.php',
+        'Makaira\\Connect\\Database\\OxidDatabase' => __DIR__ . '/../..' . '/src/Makaira/Connect/Database/OxidDatabase.php',
+        'Makaira\\Connect\\Modifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier.php',
+        'Makaira\\Connect\\Modifier\\Category\\OxObjectModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Category/OxObjectModifier.php',
+        'Makaira\\Connect\\Modifier\\Common\\ActiveModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Common/ActiveModifier.php',
+        'Makaira\\Connect\\Modifier\\Common\\AttributeModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Common/AttributeModifier.php',
+        'Makaira\\Connect\\Modifier\\Common\\LongDescriptionModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Common/LongDescriptionModifier.php',
+        'Makaira\\Connect\\Modifier\\Common\\PriceModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Common/PriceModifier.php',
+        'Makaira\\Connect\\Modifier\\Common\\Product2ShopModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Common/Product2ShopModifier.php',
+        'Makaira\\Connect\\Modifier\\Product\\CategoryModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Product/CategoryModifier.php',
+        'Makaira\\Connect\\Modifier\\Product\\SuggestModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Product/SuggestModifier.php',
+        'Makaira\\Connect\\Modifier\\Product\\TrackingModifier' => __DIR__ . '/../..' . '/src/Makaira/Connect/Modifier/Product/TrackingModifier.php',
+        'Makaira\\Connect\\RepositoryInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/RepositoryInterface.php',
+        'Makaira\\Connect\\Repository\\CategoryRepository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/CategoryRepository.php',
+        'Makaira\\Connect\\Repository\\ModifierList' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/ModifierList.php',
+        'Makaira\\Connect\\Repository\\ProductRepository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/ProductRepository.php',
+        'Makaira\\Connect\\Repository\\VariantRepository' => __DIR__ . '/../..' . '/src/Makaira/Connect/Repository/VariantRepository.php',
         'Makaira\\Connect\\Result' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result.php',
         'Makaira\\Connect\\Result\\Changes' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Changes.php',
         'Makaira\\Connect\\Result\\Error' => __DIR__ . '/../..' . '/src/Makaira/Connect/Result/Error.php',
+        'Makaira\\Connect\\Type' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type.php',
+        'Makaira\\Connect\\Type\\Category\\AssignedOxObject' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Category/AssignedOxObject.php',
+        'Makaira\\Connect\\Type\\Category\\Category' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Category/Category.php',
+        'Makaira\\Connect\\Type\\Common\\AssignedAttribute' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Common/AssignedAttribute.php',
+        'Makaira\\Connect\\Type\\Common\\AssignedCategory' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Common/AssignedCategory.php',
+        'Makaira\\Connect\\Type\\Common\\BaseProduct' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Common/BaseProduct.php',
+        'Makaira\\Connect\\Type\\Product\\Product' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Product/Product.php',
+        'Makaira\\Connect\\Type\\Variant\\Variant' => __DIR__ . '/../..' . '/src/Makaira/Connect/Type/Variant/Variant.php',
+        'Makaira\\Connect\\Utils\\ContentParserInterface' => __DIR__ . '/../..' . '/src/Makaira/Connect/Utils/ContentParserInterface.php',
+        'Makaira\\Connect\\Utils\\OxidSmartyParser' => __DIR__ . '/../..' . '/src/Makaira/Connect/Utils/OxidSmartyParser.php',
+        'Marm\\Yamm\\DIC' => __DIR__ . '/..' . '/marm/yamm/src/Yamm/DIC.php',
         'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
         'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
         'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',
@@ -599,6 +635,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'PHP_Token_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_VARNAME' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_SUPER' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_SWITCH' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_Stream' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream.php',
         'PHP_Token_Stream_CachingFactory' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream/CachingFactory.php',
@@ -613,6 +650,7 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'PHP_Token_UNSET' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_UNSET_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_USE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_USE_FUNCTION' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VAR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VARIABLE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_WHERE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -787,15 +825,18 @@ class ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1
         'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
         'makaira_connect_endpoint' => __DIR__ . '/../..' . '/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_events' => __DIR__ . '/../..' . '/src/oxid/core/makaira_connect_events.php',
+        'makaira_connect_oxarticle' => __DIR__ . '/../..' . '/src/oxid/application/models/makaira_connect_oxarticle.php',
+        'makaira_connect_oxcategory' => __DIR__ . '/../..' . '/src/oxid/application/models/makaira_connect_oxcategory.php',
+        'marm_yamm_oxshopcontrol' => __DIR__ . '/..' . '/marm/yamm/src/oxid/core/marm_yamm_oxshopcontrol.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitfa5c5958a99e0cd8e787027025517ea1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitd36003a9dfa2385d7902e29564cbe773::$classMap;
 
         }, null, ClassLoader::class);
     }

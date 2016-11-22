@@ -56,12 +56,13 @@ class makaira_connect_endpoint extends oxUBase
         header("Content-Type: application/json");
 
         try {
-            echo json_encode($this->getUpdatesAction());
-        } catch (ForbiddenException $e) {
+            $updates = $this->getUpdatesAction();
+            echo json_encode($updates);
+        /*} catch (ForbiddenException $e) {
             $this->setStatusHeader(403);
-            echo json_encode(new Error('Forbidden'));
+            echo json_encode(new Error('Forbidden'));*/
         } catch (\Exception $e) {
-            $this->setStatusHeader(500);
+            $this->setStatusHeader($e->getCode());
             echo json_encode(new Error($e->getMessage()));
         }
 
@@ -71,16 +72,25 @@ class makaira_connect_endpoint extends oxUBase
     public function getUpdatesAction()
     {
         // @TODO: Verify shared secret
-
+        /** @var \Marm\Yamm\DIC $dic */
+        $dic = oxRegistry::get('yamm_dic');
         $since = oxRegistry::getConfig()->getRequestParameter('since');
-        $repository = oxRegistry::get('yamm_dic')['makaira.connect.repository.product'];
+        $repository = oxRegistry::getConfig()->getRequestParameter('repository') ?: 'product';
+        $repository = "makaira.connect.repository.{$repository}";
+        if (!$dic->offsetExists($repository)) {
+            throw new Exception('Repository not found', 404);
+        }
+        /** @var \Makaira\Connect\Repository\RepositoryInterface $repository */
+        $repository = $dic[$repository];
         return $repository->getChangesSince($since);
     }
 
     protected function setStatusHeader($statusCode) {
-        if (isset($this->statusCode[$statusCode])) {
+        if (isset($this->statusCodes[$statusCode])) {
             $string = $statusCode . ' ' . $this->statusCodes[$statusCode];
-            header($_SERVER['SERVER_PROTOCOL'] . ' ' . $string, true, $statusCode);
+            header('HTTP/1.1 ' . $string, true, $statusCode);
+        } else {
+            $this->setStatusHeader(500);
         }
     }
 }
