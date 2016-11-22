@@ -1,0 +1,66 @@
+<?php
+
+namespace Makaira\Connect;
+
+use Makaira\Connect\Result\Changes;
+
+class Repository
+{
+    /**
+     * @var DatabaseInterface
+     */
+    private $database;
+
+    protected $selectQuery = "
+        SELECT
+            makaira_connect_changes.sequence,
+            makaira_connect_changes.oxid AS `id`,
+            makaira_connect_changes.type
+        FROM
+            makaira_connect_changes
+        WHERE
+            makaira_connect_changes.sequence > :since
+        ORDER BY
+            sequence ASC
+        LIMIT :limit
+    ";
+
+    public function __construct(DatabaseInterface $database, array $repositoryMapping = array())
+    {
+        $this->database = $database;
+        $this->repositoryMapping = $repositoryMapping;
+    }
+
+    /**
+     * Fetch and serialize changes.
+     * @param int $since Sequence offset
+     * @param int $limit Fetch limit
+     * @return Changes
+     */
+    public function getChangesSince($since, $limit = 50) {
+        $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
+
+        $changes = array();
+        foreach ($result as $row) {
+            $change = $this->getRepositoryForType($row['type'])->get($row['id']);
+            $change->id = $row['id'];
+            $change->sequence = $row['sequence'];
+            $changes[] = $change;
+        }
+
+        return new Changes( array(
+            'since' => $since,
+            'count' => count($changes),
+            'changes' => $changes,
+        ));
+    }
+
+    protected function getRepositoryForType($type)
+    {
+        if (!isset($this->repositoryMapping[$type])) {
+            throw new \OutOfBoundsException("No repository defined for type " . $type);
+        }
+
+        return $this->repositoryMapping[$type];
+    }
+} 
