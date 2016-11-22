@@ -11,12 +11,15 @@ use Makaira\Connect\RepositoryInterface;
 
 class ProductRepository implements RepositoryInterface
 {
-    use WithModifiersTrait;
-
     /**
      * @var DatabaseInterface
      */
     private $database;
+
+    /**
+     * @var ModifierList
+     */
+    private $modifiers;
 
     protected $selectQuery = "
         SELECT
@@ -74,12 +77,10 @@ class ProductRepository implements RepositoryInterface
         LIMIT 1
     ";
 
-    public function __construct(DatabaseInterface $database, array $modifiers = array())
+    public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
         $this->database = $database;
-        foreach ($modifiers as $modifier) {
-            $this->addModifier($modifier);
-        }
+        $this->modifiers = $modifiers;
     }
 
     /**
@@ -104,7 +105,7 @@ class ProductRepository implements RepositoryInterface
             } else {
                 // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
                 $product = new Product($row);
-                $product = $this->applyModifiers($product, $this->database);
+                $product = $this->modifiers->applyModifiers($product, $this->database);
                 $change->data = $product;
             }
             $changes[] = $change;

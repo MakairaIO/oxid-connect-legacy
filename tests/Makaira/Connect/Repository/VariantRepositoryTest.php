@@ -14,7 +14,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testLoadVariant()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new VariantRepository($databaseMock);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new VariantRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
@@ -34,12 +35,7 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
                             array(
                                 'sequence' => 1,
                                 'id'       => 42,
-                                'data'     => new Variant(
-                                    array(
-                                        'id'   => 42,
-                                        'OXID' => 42,
-                                    )
-                                ),
+                                'data'     => null,
                             )
                         ),
                     ),
@@ -52,9 +48,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testRunModifierLoadVariant()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $modifierMock = $this->getMock(Modifier::class);
-
-        $repository = new VariantRepository($databaseMock, [$modifierMock]);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new VariantRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
@@ -62,9 +57,9 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
 
         $product = new \stdClass();
-        $modifierMock
+        $modifiersMock
             ->expects($this->once())
-            ->method('apply')
+            ->method('applyModifiers')
             ->will($this->returnValue($product));
 
         $changes = $repository->getChangesSince(0);
@@ -78,7 +73,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSetDeletedMarker()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new VariantRepository($databaseMock);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new VariantRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->exactly(2))

@@ -6,7 +6,7 @@ use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type;
 use Makaira\Connect\Modifier;
 
-trait WithModifiersTrait
+class ModifierList
 {
     /** @var Modifier[] */
     private $modifiers = [];
@@ -33,5 +33,4 @@ trait WithModifiersTrait
         }
         return $datum;
     }
-
 }

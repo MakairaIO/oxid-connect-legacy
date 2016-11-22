@@ -32,18 +32,4 @@ interface RepositoryInterface
      * @return bool
      */
     public function isDeleted($oxid);
-
-    /**
-     * Add a modifier.
-     * @param Modifier $modifier
-     */
-    public function addModifier(Modifier $modifier);
-
-    /**
-     * Apply modifiers to datum.
-     * @param Type $datum
-     * @param DatabaseInterface $database
-     * @return Type
-     */
-    public function applyModifiers(Type $datum, DatabaseInterface $database);
 }

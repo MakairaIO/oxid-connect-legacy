@@ -13,7 +13,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testLoadProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new ProductRepository($databaseMock);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new ProductRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
@@ -31,10 +32,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
                     new Change(array(
                         'sequence' => 1,
                         'id' => 42,
-                        'data' => new Product(array(
-                            'id' => 42,
-                            'OXID' => 42,
-                        ))
+                        'data' => null,
                     ))
                 ),
             )),
@@ -45,9 +43,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testRunModifierLoadProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $modifierMock = $this->getMock(Modifier::class);
-
-        $repository = new ProductRepository($databaseMock, [$modifierMock]);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new ProductRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
@@ -55,9 +52,9 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
 
         $product = new \stdClass();
-        $modifierMock
+        $modifiersMock
             ->expects($this->once())
-            ->method('apply')
+            ->method('applyModifiers')
             ->will($this->returnValue($product));
 
         $changes = $repository->getChangesSince(0);
@@ -71,7 +68,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSetDeletedMarker()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new ProductRepository($databaseMock);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new ProductRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->exactly(2))

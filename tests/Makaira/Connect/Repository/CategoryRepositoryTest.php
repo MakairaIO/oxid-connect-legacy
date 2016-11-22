@@ -8,13 +8,15 @@ use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Category\Category;
 use Makaira\Connect\Modifier;
+use Makaira\Connect\Repository\ModifierList;
 
 class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new CategoryRepository($databaseMock);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
@@ -34,12 +36,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
                             array(
                                 'sequence' => 1,
                                 'id'       => 42,
-                                'data'     => new Category(
-                                    array(
-                                        'id'   => 42,
-                                        'OXID' => 42,
-                                    )
-                                ),
+                                'data'     => null,
                             )
                         ),
                     ),
@@ -52,9 +49,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testRunModifierLoadProduct()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $modifierMock = $this->getMock(Modifier::class);
-
-        $repository = new CategoryRepository($databaseMock, [$modifierMock]);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->once())
@@ -62,9 +58,9 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([['id' => 42, 'sequence' => 1, 'OXID' => 42]]));
 
         $product = new \stdClass();
-        $modifierMock
+        $modifiersMock
             ->expects($this->once())
-            ->method('apply')
+            ->method('applyModifiers')
             ->will($this->returnValue($product));
 
         $changes = $repository->getChangesSince(0);
@@ -78,7 +74,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSetDeletedMarker()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class, ['query'], [], '', false);
-        $repository = new CategoryRepository($databaseMock);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock
             ->expects($this->exactly(2))

@@ -11,12 +11,15 @@ use Makaira\Connect\RepositoryInterface;
 
 class VariantRepository implements RepositoryInterface
 {
-    use WithModifiersTrait;
-
     /**
      * @var DatabaseInterface
      */
     private $database;
+
+    /**
+     * @var ModifierList
+     */
+    private $modifiers;
 
     protected $selectQuery = "
         SELECT
@@ -73,17 +76,10 @@ class VariantRepository implements RepositoryInterface
         LIMIT 1
     ";
 
-    /**
-     * VariantRepository constructor.
-     * @param DatabaseInterface $database
-     * @param \Makaira\Connect\Type\Common\Modifier[] $modifiers
-     */
-    public function __construct(DatabaseInterface $database, array $modifiers = [])
+    public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
         $this->database = $database;
-        foreach ($modifiers as $modifier) {
-            $this->addModifier($modifier);
-        }
+        $this->modifiers = $modifiers;
     }
 
     /**
@@ -108,7 +104,7 @@ class VariantRepository implements RepositoryInterface
             } else {
                 // @TODO: Do we want to pass the full product / changes list to the modifier to allow aggregated queries?
                 $variant = new Variant($row);
-                $variant = $this->applyModifiers($variant, $this->database);
+                $variant = $this->modifiers->applyModifiers($variant, $this->database);
                 $change->data = $variant;
             }
             $changes[] = $change;
