@@ -24,11 +24,6 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
         $dbMock
-            ->expects($this->once())
-            ->method('setFetchMode')
-            ->with(ADODB_FETCH_ASSOC);
-
-        $dbMock
             ->expects($this->never())
             ->method('quote');
 
@@ -46,7 +41,7 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testQueryWithNumericParameters()
+    public function testfetchModeIsAlwaysSet()
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
@@ -54,6 +49,14 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setFetchMode')
             ->with(ADODB_FETCH_ASSOC);
+
+        $db = new OxidDatabase($dbMock);
+        $db->query('SELECT 1');
+    }
+
+    public function testQueryWithNumericParameters()
+    {
+        $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
         $dbMock
             ->expects($this->never())
@@ -82,11 +85,6 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     public function testQueryWithStringParameters()
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
-
-        $dbMock
-            ->expects($this->once())
-            ->method('setFetchMode')
-            ->with(ADODB_FETCH_ASSOC);
 
         $dbMock
             ->expects($this->once())
