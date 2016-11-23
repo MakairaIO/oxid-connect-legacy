@@ -111,6 +111,13 @@ $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.variant');
 
+$dic['makaira.connect.modifiers.common.zerodatetime'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\ZeroDateTimeModifier();
+};
+$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.product');
+$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.variant');
+$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.category');
+
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.product.suggest'] = function (\Marm\Yamm\DIC $dic) {
