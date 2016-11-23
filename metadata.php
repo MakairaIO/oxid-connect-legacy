@@ -40,5 +40,7 @@ $aModule = array(
         'onActivate'   => 'makaira_connect_events::onActivate',
         'onDeactivate' => 'makaira_connect_events::onDeactivate',
     ),
-    'settings'    => array(),
+    'settings'    => array(
+        array('name' => 'makaira_connect_secret', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
+    ),
 );
