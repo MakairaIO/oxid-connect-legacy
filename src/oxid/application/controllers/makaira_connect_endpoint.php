@@ -1,6 +1,7 @@
 <?php
 
 use Makaira\Connect\Result\Error;
+use Makaira\Connect\Result\ForbiddenException;
 
 class makaira_connect_endpoint extends oxUBase
 {
@@ -55,12 +56,15 @@ class makaira_connect_endpoint extends oxUBase
         ini_set('html_errors', false);
         header("Content-Type: application/json");
 
+        if (!$this->verifySharedSecret()) {
+            $this->setStatusHeader(403);
+            echo json_encode(new Error('Forbidden'));
+            exit();
+        }
+
         try {
             $updates = $this->getUpdatesAction();
             echo json_encode($updates);
-        /*} catch (ForbiddenException $e) {
-            $this->setStatusHeader(403);
-            echo json_encode(new Error('Forbidden'));*/
         } catch (\Exception $e) {
             $this->setStatusHeader($e->getCode());
             echo json_encode(new Error($e->getMessage()));
@@ -69,12 +73,22 @@ class makaira_connect_endpoint extends oxUBase
         exit();
     }
 
+    protected function verifySharedSecret()
+    {
+        $nonce = isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) ? $_SERVER['HTTP_X_MAKAIRA_NONCE'] : null;
+        $hash = isset($_SERVER['HTTP_X_MAKAIRA_HASH']) ? $_SERVER['HTTP_X_MAKAIRA_HASH'] : null;
+        $secret = oxRegistry::getConfig()->getShopConfVar('makaira_connect_secret');
+        $body = file_get_contents('php://stdin');
+
+        return ($hash === hash_hmac('sha256', $nonce . ':' . $body, $secret));
+    }
+
     public function getUpdatesAction()
     {
-        // @TODO: Verify shared secret
         /** @var \Marm\Yamm\DIC $dic */
         $dic = oxRegistry::get('yamm_dic');
         $since = oxRegistry::getConfig()->getRequestParameter('since');
+
         /** @var \Makaira\Connect\Repository $repository */
         $repository = $dic['makaira.connect.repository'];
         return $repository->getChangesSince($since);
