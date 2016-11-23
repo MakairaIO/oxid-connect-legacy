@@ -36,12 +36,13 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
 // --------------------------------------
 
 $dic['makaira.connect.repository'] = function (\Marm\Yamm\DIC $dic) {
+    $repositories = [];
+    /** @var \Makaira\Connect\RepositoryInterface $repository */
+    foreach ($dic->getTagged('makaira.connect.repository') as $repository) {
+        $repositories[$repository->getType()] = $repository;
+    }
     return new Makaira\Connect\Repository(
-        $dic['oxid.database'], [
-            'product'  => $dic['makaira.connect.repository.product'],
-            'variant'  => $dic['makaira.connect.repository.variant'],
-            'category' => $dic['makaira.connect.repository.category'],
-        ]
+        $dic['oxid.database'], $repositories
     );
 };
 
@@ -52,6 +53,7 @@ $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
+$dic->tag('makaira.connect.repository.product', 'makaira.connect.repository');
 
 $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\VariantRepository(
@@ -60,6 +62,7 @@ $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
+$dic->tag('makaira.connect.repository.variant', 'makaira.connect.repository');
 
 $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\CategoryRepository(
@@ -68,6 +71,7 @@ $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
+$dic->tag('makaira.connect.repository.category', 'makaira.connect.repository');
 
 // --------------------------------------
 

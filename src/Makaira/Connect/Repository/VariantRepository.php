@@ -23,6 +23,14 @@ class VariantRepository implements RepositoryInterface
             oxarticles.oxid = :id
             AND oxarticles.oxparentid != ''
     ";
+    protected $allIdsQuery = "
+      SELECT
+        OXID
+      FROM
+        oxarticles
+      WHERE
+        OXPARENTID != ''
+    ";
     /**
      * @var DatabaseInterface
      */
@@ -34,7 +42,7 @@ class VariantRepository implements RepositoryInterface
 
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
-        $this->database = $database;
+        $this->database  = $database;
         $this->modifiers = $modifiers;
     }
 
@@ -46,11 +54,41 @@ class VariantRepository implements RepositoryInterface
 
         if (empty($result)) {
             $change->deleted = true;
+
             return $change;
         }
-        $variant = new Variant($result[0]);
-        $variant = $this->modifiers->applyModifiers($variant);
+        $variant      = new Variant($result[0]);
+        $variant      = $this->modifiers->applyModifiers($variant);
         $change->data = $variant;
+
         return $change;
+    }
+
+    /**
+     * Get TYPE of repository.
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getType()
+    {
+        return 'variant';
+    }
+
+    /**
+     * Get all IDs handled by this repository.
+     *
+     * @return string[]
+     */
+    public function getAllIds()
+    {
+        $result = $this->database->query($this->allIdsQuery);
+
+        return array_map(
+            function ($row) {
+                return $row['OXID'];
+            },
+            $result
+        );
     }
 }

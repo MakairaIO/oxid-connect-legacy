@@ -95,4 +95,18 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
             $change
         );
     }
+
+    public function testGetAllIds()
+    {
+        $databaseMock = $this->getMock(DatabaseInterface::class);
+        $modifiersMock = $this->getMock(ModifierList::class);
+        $repository = new CategoryRepository($databaseMock, $modifiersMock);
+
+        $databaseMock
+            ->expects($this->once())
+            ->method('query')
+            ->will($this->returnValue([['OXID' => 42]]));
+
+        $this->assertEquals([42], $repository->getAllIds());
+    }
 }

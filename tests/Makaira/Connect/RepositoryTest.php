@@ -153,4 +153,55 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
         $repository->touch('product', 42);
     }
+
+    public function testTouchAllOneRepository()
+    {
+        $databaseMock = $this->getMock(DatabaseInterface::class);
+        $databaseMock
+            ->expects($this->exactly(3))
+            ->method('execute')
+            ->withConsecutive(
+                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 1]],
+                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 2]],
+                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 3]]
+                );
+        $repositoryMock1 = $this->getMock(RepositoryInterface::class);
+        $repositoryMock1
+            ->expects($this->once())
+            ->method('getAllIds')
+            ->will($this->returnValue([1,2,3]));
+        $repository = new Repository($databaseMock, [
+            'firstRepo' => $repositoryMock1,
+        ]);
+        $repository->touchAll();
+    }
+
+    public function testTouchAllMultipleRepositories()
+    {
+        $databaseMock = $this->getMock(DatabaseInterface::class);
+        $databaseMock
+            ->expects($this->exactly(4))
+            ->method('execute')
+            ->withConsecutive(
+                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 1]],
+                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 2]],
+                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 3]],
+                [$this->stringContains('INSERT INTO'), ['type' => 'secondRepo', 'id' => 4]]
+            );
+        $repositoryMock1 = $this->getMock(RepositoryInterface::class);
+        $repositoryMock1
+            ->expects($this->once())
+            ->method('getAllIds')
+            ->will($this->returnValue([1,2,3]));
+        $repositoryMock2 = $this->getMock(RepositoryInterface::class);
+        $repositoryMock2
+            ->expects($this->once())
+            ->method('getAllIds')
+            ->will($this->returnValue([4]));
+        $repository = new Repository($databaseMock, [
+            'firstRepo' => $repositoryMock1,
+            'secondRepo' => $repositoryMock2,
+        ]);
+        $repository->touchAll();
+    }
 }

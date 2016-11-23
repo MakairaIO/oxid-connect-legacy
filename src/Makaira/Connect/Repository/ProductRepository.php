@@ -5,7 +5,6 @@ namespace Makaira\Connect\Repository;
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\RepositoryInterface;
-use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Type\Common\Modifier;
 use Makaira\Connect\Type\Product\Product;
 
@@ -25,8 +24,8 @@ class ProductRepository implements RepositoryInterface
         SELECT
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
-            oxartextends.oxlongdesc as `OXLONGDESC`,
-            oxartextends.oxtags as `OXTAGS`,
+            oxartextends.oxlongdesc AS `OXLONGDESC`,
+            oxartextends.oxtags AS `OXTAGS`,
             oxmanufacturers.oxtitle AS MARM_OXSEARCH_MANUFACTURERTITLE
         FROM
             oxarticles
@@ -35,6 +34,15 @@ class ProductRepository implements RepositoryInterface
         WHERE
             oxarticles.oxid = :id
             AND oxarticles.oxparentid = ''
+    ";
+
+    protected $allIdsQuery = "
+      SELECT
+        OXID
+      FROM
+        oxarticles
+      WHERE
+        OXPARENTID = ''
     ";
 
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
@@ -50,13 +58,42 @@ class ProductRepository implements RepositoryInterface
         $change = new Change();
         if (!count($result)) {
             $change->deleted = true;
+
             return $change;
         }
 
-        $product = new Product(reset($result));
-        $product = $this->modifiers->applyModifiers($product, $this->database);
+        $product      = new Product(reset($result));
+        $product      = $this->modifiers->applyModifiers($product, $this->database);
         $change->data = $product;
 
         return $change;
+    }
+
+    /**
+     * Get TYPE of repository.
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getType()
+    {
+        return 'product';
+    }
+
+    /**
+     * Get all IDs handled by this repository.
+     *
+     * @return string[]
+     */
+    public function getAllIds()
+    {
+        $result = $this->database->query($this->allIdsQuery);
+
+        return array_map(
+            function ($row) {
+                return $row['OXID'];
+            },
+            $result
+        );
     }
 }

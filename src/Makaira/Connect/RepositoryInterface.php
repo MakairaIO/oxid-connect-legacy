@@ -14,4 +14,16 @@ interface RepositoryInterface
      * @return Changes
      */
     public function get($id);
+
+    /**
+     * Get TYPE of repository.
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * Get all IDs handled by this repository.
+     * @return string[]
+     */
+    public function getAllIds();
 }

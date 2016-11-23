@@ -25,6 +25,12 @@ class CategoryRepository implements RepositoryInterface
         sequence ASC
       LIMIT :limit
     ";
+    protected $allIdsQuery = "
+      SELECT
+       OXID
+      FROM
+       oxcategories;
+    ";
     /**
      * @var DatabaseInterface
      */
@@ -56,5 +62,33 @@ class CategoryRepository implements RepositoryInterface
         $change->data = $category;
 
         return $change;
+    }
+
+    /**
+     * Get TYPE of repository.
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getType()
+    {
+        return 'category';
+    }
+
+    /**
+     * Get all IDs handled by this repository.
+     *
+     * @return string[]
+     */
+    public function getAllIds()
+    {
+        $result = $this->database->query($this->allIdsQuery);
+
+        return array_map(
+            function ($row) {
+                return $row['OXID'];
+            },
+            $result
+        );
     }
 }
