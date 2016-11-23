@@ -50,5 +50,4 @@ class TableTranslator
 
         return $sql;
     }
-
 }
