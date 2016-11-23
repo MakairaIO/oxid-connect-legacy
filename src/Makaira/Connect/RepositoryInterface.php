@@ -20,4 +20,10 @@ interface RepositoryInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * Get all IDs handled by this repository.
+     * @return string[]
+     */
+    public function getAllIds();
 }

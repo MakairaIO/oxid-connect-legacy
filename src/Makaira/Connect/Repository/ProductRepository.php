@@ -37,6 +37,15 @@ class ProductRepository implements RepositoryInterface
             AND oxarticles.oxparentid = ''
     ";
 
+    protected $allIdsQuery = "
+      SELECT
+        OXID
+      FROM
+        oxarticles
+      WHERE
+        OXPARENTID = ''
+    ";
+
     public function __construct(DatabaseInterface $database, ModifierList $modifiers)
     {
         $this->database  = $database;
@@ -69,5 +78,16 @@ class ProductRepository implements RepositoryInterface
     public function getType()
     {
         return 'product';
+    }
+
+    /**
+     * Get all IDs handled by this repository.
+     *
+     * @return string[]
+     */
+    public function getAllIds()
+    {
+        $result = $this->database->query($this->allIdsQuery);
+        return array_map(function($r) { return $r['OXID']; }, $result);
     }
 }

@@ -6,4 +6,4 @@ require_once __DIR__ . '/../../../marm/yamm/src/oxid/bootstrap.php';
 $dic = oxRegistry::get('yamm_dic');
 /** @var Makaira\Connect\Repository $repo */
 $repo = $dic['makaira.connect.repository'];
-$repo->cleanup();
+$repo->touchAll();
