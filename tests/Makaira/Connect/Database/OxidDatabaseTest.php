@@ -2,6 +2,8 @@
 
 namespace Makaira\Connect\Database;
 
+use Makaira\Connect\Utils\TableTranslator;
+
 class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -16,17 +18,17 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
-        $dbMock
-            ->expects($this->never())
-            ->method('quote');
+        $dbMock->expects($this->never())->method('quote');
 
-        $dbMock
-            ->expects($this->once())
-            ->method('getAll')
-            ->with('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10')
-            ->will($this->returnValue([['OXID' => 'abc']]));
+        $dbMock->expects($this->once())->method('getAll')->with(
+            'SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10'
+        )->will($this->returnValue([['OXID' => 'abc']]));
 
-        $db = new OxidDatabase($dbMock);
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->method('translate')->will($this->returnArgument(0));
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
 
         $this->assertEquals(
             [['OXID' => 'abc']],
@@ -38,12 +40,14 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
-        $dbMock
-            ->expects($this->once())
-            ->method('setFetchMode')
-            ->with(ADODB_FETCH_ASSOC);
+        $dbMock->expects($this->once())->method('setFetchMode')->with(ADODB_FETCH_ASSOC);
 
-        $db = new OxidDatabase($dbMock);
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->method('translate')->will($this->returnArgument(0));
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
+
         $db->query('SELECT 1');
     }
 
@@ -51,24 +55,24 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
-        $dbMock
-            ->expects($this->never())
-            ->method('quote');
+        $dbMock->expects($this->never())->method('quote');
 
-        $dbMock
-            ->expects($this->once())
-            ->method('getAll')
-            ->with('SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10')
-            ->will($this->returnValue([['OXID' => 'abc']]));
+        $dbMock->expects($this->once())->method('getAll')->with(
+            'SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXSTOCK = 10'
+        )->will($this->returnValue([['OXID' => 'abc']]));
 
-        $db = new OxidDatabase($dbMock);
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->method('translate')->will($this->returnArgument(0));
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
 
         $this->assertEquals(
             [['OXID' => 'abc']],
             $db->query(
                 'SELECT OXID FROM oxarticles WHERE OXPRICE = :price AND OXSTOCK = :stock',
                 [
-                    'price'  => 5,
+                    'price' => 5,
                     'stock' => 10,
                 ]
             )
@@ -79,27 +83,30 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
-        $dbMock
-            ->expects($this->once())
-            ->method('quote')
-            ->will($this->returnCallback(function($s) {
-                return sprintf("'%s'", $s);
-            }));
+        $dbMock->expects($this->once())->method('quote')->will(
+            $this->returnCallback(
+                function ($s) {
+                    return sprintf("'%s'", $s);
+                }
+            )
+        );
 
-        $dbMock
-            ->expects($this->once())
-            ->method('getAll')
-            ->with("SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXTITLE = 'Test'")
-            ->will($this->returnValue([['OXID' => 'abc']]));
+        $dbMock->expects($this->once())->method('getAll')->with(
+            "SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXTITLE = 'Test'"
+        )->will($this->returnValue([['OXID' => 'abc']]));
 
-        $db = new OxidDatabase($dbMock);
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->method('translate')->will($this->returnArgument(0));
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
 
         $this->assertEquals(
             [['OXID' => 'abc']],
             $db->query(
                 'SELECT OXID FROM oxarticles WHERE OXPRICE = :price AND OXTITLE = :title',
                 [
-                    'price'  => 5,
+                    'price' => 5,
                     'title' => 'Test',
                 ]
             )
@@ -110,13 +117,15 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
-        $dbMock
-            ->expects($this->once())
-            ->method('getAll')
-            ->with("SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXPRICEA = 6 AND OXPRICEB = 7")
-            ->will($this->returnValue([['OXID' => 'abc']]));
+        $dbMock->expects($this->once())->method('getAll')->with(
+            "SELECT OXID FROM oxarticles WHERE OXPRICE = 5 AND OXPRICEA = 6 AND OXPRICEB = 7"
+        )->will($this->returnValue([['OXID' => 'abc']]));
 
-        $db = new OxidDatabase($dbMock);
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->method('translate')->will($this->returnArgument(0));
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
 
         $this->assertEquals(
             [['OXID' => 'abc']],
@@ -138,7 +147,25 @@ class OxidDatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
 
-        $db = new OxidDatabase($dbMock);
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->method('translate')->will($this->returnArgument(0));
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
+
         $db->query('SELECT OXID FROM oxarticles WHERE OXPRICE = :unknown', []);
+    }
+
+    public function testTableTranslation()
+    {
+        $dbMock = $this->getMock(\oxLegacyDb::class, ['quote', 'setFetchMode', 'getAll']);
+
+        $translatorMock = $this->getMock(TableTranslator::class, ['translate'], [[]]);
+
+        $translatorMock->expects($this->once())->method('translate');
+
+        $db = new OxidDatabase($dbMock, $translatorMock);
+
+        $db->query('SELECT 1', []);
     }
 }
