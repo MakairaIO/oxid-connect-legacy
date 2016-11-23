@@ -6,6 +6,21 @@ use Makaira\Connect\Result\Changes;
 
 class Repository
 {
+    protected $cleanupQuery = "
+        DELETE FROM
+          makaira_connect_changes
+        WHERE
+          SEQUENCE NOT IN (
+            SELECT S FROM (
+              SELECT
+                MAX(SEQUENCE) AS S
+              FROM 
+                makaira_connect_changes
+              GROUP BY
+                OXID, TYPE
+            ) AS c
+          )
+    ";
     /**
      * @var DatabaseInterface
      */
@@ -83,5 +98,13 @@ class Repository
     public function touch($type, $id)
     {
         $this->database->execute($this->touchQuery, ['type' => $type, 'id' => $id]);
+    }
+
+    /**
+     *
+     */
+    public function cleanup()
+    {
+        $this->database->execute($this->cleanupQuery);
     }
 }
