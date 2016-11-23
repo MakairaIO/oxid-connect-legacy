@@ -56,6 +56,12 @@ class makaira_connect_endpoint extends oxUBase
         ini_set('html_errors', false);
         header("Content-Type: application/json");
 
+        if (!isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) || !isset($_SERVER['HTTP_X_MAKAIRA_HASH'])) {
+            $this->setStatusHeader(401);
+            echo json_encode(new Error('Unauthorized'));
+            exit();
+        }
+
         if (!$this->verifySharedSecret()) {
             $this->setStatusHeader(403);
             echo json_encode(new Error('Forbidden'));
@@ -75,8 +81,8 @@ class makaira_connect_endpoint extends oxUBase
 
     protected function verifySharedSecret()
     {
-        $nonce = isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) ? $_SERVER['HTTP_X_MAKAIRA_NONCE'] : null;
-        $hash = isset($_SERVER['HTTP_X_MAKAIRA_HASH']) ? $_SERVER['HTTP_X_MAKAIRA_HASH'] : null;
+        $nonce = $_SERVER['HTTP_X_MAKAIRA_NONCE'];
+        $hash = $_SERVER['HTTP_X_MAKAIRA_HASH'];
         $secret = oxRegistry::getConfig()->getShopConfVar('makaira_connect_secret');
         $body = file_get_contents('php://input');
 
