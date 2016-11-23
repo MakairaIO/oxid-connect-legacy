@@ -28,7 +28,6 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
             'oxattribute',
             'oxcategories',
             'oxmanufacturers',
-            'oxobject2category',
             'oxobject2attribute',
         ]
     );
