@@ -45,6 +45,7 @@ class makaira_connect_endpoint extends oxUBase
 
     /**
      * Main render method
+     *
      * Called by oxid – is supposed to render a Smarty template. In our case it
      * just returns a JSON response and dies afterwards.
      *
@@ -54,6 +55,12 @@ class makaira_connect_endpoint extends oxUBase
     {
         ini_set('html_errors', false);
         header("Content-Type: application/json");
+
+        if (!isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) || !isset($_SERVER['HTTP_X_MAKAIRA_HASH'])) {
+            $this->setStatusHeader(401);
+            echo json_encode(new Error('Unauthorized'));
+            exit();
+        }
 
         if (!$this->verifySharedSecret()) {
             $this->setStatusHeader(403);
