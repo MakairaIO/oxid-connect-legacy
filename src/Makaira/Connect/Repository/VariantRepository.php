@@ -53,4 +53,15 @@ class VariantRepository implements RepositoryInterface
         $change->data = $variant;
         return $change;
     }
+
+    /**
+     * Get TYPE of repository.
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getType()
+    {
+        return 'variant';
+    }
 }

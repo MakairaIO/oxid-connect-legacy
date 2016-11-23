@@ -57,4 +57,15 @@ class CategoryRepository implements RepositoryInterface
 
         return $change;
     }
+
+    /**
+     * Get TYPE of repository.
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getType()
+    {
+        return 'category';
+    }
 }
