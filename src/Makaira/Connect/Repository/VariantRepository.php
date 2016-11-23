@@ -53,5 +53,4 @@ class VariantRepository implements RepositoryInterface
         $change->data = $variant;
         return $change;
     }
-
 }
