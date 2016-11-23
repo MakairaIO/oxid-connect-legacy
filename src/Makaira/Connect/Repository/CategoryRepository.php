@@ -25,35 +25,6 @@ class CategoryRepository implements RepositoryInterface
         sequence ASC
       LIMIT :limit
     ";
-    protected $touchQuery = "
-        INSERT INTO
-          makaira_connect_changes
-        (OXID, TYPE, CHANGED)
-          VALUES
-        (:oxid, 'category', NOW())
-    ";
-    protected $deleteQuery = "
-        REPLACE INTO
-          makaira_connect_deletions
-        (OXID, TYPE, CHANGED)
-          VALUES
-        (:oxid, 'category', NOW())
-    ";
-    protected $undeleteQuery = "
-        DELETE FROM
-          makaira_connect_deletions
-        WHERE
-          OXID = :oxid
-          AND TYPE = 'category'
-    ";
-    protected $isDeletedQuery = "
-        SELECT * FROM
-          makaira_connect_deletions
-        WHERE
-          OXID = :oxid
-          AND TYPE = 'category'
-        LIMIT 1
-    ";
     /**
      * @var DatabaseInterface
      */
