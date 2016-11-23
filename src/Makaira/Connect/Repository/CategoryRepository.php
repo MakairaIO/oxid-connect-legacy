@@ -83,6 +83,12 @@ class CategoryRepository implements RepositoryInterface
     public function getAllIds()
     {
         $result = $this->database->query($this->allIdsQuery);
-        return array_map(function($r) { return $r['OXID']; }, $result);
+
+        return array_map(
+            function ($r) {
+                return $r['OXID'];
+            },
+            $result
+        );
     }
 }
