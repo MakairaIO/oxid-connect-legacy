@@ -23,35 +23,6 @@ class VariantRepository implements RepositoryInterface
             oxarticles.oxid = :id
             AND oxarticles.oxparentid != ''
     ";
-    protected $touchQuery = "
-        INSERT INTO
-          makaira_connect_changes
-        (OXID, TYPE, CHANGED)
-          VALUES
-        (:oxid, 'variant', NOW())
-    ";
-    protected $deleteQuery = "
-        REPLACE INTO
-          makaira_connect_deletions
-        (OXID, TYPE, CHANGED)
-          VALUES
-        (:oxid, 'variant', NOW())
-    ";
-    protected $undeleteQuery = "
-        DELETE FROM
-          makaira_connect_deletions
-        WHERE
-          OXID = :oxid
-          AND TYPE = 'variant'
-    ";
-    protected $isDeletedQuery = "
-        SELECT * FROM
-          makaira_connect_deletions
-        WHERE
-          OXID = :oxid
-          AND TYPE = 'variant'
-        LIMIT 1
-    ";
     /**
      * @var DatabaseInterface
      */
@@ -81,45 +52,5 @@ class VariantRepository implements RepositoryInterface
         $variant = $this->modifiers->applyModifiers($variant);
         $change->data = $variant;
         return $change;
-    }
-
-    /**
-     * Mark an object as updated.
-     *
-     * @param string $oxid
-     *
-     * @codeCoverageIgnore
-     */
-    public function touch($oxid)
-    {
-        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->execute($this->undeleteQuery, ['oxid' => $oxid]);
-    }
-
-    /**
-     * Mark an object as deleted.
-     *
-     * @param string $oxid
-     *
-     * @codeCoverageIgnore
-     */
-    public function delete($oxid)
-    {
-        $this->database->execute($this->touchQuery, ['oxid' => $oxid]);
-        $this->database->execute($this->deleteQuery, ['oxid' => $oxid]);
-    }
-
-    /**
-     * Check if an object has been marked as deleted.
-     *
-     * @param string $oxid
-     *
-     * @return bool
-     */
-    public function isDeleted($oxid)
-    {
-        $result = $this->database->query($this->isDeletedQuery, ['oxid' => $oxid]);
-
-        return count($result) > 0;
     }
 }
