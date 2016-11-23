@@ -78,7 +78,7 @@ class makaira_connect_endpoint extends oxUBase
         $nonce = isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) ? $_SERVER['HTTP_X_MAKAIRA_NONCE'] : null;
         $hash = isset($_SERVER['HTTP_X_MAKAIRA_HASH']) ? $_SERVER['HTTP_X_MAKAIRA_HASH'] : null;
         $secret = oxRegistry::getConfig()->getShopConfVar('makaira_connect_secret');
-        $body = file_get_contents('php://stdin');
+        $body = file_get_contents('php://input');
 
         return ($hash === hash_hmac('sha256', $nonce . ':' . $body, $secret));
     }
@@ -87,11 +87,15 @@ class makaira_connect_endpoint extends oxUBase
     {
         /** @var \Marm\Yamm\DIC $dic */
         $dic = oxRegistry::get('yamm_dic');
-        $since = oxRegistry::getConfig()->getRequestParameter('since');
+
+        $body = json_decode(file_get_contents('php://input'));
+        if (($body === null) || (!isset($body->since))) {
+            throw new \RuntimeException("Failed to decode request body.");
+        }
 
         /** @var \Makaira\Connect\Repository $repository */
         $repository = $dic['makaira.connect.repository'];
-        return $repository->getChangesSince($since);
+        return $repository->getChangesSince($body->since);
     }
 
     protected function setStatusHeader($statusCode) {
