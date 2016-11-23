@@ -37,19 +37,16 @@ class TableTranslator
      */
     public function translate($sql)
     {
-        $replaceTables = [];
-        $searchTables  = [];
-        $callback      = function ($match) use (&$replaceTables) {
-            $tableName = $match['tableName'];
-
-            return $replaceTables[$tableName] . $match['end'];
-        };
         foreach ($this->searchTables as $searchTable) {
-            $replaceTables[$searchTable]                                             =
-                "oxv_{$searchTable}_{$this->language}";
-            $searchTables["((?P<tableName>{$searchTable})(?P<end>[^A-Za-z0-9_]|$))"] = $callback;
+            $replaceTable = "oxv_{$searchTable}_{$this->language}";
+            $sql          = preg_replace_callback(
+                "((?P<tableName>{$searchTable})(?P<end>[^A-Za-z0-9_]|$))",
+                function ($match) use ($replaceTable) {
+                    return $replaceTable . $match['end'];
+                },
+                $sql
+            );
         }
-        $sql = preg_replace_callback_array($searchTables, $sql);
 
         return $sql;
     }

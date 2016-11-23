@@ -105,8 +105,8 @@ class makaira_connect_endpoint extends oxUBase
         $dic = oxRegistry::get('yamm_dic');
 
         $body = json_decode(file_get_contents('php://input'));
-        if (($body === null) || (!isset($body->since))) {
-            throw new \RuntimeException("Failed to decode request body.");
+        if (($body === null) || (!property_exists($body, 'since'))) {
+            throw new \RuntimeException("Failed to decode request body");
         }
 
         $language = $this->getConfig()->getRequestParameter('language');
