@@ -11,19 +11,12 @@ class CategoryRepository implements RepositoryInterface
 {
     protected $selectQuery = "
       SELECT
-        makaira_connect_changes.sequence,
-        makaira_connect_changes.oxid AS `id`,
         UNIX_TIMESTAMP(oxcategories.oxtimestamp) AS `timestamp`,
         oxcategories.*
       FROM
-        makaira_connect_changes
-        LEFT JOIN oxcategories ON oxcategories.oxid = makaira_connect_changes.oxid
+        oxcategories
       WHERE
-        makaira_connect_changes.sequence > :since
-        AND makaira_connect_changes.type = 'category'
-      ORDER BY
-        sequence ASC
-      LIMIT :limit
+        oxcategories.oxid = :id
     ";
     protected $allIdsQuery = "
       SELECT
