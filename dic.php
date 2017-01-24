@@ -73,6 +73,23 @@ $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
 };
 $dic->tag('makaira.connect.repository.category', 'makaira.connect.repository');
 
+$dic['makaira.connect.repository.manufacturer'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Repository\ManufacturerRepository(
+        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
+            $dic->getTagged('makaira.importer.modifier.manufacturer')
+        )
+    );
+};
+$dic->tag('makaira.connect.repository.manufacturer', 'makaira.connect.repository');
+$dic['makaira.connect.repository.searchlink'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Repository\SearchLinkRepository(
+        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
+            $dic->getTagged('makaira.importer.modifier.searchlink')
+        )
+    );
+};
+$dic->tag('makaira.connect.repository.searchlink', 'makaira.connect.repository');
+
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC $dic) {
