@@ -121,6 +121,6 @@ class makaira_connect_endpoint extends oxUBase
         /** @var \Makaira\Connect\Repository $repository */
         $repository = $dic['makaira.connect.repository'];
 
-        return $repository->getChangesSince($body->since);
+        return $repository->getChangesSince($body->since, isset($body->count) ? $body->count : 50);
     }
 }
