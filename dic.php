@@ -4,9 +4,23 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 /** @var \Marm\Yamm\DIC $dic */
 
+$dic['doctrine.connection'] = function (\Marm\Yamm\DIC $dic) {
+    $config = oxRegistry::getConfig();
+    $connectionParams = array(
+		'host' => $config->getConfigParam('dbHost'),
+		'dbname' => $config->getConfigParam('dbName'),
+		'user' => $config->getConfigParam('dbUser'),
+		'password' => $config->getConfigParam('dbPwd'),
+		'driver' => 'pdo_mysql',
+		'charset' => 'utf8',
+	);
+	return \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+};
+
 $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Database\OxidDatabase(
-        oxDb::getInstance()->getDb(), $dic['oxid.table_translator']
+    return new \Makaira\Connect\Database\DoctrineDatabase(
+        $dic['doctrine.connection'],
+        $dic['oxid.table_translator']
     );
 };
 

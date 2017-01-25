@@ -2,6 +2,8 @@
 
 namespace Makaira\Connect\Database;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Statement;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Utils\TableTranslator;
 
@@ -10,17 +12,17 @@ use Makaira\Connect\Utils\TableTranslator;
  *
  * @version $Revision$
  */
-class OxidDatabase implements DatabaseInterface
+class DoctrineDatabase implements DatabaseInterface
 {
     /**
-     * @var \oxLegacyDb
+     * @var Connection
      */
     private $database;
 
     /** @var  TableTranslator */
     private $translator;
 
-    public function __construct(\oxLegacyDb $database, TableTranslator $translator)
+    public function __construct(Connection $database, TableTranslator $translator)
     {
         $this->database   = $database;
         $this->translator = $translator;
@@ -39,7 +41,10 @@ class OxidDatabase implements DatabaseInterface
     public function execute($query, array $parameters = array())
     {
         $query = $this->translator->translate($query);
-        $this->database->execute($this->replaceQueryParameters($query, $parameters));
+        $statement = $this->database->prepare($query);
+        $statement = $this->bindQueryParameters($statement, $parameters);
+
+        $statement->execute();
     }
 
     /**
@@ -54,30 +59,35 @@ class OxidDatabase implements DatabaseInterface
      */
     public function query($query, array $parameters = array())
     {
-        $this->database->setFetchMode(ADODB_FETCH_ASSOC);
         $query = $this->translator->translate($query);
 
-        return $this->database->getAll($this->replaceQueryParameters($query, $parameters));
+        $statement = $this->database->prepare($query);
+        $statement = $this->bindQueryParameters($statement, $parameters);
+
+        $statement->execute();
+        // @TODO: Convert types
+        return $statement->fetchAll();
     }
 
-    protected function replaceQueryParameters($query, array $parameters)
+    protected function bindQueryParameters(Statement $statement, array $parameters)
     {
         foreach ($parameters as $key => $value) {
-            if (!is_numeric($value)) {
-                $parameters[$key] = $this->database->quote($value);
+            switch (gettype($value)) {
+            case 'integer':
+                $statement->bindValue($key, $value, \PDO::PARAM_INT);
+                break;
+            case 'boolean':
+                $statement->bindValue($key, $value, \PDO::PARAM_BOOLEAN);
+                break;
+            case 'NULL':
+                $statement->bindValue($key, $value, \PDO::PARAM_NULL);
+                break;
+            default:
+                $statement->bindValue($key, $value);
+                break;
             }
         }
 
-        return preg_replace_callback(
-            '(:(?P<key>[A-Za-z0-9]+)(?P<end>[^A-Za-z0-9]|$))',
-            function ($match) use ($parameters) {
-                if (!isset($parameters[$match['key']])) {
-                    throw new \OutOfBoundsException("Parameter for " . $match['key'] . " missing.");
-                }
-
-                return $parameters[$match['key']] . $match['end'];
-            },
-            $query
-        );
+        return $statement;
     }
 }

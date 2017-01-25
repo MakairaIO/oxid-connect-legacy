@@ -15,6 +15,7 @@
   },
   "require": {
     "kore/data-object": "@stable",
-    "marm/yamm": "@stable"
+    "marm/yamm": "@stable",
+    "doctrine/dbal": "^2.5"
   }
 }

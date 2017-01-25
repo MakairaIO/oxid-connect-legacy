@@ -62,7 +62,7 @@ class Repository
      */
     public function getChangesSince($since, $limit = 50)
     {
-        $result = $this->database->query($this->selectQuery, ['since' => $since, 'limit' => $limit]);
+        $result = $this->database->query($this->selectQuery, ['since' => $since ?: 0, 'limit' => $limit]);
 
         $changes = array();
         foreach ($result as $row) {
