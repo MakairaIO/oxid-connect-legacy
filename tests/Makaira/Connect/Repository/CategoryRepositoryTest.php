@@ -12,7 +12,7 @@ use Makaira\Connect\Repository\ModifierList;
 
 class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testLoadVariant()
+    public function testLoadCategory()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
@@ -69,7 +69,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRunModifierLoadVariant()
+    public function testRunModifierLoadCategory()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $modifiersMock = $this->getMock(ModifierList::class);
