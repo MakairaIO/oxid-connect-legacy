@@ -11,6 +11,7 @@ class VariantRepository implements RepositoryInterface
 {
     protected $selectQuery = "
         SELECT
+            oxarticles.OXID as `id`,
             oxarticles.oxparentid AS `parent`,
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
