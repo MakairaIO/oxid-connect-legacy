@@ -35,10 +35,10 @@ class TrackingModifier extends Modifier
         }
 
         $product->TRACKING                  = $this->tracking->get('product', $product->id);
-        $product->OXRATINGCNT               = $product->TRACKING['rated'];
-        $product->MARM_OXSEARCH_BASKETCOUNT = $product->TRACKING['basketed'];
-        $product->MARM_OXSEARCH_REQCOUNT    = $product->TRACKING['requested'];
-        $product->OXSOLDAMOUNT              = $product->TRACKING['sold'];
+        $product->OXRATINGCNT               = (int) $product->TRACKING['rated'];
+        $product->MARM_OXSEARCH_BASKETCOUNT = (int) $product->TRACKING['basketed'];
+        $product->MARM_OXSEARCH_REQCOUNT    = (int) $product->TRACKING['requested'];
+        $product->OXSOLDAMOUNT              = (int) $product->TRACKING['sold'];
 
         return $product;
     }
