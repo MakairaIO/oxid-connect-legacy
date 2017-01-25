@@ -65,8 +65,27 @@ class DoctrineDatabase implements DatabaseInterface
         $statement = $this->bindQueryParameters($statement, $parameters);
 
         $statement->execute();
-        // @TODO: Convert types
-        return $statement->fetchAll();
+
+        $result = $statement->fetchAll();
+        foreach ($result as $nr => $row) {
+            $column = 0;
+            foreach ($row as $key => $field) {
+                $meta = $statement->getWrappedStatement()->getColumnMeta($column++);
+
+                switch ($meta['native_type']) {
+                case 'TINY':
+                case 'LONG':
+                case 'LONGLONG':
+                    $result[$nr][$key] = (int) $field;
+                    break;
+                case 'DOUBLE':
+                    $result[$nr][$key] = (float) $field;
+                    break;
+                }
+            }
+        }
+
+        return $result;
     }
 
     protected function bindQueryParameters(Statement $statement, array $parameters)
