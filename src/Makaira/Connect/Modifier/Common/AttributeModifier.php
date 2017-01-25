@@ -60,6 +60,10 @@ class AttributeModifier extends Modifier
      */
     public function apply(Type $product)
     {
+        if (!$product->id) {
+            throw new \RuntimeException("Cannot fetch attributes without a product ID.");
+        }
+
         $attributes         = $this->database->query(
             $this->selectAttributesQuery,
             [
