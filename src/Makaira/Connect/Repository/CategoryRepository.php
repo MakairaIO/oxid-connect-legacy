@@ -11,6 +11,7 @@ class CategoryRepository implements RepositoryInterface
 {
     protected $selectQuery = "
       SELECT
+        oxcategories.OXID as `id`,
         UNIX_TIMESTAMP(oxcategories.oxtimestamp) AS `timestamp`,
         oxcategories.*
       FROM

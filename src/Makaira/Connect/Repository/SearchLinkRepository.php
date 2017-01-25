@@ -18,6 +18,7 @@ class SearchLinkRepository
 {
     protected $selectQuery = "
       SELECT
+        marm_oxsearch_searchlinks.OXID as `id`,
         marm_oxsearch_searchlinks.*
       FROM
         marm_oxsearch_searchlinks

@@ -18,6 +18,7 @@ class ManufacturerRepository
 {
     protected $selectQuery = "
       SELECT
+        oxmanufacturers.OXID as `id`,
         UNIX_TIMESTAMP(oxmanufacturers.oxtimestamp) AS `timestamp`,
         oxmanufacturers.*
       FROM
