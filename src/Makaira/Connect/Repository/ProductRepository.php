@@ -22,6 +22,7 @@ class ProductRepository implements RepositoryInterface
 
     protected $selectQuery = "
         SELECT
+            oxarticles.OXID as `id`,
             UNIX_TIMESTAMP(oxarticles.oxtimestamp) AS `timestamp`,
             oxarticles.*,
             oxartextends.oxlongdesc AS `OXLONGDESC`,
