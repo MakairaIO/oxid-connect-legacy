@@ -72,8 +72,16 @@ class makaira_connect_endpoint extends oxUBase
             $updates = $this->getUpdatesAction();
             echo json_encode($updates);
         } catch (\Exception $e) {
-            $this->setStatusHeader($e->getCode());
-            echo json_encode(new Error($e->getMessage()));
+            $this->setStatusHeader(500);
+            $error = new Error($e->getMessage());
+
+            if (!oxRegistry::getConfig()->isProductiveMode()) {
+                $error->file = $e->getFile();
+                $error->line = $e->getLine();
+                $error->stack = explode(PHP_EOL, $e->getTraceAsString());
+            }
+
+            echo json_encode($error);
         }
 
         exit();
