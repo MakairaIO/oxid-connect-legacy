@@ -73,14 +73,14 @@ class DoctrineDatabase implements DatabaseInterface
                 $meta = $statement->getWrappedStatement()->getColumnMeta($column++);
 
                 switch ($meta['native_type']) {
-                case 'TINY':
-                case 'LONG':
-                case 'LONGLONG':
-                    $result[$nr][$key] = (int) $field;
-                    break;
-                case 'DOUBLE':
-                    $result[$nr][$key] = (float) $field;
-                    break;
+                    case 'TINY':
+                    case 'LONG':
+                    case 'LONGLONG':
+                        $result[$nr][$key] = (int) $field;
+                        break;
+                    case 'DOUBLE':
+                        $result[$nr][$key] = (float) $field;
+                        break;
                 }
             }
         }
@@ -92,18 +92,18 @@ class DoctrineDatabase implements DatabaseInterface
     {
         foreach ($parameters as $key => $value) {
             switch (gettype($value)) {
-            case 'integer':
-                $statement->bindValue($key, $value, \PDO::PARAM_INT);
-                break;
-            case 'boolean':
-                $statement->bindValue($key, $value, \PDO::PARAM_BOOLEAN);
-                break;
-            case 'NULL':
-                $statement->bindValue($key, $value, \PDO::PARAM_NULL);
-                break;
-            default:
-                $statement->bindValue($key, $value);
-                break;
+                case 'integer':
+                    $statement->bindValue($key, $value, \PDO::PARAM_INT);
+                    break;
+                case 'boolean':
+                    $statement->bindValue($key, $value, \PDO::PARAM_BOOLEAN);
+                    break;
+                case 'NULL':
+                    $statement->bindValue($key, $value, \PDO::PARAM_NULL);
+                    break;
+                default:
+                    $statement->bindValue($key, $value);
+                    break;
             }
         }
 
