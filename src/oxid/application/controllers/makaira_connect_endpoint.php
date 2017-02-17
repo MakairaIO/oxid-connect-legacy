@@ -126,8 +126,9 @@ class makaira_connect_endpoint extends oxUBase
             throw new \RuntimeException("Failed to decode request body");
         }
 
-        $language = $this->getConfig()->getRequestParameter('language');
-        if (!isset($language)) {
+        if (property_exists($body, 'language')) {
+            $language = $body->language;
+        } else {
             $language = oxRegistry::getLang()->getLanguageAbbr();
         }
 
