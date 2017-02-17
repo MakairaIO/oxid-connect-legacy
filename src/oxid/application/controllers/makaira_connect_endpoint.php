@@ -68,8 +68,17 @@ class makaira_connect_endpoint extends oxUBase
             exit();
         }
 
+        $action = $this->getConfig()->getRequestParameter('action');
+
         try {
-            $updates = $this->getUpdatesAction();
+            switch ($action) {
+                case 'listLanguages':
+                    $updates = $this->getLanguagesAction();
+                    break;
+                case 'getUpdates':
+                default:
+                    $updates = $this->getUpdatesAction();
+            }
             echo json_encode($updates);
         } catch (\Exception $e) {
             $this->setStatusHeader(500);
@@ -130,5 +139,12 @@ class makaira_connect_endpoint extends oxUBase
         $repository = $dic['makaira.connect.repository'];
 
         return $repository->getChangesSince($body->since, isset($body->count) ? $body->count : 50);
+    }
+
+    public function getLanguagesAction()
+    {
+        /** @var oxLang $lang */
+        $lang = oxRegistry::getLang();
+        return $lang->getLanguageIds();
     }
 }
