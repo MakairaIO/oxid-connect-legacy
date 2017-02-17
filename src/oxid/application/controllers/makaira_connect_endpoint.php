@@ -68,12 +68,12 @@ class makaira_connect_endpoint extends oxUBase
             exit();
         }
 
-        $body = json_decode(file_get_contents('php://input'));
-        if (($body === null) || (!property_exists($body, 'since'))) {
-            throw new \RuntimeException("Failed to decode request body");
-        }
-
         try {
+            $body = json_decode(file_get_contents('php://input'));
+            if ($body === null) {
+                throw new \RuntimeException("Failed to decode request body");
+            }
+
             switch ($body->action) {
                 case 'listLanguages':
                     $updates = $this->getLanguagesAction();
@@ -121,6 +121,10 @@ class makaira_connect_endpoint extends oxUBase
 
     public function getUpdatesAction($body)
     {
+        if (!isset($body->since)) {
+            throw new \RuntimeException("since parameter not set");
+        }
+
         /** @var \Marm\Yamm\DIC $dic */
         $dic = oxRegistry::get('yamm_dic');
 
