@@ -16,4 +16,6 @@ class Changes extends Result
     public $since = null;
     public $count = 0;
     public $changes = array();
+    public $language = '';
+    //public $active = true; TODO We don't need active here, but we have horrible code doublication anyway...
 }

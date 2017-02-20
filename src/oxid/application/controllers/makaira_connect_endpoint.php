@@ -69,7 +69,19 @@ class makaira_connect_endpoint extends oxUBase
         }
 
         try {
-            $updates = $this->getUpdatesAction();
+            $body = json_decode(file_get_contents('php://input'));
+            if ($body === null) {
+                throw new \RuntimeException("Failed to decode request body");
+            }
+
+            switch ($body->action) {
+                case 'listLanguages':
+                    $updates = $this->getLanguagesAction();
+                    break;
+                case 'getUpdates':
+                default:
+                    $updates = $this->getUpdatesAction($body);
+            }
             echo json_encode($updates);
         } catch (\Exception $e) {
             $this->setStatusHeader(500);
@@ -107,18 +119,18 @@ class makaira_connect_endpoint extends oxUBase
         }
     }
 
-    public function getUpdatesAction()
+    public function getUpdatesAction($body)
     {
+        if (!isset($body->since)) {
+            throw new \RuntimeException("since parameter not set");
+        }
+
         /** @var \Marm\Yamm\DIC $dic */
         $dic = oxRegistry::get('yamm_dic');
 
-        $body = json_decode(file_get_contents('php://input'));
-        if (($body === null) || (!property_exists($body, 'since'))) {
-            throw new \RuntimeException("Failed to decode request body");
-        }
-
-        $language = $this->getConfig()->getRequestParameter('language');
-        if (!isset($language)) {
+        if (property_exists($body, 'language')) {
+            $language = $body->language;
+        } else {
             $language = oxRegistry::getLang()->getLanguageAbbr();
         }
 
@@ -129,6 +141,15 @@ class makaira_connect_endpoint extends oxUBase
         /** @var \Makaira\Connect\Repository $repository */
         $repository = $dic['makaira.connect.repository'];
 
-        return $repository->getChangesSince($body->since, isset($body->count) ? $body->count : 50);
+        $result = $repository->getChangesSince($body->since, isset($body->count) ? $body->count : 50);
+        $result->language = $language;
+        return $result;
+    }
+
+    public function getLanguagesAction()
+    {
+        /** @var oxLang $lang */
+        $lang = oxRegistry::getLang();
+        return $lang->getLanguageIds();
     }
 }
