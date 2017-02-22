@@ -49,6 +49,14 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
 
 // --------------------------------------
 
+$dic['makaira.connect.repository.user'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Repository\UserRepository(
+        $dic['oxid.database']
+    );
+};
+
+// --------------------------------------
+
 $dic['makaira.connect.repository'] = function (\Marm\Yamm\DIC $dic) {
     $repositories = [];
     /** @var \Makaira\Connect\RepositoryInterface $repository */

@@ -78,6 +78,9 @@ class makaira_connect_endpoint extends oxUBase
                 case 'listLanguages':
                     $updates = $this->getLanguagesAction();
                     break;
+                case 'loadUserByUsername':
+                    $updates = $this->getUserAction($body);
+                    break;
                 case 'getUpdates':
                 default:
                     $updates = $this->getUpdatesAction($body);
@@ -151,5 +154,21 @@ class makaira_connect_endpoint extends oxUBase
         /** @var oxLang $lang */
         $lang = oxRegistry::getLang();
         return $lang->getLanguageIds();
+    }
+
+    public function getUserAction($body)
+    {
+        if (!isset($body->username)) {
+            throw new \RuntimeException("username parameter not set");
+        }
+
+        /** @var \Marm\Yamm\DIC $dic */
+        $dic = oxRegistry::get('yamm_dic');
+
+        /** @var \Makaira\Connect\Repository\UserRepository $repository */
+        $repository = $dic['makaira.connect.repository.user'];
+        $user = $repository->getAuthorizedUserByUsername($body->username);
+
+        return $user;
     }
 }
