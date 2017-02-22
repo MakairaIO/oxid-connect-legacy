@@ -56,7 +56,7 @@ class makaira_connect_endpoint extends oxUBase
         ini_set('html_errors', false);
         header("Content-Type: application/json");
 
-        /*if (!isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) || !isset($_SERVER['HTTP_X_MAKAIRA_HASH'])) {
+        if (!isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) || !isset($_SERVER['HTTP_X_MAKAIRA_HASH'])) {
             $this->setStatusHeader(401);
             echo json_encode(new Error('Unauthorized'));
             exit();
@@ -66,7 +66,7 @@ class makaira_connect_endpoint extends oxUBase
             $this->setStatusHeader(403);
             echo json_encode(new Error('Forbidden'));
             exit();
-        }*/
+        }
 
         try {
             $body = json_decode(file_get_contents('php://input'));
