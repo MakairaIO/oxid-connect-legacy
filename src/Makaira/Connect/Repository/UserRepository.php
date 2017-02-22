@@ -40,7 +40,7 @@ class UserRepository
         $query = "SELECT * FROM `oxuser` WHERE `OXID` = :id";
         $user = $this->database->query($query, ['id' => $id]);
 
-        return $user;
+        return reset($user);
     }
 
     /**
@@ -54,6 +54,21 @@ class UserRepository
         $userList = $this->database->query($query, ['username' => $username]);
 
         return $userList;
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return string
+     */
+    public function getUserIdByToken($token)
+    {
+        $query = "SELECT * FROM `makaira_connect_usertoken` WHERE `TOKEN` = :token AND NOW() < `VALID_UNTIL`";
+        $row = $this->database->query($query, ['token' => $token]);
+
+        $userId = empty($row) ? false : $row[0]['USERID'];
+
+        return $userId;
     }
 
     /**
@@ -71,12 +86,39 @@ class UserRepository
             if ($this->isAuthorized($user)) {
                 $authorizedUser = new User([
                     'ok' => true,
+                    'username' => $user['OXUSERNAME'],
                     'password' => $user['OXPASSWORD'],
                     'salt' => $user['OXPASSSALT']
                 ]);
                 break;
             }
         }
+
+        return $authorizedUser;
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return User
+     */
+    public function getAuthorizedUserByToken($token)
+    {
+        $authorizedUser = new User([
+            'ok' => false
+        ]);
+        if ($userId = $this->getUserIdByToken($token)) {
+            $user = $this->get($userId);
+            if ($this->isAuthorized($user)) {
+                $authorizedUser = new User([
+                    'ok' => true,
+                    'username' => $user['OXUSERNAME'],
+                    'password' => $user['OXPASSWORD'],
+                    'salt' => $user['OXPASSSALT']
+                ]);
+            }
+        }
+
         return $authorizedUser;
     }
 

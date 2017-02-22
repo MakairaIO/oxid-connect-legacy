@@ -56,7 +56,7 @@ class makaira_connect_endpoint extends oxUBase
         ini_set('html_errors', false);
         header("Content-Type: application/json");
 
-        if (!isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) || !isset($_SERVER['HTTP_X_MAKAIRA_HASH'])) {
+        /*if (!isset($_SERVER['HTTP_X_MAKAIRA_NONCE']) || !isset($_SERVER['HTTP_X_MAKAIRA_HASH'])) {
             $this->setStatusHeader(401);
             echo json_encode(new Error('Unauthorized'));
             exit();
@@ -66,7 +66,7 @@ class makaira_connect_endpoint extends oxUBase
             $this->setStatusHeader(403);
             echo json_encode(new Error('Forbidden'));
             exit();
-        }
+        }*/
 
         try {
             $body = json_decode(file_get_contents('php://input'));
@@ -80,6 +80,9 @@ class makaira_connect_endpoint extends oxUBase
                     break;
                 case 'loadUserByUsername':
                     $updates = $this->getUserAction($body);
+                    break;
+                case 'loadUserByToken':
+                    $updates = $this->getCurrentUserAction($body);
                     break;
                 case 'getUpdates':
                 default:
@@ -168,6 +171,22 @@ class makaira_connect_endpoint extends oxUBase
         /** @var \Makaira\Connect\Repository\UserRepository $repository */
         $repository = $dic['makaira.connect.repository.user'];
         $user = $repository->getAuthorizedUserByUsername($body->username);
+
+        return $user;
+    }
+
+    public function getCurrentUserAction($body)
+    {
+        if (!isset($body->token)) {
+            throw new \RuntimeException("token parameter not set");
+        }
+
+        /** @var \Marm\Yamm\DIC $dic */
+        $dic = oxRegistry::get('yamm_dic');
+
+        /** @var \Makaira\Connect\Repository\UserRepository $repository */
+        $repository = $dic['makaira.connect.repository.user'];
+        $user = $repository->getAuthorizedUserByToken($body->token);
 
         return $user;
     }

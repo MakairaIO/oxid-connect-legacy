@@ -14,6 +14,7 @@ use Makaira\Connect\Result;
 
 class User extends Result
 {
+    public $username;
     public $password;
     public $salt;
 }
