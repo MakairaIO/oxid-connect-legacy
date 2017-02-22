@@ -47,6 +47,10 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
+$dic['makaira.connect.utils.tokengenerator'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Utils\TokenGenerator();
+};
+
 // --------------------------------------
 
 $dic['makaira.connect.repository.user'] = function (\Marm\Yamm\DIC $dic) {

@@ -122,6 +122,29 @@ class UserRepository
         return $authorizedUser;
     }
 
+    public function addUserToken($userId, $token, $validity)
+    {
+        $sql = "INSERT INTO `makaira_connect_usertoken`
+                VALUES (:userId, :token, :validUntil)
+                ON DUPLICATE KEY UPDATE `TOKEN` = VALUES(`TOKEN`), `VALID_UNTIL` = VALUES(`VALID_UNTIL`)";
+
+        $date = new \DateTime();
+        $date->add(\DateInterval::createFromDateString($validity));
+        $params = [
+            'userId'     => $userId,
+            'token'      => $token,
+            'validUntil' => $date->format('Y-m-d H:i:s')
+        ];
+
+        try {
+            $this->database->execute($sql, $params);
+        } catch (\Exception $ex) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @param array $user
      *
