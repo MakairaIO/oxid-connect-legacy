@@ -14,5 +14,6 @@ class Product extends BaseProduct
     public $MARM_OXSEARCH_REQCOUNT = 0;
     public $MARM_OXSEARCH_MANUFACTURERTITLE;
     public $category = [];
+    public $url;
     public $TRACKING = null;
 }

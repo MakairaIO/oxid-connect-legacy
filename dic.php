@@ -24,9 +24,13 @@ $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
+$dic['oxid.language'] = function (\Marm\Yamm\DIC $dic) {
+    return oxRegistry::getLang();
+};
+
 $dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Utils\OxidSmartyParser(
-        oxRegistry::getLang(), oxRegistry::get('oxutilsview')
+        $dic['oxid.language'], oxRegistry::get('oxutilsview')
     );
 };
 
@@ -164,6 +168,31 @@ $dic['makaira.connect.modifiers.common.zerodatetime'] = function (\Marm\Yamm\DIC
 $dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.variant');
 $dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.category');
+
+$dic['makaira.connect.modifiers.category.url'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\UrlModifier(
+        oxRegistry::get('oxCategory'),
+        oxRegistry::get('oxSeoEncoderCategory'),
+        $dic['oxid.language']
+    );
+};
+$dic['makaira.connect.modifiers.manufacturer.url'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\UrlModifier(
+        oxRegistry::get('oxManufacturer'),
+        oxRegistry::get('oxSeoEncoderManufacturer'),
+        $dic['oxid.language']
+    );
+};
+$dic['makaira.connect.modifiers.product.url'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\UrlModifier(
+        oxRegistry::get('oxArticle'),
+        oxRegistry::get('oxSeoEncoderArticle'),
+        $dic['oxid.language']
+    );
+};
+$dic->tag('makaira.connect.modifiers.category.url', 'makaira.importer.modifier.category');
+$dic->tag('makaira.connect.modifiers.manufacturer.url', 'makaira.importer.modifier.manufacturer');
+$dic->tag('makaira.connect.modifiers.product.url', 'makaira.importer.modifier.product');
 
 // --------------------------------------
 

@@ -38,19 +38,5 @@ class Category extends Type
     public $MARM_OXSEARCH_FILTERS;
     public $MARM_OXSEARCH_MAPPINGS;
     public $MARMOXSEARCHSEARCHKEYS;
-    public $OXTHUMB_1;
-    public $OXTHUMB_2;
-    public $OXTHUMB_3;
-    public $OXACTIVE_1;
-    public $OXACTIVE_2;
-    public $OXACTIVE_3;
-    public $OXTITLE_1;
-    public $OXTITLE_2;
-    public $OXTITLE_3;
-    public $OXDESC_1;
-    public $OXDESC_2;
-    public $OXDESC_3;
-    public $OXLONGDESC_1;
-    public $OXLONGDESC_2;
-    public $OXLONGDESC_3;
+    public $url;
 }

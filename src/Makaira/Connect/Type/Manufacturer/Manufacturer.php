@@ -19,4 +19,5 @@ class Manufacturer extends Type
     public $OXTITLE;
     public $OXSHORTDESC;
     public $MARMOXSEARCHSEARCHKEYS;
+    public $url;
 }

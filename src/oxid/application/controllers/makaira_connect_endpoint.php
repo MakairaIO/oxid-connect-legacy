@@ -135,7 +135,15 @@ class makaira_connect_endpoint extends oxUBase
         $dic = oxRegistry::get('yamm_dic');
 
         if (property_exists($body, 'language')) {
+            $oxLang = $dic['oxid.language'];
             $language = $body->language;
+            $langIds = $oxLang->getLanguageIds();
+            $langIds = array_flip($langIds);
+            if (isset($langIds[$language])) {
+                /** @var oxLang $oxLang */
+                $oxLang = $dic['oxid.language'];
+                $oxLang->setBaseLanguage($langIds[$language]);
+            }
         } else {
             $language = oxRegistry::getLang()->getLanguageAbbr();
         }

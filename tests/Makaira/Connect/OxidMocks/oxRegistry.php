@@ -8,6 +8,14 @@ class oxUtilsView
 {
 }
 
+class oxBase
+{
+}
+
+class oxSeoEncoder
+{
+}
+
 class oxConfig
 {
     public function isMall()
@@ -33,6 +41,14 @@ class oxRegistry
         switch (strtolower($key)) {
             case 'oxutilsview':
                 return new oxUtilsView();
+            case 'oxarticle':
+            case 'oxcategory':
+            case 'oxmanufacturer':
+                return new oxBase();
+            case 'oxseoencoderarticle':
+            case 'oxseoencodercategory':
+            case 'oxseoencodermanufacturer':
+                return new oxSeoEncoder();
         }
 
         return null;
