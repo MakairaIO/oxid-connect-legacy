@@ -1,14 +1,2 @@
-vendor/bin/
-vendor/doctrine/instantiator
-vendor/pdepend/
-vendor/phpdocumentor/
-vendor/phpmd/
-vendor/phpspec/
-vendor/phpunit/
-vendor/sebastian/
-vendor/squizlabs/
-vendor/symfony/
-vendor/webmozart/
-vendor/pimple/
-vendor/marm/yamm/
+/vendor/
 .idea/
