@@ -84,12 +84,12 @@ class Repository
     {
         $result = $this->database->query(
             'SELECT
-                COUNT(makaira_connect_changes.sequence) count
+                COUNT(*) count
             FROM
                 makaira_connect_changes
             WHERE
                 makaira_connect_changes.sequence > :since',
-            ['since' => $since]
+            ['since' => $since ?: 0]
         );
 
         return $result[0]['count'];
