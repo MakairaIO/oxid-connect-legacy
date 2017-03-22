@@ -80,6 +80,21 @@ class Repository
         ));
     }
 
+    public function countChangesSince($since)
+    {
+        $result = $this->database->query(
+            'SELECT
+                COUNT(makaira_connect_changes.sequence) count
+            FROM
+                makaira_connect_changes
+            WHERE
+                makaira_connect_changes.sequence > :since',
+            ['since' => $since]
+        );
+
+        return $result[0]['count'];
+    }
+
     protected function getRepositoryForType($type)
     {
         if (!isset($this->repositoryMapping[$type])) {
