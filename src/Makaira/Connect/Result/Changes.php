@@ -18,4 +18,5 @@ class Changes extends Result
     public $changes = array();
     public $language = '';
     //public $active = true; TODO We don't need active here, but we have horrible code doublication anyway...
+    public $highLoad = false;
 }

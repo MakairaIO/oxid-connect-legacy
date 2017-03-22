@@ -1,5 +1,6 @@
 <?php
 
+use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Result\Error;
 use Makaira\Connect\Result\ForbiddenException;
 
@@ -88,6 +89,7 @@ class makaira_connect_endpoint extends oxUBase
                 default:
                     $updates = $this->getUpdatesAction($body);
             }
+
             echo json_encode($updates);
         } catch (\Exception $e) {
             $this->setStatusHeader(500);
@@ -157,7 +159,25 @@ class makaira_connect_endpoint extends oxUBase
 
         $result = $repository->getChangesSince($body->since, isset($body->count) ? $body->count : 50);
         $result->language = $language;
+        $result->highLoad = $this->checkSystemLoad();
+
         return $result;
+    }
+
+    protected function checkSystemLoad()
+    {
+        $loadLimit = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_load_limit',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        if (0 >= $loadLimit) {
+            return false;
+        }
+
+        list(, $loadavg5min, ) = sys_getloadavg();
+        return ($loadavg5min >= $loadLimit);
     }
 
     public function getLanguagesAction()

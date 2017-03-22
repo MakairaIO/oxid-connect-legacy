@@ -46,5 +46,6 @@ $aModule = array(
     'settings'    => array(
         array('name' => 'makaira_connect_secret', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
         array('name' => 'makaira_application_url', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
+        array('name' => 'makaira_connect_load_limit', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
     ),
 );
