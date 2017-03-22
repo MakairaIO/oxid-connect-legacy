@@ -14,8 +14,14 @@
     }
   },
   "require": {
-    "kore/data-object": "@stable",
+    "makaira/shared-libs": "dev-kw12",
     "marm/yamm": "@stable",
     "doctrine/dbal": "^2.5"
-  }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@gitlab.marmalade.de:makaira/shared-libs.git"
+    }
+  ]
 }
