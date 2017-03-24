@@ -27,6 +27,9 @@ $aModule = array(
     'url'         => 'http://www.marmalade.de',
     'email'       => 'support@marmalade.de',
     'extend'      => array(
+        /* controllers */
+        'search' => 'makaira/connect/src/oxid/application/conrollers/makaira_connect_search',
+        /* models */
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
     ),
@@ -47,5 +50,6 @@ $aModule = array(
         array('name' => 'makaira_connect_secret', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
         array('name' => 'makaira_application_url', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
         array('name' => 'makaira_connect_load_limit', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
+        array('name' => 'makaira_connect_activate_search', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
     ),
 );

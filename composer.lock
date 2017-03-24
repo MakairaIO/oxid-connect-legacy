@@ -516,7 +516,7 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "c473b300c1c8a185f2ba5bc07f24f3ae5b865d84"
+                "reference": "a7b454b7c83416b03c59d17735b910c69af44275"
             },
             "require": {
                 "kore/data-object": "@stable"
@@ -533,7 +533,7 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2017-03-22 10:55:28"
+            "time": "2017-03-23 15:34:39"
         },
         {
             "name": "marm/yamm",

@@ -225,3 +225,34 @@ $dic['makaira.connect.modifiers.category.oxobject'] = function (\Marm\Yamm\DIC $
 };
 $dic->tag('makaira.connect.modifiers.category.oxobject', 'makaira.importer.modifier.category');
 
+//------------------------------
+$dic['makaira.connect.configuration'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\ConnectionConfiguration([
+        'url' => oxRegistry::getConfig()->getShopConfVar(
+            'makaira_application_url',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        ),
+        'secret' => oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_secret',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        ),
+    ]);
+};
+
+$dic['makaira.connect.http_client'] = function (\Marm\Yamm\DIC $dic) {
+    $configuration = $dic['makaira.connect.configuration'];
+    return new Makaira\HttpClient\Signing(
+        new Makaira\HttpClient\Stream(),
+        $configuration->secret
+    );
+};
+
+$dic['makaira.connect.searchhandler'] = function (\Marm\Yamm\DIC $dic) {
+    $configuration = $dic['makaira.connect.configuration'];
+    return new \Makaira\Connect\SearchHandler(
+        $dic['makaira.connect.http_client'],
+        $configuration->url
+    );
+};
