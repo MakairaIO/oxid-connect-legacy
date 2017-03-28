@@ -28,7 +28,7 @@ $aModule = array(
     'email'       => 'support@marmalade.de',
     'extend'      => array(
         /* controllers */
-        'search' => 'makaira/connect/src/oxid/application/conrollers/makaira_connect_search',
+        'search' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
         /* models */
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
