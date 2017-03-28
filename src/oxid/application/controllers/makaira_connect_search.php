@@ -68,7 +68,7 @@ class makaira_connect_search extends makaira_connect_search_parent
         $query->constraints = array_filter(
             [
                 Constraints::SHOP => oxRegistry::getConfig()->getShopId(),
-                Constraints::LANGUAGE => oxRegistry::getLang()->getBaseLanguage(),
+                Constraints::LANGUAGE => oxRegistry::getLang()->getLanguageAbbr(),
                 Constraints::USE_STOCK => oxRegistry::getConfig()->getShopConfVar('blUseStock'),
                 Constraints::CATEGORY   => rawurldecode(oxRegistry::getConfig()->getRequestParameter('searchcnid')),
                 Constraints::MANUFACTURER => rawurldecode(oxRegistry::getConfig()->getRequestParameter('searchmanufacturer')),
