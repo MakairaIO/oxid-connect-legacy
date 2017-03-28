@@ -14,7 +14,7 @@
     }
   },
   "require": {
-    "makaira/shared-libs": "dev-kw12",
+    "makaira/shared-libs": "^1.2.0",
     "marm/yamm": "@stable",
     "doctrine/dbal": "^2.5"
   },
