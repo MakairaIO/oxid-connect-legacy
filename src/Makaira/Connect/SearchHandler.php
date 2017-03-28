@@ -30,15 +30,15 @@ class SearchHandler
      */
     public function search(Query $query)
     {
-        $request = "{$this->url}search?". http_build_query($query);
-        $response = $this->httpClient->request('GET', $request);
+        $request = "{$this->url}search/";
+        $body = json_encode($query);
+        $response = $this->httpClient->request('POST', $request, $body);
 
-        return new Result([
-            'items' => [new ResultItem(['id' => 'oiaa81b5e002fc2f73b9398c361c0b97'])],
-            'count' => 1,
-            'total' => 1,
-            'offset' => $query->offset,
-            'aggregations' => []
-        ]);
+        $result = json_decode($response->body, true);
+        foreach ($result['items'] as $key => $item) {
+            $result['items'][$key] = new ResultItem($item);
+        }
+
+        return new Result($result);
     }
 }
