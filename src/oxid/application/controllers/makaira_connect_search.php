@@ -79,7 +79,8 @@ class makaira_connect_search extends makaira_connect_search_parent
         $query->aggregations = array_filter(
             $this->getViewConfig()->getFacetParams()
         );
-        $query->sorting = $this->getSortingSql($this->getSortIdent());
+        $sorting = $this->getSorting($this->getSortIdent());
+        $query->sorting = $this->sanitizeSorting($sorting);
 
         list($displayedProducts, $offset) = $this->getLimitOffset();
 
@@ -116,6 +117,27 @@ class makaira_connect_search extends makaira_connect_search_parent
         foreach ((array)$this->additionalResults as $key => $value) {
             $this->_aViewData[$key . '_result'] = $value;
         }
+    }
+
+    protected function sanitizeSorting($sorting)
+    {
+        if (!is_array($sorting)) {
+            return [];
+        }
+        $sortField = $sorting['sortby'];
+        $sortDirection = $sorting['sortdir'];
+
+        // fix for category quicksort
+        $sortField = preg_replace("/^([^.]+\.)?(.*)$/", "$2", trim($sortField));
+        switch ($sortField) {
+            case 'none':
+                $sanitizedSorting = [];
+                break;
+            default:
+                $sanitizedSorting = [$sortField => $sortDirection];
+        }
+
+        return $sanitizedSorting;
     }
 
     protected function isSearchEmpty(Query $query)
