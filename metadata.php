@@ -39,9 +39,20 @@ $aModule = array(
         'makaira_connect_events'         => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
     ),
     'templates'   => array(
-        'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl'
+        'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
+        /* frontend filter */
+        'makaira/filter/base.tpl' => 'makaira/connect/views/tpl/filter/base.tpl',
+        'makaira/filter/list_multiselect.tpl' => 'makaira/connect/views/tpl/filter/list_multiselect.tpl',
+        'makaira/filter/range_slider.tpl' => 'makaira/connect/views/tpl/filter/range_slider.tpl',
+        'makaira/filter/list_show_more.tpl' => 'makaira/connect/views/tpl/filter/list_show_more.tpl',
     ),
-    'blocks'      => array(),
+    'blocks'      => array(
+        array(
+            'template' => 'layout/sidebar.tpl',
+            'block'    => 'sidebar_categoriestree',
+            'file'     => 'views/blocks/sidebar_categoriestree.tpl',
+        ),
+    ),
     'events'      => array(
         'onActivate'   => 'makaira_connect_events::onActivate',
         'onDeactivate' => 'makaira_connect_events::onDeactivate',

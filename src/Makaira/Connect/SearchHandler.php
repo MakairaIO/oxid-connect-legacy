@@ -10,6 +10,7 @@
 
 namespace Makaira\Connect;
 
+use Makaira\Aggregation;
 use Makaira\HttpClient;
 use Makaira\Query;
 use Makaira\Result;
@@ -37,6 +38,9 @@ class SearchHandler
         $result = json_decode($response->body, true);
         foreach ($result['items'] as $key => $item) {
             $result['items'][$key] = new ResultItem($item);
+        }
+        foreach ($result['aggregations'] as $key => $item) {
+            $result['aggregations'][$key] = new Aggregation($item);
         }
 
         return new Result($result);
