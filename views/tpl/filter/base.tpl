@@ -1,3 +1,5 @@
+[{include file="widget/filter/base.tpl"}]
+[{*
 [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter.css')}]
 [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter-flow.css')}]
 
@@ -70,3 +72,4 @@
     </script>
 [{/capture}]
 [{oxscript add=$makairaFilterScript}]
+*}]

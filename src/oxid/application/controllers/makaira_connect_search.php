@@ -189,7 +189,25 @@ class makaira_connect_search extends makaira_connect_search_parent
         $oxArticleList->loadIds($productIds);
         $oxArticleList->sortByIds($productIds);
 
-        $this->facets = $this->result->aggregations;
+        $aggregations = $this->result->aggregations;
+        foreach ($aggregations as $aggregation) {
+            switch ($aggregation->type) {
+                case 'range_slider':
+                    $facets[$aggregation->key] = [
+                        "min" => $aggregation->min,
+                        "max" => $aggregation->max,
+                    ];
+                    break;
+                default:
+                    $facets[$aggregation->key] = array_map(
+                        function ($value) {
+                            return ['key' => key($value), 'doc_count' => current($value)];
+                        },
+                        $aggregation->values
+                    );
+            }
+        }
+        $this->facets = $facets;
 
         //FIXME: handle additional search types (category, manufacturer, searchlinks)
         $aAdditionalSearchResults = array();
