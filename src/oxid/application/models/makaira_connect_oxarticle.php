@@ -1,5 +1,7 @@
 <?php
 
+use Makaira\Connect\Analyse\EventDispatcher;
+
 class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 {
 
@@ -20,7 +22,7 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 
     public function getParentId($oxid = null)
     {
-        if (!isset($sOXID)) {
+        if (!isset($oxid)) {
             return parent::getParentId();
         } else {
             /** @var \Makaira\Connect\DatabaseInterface $db */
@@ -58,4 +60,45 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         return oxRegistry::get('yamm_dic')['makaira.connect.repository'];
     }
 
+    /**
+     * @param int $iRating
+     */
+    public function addToRatingAverage($iRating)
+    {
+        parent::addToRatingAverage($iRating);
+
+        $parameters         = ['product_rated' => $this->getId(), 'rating_value' => $iRating];
+        $this->dispatchTrackingEvent($parameters);
+    }
+
+    /**
+     * @param int|float $dAmount
+     *
+     * @return mixed
+     */
+    public function updateSoldAmount($dAmount = 0)
+    {
+        $parentResult = parent::updateSoldAmount($dAmount);
+
+        // we only want to track buys not canceled orders
+        if ($dAmount <= 0) {
+            return $parentResult;
+        }
+
+        $parameters         = ['product_bought' => $this->getId(), 'amount' => ceil($dAmount)];
+        $this->dispatchTrackingEvent($parameters);
+
+        return $parentResult;
+    }
+
+    /**
+     * @param $parameters
+     */
+    private function dispatchTrackingEvent($parameters)
+    {
+        $dic = oxRegistry::get('yamm_dic');
+        /** @var EventDispatcher $trackingDispatcher */
+        $trackingDispatcher = $dic['makaira.connect.analyse.event_dispatcher'];
+        $trackingDispatcher->dispatch($parameters);
+    }
 }
