@@ -29,16 +29,25 @@ $aModule = array(
     'extend'      => array(
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
+        'oxcmp_basket' => 'makaira/connect/src/oxid/application/components/makaira_connect_oxcmp_basket',
     ),
     'files'       => array(
         'makaira_connect_endpoint'       => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
+        'makaira_connect_tracking'       => 'makaira/connect/src/oxid/application/controllers/makaira_connect_tracking.php',
         'makaira_connect_single_sign_on' => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'         => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
     ),
     'templates'   => array(
-        'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl'
+        'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
+        'makaira/widget/tracking.tpl' => 'makaira/connect/views/tpl/widget/tracking.tpl',
     ),
-    'blocks'      => array(),
+    'blocks'      => array(
+        array(
+            'template' => 'page/details/inc/productmain.tpl',
+            'block'    => 'details_productmain_title',
+            'file'     => 'views/blocks/details_productmain_title.tpl',
+        ),
+    ),
     'events'      => array(
         'onActivate'   => 'makaira_connect_events::onActivate',
         'onDeactivate' => 'makaira_connect_events::onDeactivate',
