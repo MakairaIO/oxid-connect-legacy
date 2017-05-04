@@ -55,16 +55,6 @@ $dic['makaira.connect.utils.tokengenerator'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Utils\TokenGenerator();
 };
 
-$dic['makaira.connect.http_client'] = function (\Marm\Yamm\DIC $dic) {
-    return new Makaira\HttpClient\Stream();
-};
-
-$dic['makaira.connect.analyse.event_dispatcher'] = function (\Marm\Yamm\DIC $dic) {
-    return new Makaira\Connect\Analyse\EventDispatcher(
-        $dic['makaira.connect.http_client']
-    );
-};
-
 // --------------------------------------
 
 $dic['makaira.connect.repository.user'] = function (\Marm\Yamm\DIC $dic) {
