@@ -47,6 +47,7 @@ class makaira_connect_single_sign_on extends oxAdminDetails
         );
         $applicationUrl = rtrim($applicationUrl, '/');
 
+        $this->addTplParam('hasApplicationUrl', (bool) $applicationUrl);
         $iframeUrl = "{$applicationUrl}/?token={$token}&instance={$instanceName}";
         $this->addTplParam('applicationUrl', $iframeUrl);
         $this->addTplParam('iframeUrl', $iframeUrl);

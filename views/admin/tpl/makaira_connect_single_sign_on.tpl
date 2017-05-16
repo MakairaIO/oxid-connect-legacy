@@ -1,4 +1,4 @@
-[{if !$applicationUrl}]
+[{if !$hasApplicationUrl}]
     <h1>Warning</h1>
     <p>Please configure the Makaira application URL</p>
 [{else}]
