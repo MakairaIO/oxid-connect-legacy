@@ -32,7 +32,16 @@ class makaira_connect_search extends makaira_connect_search_parent
             return parent::init();
         }
         startProfile('searchView');
-        return $this->initOxsearch();
+        try {
+            // do not use parent::init() to prevent database query
+            // oxubase::init() has to be called statically, otherwise essential smarty _tpl_vars are not available
+            oxubase::init();
+            $this->initializeSearch();
+        } catch (Exception $e) {
+            $oxException = new oxException($e->getMessage(), $e->getCode());
+            $oxException->debugOut();
+            parent::init();
+        }
         stopProfile('searchView');
     }
 
@@ -46,16 +55,12 @@ class makaira_connect_search extends makaira_connect_search_parent
         return $this->facets;
     }
 
-    protected function initOxsearch()
+    protected function initializeSearch()
     {
-        // do not use parent::init() to prevent database query
-        // oxubase::init() has to be called statically, otherwise essential smarty _tpl_vars are not available
-        oxubase::init();
-
-        $myConfig = $this->getConfig();
+        $oxConfig = $this->getConfig();
 
         $query = new Query([
-            'searchPhrase' => oxRegistry::getConfig()->getRequestParameter('searchparam', true),
+            'searchPhrase' => $oxConfig->getRequestParameter('searchparam', true),
         ]);
 
         // check mysql for product with product number
@@ -67,12 +72,12 @@ class makaira_connect_search extends makaira_connect_search_parent
 
         $query->constraints = array_filter(
             [
-                Constraints::SHOP => oxRegistry::getConfig()->getShopId(),
+                Constraints::SHOP => $oxConfig->getShopId(),
                 Constraints::LANGUAGE => oxRegistry::getLang()->getLanguageAbbr(),
-                Constraints::USE_STOCK => oxRegistry::getConfig()->getShopConfVar('blUseStock'),
-                Constraints::CATEGORY   => rawurldecode(oxRegistry::getConfig()->getRequestParameter('searchcnid')),
-                Constraints::MANUFACTURER => rawurldecode(oxRegistry::getConfig()->getRequestParameter('searchmanufacturer')),
-                'vendor'       => rawurldecode(oxRegistry::getConfig()->getRequestParameter('searchvendor')),
+                Constraints::USE_STOCK => $oxConfig->getShopConfVar('blUseStock'),
+                Constraints::CATEGORY   => rawurldecode($oxConfig->getRequestParameter('searchcnid')),
+                Constraints::MANUFACTURER => rawurldecode($oxConfig->getRequestParameter('searchmanufacturer')),
+                'vendor'       => rawurldecode($oxConfig->getRequestParameter('searchvendor')),
 
             ]
         );

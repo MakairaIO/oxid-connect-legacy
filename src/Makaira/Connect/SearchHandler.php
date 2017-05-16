@@ -36,6 +36,11 @@ class SearchHandler
         $response = $this->httpClient->request('POST', $request, $body);
 
         $result = json_decode($response->body, true);
+
+        if (isset($result['ok']) && $result['ok'] === false) {
+            throw new \RuntimeException("Error in makaira: {$result['message']}");
+        }
+
         foreach ($result['items'] as $key => $item) {
             $result['items'][$key] = new ResultItem($item);
         }
