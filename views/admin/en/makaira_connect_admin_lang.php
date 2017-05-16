@@ -8,6 +8,7 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_secret'     => 'Shared Secret',
     'SHOP_MODULE_makaira_application_url'    => 'Makaira Url',
     'SHOP_MODULE_makaira_connect_load_limit' => 'Load Limitation',
+    'SHOP_MODULE_makaira_instance'           => 'Instance',
 
     'makaira_connect_iframe' => 'Makaira Configuration',
 );

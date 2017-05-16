@@ -35,6 +35,11 @@ class makaira_connect_single_sign_on extends oxAdminDetails
 
         $repository->addUserToken($userId, $token, self::TOKEN_VALIDITY);
 
+        $instanceName = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_instance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
         $applicationUrl = oxRegistry::getConfig()->getShopConfVar(
             'makaira_application_url',
             null,
@@ -42,7 +47,7 @@ class makaira_connect_single_sign_on extends oxAdminDetails
         );
         $applicationUrl = rtrim($applicationUrl, '/');
 
-        $iframeUrl = "{$applicationUrl}/?token={$token}";
+        $iframeUrl = "{$applicationUrl}/?token={$token}&instance={$instanceName}";
         $this->addTplParam('applicationUrl', $iframeUrl);
         $this->addTplParam('iframeUrl', $iframeUrl);
 
