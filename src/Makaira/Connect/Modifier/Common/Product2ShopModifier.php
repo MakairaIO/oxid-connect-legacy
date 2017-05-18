@@ -9,6 +9,7 @@ use Makaira\Connect\Type;
 class Product2ShopModifier extends Modifier
 {
     private $isMultiShop = false;
+
     protected $selectQuery = '
         SELECT
           OXSHOPID
@@ -72,11 +73,9 @@ class Product2ShopModifier extends Modifier
                     $product->shop
                 );
             }
-
         } else {
             $product->shop = [$product->OXSHOPID];
         }
-
         return $product;
     }
 }
