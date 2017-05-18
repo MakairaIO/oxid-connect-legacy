@@ -8,6 +8,8 @@ class Product extends BaseProduct
 {
     public $variantactive = 1;
     public $activeto = null;
+    public $OXSHOPINCL;
+    public $OXSHOPEXCL;
     public $suggest = [];
     public $activefrom = null;
     public $MARM_OXSEARCH_BASKETCOUNT = 0;

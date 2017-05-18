@@ -23,6 +23,23 @@ class Product2ShopModifier extends Modifier
      */
     private $database;
 
+    protected $shopTableQuery = 'SHOW TABLES LIKE "oxarticles2shop"';
+
+    private function getArrayFromBitmask($bitmask) {
+        $retArray = array();
+        for ($i = 0; $i < 64; $i++) {
+            if (($bitmask >> $i) & 1) {
+                $retArray[] = $i + 1;
+            }
+        }
+        return $retArray;
+    }
+
+    private function hasTable() {
+        $hasTable = $this->database->query($this->shopTableQuery);
+        return empty($hasTable);
+    }
+
     /**
      * @param DatabaseInterface $database
      * @param bool              $isMultiShop
@@ -43,13 +60,19 @@ class Product2ShopModifier extends Modifier
     public function apply(Type $product)
     {
         if ($this->isMultiShop) {
-            $product->shop = $this->database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);
-            $product->shop = array_map(
-                function ($x) {
-                    return $x['OXSHOPID'];
-                },
-                $product->shop
-            );
+            if ($this->hasTable()) {
+                $bitmask = $product->OXSHOPINCL;
+                $product->shop = $this->getArrayFromBitmask($bitmask);
+            } else {
+                $product->shop = $this->database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);
+                $product->shop = array_map(
+                    function ($x) {
+                        return $x['OXSHOPID'];
+                    },
+                    $product->shop
+                );
+            }
+
         } else {
             $product->shop = [$product->OXSHOPID];
         }
