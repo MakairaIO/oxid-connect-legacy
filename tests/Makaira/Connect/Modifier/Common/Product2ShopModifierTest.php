@@ -36,11 +36,10 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2], $product->shop);
     }
 
-    public function testGetArrayFromBitmask()
+    public function testLegacyEE()
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new Product();
-        unset($product->OXMAPID);
         $product->OXSHOPINCL = 3;
         $modifier = new Product2ShopModifier($dbMock, true);
         $product = $modifier->apply($product);
