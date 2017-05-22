@@ -1,6 +1,17 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+$autoloadLocations = [
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../../../vendor/autoload.php',
+    __DIR__ . '/../../../../vendor/autoload.php',
+];
+
+foreach ($autoloadLocations as $autoloadLocation) {
+    if (file_exists($autoloadLocation)) {
+        require_once $autoloadLocation;
+        break;
+    }
+}
 
 /** @var \Marm\Yamm\DIC $dic */
 
