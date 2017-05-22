@@ -20,12 +20,12 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 
     public function getParentId($oxid = null)
     {
-        if (!isset($sOXID)) {
+        if (!isset($oxid)) {
             return parent::getParentId();
         } else {
             /** @var \Makaira\Connect\DatabaseInterface $db */
             $db = oxRegistry::get('yamm_dic')['oxid.database'];
-            $parentId = $db->query('SELECT OXPARENTID FROM oxarticles WHERE OXID = :id', ['id' => $sOXID]);
+            $parentId = $db->query('SELECT OXPARENTID FROM oxarticles WHERE OXID = :id', ['id' => $oxid]);
             return empty($parentId) ? null : $parentId[0]['OXPARENTID'];
         }
     }
