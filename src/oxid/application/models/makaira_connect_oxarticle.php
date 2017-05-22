@@ -50,6 +50,17 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         }
     }
 
+    public function updateSoldAmount($dAmount = 0)
+    {
+        $result = parent::updateSoldAmount($dAmount);
+        if (!$dAmount) {
+            return $result;
+        }
+        $this->touch();
+
+        return $result;
+    }
+
     /**
      * @return \Makaira\Connect\Repository
      */
