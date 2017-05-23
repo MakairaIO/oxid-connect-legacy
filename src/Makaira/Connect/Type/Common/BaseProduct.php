@@ -12,6 +12,8 @@ class BaseProduct extends Type
 {
     public $OXMAPID;
     public $OXSHOPID;
+    public $OXSHOPINCL;
+    public $OXSHOPEXCL;
     public $OXPARENTID;
     public $OXACTIVE;
     public $OXACTIVEFROM;
