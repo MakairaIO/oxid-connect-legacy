@@ -85,6 +85,9 @@ class makaira_connect_endpoint extends oxUBase
                 case 'loadUserByToken':
                     $updates = $this->getCurrentUserAction($body);
                     break;
+                case 'getReplicationStatus':
+                    $updates = $this->getReplicationStatusAction($body);
+                    break;
                 case 'getUpdates':
                 default:
                     $updates = $this->getUpdatesAction($body);
@@ -217,5 +220,24 @@ class makaira_connect_endpoint extends oxUBase
         $user = $repository->getAuthorizedUserByToken($body->token);
 
         return $user;
+    }
+
+    public function getReplicationStatusAction($body)
+    {
+        if (!isset($body->indices)) {
+            return [];
+        }
+
+        /** @var \Marm\Yamm\DIC $dic */
+        $dic = oxRegistry::get('yamm_dic');
+
+        /** @var \Makaira\Connect\Repository\UserRepository $repository */
+        $repository = $dic['makaira.connect.repository'];
+        foreach ($body->indices as $index) {
+            $index->openChanges = $repository->countChangesSince($index->lastRevision);
+            $index->changeLag = $repository->getChangeLag($index->lastRevision);
+        }
+
+        return $body->indices;
     }
 }
