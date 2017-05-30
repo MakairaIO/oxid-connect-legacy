@@ -537,16 +537,16 @@
         },
         {
             "name": "marm/yamm",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marmaladeDE/yamm.git",
-                "reference": "05d2251baa0e824b750628a2c680153aa786b364"
+                "reference": "67c392b7a5b885893fe41671d92e27be9f8a137f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/05d2251baa0e824b750628a2c680153aa786b364",
-                "reference": "05d2251baa0e824b750628a2c680153aa786b364",
+                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/67c392b7a5b885893fe41671d92e27be9f8a137f",
+                "reference": "67c392b7a5b885893fe41671d92e27be9f8a137f",
                 "shasum": ""
             },
             "require": {
@@ -560,6 +560,9 @@
                 "squizlabs/php_codesniffer": "@stable"
             },
             "type": "oxid-module",
+            "extra": {
+                "installer-name": "marm/yamm"
+            },
             "autoload": {
                 "classmap": [
                     "src/"
@@ -569,7 +572,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2016-11-09T16:00:08+00:00"
+            "time": "2017-05-30T09:54:10+00:00"
         },
         {
             "name": "pimple/pimple",
