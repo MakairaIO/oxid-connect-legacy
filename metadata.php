@@ -29,6 +29,7 @@ $aModule = array(
     'extend'      => array(
         /* controllers */
         'search' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
+        'alist' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_alist',
         /* models */
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
@@ -37,6 +38,7 @@ $aModule = array(
         'makaira_connect_endpoint'       => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_single_sign_on' => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'         => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
+        'makaira_connect_request_helper' => 'makaira/connect/src/oxid/core/makaira_connect_request_helper.php',
     ),
     'templates'   => array(
         'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
@@ -63,5 +65,6 @@ $aModule = array(
         array('name' => 'makaira_connect_load_limit', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
         array('name' => 'makaira_instance', 'group' => 'SETTINGS', 'type' => 'str', 'value' => 'live'),
         array('name' => 'makaira_connect_activate_search', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
+        array('name' => 'makaira_connect_activate_listing', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
     ),
 );
