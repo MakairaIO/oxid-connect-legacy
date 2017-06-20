@@ -4,6 +4,7 @@ namespace Makaira\Connect\Modifier\Common;
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\BaseProduct;
+use Makaira\Connect\Type\Product\Product;
 
 class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,6 +31,16 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([['OXSHOPID' => 1], ['OXSHOPID' => 2]]));
         $product = new BaseProduct();
         $product->OXMAPID = 1;
+        $modifier = new Product2ShopModifier($dbMock, true);
+        $product = $modifier->apply($product);
+        $this->assertEquals([1, 2], $product->shop);
+    }
+
+    public function testLegacyEE()
+    {
+        $dbMock = $this->getMock(DatabaseInterface::class);
+        $product = new Product();
+        $product->OXSHOPINCL = 3;
         $modifier = new Product2ShopModifier($dbMock, true);
         $product = $modifier->apply($product);
         $this->assertEquals([1, 2], $product->shop);

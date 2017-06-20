@@ -14,7 +14,7 @@ class Repository
             SELECT S FROM (
               SELECT
                 MAX(SEQUENCE) AS S
-              FROM 
+              FROM
                 makaira_connect_changes
               GROUP BY
                 OXID, TYPE
@@ -93,6 +93,21 @@ class Repository
         );
 
         return $result[0]['count'];
+    }
+
+    public function getChangeLag($since)
+    {
+        $result = $this->database->query(
+            'SELECT
+                (UNIX_TIMESTAMP(MAX(changed)) - UNIX_TIMESTAMP(MIN(changed))) lag
+            FROM
+                makaira_connect_changes
+            WHERE
+                makaira_connect_changes.sequence >= :since',
+            ['since' => $since ?: 0]
+        );
+
+        return $result[0]['lag'];
     }
 
     protected function getRepositoryForType($type)

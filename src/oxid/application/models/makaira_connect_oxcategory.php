@@ -15,7 +15,7 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     {
         $result = parent::save();
         if ($result) {
-            $this->getRepository()->touch('category', $this->getId());
+            $this->touch($this->getId());
         }
         return $result;
     }
@@ -24,9 +24,15 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     {
         $result = parent::delete($sOXID);
         if ($result) {
-            $this->getRepository()->touch('category', $sOXID ?: $this->getId());
+            $this->touch($sOXID ?: $this->getId());
         }
         return $result;
+    }
+
+    public function touch($oxid = null)
+    {
+        $id = $oxid ?: $this->getId();
+        $this->getRepository()->touch('category', $id);
     }
 
 }
