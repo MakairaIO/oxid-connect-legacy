@@ -35,10 +35,10 @@ $aModule = array(
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
     ),
     'files'       => array(
-        'makaira_connect_endpoint'       => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
-        'makaira_connect_single_sign_on' => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
-        'makaira_connect_events'         => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
-        'makaira_connect_request_helper' => 'makaira/connect/src/oxid/core/makaira_connect_request_helper.php',
+        'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
+        'makaira_connect_single_sign_on'  => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
+        'makaira_connect_events'          => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
+        'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
     ),
     'templates'   => array(
         'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',

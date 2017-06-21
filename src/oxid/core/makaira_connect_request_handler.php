@@ -9,23 +9,16 @@
  */
 
 use Makaira\Connect\SearchHandler;
-use Makaira\Constraints;
 use Makaira\Query;
 
 /**
- * Class makaira_connect_request_helper
+ * Class makaira_connect_request_handler
  */
-class makaira_connect_request_helper
+class makaira_connect_request_handler
 {
     protected $result;
     protected $additionalResults;
-
-    public function __construct(oxConfig $config, oxViewConfig $viewConfig, $sorting)
-    {
-        $this->viewConfig = $viewConfig;
-        $this->config = $config;
-        $this->sorting = $sorting;
-    }
+    protected $aggregations;
 
     public function sanitizeSorting($sorting)
     {
@@ -46,24 +39,6 @@ class makaira_connect_request_helper
         }
 
         return $sanitizedSorting;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getLimitOffset()
-    {
-        // sets active page
-        $currentPage = (int) oxRegistry::getConfig()->getRequestParameter('pgNr');
-        $currentPage = ($currentPage < 0) ? 0 : $currentPage;
-
-        // load only articles which we show on screen
-        //setting default values to avoid possible errors showing article list
-        $displayedProducts = (int) $this->config->getConfigParam('iNrofCatArticles');
-        $displayedProducts = $displayedProducts ? $displayedProducts : 10;
-        $offset            = $displayedProducts * $currentPage;
-
-        return array($displayedProducts, $offset);
     }
 
     public function getProductsFromMakaira(Query $query)
@@ -94,13 +69,13 @@ class makaira_connect_request_helper
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
                 case 'range_slider':
-                    $facets[$aggregation->key] = [
+                    $aggregations[$aggregation->key] = [
                         "min" => $aggregation->min,
                         "max" => $aggregation->max,
                     ];
                     break;
                 default:
-                    $facets[$aggregation->key] = array_map(
+                    $aggregations[$aggregation->key] = array_map(
                         function ($value) {
                             return ['key' => key($value), 'doc_count' => current($value)];
                         },
@@ -108,7 +83,7 @@ class makaira_connect_request_helper
                     );
             }
         }
-        $this->facets = $facets;
+        $this->aggregations = $aggregations;
 
         //FIXME: handle additional search types (category, manufacturer, searchlinks)
         $aAdditionalSearchResults = array();
@@ -117,8 +92,17 @@ class makaira_connect_request_helper
         }*/
         $this->additionalResults = $aAdditionalSearchResults;
 
-
         return $oxArticleList;
+    }
+
+    public function getAggregations()
+    {
+        return $this->aggregations;
+    }
+
+    public function getAdditionalResults()
+    {
+        return $this->additionalResults;
     }
 
     public function getProductCount(Query $query)
@@ -131,27 +115,5 @@ class makaira_connect_request_helper
             $this->result = $searchHandler->search($query);
         }
         return $this->result->total;
-    }
-
-    /**
-     * Loads single article by it's number
-     *
-     * @param string $nr
-     *
-     * @return marm_oxsearch_oxarticle|null
-     */
-    public function loadProductByNumber($number) {
-        $number = oxDb::getDb()->quote($number);
-        /** @var oxArticle|marm_oxsearch_oxarticle $oxArticle */
-        $oxArticle = oxNew('oxarticle');
-        $table = $oxArticle->getViewName();
-        $activeSnippet = $oxArticle->getSqlActiveSnippet();
-        $sql = "SELECT `OXID` FROM {$table} WHERE {$table}.OXARTNUM = {$number} AND {$activeSnippet}";
-        $id = oxDb::getDb()->getOne($sql);
-        if ($id && $oxArticle->load($id)) {
-            return $oxArticle;
-        }
-
-        return null;
     }
 }
