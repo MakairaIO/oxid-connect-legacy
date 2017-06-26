@@ -33,6 +33,8 @@ $aModule = array(
         /* models */
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
+        /* core */
+        'oxviewconfig' => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
     ),
     'files'       => array(
         'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
@@ -44,6 +46,7 @@ $aModule = array(
         'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
         /* frontend filter */
         'makaira/filter/base.tpl' => 'makaira/connect/views/tpl/filter/base.tpl',
+        'makaira/filter/list.tpl' => 'makaira/connect/views/tpl/filter/list.tpl',
         'makaira/filter/list_multiselect.tpl' => 'makaira/connect/views/tpl/filter/list_multiselect.tpl',
         'makaira/filter/range_slider.tpl' => 'makaira/connect/views/tpl/filter/range_slider.tpl',
         'makaira/filter/list_show_more.tpl' => 'makaira/connect/views/tpl/filter/list_show_more.tpl',

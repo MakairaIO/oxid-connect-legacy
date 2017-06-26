@@ -1,5 +1,5 @@
-[{include file="widget/filter/base.tpl"}]
-[{*
+[{*[{include file="widget/filter/base.tpl"}]*}]
+
 [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter.css')}]
 [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter-flow.css')}]
 
@@ -54,6 +54,7 @@
         [{if $oViewConf->isFilterActive()}]
             <br clear="all"><a href="[{$baseLink}]">[{oxmultilang ident="MARM_OXSEARCH_FILTER_RESET_ALL"}]</a>
         [{/if}]
+        <button type="submit">Submit Form</button>
     </form>
 </aside>
 
@@ -72,4 +73,4 @@
     </script>
 [{/capture}]
 [{oxscript add=$makairaFilterScript}]
-*}]
+

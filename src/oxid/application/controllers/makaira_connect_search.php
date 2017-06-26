@@ -37,6 +37,7 @@ class makaira_connect_search extends makaira_connect_search_parent
             // oxubase::init() has to be called statically, otherwise essential smarty _tpl_vars are not available
             oxubase::init();
             $this->makairaInitSearch();
+            $this->addTplParam('isMakairaSearchEnabled', true);
         } catch (Exception $e) {
             $oxException = new oxException($e->getMessage(), $e->getCode());
             $oxException->debugOut();

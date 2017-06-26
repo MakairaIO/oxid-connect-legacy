@@ -78,6 +78,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         try {
             // load products from makaira
             $aArticleList = $this->makairaLoadArticles($oCategory);
+            $this->addTplParam('isMakairaSearchEnabled', true);
         }  catch (Exception $e) {
             $oxException = new oxException($e->getMessage(), $e->getCode());
             $oxException->debugOut();
@@ -129,7 +130,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         );
 
         $query->aggregations = array_filter(
-            $this->getViewConfig()->getFacetParams()
+            $this->getViewConfig()->getAggregationFilter()
         );
 
         $query->sorting = $requestHelper->sanitizeSorting($sorting);

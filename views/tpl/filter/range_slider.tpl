@@ -1,5 +1,5 @@
-[{assign var=fromname value=$aggregation->key|cat:"_from"}]
-[{assign var=toname value=$aggregation->key|cat:"_to"}]
+[{assign var=fromname value='makairaFilter['|cat:$aggregation->key|cat:"_from]"}]
+[{assign var=toname value='makairaFilter['|cat:$aggregation->key|cat:"_to]"}]
 [{assign var=oActCurrency value=$oView->getActCurrency()}]
 [{assign var=sCurrencySign value=$oActCurrency->sign}]
 [{assign var=fCurrencyRate value=$oActCurrency->rate}]
@@ -13,20 +13,20 @@
     <script>
     [{capture assign="filterScript"}]
         (function($) {
-            var redirecturl='[{ $oViewConf->getFilterSeoLink($baseLink,$facet.paramname) }]';
+            var redirecturl='[{ $oViewConf->getFilterSeoLink($baseLink,$aggregation->key) }]';
             var leftvalue='[{$facetParams.$fromname}]';
             var rightvalue='[{$facetParams.$toname}]';
             var currencysign='[{$sCurrencySign}]';
             var currencyrate='[{$fCurrencyRate}]';
             var separator='&';
             var step=1;
-            if (leftvalue=='') {leftvalue=[{$facetResults.$facetKey.min|floor}]}
-            if (rightvalue=='') {rightvalue=[{$facetResults.$facetKey.max|ceil}]}
+            if (leftvalue=='') {leftvalue=[{$aggregation->min|floor}]}
+            if (rightvalue=='') {rightvalue=[{$aggregation->max|ceil}]}
             $( "#[{$sSliderId}]" ).slider({
                 range: true,
                 step: step,
-                min: [{$facetResults.$facetKey.min|floor}],
-                max: [{$facetResults.$facetKey.max|ceil}],
+                min: [{$aggregation->min|floor}],
+                max: [{$aggregation->max|ceil}],
                 values: [ leftvalue, rightvalue ],
                 slide: function( event, ui ) {
                     $( "#[{$sLabelId}]" ).html( currencysign + Math.floor(ui.values[ 0 ]*currencyrate) + " - " + currencysign + Math.ceil(ui.values[ 1 ]*currencyrate) );
@@ -51,7 +51,7 @@
                     div.innerHTML = redirecturl;
                     var redirecturl_decoded = div.firstChild.nodeValue;
 
-                    window.location.assign(redirecturl_decoded+separator+'[{$facet.paramname}]_from='+$( "#[{$sSliderId}]" ).slider( "values", 0 )+'&[{$facet.paramname}]_to='+$( "#[{$sSliderId}]" ).slider( "values", 1 ));
+                    window.location.assign(redirecturl_decoded+separator+'[{$aggregation->key}]_from='+$( "#[{$sSliderId}]" ).slider( "values", 0 )+'&[{$aggregation->key}]_to='+$( "#[{$sSliderId}]" ).slider( "values", 1 ));
                 }
             });
             $( "#[{$sLabelId}]" ).html( currencysign + Math.floor($( "#[{$sSliderId}]" ).slider( "values", 0 )*currencyrate) +

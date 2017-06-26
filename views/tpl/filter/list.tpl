@@ -8,7 +8,7 @@
 
     <li class="makaira-filter__item[{if $item->selected}] makaira-filter__item--active[{/if}]">
         <label>
-            <input type="checkbox" name="makairaFilter[[{$aggregation->key}]][]" value="[{$item->value}]" [{if $item->selected}]checked="checked"[{/if}]/>
+            <input type="checkbox" name="makairaFilter[[{$aggregation->key}]]" value="[{$item->value}]" [{if  $item->selected}]checked="checked"[{/if}]/>
             [{$item->value}] [{if $blShowDocCount}]([{$item->count}])[{/if}]
         </label>
     </li>

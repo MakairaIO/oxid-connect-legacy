@@ -41,6 +41,10 @@ class SearchHandler
             throw new \RuntimeException("Error in makaira: {$result['message']}");
         }
 
+        if (!isset($result['items']) && !isset($result['aggregations'])) {
+            throw new \UnexpectedValueException("Invalid response from makaira");
+        }
+
         foreach ($result['items'] as $key => $item) {
             $result['items'][$key] = new ResultItem($item);
         }

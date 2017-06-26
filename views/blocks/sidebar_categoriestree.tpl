@@ -1,4 +1,4 @@
 [{$smarty.block.parent}]
-[{if $oView->getClassName() eq "search"}]
+[{if $isMakairaSearchEnabled}]
     [{include file="makaira/filter/base.tpl"}]
 [{/if}]

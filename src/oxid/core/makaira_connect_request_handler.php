@@ -69,15 +69,17 @@ class makaira_connect_request_handler
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
                 case 'range_slider':
-                    $aggregations[$aggregation->key] = [
-                        "min" => $aggregation->min,
-                        "max" => $aggregation->max,
-                    ];
+                    $aggregations[$aggregation->key]->from = $aggregation->min;
+                    $aggregations[$aggregation->key]->to = $aggregation->max;
                     break;
                 default:
-                    $aggregations[$aggregation->key] = array_map(
+                    $aggregations[$aggregation->key]->values = array_map(
                         function ($value) {
-                            return ['key' => key($value), 'doc_count' => current($value)];
+                            $valueObject = new stdClass();
+                            $valueObject->key = key($value);
+                            $valueObject->count = current($value);
+                            $valueObject->selected =
+                            return $valueObject;
                         },
                         $aggregation->values
                     );

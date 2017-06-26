@@ -512,11 +512,11 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "a7b454b7c83416b03c59d17735b910c69af44275"
+                "reference": "dc5b364604113bfd070809fc0688be6fe8bb2f15"
             },
             "require": {
                 "kore/data-object": "@stable"
@@ -533,7 +533,7 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2017-03-23T15:33:05+00:00"
+            "time": "2017-04-20T13:18:45+00:00"
         },
         {
             "name": "marm/yamm",
