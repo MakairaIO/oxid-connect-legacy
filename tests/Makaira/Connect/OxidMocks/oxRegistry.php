@@ -27,6 +27,11 @@ class oxConfig
     {
         return null;
     }
+
+    public function getShopConfVar()
+    {
+        return null;
+    }
 }
 
 class oxRegistry

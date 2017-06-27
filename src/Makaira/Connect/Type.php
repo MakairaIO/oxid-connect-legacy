@@ -23,4 +23,18 @@ class Type extends DataObject
             $this->additionalData[$name] = $value;
         }
     }
+
+    public function __get($name)
+    {
+        try {
+            parent::__get($name);
+        } catch (\Exception $e) {
+            // catch exception on unknown fields
+            // unknown fields will be added to additional data array
+            if (!array_key_exists($name, $this->additionalData)) {
+                throw $e;
+            }
+            return $this->additionalData[$name];
+        }
+    }
 }
