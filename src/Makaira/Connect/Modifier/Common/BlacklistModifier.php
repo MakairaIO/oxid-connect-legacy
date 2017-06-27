@@ -34,8 +34,6 @@ class BlacklistModifier extends Modifier
         foreach ($this->blacklistedFields as $blacklistedField) {
             if (isset($type->$blacklistedField)) {
                 unset($type->$blacklistedField);
-            } elseif (array_key_exists($blacklistedField, $type->additionalData)) {
-                unset($type->additionalData[$blacklistedField]);
             }
         }
 
