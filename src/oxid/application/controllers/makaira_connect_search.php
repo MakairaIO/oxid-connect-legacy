@@ -115,7 +115,7 @@ class makaira_connect_search extends makaira_connect_search_parent
 
         // skip count calculation if no articles in list found
         if ($oSearchList->count()) {
-            $this->_iAllArtCnt = $this->getProductCount($query);
+            $this->_iAllArtCnt = $requestHelper->getProductCount($query);
         } else {
             $this->_aArticleList = null;
             // Do not set search empty because we might have hits in additional types
