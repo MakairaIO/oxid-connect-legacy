@@ -4,13 +4,10 @@
   "scripts": {
     "clean": "rm -rf dist/*",
 
-    "hash": "hashmark -l 8 'dist/*.{css,js}' 'dist/{name}.{hash}{ext}'",
-
     "prebuild": "npm run clean",
     "build": "npm run build:styles && npm run build:scripts",
-    "build:styles": "stylus src/styles/main.styl --out dist/",
-    "build:scripts": "babel src/scripts/main.js --out-file dist/main.js --presets=es2015",
-    "postbuild": "npm run hash && rm dist/main.css && rm dist/main.js",
+    "build:styles": "stylus src/styles/main.styl | hashmark -l 8 'dist/main.{hash}.css'",
+    "build:scripts": "babel src/scripts/main.js --presets=es2015 | hashmark -l 8 'dist/main.{hash}.js'",
 
     "watch:styles": "stylus --watch src/styles/main.styl --out dist/",
     "watch:scripts": "babel --watch src/scripts/main.js --out-file dist/main.js --presets=es2015",
