@@ -1,7 +1,8 @@
-[{*[{include file="widget/filter/base.tpl"}]*}]
+[{assign var="cssFilePath" value=$oViewConf->getMakairaMainStylePath()}]
+[{oxstyle include=$oViewConf->getModuleUrl('makaira/connect', $cssFilePath)}]
 
-[{* [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter.css')}] *}]
-[{* [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter-flow.css')}] *}]
+[{assign var="jsFilePath" value=$oViewConf->getMakairaMainScriptPath()}]
+[{oxscript include=$oViewConf->getModuleUrl('makaira/connect', $jsFilePath) priority=10 }]
 
 [{assign var=activeClass value=$oViewConf->getActiveClassname()}]
 [{assign var=params value=$oViewConf->getFacetParams()}]

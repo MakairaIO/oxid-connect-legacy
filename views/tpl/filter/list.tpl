@@ -11,7 +11,7 @@
             </li>
         [{/if}]
         <li class="makaira-filter__item[{if $item->selected}] makaira-filter__item--active[{/if}]">
-            <label>
+            <label class="makaira-filter__label">
                 <input 
                     type="checkbox" 
                     name="makairaFilter[[{$aggregation->key}]]" 

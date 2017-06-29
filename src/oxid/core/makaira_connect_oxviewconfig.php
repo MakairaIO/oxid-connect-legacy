@@ -14,4 +14,18 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     {
         return (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter');
     }
+
+    public function getMakairaMainStylePath()
+    {
+        $modulePath = $this->getModulePath('makaira/connect').'';
+        $file = glob($modulePath.'out/dist/*.css');
+        return substr(reset($file), strlen($modulePath));
+    }
+
+    public function getMakairaMainScriptPath()
+    {
+        $modulePath = $this->getModulePath('makaira/connect').'';
+        $file = glob($modulePath.'out/dist/*.js');
+        return substr(reset($file), strlen($modulePath));
+    }
 }
