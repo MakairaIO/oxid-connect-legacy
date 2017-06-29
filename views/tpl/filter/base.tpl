@@ -1,7 +1,7 @@
 [{*[{include file="widget/filter/base.tpl"}]*}]
 
-[{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter.css')}]
-[{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter-flow.css')}]
+[{* [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter.css')}] *}]
+[{* [{oxstyle include=$oViewConf->getModuleUrl('marm/oxsearch','out/src/css/filter-flow.css')}] *}]
 
 [{assign var=activeClass value=$oViewConf->getActiveClassname()}]
 [{assign var=params value=$oViewConf->getFacetParams()}]
@@ -26,7 +26,7 @@
 
 
 <aside class="makaira-filter">
-    <form method="get" action="[{oxgetseourl ident=$baseLink}]">
+    <form class="makaira-form" action="[{oxgetseourl ident=$baseLink}]">
 
         [{if $topActiveClass == "search" }]
             <input type="hidden" name="cl" value="[{$topActiveClass}]">
@@ -47,30 +47,13 @@
                 <header class="makaira-filter__filter-headline">[{$filterTitle}]</header>
                 [{include file="makaira/filter/"|cat:$aggregation->type|cat:".tpl"}]
                 [{if $oViewConf->isFilterSet($aggregation->key)}]
-                    <br clear="all"><a href="[{$oViewConf->getFilterSeoLink($baseLink,$aggregation->key)}]" class="marmFilterReset">[{oxmultilang ident="MARM_OXSEARCH_FILTER_RESET"}]</a>
+                    <a href="[{$oViewConf->getFilterSeoLink($baseLink,$aggregation->key)}]" class="marmFilterReset">[{oxmultilang ident="MAKAIRA_FILTER_RESET"}]</a>
                 [{/if}]
             </section>
         [{/foreach}]
+
         [{if $oViewConf->isFilterActive()}]
-            <br clear="all"><a href="[{$baseLink}]">[{oxmultilang ident="MARM_OXSEARCH_FILTER_RESET_ALL"}]</a>
+            <a href="[{$baseLink}]">[{oxmultilang ident="MAKAIRA_FILTER_RESET_ALL"}]</a>
         [{/if}]
-        <button type="submit">Submit Form</button>
     </form>
 </aside>
-
-[{capture}]
-    <script>
-        [{capture assign="makairaFilterScript"}]
-            jQuery('.makaira-filter input[type=checkbox]').change(function () {
-            if (jQuery(this).closest('.categorySidebar').find('[type=checkbox]:checked').length > 0) {
-                jQuery('#filterForm').submit();
-            }
-            else {
-                jQuery(this).closest('.categorySidebar').find('.marmFilterReset')[0].click();
-            }
-        });
-        [{/capture}]
-    </script>
-[{/capture}]
-[{oxscript add=$makairaFilterScript}]
-
