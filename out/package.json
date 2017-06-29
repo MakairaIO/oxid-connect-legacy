@@ -6,7 +6,7 @@
 
     "prebuild": "npm run clean",
     "build": "npm run build:styles && npm run build:scripts",
-    "build:styles": "stylus < src/styles/main.styl | hashmark -l 8 --silent 'dist/main.{hash}.css'",
+    "build:styles": "stylus --use autoprefixer-stylus < src/styles/main.styl | hashmark -l 8 --silent 'dist/main.{hash}.css'",
     "build:scripts": "babel < src/scripts/main.js --presets=es2015 | hashmark -l 8 --silent 'dist/main.{hash}.js'",
 
     "watch:styles": "stylus --watch src/styles/main.styl --out dist/",
@@ -15,7 +15,11 @@
     "predev": "npm run clean",
     "dev": "npm-run-all --parallel watch:*"
   },
+  "browserslist": [
+    "last 2 versions"
+  ],
   "devDependencies": {
+    "autoprefixer-stylus": "^0.14.0",
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "hashmark": "^5.0.0",
