@@ -15,6 +15,17 @@
   width 195px
   margin 0 15px 20px
 
+.makaira-filter__button
+  background-color #fff
+  border none
+  font-style italic
+  line-height 25px
+  padding-left 0
+
+  &:focus
+    outline none
+
+// List / Multi-Select
 .makaira-filter__list
   list-style-type none
   padding 0
@@ -41,13 +52,32 @@
   position absolute
   left 0
 
-.makaira-filter__button
-  background-color #fff
-  border none
-  font-style italic
-  line-height 25px
-  padding-left 0
+// Range-Slider
+.makaira-filter__slider-values
+  text-align center
 
-  &:focus
-    outline none
+.noUi-horizontal
+  height 14px
 
+.noUi-horizontal .noUi-handle
+  width 26px
+  height 22px
+  top -5px
+
+.noUi-handle:after
+.noUi-handle:before
+  height 10px
+  left 9px
+  top 5px
+
+.noUi-handle:after
+  left 14px
+
+.noUi-horizontal .noUi-handle-lower
+  left -1px
+
+.noUi-horizontal .noUi-handle-upper
+  left -25px // = -(width + 1px)
+
+.noUi-connect
+  background-color #bbb
