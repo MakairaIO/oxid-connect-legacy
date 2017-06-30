@@ -1,10 +1,12 @@
 import noUiSlider from 'nouislider';
 
+const classFilterForm = 'makaira-form';
 const classFilterList = 'makaira-filter__list';
 const classFilterListExpanded = 'makaira-filter__list--expanded';
 const classFilterItemHidden = 'makaira-filter__item--hidden';
 const classListExpandButton = 'makaira-filter__button--expand';
 const classListCollapseButton = 'makaira-filter__button--collapse';
+const classFilterCheckbox = 'makaira-input--checkbox';
 const classRangeSliderContainer = 'makaira-filter__slider-container';
 const classRangeSlider = 'makaira-filter__range-slider';
 const classRangeSliderMinValue = 'makaira-filter__value--min';
@@ -38,6 +40,11 @@ const initRangeSliders = () => {
        */
       elementMinValue.innerHTML = Math.floor(values[0]);
       elementMaxValue.innerHTML = Math.ceil(values[1]);
+    });
+
+    slider.noUiSlider.on('change', (values, handle) => {
+      const form = document.querySelector(`.${classFilterForm}`);
+      form.submit();
     });
   });
 
@@ -79,9 +86,21 @@ const initHandlers = () => {
     });
   };
 
+  const addCheckboxHandler = (list) => {
+    // delegate change-event to filter-list
+    list.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target.classList.contains(classFilterCheckbox)) {
+        const form = document.querySelector(`.${classFilterForm}`);
+        form.submit();
+      }
+    });
+  };
+
   filterLists.forEach((list) => {
     addExpandButtonHandler(list);
     addCollapseButtonHandler(list);
+    addCheckboxHandler(list);
   });
 }
 

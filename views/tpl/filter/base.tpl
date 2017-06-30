@@ -27,7 +27,7 @@
 
 
 <aside class="makaira-filter">
-    <form class="makaira-form" action="[{oxgetseourl ident=$baseLink}]">
+    <form class="makaira-form" action="[{oxgetseourl ident=$baseLink}]" method="post">
 
         [{if $topActiveClass == "search" }]
             <input type="hidden" name="cl" value="[{$topActiveClass}]">
