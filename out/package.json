@@ -6,7 +6,7 @@
 
     "prebuild": "npm run clean",
     "build": "npm run build:styles && npm run build:scripts",
-    "build:styles": "stylus --use autoprefixer-stylus < src/styles/main.styl | hashmark -l 8 --silent 'dist/main.{hash}.css'",
+    "build:styles": "stylus --compress --use autoprefixer-stylus < src/styles/main.styl | hashmark -l 8 --silent 'dist/main.{hash}.css'",
     "build:scripts": "browserify src/scripts/main.js --transform [ babelify --presets=es2015] | hashmark -l 8 --silent 'dist/main.{hash}.js'",
 
     "watch:styles": "stylus --watch src/styles/main.styl --out dist/main.css",
