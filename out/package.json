@@ -7,7 +7,8 @@
     "prebuild": "npm run clean",
     "build": "npm run build:styles && npm run build:scripts",
     "build:styles": "stylus --compress --use autoprefixer-stylus < src/styles/main.styl | hashmark -l 8 --silent 'dist/main.{hash}.min.css'",
-    "build:scripts": "browserify src/scripts/main.js --transform [ babelify --presets=es2015] | uglifyjs --mangle --compress sequences=true,dead_code=true,conditionals=true,booleans=true,unused=true,if_return=true,join_vars=true,drop_console=true | hashmark -l 8 --silent 'dist/main.{hash}.min.js'",
+    "build:scripts": "browserify src/scripts/main.js --transform [ babelify --presets=es2015 ] | npm run uglify | hashmark -l 8 --silent 'dist/main.{hash}.min.js'",
+    "uglify": "uglifyjs --mangle --compress sequences=true,dead_code=true,conditionals=true,booleans=true,unused=true,if_return=true,join_vars=true,drop_console=true",
 
     "watch:styles": "stylus --watch src/styles/main.styl --out dist/main.css",
     "watch:scripts": "watchify src/scripts/main.js --verbose --transform [ babelify --presets=es2015] --outfile dist/main.js",
