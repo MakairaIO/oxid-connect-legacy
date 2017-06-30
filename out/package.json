@@ -7,13 +7,13 @@
     "prebuild": "npm run clean",
     "build": "npm run build:styles && npm run build:scripts",
     "build:styles": "stylus --use autoprefixer-stylus < src/styles/main.styl | hashmark -l 8 --silent 'dist/main.{hash}.css'",
-    "build:scripts": "babel < src/scripts/main.js --presets=es2015 | hashmark -l 8 --silent 'dist/main.{hash}.js'",
+    "build:scripts": "browserify src/scripts/main.js --transform [ babelify --presets=es2015] | hashmark -l 8 --silent 'dist/main.{hash}.js'",
 
-    "watch:styles": "stylus --watch src/styles/main.styl --out dist/",
-    "watch:scripts": "babel --watch src/scripts/main.js --out-file dist/main.js --presets=es2015",
+    "watch:styles": "stylus --watch src/styles/main.styl --out dist/main.css",
+    "watch:scripts": "watchify src/scripts/main.js --verbose --transform [ babelify --presets=es2015] --outfile dist/main.js",
 
     "predev": "npm run clean",
-    "dev": "npm-run-all --parallel watch:*"
+    "dev": "npm-run-all --parallel watch:*" 
   },
   "browserslist": [
     "last 2 versions"
@@ -22,8 +22,14 @@
     "autoprefixer-stylus": "^0.14.0",
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
     "hashmark": "^5.0.0",
     "npm-run-all": "^4.0.2",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "watchify": "^3.9.0"
+  },
+  "dependencies": {
+    "nouislider": "^10.0.0"
   }
 }
