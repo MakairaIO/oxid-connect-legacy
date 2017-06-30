@@ -16,8 +16,8 @@
                     type="checkbox" 
                     name="makairaFilter[[{$aggregation->key}]]" 
                     class="makaira-input makaira-input--checkbox" 
-                    value="[{$item->value}]" 
-                    [{if  $item->selected}]checked="checked"[{/if}]
+                    value="[{$item->key}]" 
+                    [{if $item->selected}]checked="checked"[{/if}]
                 />
                 [{$item->key}] [{if $blShowDocCount}]([{$item->count}])[{/if}]
             </label>

@@ -17,10 +17,10 @@
                     type="checkbox" 
                     name="makairaFilter[[{$aggregation->key}]][]" 
                     class="makaira-input makaira-input--checkbox" 
-                    value="[{$item->value}]" 
+                    value="[{$item->key}]" 
                     [{if $item->selected}]checked="checked"[{/if}]
                 />
-                [{$item->value}] [{if $blShowDocCount}]([{$item->count}])[{/if}]
+                [{$item->key}] [{if $blShowDocCount}]([{$item->count}])[{/if}]
             </label>
         </li>
 
