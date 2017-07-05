@@ -205,6 +205,26 @@ $dic->tag('makaira.connect.modifiers.category.url', 'makaira.importer.modifier.c
 $dic->tag('makaira.connect.modifiers.manufacturer.url', 'makaira.importer.modifier.manufacturer');
 $dic->tag('makaira.connect.modifiers.product.url', 'makaira.importer.modifier.product');
 
+$dic['makaira.connect.modifiers.common.blacklist.product'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\BlacklistModifier(
+        (array) oxRegistry::getConfig()->getShopConfVar('makaira_field_blacklist_product')
+    );
+};
+$dic['makaira.connect.modifiers.common.blacklist.category'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\BlacklistModifier(
+        (array) oxRegistry::getConfig()->getShopConfVar('makaira_field_blacklist_category')
+    );
+};
+$dic['makaira.connect.modifiers.common.blacklist.manufacturer'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\BlacklistModifier(
+        (array) oxRegistry::getConfig()->getShopConfVar('makaira_field_blacklist_manufacturer')
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.blacklist.product', 'makaira.importer.modifier.product');
+$dic->tag('makaira.connect.modifiers.common.blacklist.category', 'makaira.importer.modifier.category');
+$dic->tag('makaira.connect.modifiers.common.blacklist.manufacturer', 'makaira.importer.modifier.manufacturer');
+
+
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.product.suggest'] = function (\Marm\Yamm\DIC $dic) {

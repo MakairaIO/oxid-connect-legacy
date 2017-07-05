@@ -36,7 +36,7 @@ class PriceModifier extends Modifier
     {
         if ($this->isNetto && !$this->showNetto) {
             $prices = array_filter(
-                array_keys(get_object_vars($product)),
+                array_merge(array_keys(get_object_vars($product)), array_keys($product->additionalData)),
                 function ($key) {
                     return strpos(strtolower($key), 'price') !== false;
                 }
