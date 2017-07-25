@@ -12,5 +12,10 @@ $aLang = array(
     'SHOP_MODULE_makaira_instance'                => 'Instance',
     'SHOP_MODULE_makaira_connect_activate_search' => 'Activate for search',
 
+    'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Fields',
+    'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
+    'SHOP_MODULE_makaira_field_blacklist_category'     => '<b>Category</b>: blacklisted fields',
+    'SHOP_MODULE_makaira_field_blacklist_manufacturer' => '<b>manufacturer</b>: blacklisted fields',
+
     'makaira_connect_iframe' => 'Makaira Configuration',
 );

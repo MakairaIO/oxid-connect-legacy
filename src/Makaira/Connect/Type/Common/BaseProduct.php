@@ -10,20 +10,39 @@ use Makaira\Connect\Type;
  */
 class BaseProduct extends Type
 {
-    public $OXMAPID;
-    public $OXSHOPID;
-    public $OXSHOPINCL;
-    public $OXSHOPEXCL;
-    public $OXPARENTID;
+    /* attributes */
+    public $attribute = [];
+
+    /* Added for OXSEARCH */
+    public $MARM_OXSEARCH_BOOST;
+    public $MARM_OXSEARCH_PROFITMARGIN;
+
+    /* active */
     public $OXACTIVE;
     public $OXACTIVEFROM;
     public $OXACTIVETO;
+
+    /* identifier */
     public $OXARTNUM;
     public $OXEAN;
     public $OXDISTEAN;
     public $OXMPN;
+
+    /* manufacturer, vendor */
+    public $OXMANUFACTURERID;
+    public $OXVENDORID;
+
+    /* title and description */
     public $OXTITLE;
     public $OXSHORTDESC;
+    public $OXLONGDESC;
+    public $OXTAGS;
+    public $OXSEARCHKEYS;
+
+    /* search */
+    public $OXISSEARCH;
+
+    /* price */
     public $OXPRICE;
     public $OXBLFIXEDPRICE;
     public $OXPRICEA;
@@ -31,12 +50,34 @@ class BaseProduct extends Type
     public $OXPRICEC;
     public $OXBPRICE;
     public $OXTPRICE;
+    public $OXVAT;
+    public $OXVARMINPRICE;
+    public $OXVARMAXPRICE;
+//    public $OXUPDATEPRICE;
+//    public $OXUPDATEPRICEA;
+//    public $OXUPDATEPRICEB;
+//    public $OXUPDATEPRICEC;
+//    public $OXUPDATEPRICETIME;
+
+    /* multishop */
+    public $OXMAPID;
+    public $OXSHOPID;
+    /* for EE < 5.2 */
+    public $OXSHOPINCL;
+    public $OXSHOPEXCL;
+
+    /* parent-child */
+    public $OXPARENTID;
+    public $OXSORT;
+    public $OXVARNAME;
+    public $OXVARSELECT;
+    public $OXVARCOUNT;
+
+    /* unit price */
     public $OXUNITNAME;
     public $OXUNITQUANTITY;
-    public $OXEXTURL;
-    public $OXURLDESC;
-    public $OXURLIMG;
-    public $OXVAT;
+
+    /* images */
     public $OXTHUMB;
     public $OXICON;
     public $OXPIC1;
@@ -46,67 +87,64 @@ class BaseProduct extends Type
     public $OXPIC5;
     public $OXPIC6;
     public $OXPIC7;
-    public $OXPIC8;
-    public $OXPIC9;
-    public $OXPIC10;
-    public $OXPIC11;
-    public $OXPIC12;
+//    public $OXPIC8;
+//    public $OXPIC9;
+//    public $OXPIC10;
+//    public $OXPIC11;
+//    public $OXPIC12;
+
+    /* dimensions */
     public $OXWEIGHT;
-    public $OXSTOCK;
-    public $OXSTOCKFLAG;
-    public $OXSTOCKTEXT;
-    public $OXNOSTOCKTEXT;
-    public $OXDELIVERY;
-    public $OXINSERT;
-    public $OXTIMESTAMP;
     public $OXLENGTH;
     public $OXWIDTH;
     public $OXHEIGHT;
-    public $OXFILE;
-    public $OXSEARCHKEYS;
-    public $OXTEMPLATE;
-    public $OXQUESTIONEMAIL;
-    public $OXISSEARCH;
-    public $OXISCONFIGURABLE;
-    public $OXVARNAME;
+
+    /* stock and delivery */
+    public $OXSTOCK;
     public $OXVARSTOCK;
-    public $OXVARCOUNT;
-    public $OXVARSELECT;
-    public $OXVARMINPRICE;
-    public $OXVARMAXPRICE;
-    public $OXBUNDLEID;
-    public $OXFOLDER;
-    public $OXSUBCLASS;
-    public $OXSORT;
-    public $OXSOLDAMOUNT;
-    public $OXNONMATERIAL;
-    public $OXFREESHIPPING;
-    public $OXREMINDACTIVE;
-    public $OXREMINDAMOUNT;
-    public $OXAMITEMID;
-    public $OXAMTASKID;
-    public $OXVENDORID;
-    public $OXMANUFACTURERID;
-    public $OXSKIPDISCOUNTS;
-    public $OXRATING;
-    public $OXRATINGCNT;
+    public $OXSTOCKFLAG;
+    public $OXDELIVERY;
     public $OXMINDELTIME;
     public $OXMAXDELTIME;
     public $OXDELTIMEUNIT;
-    public $OXUPDATEPRICE;
-    public $OXUPDATEPRICEA;
-    public $OXUPDATEPRICEB;
-    public $OXUPDATEPRICEC;
-    public $OXUPDATEPRICETIME;
-    public $OXISDOWNLOADABLE;
-    public $OXSHOWCUSTOMAGREEMENT;
+//    public $OXSTOCKTEXT;
+//    public $OXNOSTOCKTEXT;
 
+    /* rating */
+    public $OXRATING;
+    public $OXRATINGCNT;
+
+    /* timestamps */
+    public $OXINSERT;
+    public $OXTIMESTAMP;
+
+    /* digital product */
+    public $OXFILE;
+    public $OXISDOWNLOADABLE;
+    public $OXNONMATERIAL;
+
+    public $OXISCONFIGURABLE;
+    public $OXFREESHIPPING;
+    public $OXSOLDAMOUNT;
+
+    /* Backport from Oxid 6.0 */
     public $OXHIDDEN;
 
-    public $OXLONGDESC;
-    public $OXTAGS;
+//    /* external url */
+//    public $OXEXTURL;
+//    public $OXURLDESC;
+//    public $OXURLIMG;
 
-    public $MARM_OXSEARCH_BOOST;
-    public $MARM_OXSEARCH_PROFITMARGIN;
-    public $attribute = [];
+//    /* OXID internal */
+//    public $OXREMINDACTIVE;
+//    public $OXREMINDAMOUNT;
+//    public $OXAMITEMID;
+//    public $OXAMTASKID;
+//    public $OXFOLDER;
+//    public $OXTEMPLATE;
+//    public $OXSUBCLASS;
+//    public $OXQUESTIONEMAIL;
+//    public $OXSHOWCUSTOMAGREEMENT;
+//    public $OXSKIPDISCOUNTS;
+//    public $OXBUNDLEID;
 }
