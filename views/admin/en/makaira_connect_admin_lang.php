@@ -11,6 +11,7 @@ $aLang = array(
     'HELP_SHOP_MODULE_makaira_connect_load_limit' => 'Common value: Half of the number of CPU cores on this machine (1 core => .5; 4 cores => 2)',
     'SHOP_MODULE_makaira_instance'                => 'Instance',
     'SHOP_MODULE_makaira_connect_activate_search' => 'Activate for search',
+    'SHOP_MODULE_makaira_connect_activate_listing' => 'Activate for category',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Fields',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
