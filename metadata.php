@@ -57,6 +57,11 @@ $aModule = array(
             'block'    => 'sidebar_categoriestree',
             'file'     => 'views/blocks/sidebar_categoriestree.tpl',
         ),
+        array(
+            'template' => 'page/list/list.tpl',
+            'block' => 'page_list_listbody',
+            'file'     => 'views/blocks/page_list_listbody.tpl',
+        ),
     ),
     'events'      => array(
         'onActivate'   => 'makaira_connect_events::onActivate',
