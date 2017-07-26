@@ -87,7 +87,7 @@ class makaira_connect_search extends makaira_connect_search_parent
             ]
         );
         $query->aggregations = array_filter(
-            $this->getViewConfig()->getFacetParams()
+            $this->getViewConfig()->getAggregationFilter()
         );
         $sorting = $this->getSorting($this->getSortIdent());
         $query->sorting = $requestHelper->sanitizeSorting($sorting);
