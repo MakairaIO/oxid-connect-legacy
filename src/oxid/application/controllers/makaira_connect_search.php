@@ -62,6 +62,7 @@ class makaira_connect_search extends makaira_connect_search_parent
 
         $query = new Query([
             'searchPhrase' => $oxConfig->getRequestParameter('searchparam', true),
+            'isSearch' => true,
         ]);
 
         // check mysql for product with product number

@@ -120,6 +120,8 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         $query = new Query();
 
+        $query->isSearch = false;
+
         $query->constraints = array_filter(
             [
                 Constraints::SHOP => $myConfig->getShopId(),
