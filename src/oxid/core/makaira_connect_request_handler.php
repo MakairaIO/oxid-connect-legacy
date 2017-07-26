@@ -74,10 +74,14 @@ class makaira_connect_request_handler
                     break;
                 default:
                     $aggregations[$aggregation->key]->values = array_map(
-                        function ($value) {
+                        function ($value) use ($aggregation, $query) {
                             $valueObject = new stdClass();
                             $valueObject->key = key($value);
                             $valueObject->count = current($value);
+                            $valueObject->selected = false;
+                            if (isset($query->aggregations[$aggregation->key])) {
+                                $valueObject->selected = in_array($valueObject->key, (array) $query->aggregations[$aggregation->key]);
+                            }
                             return $valueObject;
                         },
                         $aggregation->values
