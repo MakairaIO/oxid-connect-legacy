@@ -49,7 +49,7 @@ $aModule = array(
         'makaira/filter/list.tpl' => 'makaira/connect/views/tpl/filter/list.tpl',
         'makaira/filter/list_multiselect.tpl' => 'makaira/connect/views/tpl/filter/list_multiselect.tpl',
         'makaira/filter/range_slider.tpl' => 'makaira/connect/views/tpl/filter/range_slider.tpl',
-        'makaira/filter/list_show_more.tpl' => 'makaira/connect/views/tpl/filter/list_show_more.tpl',
+        'makaira/filter/script.tpl' => 'makaira/connect/views/tpl/filter/script.tpl',
     ),
     'blocks'      => array(
         array(
