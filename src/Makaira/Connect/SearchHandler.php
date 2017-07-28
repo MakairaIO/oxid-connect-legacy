@@ -21,7 +21,7 @@ class SearchHandler
     public function __construct(HttpClient $httpClient, $url)
     {
         $this->httpClient = $httpClient;
-        $this->url = rtrim($url,'/') . '/';
+        $this->url = rtrim($url, '/') . '/';
     }
 
     /**
