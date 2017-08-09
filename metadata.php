@@ -22,7 +22,7 @@ $aModule = array(
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'marmalade.jpg',
-    'version'     => '1.0.0',
+    'version'     => '2017-dev',
     'author'      => 'marmalade GmbH',
     'url'         => 'http://www.marmalade.de',
     'email'       => 'support@marmalade.de',
@@ -53,9 +53,9 @@ $aModule = array(
     ),
     'blocks'      => array(
         array(
-            'template' => 'layout/sidebar.tpl',
-            'block'    => 'sidebar_categoriestree',
-            'file'     => 'views/blocks/sidebar_categoriestree.tpl',
+            'template' => 'page/search/search.tpl',
+            'block'    => 'search_results',
+            'file'     => 'views/blocks/search_results.tpl',
         ),
         array(
             'template' => 'page/list/list.tpl',
