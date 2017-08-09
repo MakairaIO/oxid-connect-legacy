@@ -46,7 +46,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
      *
      * @return mixed
      */
-    public function getFacet()
+    public function getAggregations()
     {
         return $this->aggregations;
     }

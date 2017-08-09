@@ -23,7 +23,7 @@
 
 [{assign var="topActiveClass" value=$oViewConf->getTopActiveClassName()}]
 [{assign var="blShowDocCount" value=true}]
-[{assign var="aggregations" value=$oView->getFacet()}]
+[{assign var="aggregations" value=$oView->getAggregations()}]
 
 
 <aside class="makaira-filter">

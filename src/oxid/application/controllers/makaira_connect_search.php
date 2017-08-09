@@ -17,7 +17,7 @@ use Makaira\Query;
  */
 class makaira_connect_search extends makaira_connect_search_parent
 {
-    protected $facets = null;
+    protected $aggregations = null;
     protected $result;
     protected $additionalResults;
 
@@ -51,9 +51,9 @@ class makaira_connect_search extends makaira_connect_search_parent
         return 'search';
     }
 
-    public function getFacet()
+    public function getAggregations()
     {
-        return $this->facets;
+        return $this->aggregations;
     }
 
     protected function makairaInitSearch()
@@ -106,8 +106,8 @@ class makaira_connect_search extends makaira_connect_search_parent
             return;
         }
 
-        $oSearchList = $requestHelper->getProductsFromMakaira($query);
-        $this->facets = $requestHelper->getAggregations();
+        $oSearchList             = $requestHelper->getProductsFromMakaira($query);
+        $this->aggregations      = $requestHelper->getAggregations();
         $this->additionalResults = $requestHelper->getAdditionalResults();
 
         // list of found articles
