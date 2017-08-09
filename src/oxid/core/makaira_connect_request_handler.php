@@ -69,8 +69,12 @@ class makaira_connect_request_handler
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
                 case 'range_slider':
-//                    $aggregations[$aggregation->key]->from = $aggregation->min;
-//                    $aggregations[$aggregation->key]->to = $aggregation->max;
+                    if ($aggregation->min == $aggregation->max) {
+                        unset($aggregations[$aggregation->key]);
+                        continue;
+                    }
+                    $aggregations[$aggregation->key]->values['from'] = isset($query->aggregations[$aggregation->key.'_from']) ? $query->aggregations[$aggregation->key.'_from'] : $aggregation->min;
+                    $aggregations[$aggregation->key]->values['to'] = isset($query->aggregations[$aggregation->key.'_to']) ? $query->aggregations[$aggregation->key.'_to'] : $aggregation->max;
                     break;
                 default:
                     $aggregations[$aggregation->key]->values = array_map(

@@ -11,20 +11,26 @@ const classRangeSliderContainer = 'makaira-filter__slider-container';
 const classRangeSlider = 'makaira-filter__range-slider';
 const classRangeSliderMinValue = 'makaira-filter__value--min';
 const classRangeSliderMaxValue = 'makaira-filter__value--max';
+const classRangeSliderMinInput = 'makaira-filter__input--min';
+const classRangeSliderMaxInput = 'makaira-filter__input--max';
 
 const initRangeSliders = () => {
   const sliderContainers = document.querySelectorAll(`.${classRangeSliderContainer}`);
 
   sliderContainers.forEach((container) => {
     const slider = container.querySelector(`.${classRangeSlider}`);
-    const elementMinValue = container.querySelector(`.${classRangeSliderMinValue}`)
-    const elementMaxValue = container.querySelector(`.${classRangeSliderMaxValue}`)
-    const minValue = parseInt(slider.dataset.min);
-    const maxValue = parseInt(slider.dataset.max);
+    const elementMinValue = container.querySelector(`.${classRangeSliderMinValue}`);
+    const elementMaxValue = container.querySelector(`.${classRangeSliderMaxValue}`);
+    const inputMinValue = container.querySelector(`.${classRangeSliderMinInput}`);
+    const inputMaxValue = container.querySelector(`.${classRangeSliderMaxInput}`);
+    const minValue = Math.floor(slider.dataset.min);
+    const maxValue = Math.ceil(slider.dataset.max);
+    const minStart = Math.floor(slider.dataset.left);
+    const maxStart = Math.ceil(slider.dataset.right);
 
     // init slider
     noUiSlider.create(slider, {
-      start: [minValue, maxValue],
+      start: [minStart, maxStart],
       connect: true,
       range: {
         'min': minValue,
@@ -40,6 +46,8 @@ const initRangeSliders = () => {
        */
       elementMinValue.innerHTML = Math.floor(values[0]);
       elementMaxValue.innerHTML = Math.ceil(values[1]);
+      inputMinValue.value = Math.floor(values[0]);
+      inputMaxValue.value = Math.ceil(values[1]);
     });
 
     slider.noUiSlider.on('change', (values, handle) => {
