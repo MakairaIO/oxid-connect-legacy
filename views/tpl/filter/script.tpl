@@ -9,7 +9,7 @@
                     value="[{$item->key}]"
                     [{if $item->selected}]checked="checked"[{/if}]
             />
-            [{$item->key}] [{if $blShowDocCount}]([{$item->count}])[{/if}]
+            [{*[{$item->key}]*}] [{if $blShowDocCount}]([{$item->count}])[{/if}]
         </label>
     </li>
     [{/foreach}]
