@@ -149,7 +149,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $databaseMock
             ->expects($this->any())
             ->method('execute')
-            ->withConsecutive($this->stringContains('INSERT INTO'), ['type' => 'product', 'id' => 42]);
+            ->withConsecutive($this->stringContains('REPLACE INTO'), ['type' => 'product', 'id' => 42]);
 
         $repository->touch('product', 42);
     }
@@ -161,9 +161,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->exactly(3))
             ->method('execute')
             ->withConsecutive(
-                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 1]],
-                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 2]],
-                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 3]]
+                [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 1]],
+                [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 2]],
+                [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]]
                 );
         $repositoryMock1 = $this->getMock(RepositoryInterface::class);
         $repositoryMock1
@@ -183,10 +183,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->exactly(4))
             ->method('execute')
             ->withConsecutive(
-                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 1]],
-                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 2]],
-                [$this->stringContains('INSERT INTO'), ['type' => 'firstRepo', 'id' => 3]],
-                [$this->stringContains('INSERT INTO'), ['type' => 'secondRepo', 'id' => 4]]
+                [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 1]],
+                [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 2]],
+                [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]],
+                [$this->stringContains('REPLACE INTO'), ['type' => 'secondRepo', 'id' => 4]]
             );
         $repositoryMock1 = $this->getMock(RepositoryInterface::class);
         $repositoryMock1
