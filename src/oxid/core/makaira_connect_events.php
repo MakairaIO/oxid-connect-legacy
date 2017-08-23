@@ -79,7 +79,7 @@ class makaira_connect_events
                 TABLE_NAME = 'makaira_connect_changes'"
         );
 
-        return 0 < $keyColumnCount;
+        return 0 == $keyColumnCount;
     }
 
     private static function migrate()
