@@ -41,6 +41,7 @@ $aModule = array(
         'makaira_connect_single_sign_on'  => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'          => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
         'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
+        'makaira_connect_autosuggest'     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_autosuggest.php',
     ),
     'templates'   => array(
         'makaira_connect_single_sign_on.tpl' => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
@@ -61,6 +62,11 @@ $aModule = array(
             'template' => 'page/list/list.tpl',
             'block' => 'page_list_listbody',
             'file'     => 'views/blocks/page_list_listbody.tpl',
+        ),
+        array(
+            'template' => 'widget/header/search.tpl',
+            'block'    => 'widget_header_search_form',
+            'file'     => 'views/blocks/autosuggest.tpl',
         ),
     ),
     'events'      => array(
