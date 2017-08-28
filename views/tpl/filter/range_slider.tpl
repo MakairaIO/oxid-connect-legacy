@@ -19,8 +19,8 @@
         class="makaira-filter__range-slider"
         data-min="[{$aggregation->min}]"
         data-max="[{$aggregation->max}]"
-        data-left="[{$aggregation->values.from}]"
-        data-right="[{$aggregation->values.to}]"
+        data-left="[{$aggregation->selectedValues.from}]"
+        data-right="[{$aggregation->selectedValues.to}]"
     />
     </div>
 </div>
