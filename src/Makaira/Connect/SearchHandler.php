@@ -18,10 +18,11 @@ use Makaira\ResultItem;
 
 class SearchHandler
 {
-    public function __construct(HttpClient $httpClient, $url)
+    public function __construct(HttpClient $httpClient, $url, $instance)
     {
         $this->httpClient = $httpClient;
         $this->url = rtrim($url, '/') . '/';
+        $this->instance = $instance;
     }
 
     /**
@@ -31,7 +32,7 @@ class SearchHandler
      */
     public function search(Query $query)
     {
-        $request = "{$this->url}search/";
+        $request = "{$this->url}search/?instance={$this->instance}";
         $body = json_encode($query);
         $response = $this->httpClient->request('POST', $request, $body);
 

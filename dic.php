@@ -278,6 +278,11 @@ $dic['makaira.connect.searchhandler'] = function (\Marm\Yamm\DIC $dic) {
     $configuration = $dic['makaira.connect.configuration'];
     return new \Makaira\Connect\SearchHandler(
         $dic['makaira.connect.http_client'],
-        $configuration->url
+        $configuration->url,
+        oxRegistry::getConfig()->getShopConfVar(
+            'makaira_instance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )
     );
 };
