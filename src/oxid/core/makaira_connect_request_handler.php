@@ -47,7 +47,7 @@ class makaira_connect_request_handler
         $oxArticleList = oxNew('oxarticlelist');
 
         //TODO: Refactor or remove customFilter hook
-        if (is_array($customFilters = $oxArticleList->getCustomFilters())) {
+        if (method_exists($oxArticleList, 'getCustomFilters') && is_array($customFilters = $oxArticleList->getCustomFilters())) {
             $query->aggregations = array_merge($query->aggregations, $customFilters);
         }
 
@@ -69,12 +69,13 @@ class makaira_connect_request_handler
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
                 case 'range_slider':
+                    // Equal min and max values are not allowed
                     if ($aggregation->min == $aggregation->max) {
                         unset($aggregations[$aggregation->key]);
                         continue;
                     }
-                    $aggregations[$aggregation->key]->values['from'] = isset($query->aggregations[$aggregation->key.'_from']) ? $query->aggregations[$aggregation->key.'_from'] : $aggregation->min;
-                    $aggregations[$aggregation->key]->values['to'] = isset($query->aggregations[$aggregation->key.'_to']) ? $query->aggregations[$aggregation->key.'_to'] : $aggregation->max;
+                    $aggregations[$aggregation->key]->selectedValues['from'] = isset($query->aggregations[$aggregation->key.'_from']) ? $query->aggregations[$aggregation->key.'_from'] : $aggregation->min;
+                    $aggregations[$aggregation->key]->selectedValues['to'] = isset($query->aggregations[$aggregation->key.'_to']) ? $query->aggregations[$aggregation->key.'_to'] : $aggregation->max;
                     break;
                 default:
                     $aggregations[$aggregation->key]->values = array_map(
@@ -90,6 +91,7 @@ class makaira_connect_request_handler
                         },
                         $aggregation->values
                     );
+                    $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
             }
         }
         $this->aggregations = $aggregations;

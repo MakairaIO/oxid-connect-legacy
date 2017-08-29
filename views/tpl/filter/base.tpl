@@ -1,5 +1,4 @@
 [{assign var=activeClass value=$oViewConf->getActiveClassname()}]
-[{assign var=params value=$oViewConf->getFacetParams()}]
 
 [{if $activeClass == "alist" }]
     [{assign var=baseLink value=$oView->getLinkWithCategory()}]
@@ -18,6 +17,7 @@
 [{assign var="topActiveClass" value=$oViewConf->getTopActiveClassName()}]
 [{assign var="blShowDocCount" value=true}]
 [{assign var="aggregations" value=$oView->getAggregations()}]
+[{assign var="showResetAll" value=false}]
 
 
 <aside class="makaira-filter">
@@ -28,9 +28,13 @@
             [{$oViewConf->getNavFormParams()}]
         [{/if}]
 
-        [{foreach from=$oViewConf->getParametersForFilterSeo() key="param" item="value"}]
-            <input type="hidden" name="[{$param}]" value="[{$value}]" />
-        [{/foreach}]
+        [{*
+            FIXME Code from old module
+            TODO Do we really need a getter for following params? ['ldtype', '_artperpage', 'listorder', 'listorderby']
+            [{foreach from=$oViewConf->getParametersForFilterSeo() key="param" item="value"}]
+                <input type="hidden" name="[{$param}]" value="[{$value}]" />
+            [{/foreach}]
+        *}]
 
         [{foreach from=$aggregations key="key" item="aggregation"}]
             [{assign var="filterTitle" value=$aggregation->title|oxmultilangassign}]
@@ -41,13 +45,17 @@
             <section class="makaira-filter__filter makaira-filter__filter--[{$aggregation->type}]">
                 <header class="makaira-filter__filter-headline">[{$filterTitle}]</header>
                 [{include file="makaira/filter/"|cat:$aggregation->type|cat:".tpl"}]
-                [{if $oViewConf->isFilterSet($aggregation->key)}]
-                    <a href="[{$oViewConf->getFilterSeoLink($baseLink,$aggregation->key)}]" class="marmFilterReset">[{oxmultilang ident="MAKAIRA_FILTER_RESET"}]</a>
+                [{if !empty($aggregation->selectedValues)}]
+                    [{assign var="showResetAll" value=true}]
+                    [{*
+                        FIXME Handle filter reset with javascript instead of links
+                        <a href="[{$oViewConf->getFilterSeoLink($baseLink,$aggregation->key)}]" class="marmFilterReset">[{oxmultilang ident="MAKAIRA_FILTER_RESET"}]</a>
+                    *}]
                 [{/if}]
             </section>
         [{/foreach}]
 
-        [{if $oViewConf->isFilterActive()}]
+        [{if $showResetAll}]
             <a href="[{$baseLink}]">[{oxmultilang ident="MAKAIRA_FILTER_RESET_ALL"}]</a>
         [{/if}]
     </form>

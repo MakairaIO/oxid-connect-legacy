@@ -122,14 +122,6 @@ $dic['makaira.connect.repository.manufacturer'] = function (\Marm\Yamm\DIC $dic)
     );
 };
 $dic->tag('makaira.connect.repository.manufacturer', 'makaira.connect.repository');
-$dic['makaira.connect.repository.searchlink'] = function (\Marm\Yamm\DIC $dic) {
-    return new Makaira\Connect\Repository\SearchLinkRepository(
-        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
-            $dic->getTagged('makaira.importer.modifier.searchlink')
-        )
-    );
-};
-$dic->tag('makaira.connect.repository.searchlink', 'makaira.connect.repository');
 
 // --------------------------------------
 
@@ -286,6 +278,11 @@ $dic['makaira.connect.searchhandler'] = function (\Marm\Yamm\DIC $dic) {
     $configuration = $dic['makaira.connect.configuration'];
     return new \Makaira\Connect\SearchHandler(
         $dic['makaira.connect.http_client'],
-        $configuration->url
+        $configuration->url,
+        oxRegistry::getConfig()->getShopConfVar(
+            'makaira_instance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )
     );
 };
