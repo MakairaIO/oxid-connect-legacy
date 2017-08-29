@@ -78,6 +78,7 @@ const initHandlers = () => {
     // delegate button-click to filter-list
     list.addEventListener('click', (event) => {
       const target = event.target;
+
       if (target.classList.contains(classListExpandButton)) {
         expandList(list, target.parentNode);
       }
@@ -88,6 +89,7 @@ const initHandlers = () => {
     // delegate button-click to filter-list
     list.addEventListener('click', (event) => {
       const target = event.target;
+
       if (target.classList.contains(classListCollapseButton)) {
         collapseList(list);
       }
@@ -98,6 +100,7 @@ const initHandlers = () => {
     // delegate change-event to filter-list
     list.addEventListener('click', (event) => {
       const target = event.target;
+
       if (target.classList.contains(classFilterCheckbox)) {
         const form = document.querySelector(`.${classFilterForm}`);
         form.submit();

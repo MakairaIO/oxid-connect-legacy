@@ -1,0 +1,49 @@
+.makaira-autosuggestion
+  position absolute
+  top 100%
+  left 0
+  z-index 9999
+  background-color #fff
+
+.makaira-autosuggestion__list
+  list-style-type none
+  padding 0
+  margin 0
+  border 1px solid #ececec
+  box-shadow 0px 2px 4px 0 #8A8A8A
+
+.makaira-autosuggestion__list-item
+  margin 15px
+
+  &:not(:last-child)
+    border-bottom 1px solid #ddd 
+    padding-bottom 15px
+
+  &:last-child
+    text-align right
+
+.makaira-autosuggestion__submit
+  background-color transparent
+  border none
+  margin 0
+  padding 0
+
+  &:hover
+    text-decoration underline
+
+.makaira-autosuggestion__link
+  display flex
+  align-items center
+
+.makaira-autosuggestion__image
+  flex 0 0 60px
+  display flex
+  justify-content center
+  align-items center
+
+  img
+    max-height 60px
+    max-width 60px
+
+.makaira-autosuggestion__title
+  margin-left 15px
