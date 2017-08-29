@@ -52,6 +52,8 @@ $aModule = array(
         'makaira/filter/list_multiselect.tpl' => 'makaira/connect/views/tpl/filter/list_multiselect.tpl',
         'makaira/filter/range_slider.tpl' => 'makaira/connect/views/tpl/filter/range_slider.tpl',
         'makaira/filter/script.tpl' => 'makaira/connect/views/tpl/filter/script.tpl',
+        /* autosuggest */
+        'makaira/autosuggest/autosuggest.tpl' => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
     ),
     'blocks'      => array(
         array(
