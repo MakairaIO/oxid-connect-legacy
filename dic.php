@@ -286,3 +286,7 @@ $dic['makaira.connect.searchhandler'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
+
+$dic['makaira.connect.suggester'] = function (\Marm\Yamm\DIC $dic) {
+    return oxNew('makaira_connect_autosuggester', oxRegistry::getLang());
+};
