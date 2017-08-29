@@ -24,6 +24,7 @@ class makaira_connect_events
         // Add new table to configurate landing pages
         self::addProductSequenceTable();
         self::addUserTokenTable();
+        self::migrate();
 
         $oDbHandler = oxNew("oxDbMetaDataHandler");
         $oDbHandler->updateViews();
@@ -47,7 +48,8 @@ class makaira_connect_events
             `OXID` CHAR(32) COLLATE latin1_general_ci NOT NULL,
             `CHANGED` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             INDEX (`OXID`),
-            PRIMARY KEY (`SEQUENCE`)
+            PRIMARY KEY (`SEQUENCE`),
+            UNIQUE KEY `uniqueChanges` (`TYPE`, `OXID`)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
         oxDb::getDb()->execute($sSql);
     }
@@ -63,5 +65,43 @@ class makaira_connect_events
             PRIMARY KEY (`USERID`)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
         oxDb::getDb()->execute($sSql);
+    }
+
+    private static function isMigrationRequired()
+    {
+        $dbName = oxRegistry::getConfig()->getConfigParam('dbName');
+        $keyColumnCount = (int) oxDb::getDb(true)->getOne(
+            "SELECT COUNT(*)
+            FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+            WHERE
+                CONSTRAINT_SCHEMA = '{$dbName}' AND
+                CONSTRAINT_NAME = 'uniqueChanges' AND
+                TABLE_NAME = 'makaira_connect_changes'"
+        );
+
+        return 0 == $keyColumnCount;
+    }
+
+    private static function migrate()
+    {
+        if (self::isMigrationRequired()) {
+            $db = oxDb::getDb(true);
+
+            // Create the migration table
+            $db->execute('CREATE TABLE makaira_connect_changes_migrate LIKE makaira_connect_changes');
+
+            // Add unique key constraint
+            $db->execute('ALTER TABLE makaira_connect_changes_migrate ADD UNIQUE KEY `uniqueChanges` (`TYPE`, `OXID`)');
+
+            // Copy unique rows
+            $db->execute('INSERT INTO makaira_connect_changes_migrate (SEQUENCE, TYPE, OXID, CHANGED)
+                SELECT MAX(SEQUENCE), TYPE, OXID, MAX(CHANGED) FROM makaira_connect_changes GROUP BY TYPE, OXID;');
+
+            // Remove old table
+            $db->execute('DROP TABLE makaira_connect_changes');
+
+            // Rename migration table
+            $db->execute('ALTER TABLE makaira_connect_changes_migrate RENAME TO makaira_connect_changes');
+        }
     }
 }

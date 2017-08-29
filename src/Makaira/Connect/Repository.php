@@ -41,7 +41,7 @@ class Repository
     ";
 
     protected $touchQuery = "
-        INSERT INTO
+        REPLACE INTO
           makaira_connect_changes
         (OXID, TYPE, CHANGED)
           VALUES
