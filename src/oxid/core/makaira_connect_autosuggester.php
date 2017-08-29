@@ -80,12 +80,10 @@ class makaira_connect_autosuggester
 
         $aResult = array_filter($aResult);
 
-        return json_encode(
-            array(
+        return array(
                 'count'        => count($aResult),
                 'items'        => $aResult,
                 'productCount' => $result->total,
-            )
         );
     }
 

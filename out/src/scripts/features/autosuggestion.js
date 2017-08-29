@@ -3,32 +3,6 @@ import { debounce } from '../lib/helper'
 const searchInputId = 'searchParam';
 const classAutosuggestionContainer = 'makaira-autosuggestion'
 
-const SuggestionItem = (item) => {
-  return (
-    `<li class="makaira-autosuggestion__list-item">
-      <a href="${item.link}" class="makaira-autosuggestion__link">
-        <figure class="makaira-autosuggestion__image">
-          <img src="${item.image}">
-        </figure>
-        <span class="makaira-autosuggestion__title">${item.label}</span>
-      </a>
-     </li>`
-  )
-};
-
-const SuggestionList = ({ items, productCount }) => {
-  return (
-    `<ul class="makaira-autosuggestion__list">
-      ${items.map(SuggestionItem).join('')}
-      <li class="makaira-autosuggestion__list-item">
-        <button class="makaira-autosuggestion__submit" type="submit">
-          Alle Ergebnisse anzeigen (${productCount})
-        </button>
-      </li>
-     </ul>`
-  )
-};
-
 const renderAutosuggestions = (response, searchForm) => {
   // if its the first time we render, add the initial container
   if (!document.querySelector(`.${classAutosuggestionContainer}`)) {
@@ -39,7 +13,7 @@ const renderAutosuggestions = (response, searchForm) => {
 
   // render List
   const autosuggestionContainer = document.querySelector(`.${classAutosuggestionContainer}`)
-  autosuggestionContainer.innerHTML = SuggestionList(response)
+  autosuggestionContainer.innerHTML = response
 };
 
 const fetchAutosuggestions = debounce((event) => {
@@ -54,7 +28,7 @@ const fetchAutosuggestions = debounce((event) => {
       if (request.status >= 200 && request.status < 400) {
         // Succes -> we render the suggestions
         const response = request.responseText;
-        renderAutosuggestions(JSON.parse(response), searchForm);
+        renderAutosuggestions(response, searchForm);
       } else {
         // We reached our target server, but it returned an error
         console.error('Processing in Makaira failed');

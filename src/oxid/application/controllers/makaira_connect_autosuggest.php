@@ -13,21 +13,21 @@ class makaira_connect_autosuggest extends oxUBase
         // get search term
         $searchPhrase = oxRegistry::getConfig()->getRequestParameter('term');
 
-        $jsonResult = $suggester->search($searchPhrase);
+        $result = $suggester->search($searchPhrase);
 
         /** @var oxUtilsView $oxUtilsView */
         $oxUtilsView = oxRegistry::get('oxUtilsView');
         $smarty = $oxUtilsView->getSmarty();
-        $smarty->assign('result', json_decode($jsonResult, true));
+        $smarty->assign('result', $result);
 
         $html = $smarty->fetch('makaira/autosuggest/autosuggest.tpl');
 
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Content-type: application/json');
+        header('Content-type: text/html');
 
-        echo $jsonResult;
+        echo $html;
         exit();
     }
 }
