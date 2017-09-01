@@ -57,15 +57,17 @@ class makaira_connect_request_handler
 
         $this->result = $searchHandler->search($query);
 
+        $productResult = $this->result['product'];
+
         $productIds = [];
-        foreach ($this->result->items as $item) {
+        foreach ($productResult->items as $item) {
             $productIds[] = $item->id;
         }
 
         $oxArticleList->loadIds($productIds);
         $oxArticleList->sortByIds($productIds);
 
-        $aggregations = $this->result->aggregations;
+        $aggregations = $productResult->aggregations;
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
                 case 'range_slider':
@@ -125,6 +127,6 @@ class makaira_connect_request_handler
 
             $this->result = $searchHandler->search($query);
         }
-        return $this->result->total;
+        return $this->result['product']->total;
     }
 }

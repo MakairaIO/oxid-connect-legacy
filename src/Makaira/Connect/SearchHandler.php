@@ -18,6 +18,8 @@ use Makaira\ResultItem;
 
 class SearchHandler
 {
+    const API_VERSION = "2017.9";
+
     public function __construct(HttpClient $httpClient, $url, $instance)
     {
         $this->httpClient = $httpClient;
@@ -32,27 +34,47 @@ class SearchHandler
      */
     public function search(Query $query)
     {
-        $request = "{$this->url}search/?instance={$this->instance}";
+        $query->apiVersion = self::API_VERSION;
+        $request = "{$this->url}search/";
         $body = json_encode($query);
-        $response = $this->httpClient->request('POST', $request, $body);
+        $response = $this->httpClient->request('POST', $request, $body, ["X-Makaira-Instance" => $this->instance]);
 
-        $result = json_decode($response->body, true);
+        $apiResult = json_decode($response->body, true);
 
-        if (isset($result['ok']) && $result['ok'] === false) {
-            throw new \RuntimeException("Error in makaira: {$result['message']}");
+        if (isset($apiResult['ok']) && $apiResult['ok'] === false) {
+            throw new \RuntimeException("Error in makaira: {$apiResult['message']}");
         }
 
-        if (!isset($result['items']) && !isset($result['aggregations'])) {
-            throw new \UnexpectedValueException("Invalid response from makaira");
+        if (!isset($apiResult['product'])) {
+            throw new \UnexpectedValueException("Product results missing");
         }
 
-        foreach ($result['items'] as $key => $item) {
-            $result['items'][$key] = new ResultItem($item);
-        }
-        foreach ($result['aggregations'] as $key => $item) {
-            $result['aggregations'][$key] = new Aggregation($item);
+        $result = [];
+        foreach ($apiResult as $documentType => $data) {
+            $result[$documentType] = $this->parseResult($data);
         }
 
-        return new Result($result);
+        return array_filter($result);
+    }
+
+    /**
+     * @param $data
+     *
+     * @return Result
+     */
+    private function parseResult($data)
+    {
+        if (!isset($data['items']) && !isset($data['aggregations'])) {
+            return null;
+        }
+
+        foreach ($data['items'] as $key => $item) {
+            $data['items'][$key] = new ResultItem($item);
+        }
+        foreach ($data['aggregations'] as $key => $item) {
+            $data['aggregations'][$key] = new Aggregation($item);
+        }
+
+        return new Result($data);
     }
 }

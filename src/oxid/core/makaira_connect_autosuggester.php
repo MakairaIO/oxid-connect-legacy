@@ -32,7 +32,7 @@ class makaira_connect_autosuggester
      *
      * @param string $searchPhrase
      *
-     * @return string
+     * @return array
      */
     public function search($searchPhrase = "")
     {
@@ -74,7 +74,7 @@ class makaira_connect_autosuggester
         //        }
 
         //Get product results
-        foreach ($result->items as $document) {
+        foreach ($result['product']->items as $document) {
             $aResult[] = $this->prepareItem($document);
         }
 
@@ -83,7 +83,7 @@ class makaira_connect_autosuggester
         return array(
                 'count'        => count($aResult),
                 'items'        => $aResult,
-                'productCount' => $result->total,
+                'productCount' => $result['product']->total,
         );
     }
 
