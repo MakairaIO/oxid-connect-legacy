@@ -35,6 +35,7 @@ class makaira_connect_events
      */
     public static function onDeactivate()
     {
+        self::cleanupTplBlocks();
     }
 
     /**
@@ -65,6 +66,18 @@ class makaira_connect_events
             PRIMARY KEY (`USERID`)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
         oxDb::getDb()->execute($sSql);
+    }
+
+    /**
+     * Add OXSHOPID to oxobject2category to ensure CE/PE compatibility
+     */
+    private static function addColumnsToOxobject2category()
+    {
+        if (!self::hasColumn('oxobject2category', 'OXSHOPID')) {
+            $sSql = "ALTER TABLE oxobject2category
+                     ADD OXSHOPID VARCHAR(32) NOT NULL DEFAULT 'oxbaseshop'";
+            oxDb::getDb()->execute($sSql);
+        }
     }
 
     private static function isMigrationRequired()
@@ -103,5 +116,29 @@ class makaira_connect_events
             // Rename migration table
             $db->execute('ALTER TABLE makaira_connect_changes_migrate RENAME TO makaira_connect_changes');
         }
+    }
+
+    private static function cleanupTplBlocks()
+    {
+        $shopId = oxRegistry::getConfig()->getShopId();
+
+        $db = oxDb::getDb();
+        $db->execute("DELETE FROM `oxtplblocks` WHERE `OXMODULE` = 'makaira/connect' AND `OXSHOPID` = '{$shopId}'");
+    }
+
+    /**
+     * Checks if $column exists in $table
+     *
+     * @param string $table
+     * @param string $column
+     *
+     * @return boolean true if $column exists in $table, else false
+     */
+    private static function hasColumn($table, $column)
+    {
+        $oDb    = oxDb::getDb();
+        $fields = $oDb->metaColumnNames($table, true);
+
+        return in_array($column, $fields);
     }
 }
