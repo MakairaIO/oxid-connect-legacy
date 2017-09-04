@@ -54,6 +54,8 @@ $aModule = array(
         'makaira/filter/script.tpl' => 'makaira/connect/views/tpl/filter/script.tpl',
         /* autosuggest */
         'makaira/autosuggest/autosuggest.tpl' => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
+        /* results */
+        'makaira/results/search.tpl' => 'makaira/connect/views/tpl/results/search.tpl',
     ),
     'blocks'      => array(
         array(

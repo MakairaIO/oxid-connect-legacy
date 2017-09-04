@@ -10,14 +10,26 @@
 
 use Makaira\Connect\SearchHandler;
 use Makaira\Query;
+use Makaira\Result;
 
 /**
  * Class makaira_connect_request_handler
  */
 class makaira_connect_request_handler
 {
+    /**
+     * @var Result[]
+     */
     protected $result;
+
+    /**
+     * @var array
+     */
     protected $additionalResults;
+
+    /**
+     * @var array
+     */
     protected $aggregations;
 
     public function sanitizeSorting($sorting)
@@ -98,13 +110,6 @@ class makaira_connect_request_handler
         }
         $this->aggregations = $aggregations;
 
-        //FIXME: handle additional search types (category, manufacturer, searchlinks)
-        $aAdditionalSearchResults = array();
-        /*foreach ($oOxSearch->getActiveAdditionalTypes() as $sType) {
-            $aAdditionalSearchResults[$sType] = $oOxSearch->searchAdditionalTypes($paramObject, $sType);
-        }*/
-        $this->additionalResults = $aAdditionalSearchResults;
-
         return $oxArticleList;
     }
 
@@ -115,6 +120,18 @@ class makaira_connect_request_handler
 
     public function getAdditionalResults()
     {
+        if (null !== $this->additionalResults) {
+            return $this->additionalResults;
+        }
+
+        $this->additionalResults = array_filter(
+            (array) $this->result,
+            function ($value, $key) {
+                return ('product' !== $key) && ($value->count > 0);
+            },
+            ARRAY_FILTER_USE_BOTH
+        );
+
         return $this->additionalResults;
     }
 
