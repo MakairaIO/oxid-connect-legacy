@@ -116,7 +116,32 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         $sorting = $this->getSorting($oCategory->getId());
 
         // TODO: Is there a reason to not use $oCategory->getId() here?
-        $sActCat = oxRegistry::getConfig()->getRequestParameter('cnid');
+        $categoryId = oxRegistry::getConfig()->getRequestParameter('cnid');
+
+        $useCategoryInheritance = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_category_inheritance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        if (isset($categoryId) && $useCategoryInheritance) {
+            $oCategory = oxNew('oxcategory');
+            $oCategory->load($categoryId);
+            if ($oCategory) {
+                $result = oxDb::getDb()->getCol(
+                    "SELECT OXID FROM oxcategories WHERE OXROOTID = ? AND OXLEFT > ? AND OXRIGHT < ?",
+                    [
+                        $oCategory->oxcategories__oxrootid->value,
+                        $oCategory->oxcategories__oxleft->value,
+                        $oCategory->oxcategories__oxright->value
+                    ]
+                );
+                $categoryId = array_merge(
+                    (array) $categoryId,
+                    $result
+                );
+            }
+        }
 
         $query = new Query();
 
@@ -127,7 +152,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
                 Constraints::SHOP => $myConfig->getShopId(),
                 Constraints::LANGUAGE => oxRegistry::getLang()->getLanguageAbbr(),
                 Constraints::USE_STOCK => $myConfig->getShopConfVar('blUseStock'),
-                Constraints::CATEGORY   => $sActCat,
+                Constraints::CATEGORY   => $categoryId,
             ]
         );
 
