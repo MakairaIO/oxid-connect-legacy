@@ -25,6 +25,8 @@ class makaira_connect_events
         self::addProductSequenceTable();
         self::addUserTokenTable();
         self::migrate();
+        // Oxid CE/PE compatibility
+        self::addColumnsToOxobject2category();
 
         $oDbHandler = oxNew("oxDbMetaDataHandler");
         $oDbHandler->updateViews();
