@@ -37,7 +37,7 @@ class SearchHandler
         $query->apiVersion = self::API_VERSION;
         $request = "{$this->url}search/";
         $body = json_encode($query);
-        $response = $this->httpClient->request('POST', $request, $body, ["X-Makaira-Instance" => $this->instance]);
+        $response = $this->httpClient->request('POST', $request, $body, ["X-Makaira-Instance: {$this->instance}"]);
 
         $apiResult = json_decode($response->body, true);
 
