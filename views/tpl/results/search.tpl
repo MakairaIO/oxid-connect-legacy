@@ -1,4 +1,4 @@
-[{if $category_result || $manufacturer_result || $searchlink_result}]
+[{if $category_result || $manufacturer_result || $links_result}]
     [{if $category_result}]
         <div class="makaira-search__results">
             <p class="makaira-search__result-header">[{oxmultilang ident="MAKAIRA_SEARCHRESULT_CATEGORY" alternative=""}]</p>
@@ -27,14 +27,14 @@
             </ul>
         </div>
     [{/if}]
-    [{if $searchlink_result}]
+    [{if $links_result}]
         <div class="makaira-search__results">
             <p class="makaira-search__result-header">[{oxmultilang ident="MAKAIRA_SEARCHRESULT_SEARCHLINK" alternative=""}]</p>
             <ul class="makaira-search__result-list">
-                [{foreach from=$searchlink_result item="searchlink"}]
+                [{foreach from=$links_result->items item="link"}]
                     <li class="makaira-search__result-item">
-                        <a href="[{$searchlink->fields.link}]" [{if $searchlink->fields.external}]target="_blank" rel="noreferrer noopener"[{/if}]>
-                            [{$searchlink->fields.title}]
+                        <a href="[{$link->fields.url}]" [{if $link->fields.isExternal}]target="_blank" rel="noreferrer noopener"[{/if}]>
+                            [{$link->fields.title}]
                         </a>
                     </li>
                 [{/foreach}]
