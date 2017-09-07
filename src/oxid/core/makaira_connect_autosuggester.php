@@ -59,76 +59,52 @@ class makaira_connect_autosuggester
 
         $result = $searchHandler->search($query);
 
-        // make result an array
-        $aResult = [];
-
-        //        foreach ($suggestions as $suggest) {
-        //            $aResult[] = $this->prepareSuggest($suggest);
-        //        }
-        //
-        //        foreach ($oOxSearch->getActiveAdditionalTypes() as $sType) {
-        //            $aTypeResults = $oOxSearch->searchAdditionalTypes($query, $sType);
-        //            foreach ($aTypeResults as $aTypeResult) {
-        //                $aResult[] = $this->addAdditionalSearchresults($aTypeResult, $sType);
-        //            }
-        //        }
-
-        //Get product results
+        // get product results
+        $aProducts = [];
         foreach ($result['product']->items as $document) {
-            $aResult[] = $this->prepareItem($document);
+            $aProducts[] = $this->prepareProductItem($document);
         }
+        // filter out empty values
+        $aProducts = array_filter($aProducts);
 
-        $aResult = array_filter($aResult);
-
-        return array(
-                'count'        => count($aResult),
-                'items'        => $aResult,
-                'productCount' => $result['product']->total,
-        );
-    }
-
-    /**
-     * Prepare data for additional search types
-     *
-     * @param array  $aTypeResult
-     * @param string $sType
-     *
-     * @return mixed
-     */
-    protected function addAdditionalSearchresults($aTypeResult, $sType)
-    {
-        $sImageLink = '';
-        $aItem      = array();
-
-        switch ($sType) {
-            case "searchlink":
-                $sTitle = $aTypeResult['marm_oxsearch_searchlinks_title'];
-                break;
-            case "manufacturer":
-                $sTitle              = $aTypeResult['oxtitle'];
-                $manufacturer        = $this->shopUtils->getManufacturer($aTypeResult['oxid']);
-                $sImageLink          = $manufacturer->image;
-                $aTypeResult['link'] = ($manufacturer->link) ?: $aTypeResult['link']; // Set manufacturer SEO URL
-                break;
-            default:
-                $sTitle = $aTypeResult['oxtitle'];
+        // get category results
+        $aCategories = [];
+        if ($result['category']) {
+            foreach ($result['category']->items as $document) {
+                $aCategories[] = $this->prepareCategoryItem($document);
+            }
         }
-        $aItem['label'] = $sTitle;
-        $aItem['value'] = $sTitle;
-        $aItem['type']  = $sType;
-        $aItem['link']  = $aTypeResult['link'];
-        if (isset($aTypeResult['external'])) {
-            $aItem['external'] = $aTypeResult['external'];
-        }
-        if ($sImageLink) {
-            $aItem['image'] = $sImageLink;
-        }
-        if (isset($manufacturer) && $manufacturer->thumb) {
-            $aItem['thumbnail'] = $manufacturer->thumb;
-        }
-        $aItem['category'] = $this->shopUtils->translate("MARM_OXSEARCH_CATEGORY_" . strtoupper($sType));
+        // filter out empty values
+        $aCategories = array_filter($aCategories);
 
-        return $aItem;
+        // get manufacturer results
+        $aManufacturers = [];
+        if ($result['manufacturer']) {
+            foreach ($result['manufacturer']->items as $document) {
+                $aManufacturers[] = $this->prepareManufacturerItem($document);
+            }
+        }
+        // filter out empty values
+        $aManufacturers = array_filter($aManufacturers);
+
+        // get searchable links results
+        $aLinks = [];
+        if ($result['links']) {
+            foreach ($result['links']->items as $document) {
+                $aLinks[] = $this->prepareLinkItem($document);
+            }
+        }
+        // filter out empty values
+        $aLinks = array_filter($aLinks);
+
+        return [
+            'count'         => count($aProducts),
+            'products'      => $aProducts,
+            'productCount'  => $result['product']->total,
+            'categories'    => $aCategories,
+            'manufacturers' => $aManufacturers,
+            'links'         => $aLinks,
+        ];
     }
 
     /**
@@ -138,7 +114,7 @@ class makaira_connect_autosuggester
      *
      * @return array
      */
-    protected function prepareItem($doc)
+    protected function prepareProductItem($doc)
     {
         if (empty($doc->fields['oxtitle'])) {
             return [];
@@ -167,20 +143,51 @@ class makaira_connect_autosuggester
         return $aItem;
     }
 
-    /**
-     * Prepare suggest data
-     *
-     * @param array $suggest
-     *
-     * @return mixed
-     */
-    protected function prepareSuggest($suggest)
+    protected function prepareCategoryItem($doc)
     {
-        $aItem['label']    = $suggest['text'];
-        $aItem['value']    = $suggest['text'];
-        $aItem['type']     = 'suggest';
-        $aItem['link']     = $this->shopUtils->getSearchLink($suggest['text']);
-        $aItem['category'] = $this->shopUtils->translate("MARM_OXSEARCH_CATEGORY_SUGGEST");
+        if (empty($doc->fields['oxtitle'])) {
+            return [];
+        }
+
+        $category = oxNew('oxcategory');
+
+        if (!$category->load($doc->id)) {
+            return [];
+        }
+
+        $aItem['label'] = $doc->fields['oxtitle'];
+        $aItem['link']  = $category->getLink();
+
+        return $aItem;
+    }
+
+    protected function prepareManufacturerItem($doc)
+    {
+        if (empty($doc->fields['oxtitle'])) {
+            return [];
+        }
+
+        $manufacturer = oxNew('oxmanufacturer');
+
+        if (!$manufacturer->load($doc->id)) {
+            return [];
+        }
+
+        $aItem['label'] = $doc->fields['oxtitle'];
+        $aItem['link']  = $manufacturer->getLink();
+        $aItem['image'] = $manufacturer->getIconUrl();
+
+        return $aItem;
+    }
+
+    protected function prepareLinkItem($doc)
+    {
+        if (empty($doc->fields['title'])) {
+            return [];
+        }
+
+        $aItem['label'] = $doc->fields['title'];
+        $aItem['link']  = $doc->fields['url'];
 
         return $aItem;
     }
