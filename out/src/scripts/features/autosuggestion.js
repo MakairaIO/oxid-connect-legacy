@@ -60,6 +60,12 @@ const closeAutosuggestions = (event) => {
   }
 };
 
+const setupSearchInput = () => {
+  const searchInput = document.getElementById(`${searchInputId}`);
+
+  searchInput.setAttribute('autocomplete', 'off');
+};
+
 const initHandlers = () => {
   const searchInput = document.getElementById(`${searchInputId}`);
   // fetch and display autosuggestions
@@ -69,4 +75,5 @@ const initHandlers = () => {
   document.body.addEventListener('click', closeAutosuggestions);
 };
 
+setupSearchInput();
 initHandlers();
