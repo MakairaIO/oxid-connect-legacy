@@ -7,13 +7,13 @@ const renderAutosuggestions = (response, searchForm) => {
   // if its the first time we render, add the initial container
   if (!document.querySelector(`.${classAutosuggestionContainer}`)) {
     let container = document.createElement('div');
-    container.className = 'makaira-autosuggestion'
+    container.className = 'makaira-autosuggestion';
     searchForm.appendChild(container);
   }
 
   // render List
-  const autosuggestionContainer = document.querySelector(`.${classAutosuggestionContainer}`)
-  autosuggestionContainer.innerHTML = response
+  const autosuggestionContainer = document.querySelector(`.${classAutosuggestionContainer}`);
+  autosuggestionContainer.innerHTML = response;
 };
 
 const fetchAutosuggestions = debounce((event) => {

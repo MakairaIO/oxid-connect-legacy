@@ -54,6 +54,10 @@ $aModule = array(
         'makaira/filter/script.tpl' => 'makaira/connect/views/tpl/filter/script.tpl',
         /* autosuggest */
         'makaira/autosuggest/autosuggest.tpl' => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
+        'makaira/autosuggest/types/products.tpl' => 'makaira/connect/views/tpl/autosuggest/types/products.tpl',
+        'makaira/autosuggest/types/categories.tpl' => 'makaira/connect/views/tpl/autosuggest/types/categories.tpl',
+        'makaira/autosuggest/types/manufacturers.tpl' => 'makaira/connect/views/tpl/autosuggest/types/manufacturers.tpl',
+        'makaira/autosuggest/types/links.tpl' => 'makaira/connect/views/tpl/autosuggest/types/links.tpl',
         /* results */
         'makaira/results/search.tpl' => 'makaira/connect/views/tpl/results/search.tpl',
     ),
