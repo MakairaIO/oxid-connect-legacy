@@ -16,13 +16,9 @@
     [{/if}]
 
     [{* products *}]
-    [{include file="makaira/autosuggest/types/products.tpl" products=$result.products }]
-
-    <li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--show-all">
-        <button class="makaira-autosuggestion__submit" type="submit">
-            Alle Ergebnisse anzeigen ([{$result.productCount}])
-        </button>
-    </li>
+    [{if $result.products}]
+        [{include file="makaira/autosuggest/types/products.tpl" products=$result.products productCount=$result.productCount}]
+    [{/if}]
 
 </ul>
     

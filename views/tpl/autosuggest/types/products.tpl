@@ -10,3 +10,9 @@
         </a>
     </li>
 [{/foreach}]
+
+<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--show-all">
+    <button class="makaira-autosuggestion__submit" type="submit">
+        Alle Ergebnisse anzeigen ([{$productCount}])
+    </button>
+</li>
