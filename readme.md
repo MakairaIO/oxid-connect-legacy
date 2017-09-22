@@ -11,7 +11,7 @@ Find the full dokumnetation at https://docs.makaira.io/oxid/
 
 ### Licence Terms ###
 
-Makaira and OXSEARCH underlying the marmalade licence terms.
+Makaira and Makaira OXID Connect underlying the marmalade licence terms.
 
 ## Deutsch ##
 
@@ -23,5 +23,5 @@ Für eine vollständig Dokumentation (in englischer Sprache) siehe https://docs.
 
 ### Lizenzbestimmungen ###
 
-Makaira und OXSEARCH unterliegen den Bestimmungen der Marmalade Kauflizenz.  
+Makaira und Makaira OXID Connect unterliegen den Bestimmungen der Marmalade Kauflizenz.  
 
