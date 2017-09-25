@@ -235,7 +235,6 @@ class makaira_connect_endpoint extends oxUBase
         $repository = $dic['makaira.connect.repository'];
         foreach ($body->indices as $index) {
             $index->openChanges = $repository->countChangesSince($index->lastRevision);
-            $index->changeLag = $repository->getChangeLag($index->lastRevision);
         }
 
         return $body->indices;
