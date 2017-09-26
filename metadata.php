@@ -30,6 +30,7 @@ $aModule = array(
         /* controllers */
         'search' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
         'alist' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_alist',
+        'manufacturerlist' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_manufacturerlist',
         /* models */
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
