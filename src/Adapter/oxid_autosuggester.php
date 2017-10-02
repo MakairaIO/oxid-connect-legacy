@@ -1,49 +1,24 @@
 <?php
-/**
- * This file is part of a marmalade GmbH project
- * It is not Open Source and may not be redistributed.
- * For contact information please visit http://www.marmalade.de
- * Version:    1.0
- * Author:     Jens Richter <richter@marmalade.de>
- * Author URI: http://www.marmalade.de
- */
 
-use Makaira\Connect\SearchHandler;
-use Makaira\Constraints;
-use Makaira\Query;
-
-/**
- * Class makaira_connect_autosuggester
- */
-class makaira_connect_autosuggester
+class oxid_autosuggester implements makaira_autosuggester_adapter
 {
+
     /**
      * @var oxLang
      */
     private $oxLang;
 
-    public function __construct(oxLang $oxLang)
+    public function __construct()
     {
-        $this->oxLang = $oxLang;
+        $this->oxLang = oxRegistry::getLang();
     }
 
-    /**
-     * Search for search term and build json response
-     *
-     * @param string $searchPhrase
-     *
-     * @return array
-     */
-    public function search($searchPhrase = "")
+    public function preparyQuery()
     {
-        $query                     = new Query();
-        $query->enableAggregations = false;
-        $query->isSearch           = true;
-        $query->searchPhrase       = $searchPhrase;
-        $query->count              = 7;
-        $query->fields             = ['OXID', 'OXTITLE', 'OXVARSELECT'];
-
         $oxConfig = oxRegistry::getConfig();
+
+        $query         = new Query();
+        $query->fields = ['OXID', 'OXTITLE', 'OXVARSELECT'];
 
         $query->constraints = array_filter(
             [
@@ -53,12 +28,16 @@ class makaira_connect_autosuggester
             ]
         );
 
-        $dic = oxRegistry::get('yamm_dic');
-        /** @var SearchHandler $searchHandler */
-        $searchHandler = $dic['makaira.connect.searchhandler'];
+        return $query;
+    }
 
-        $result = $searchHandler->search($query);
+    public function translate($string)
+    {
+        return $this->oxLang->translateString($string);
+    }
 
+    public function prepareResults($result)
+    {
         // get product results
         $aProducts = [];
         foreach ($result['product']->items as $document) {
@@ -209,17 +188,5 @@ class makaira_connect_autosuggester
                 'netto'  => number_format($price->getNettoPrice(), 2, ',', '')
             );
         }
-    }
-
-    /**
-     * Getter method for shop translations
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function translate($string)
-    {
-        return $this->oxLang->translateString($string);
     }
 }
