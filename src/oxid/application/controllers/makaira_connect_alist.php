@@ -51,6 +51,11 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return $this->aggregations;
     }
 
+    public function resetMakairaFilter()
+    {
+        $this->getViewConfig()->resetMakairaFilter('category', $this->getViewConfig()->getActCatId());
+    }
+
     /**
      * Template variable getter. Returns category's article list
      *

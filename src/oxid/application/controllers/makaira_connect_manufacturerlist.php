@@ -55,6 +55,11 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
         return $this->aggregations;
     }
 
+    public function resetMakairaFilter()
+    {
+        $this->getViewConfig()->resetMakairaFilter('manufacturer', $this->getViewConfig()->getActManufacturerId());
+    }
+
     /**
      * Template variable getter. Returns category's article list
      *

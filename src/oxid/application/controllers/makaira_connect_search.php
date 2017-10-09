@@ -36,6 +36,10 @@ class makaira_connect_search extends makaira_connect_search_parent
             // do not use parent::init() to prevent database query
             // oxubase::init() has to be called statically, otherwise essential smarty _tpl_vars are not available
             oxubase::init();
+            // check for filter reset function call
+            if ('resetMakairaFilter' === $this->getFncName()) {
+                $this->resetMakairaFilter();
+            }
             $this->makairaInitSearch();
             $this->addTplParam('isMakairaSearchEnabled', true);
         } catch (Exception $e) {
@@ -54,6 +58,11 @@ class makaira_connect_search extends makaira_connect_search_parent
     public function getAggregations()
     {
         return $this->aggregations;
+    }
+
+    public function resetMakairaFilter()
+    {
+        $this->getViewConfig()->resetMakairaFilter('search', $this->getViewConfig()->getActSearchParam());
     }
 
     protected function makairaInitSearch()

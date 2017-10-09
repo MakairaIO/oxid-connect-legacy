@@ -62,7 +62,7 @@
         [{/foreach}]
 
         [{if $showResetAll}]
-            <a href="[{$baseLink}]">[{oxmultilang ident="MAKAIRA_FILTER_RESET_ALL"}]</a>
+            <a href="[{$baseLink|oxaddparams:'fnc=resetMakairaFilter'}]">[{oxmultilang ident="MAKAIRA_FILTER_RESET_ALL"}]</a>
         [{/if}]
     </form>
 </aside>
