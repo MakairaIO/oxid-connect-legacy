@@ -86,6 +86,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(html_entity_decode($rawCookieFilter), true) : [];
+        // for some reason cookie is double html entity encoded in widget context
+        if (null === $cookieFilter) {
+            $cookieFilter = json_decode(html_entity_decode(html_entity_decode($rawCookieFilter)), true);
+        }
 
         return $cookieFilter;
     }
