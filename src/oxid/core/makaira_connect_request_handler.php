@@ -47,7 +47,7 @@ class makaira_connect_request_handler
                 $sanitizedSorting = [];
                 break;
             default:
-                $sanitizedSorting = [$sortField => $sortDirection];
+                $sanitizedSorting = [(0 === stripos($sortField, 'OX')) ? strtoupper($sortField) : $sortField => $sortDirection];
         }
 
         return $sanitizedSorting;

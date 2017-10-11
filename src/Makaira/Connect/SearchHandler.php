@@ -18,7 +18,7 @@ use Makaira\ResultItem;
 
 class SearchHandler
 {
-    const API_VERSION = "2017.9";
+    const API_VERSION = "2017.10";
 
     public function __construct(HttpClient $httpClient, $url, $instance)
     {
