@@ -118,7 +118,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         $limit = (int)$myConfig->getConfigParam('iNrofCatArticles');
         $limit = $limit ? $limit : 1;
         $offset   = $limit * $this->_getRequestPageNr();
-        $sorting = $this->getSorting($oCategory->getId());
+        $sorting = $this->getSorting($this->getSortIdent());
 
         // TODO: Is there a reason to not use $oCategory->getId() here?
         $categoryId = oxRegistry::getConfig()->getRequestParameter('cnid');
