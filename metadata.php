@@ -37,6 +37,8 @@ $aModule = array(
         'oxmanufacturer' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxmanufacturer',
         /* core */
         'oxviewconfig' => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
+        /* components */
+        'oxlocator' => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ),
     'files'       => array(
         'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
