@@ -10,6 +10,8 @@
  */
 class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 {
+    protected $makairaFilter = null;
+
     public function getAggregationFilter()
     {
         $categoryId     = $this->getActCatId();
@@ -83,15 +85,16 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private function loadMakairaFilterFromCookie()
     {
+        if (null !== $this->makairaFilter) {
+            return $this->makairaFilter;
+        }
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
-        $cookieFilter    = !empty($rawCookieFilter) ? json_decode(html_entity_decode($rawCookieFilter), true) : [];
-        // for some reason cookie is double html entity encoded in widget context
-        if (null === $cookieFilter) {
-            $cookieFilter = json_decode(html_entity_decode(html_entity_decode($rawCookieFilter)), true);
-        }
+        $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
-        return $cookieFilter;
+        $this->makairaFilter = (array) $cookieFilter;
+
+        return $this->makairaFilter;
     }
 
     /**
@@ -99,7 +102,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private function saveMakairaFilterToCookie($cookieFilter)
     {
+        $this->makairaFilter = $cookieFilter;
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
-        $oxUtilsServer->setOxCookie('makairaFilter', json_encode($cookieFilter));
+        $oxUtilsServer->setOxCookie('makairaFilter', base64_encode(json_encode($cookieFilter)));
     }
 }
