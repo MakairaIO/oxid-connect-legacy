@@ -88,8 +88,12 @@ class makaira_connect_request_handler
                         unset($aggregations[$aggregation->key]);
                         continue;
                     }
-                    $aggregations[$aggregation->key]->selectedValues['from'] = isset($query->aggregations[$aggregation->key.'_from']) ? $query->aggregations[$aggregation->key.'_from'] : $aggregation->min;
-                    $aggregations[$aggregation->key]->selectedValues['to'] = isset($query->aggregations[$aggregation->key.'_to']) ? $query->aggregations[$aggregation->key.'_to'] : $aggregation->max;
+                    if (isset($query->aggregations[$aggregation->key.'_from'])) {
+                        $aggregations[$aggregation->key]->selectedValues['from'] = $query->aggregations[$aggregation->key.'_from'];
+                    }
+                    if (isset($query->aggregations[$aggregation->key.'_to'])) {
+                        $aggregations[$aggregation->key]->selectedValues['to'] = $query->aggregations[$aggregation->key.'_to'];
+                    }
                     break;
                 default:
                     $aggregations[$aggregation->key]->values = array_map(

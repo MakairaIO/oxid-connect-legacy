@@ -2,11 +2,17 @@
 [{assign var=sCurrencySign value=$oActCurrency->sign}]
 
 <div class="makaira-filter__slider-container">
-     [{assign var=fromname value='makairaFilter['|cat:$aggregation->key|cat:"_from]"}]
-     [{assign var=toname value='makairaFilter['|cat:$aggregation->key|cat:"_to]"}]
+    [{assign var='fromname' value='makairaFilter['|cat:$aggregation->key|cat:"_from]"}]
+    [{assign var='toname' value='makairaFilter['|cat:$aggregation->key|cat:"_to]"}]
+    [{assign var='dataLeft' value=$aggregation->min}]
+    [{assign var='dataRight' value=$aggregation->max}]
+    [{if $aggregation->selectedValues}]
+        [{assign var='dataLeft' value=$aggregation->selectedValues.from}]
+        [{assign var='dataRight' value=$aggregation->selectedValues.to}]
+    [{/if}]
 
-     <input type="hidden" class="makaira-filter__input--min" name="[{$fromname}]" value="[{$aggregation->min}]" />
-     <input type="hidden" class="makaira-filter__input--max" name="[{$toname}]" value="[{$aggregation->max}]" />
+    <input type="hidden" class="makaira-filter__input--min" name="[{$fromname}]" value="[{$aggregation->min}]" />
+    <input type="hidden" class="makaira-filter__input--max" name="[{$toname}]" value="[{$aggregation->max}]" />
 
     <p class="makaira-filter__slider-values">
         <span class="makaira-filter__symbol--currency">[{$sCurrencySign}]</span>
@@ -19,8 +25,8 @@
         class="makaira-filter__range-slider"
         data-min="[{$aggregation->min}]"
         data-max="[{$aggregation->max}]"
-        data-left="[{$aggregation->selectedValues.from}]"
-        data-right="[{$aggregation->selectedValues.to}]"
-    />
+        data-left="[{$dataLeft}]"
+        data-right="[{$dataRight}]"
+    >
     </div>
 </div>
