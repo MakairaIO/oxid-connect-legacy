@@ -46,13 +46,18 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
     /**
      * Template variable getter used in filter templates
      *
-     * @deprecated
-     *
      * @return mixed
      */
     public function getAggregations()
     {
         return $this->aggregations;
+    }
+
+    public function getAddSeoUrlParams()
+    {
+        $this->getViewConfig()->savePageNumberToCookie();
+
+        return parent::getAddSeoUrlParams();
     }
 
     public function resetMakairaFilter()
