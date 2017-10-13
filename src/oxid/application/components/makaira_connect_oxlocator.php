@@ -160,6 +160,16 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
             $iPos--;
             $offset++;
         }
+        if (1 > $iPos) {
+            $requestHelper->deletePageNumberCookie();
+            $iPage = 0;
+            $offset = 0;
+            $query->count            = $iNrofCatArticles + 1;
+            $query->offset           = $offset;
+            $idList = $requestHelper->getProductsFromMakaira($query);
+            $iPos = $this->_getProductPos($oCurrArticle, $idList, $oLocatorTarget);
+        }
+
         $locatorObject->iProductPos = $iPos + $offset;
 
         $this->setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos, $addParams);

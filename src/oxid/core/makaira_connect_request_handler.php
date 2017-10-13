@@ -157,10 +157,14 @@ class makaira_connect_request_handler
             /** @var oxUtilsServer $oxUtilsServer */
             $oxUtilsServer = oxRegistry::get('oxUtilsServer');
             $pageNumber = (int) $oxUtilsServer->getOxCookie('makairaPageNumber');
-            // delete cookie
-            $oxUtilsServer->setOxCookie('makairaPageNumber', '', time()-3600);
         }
 
         return $pageNumber;
+    }
+
+    public function deletePageNumberCookie()
+    {
+        $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+        $oxUtilsServer->setOxCookie('makairaPageNumber', '', time()-3600);
     }
 }
