@@ -146,4 +146,17 @@ class makaira_connect_request_handler
         }
         return $this->result['product']->total;
     }
+
+    public function getPageNumber($pageNumber = 0)
+    {
+        if (!$pageNumber) {
+            /** @var oxUtilsServer $oxUtilsServer */
+            $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+            $pageNumber = (int) $oxUtilsServer->getOxCookie('makairaPageNumber');
+            // delete cookie
+            $oxUtilsServer->setOxCookie('makairaPageNumber', '', time()-3600);
+        }
+
+        return $pageNumber;
+    }
 }

@@ -42,13 +42,18 @@ class makaira_connect_alist extends makaira_connect_alist_parent
     /**
      * Template variable getter used in filter templates
      *
-     * @deprecated
-     *
      * @return mixed
      */
     public function getAggregations()
     {
         return $this->aggregations;
+    }
+
+    public function getAddSeoUrlParams()
+    {
+        $this->getViewConfig()->savePageNumberToCookie();
+
+        return parent::getAddSeoUrlParams();
     }
 
     public function resetMakairaFilter()

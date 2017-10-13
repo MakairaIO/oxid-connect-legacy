@@ -60,6 +60,13 @@ class makaira_connect_search extends makaira_connect_search_parent
         return $this->aggregations;
     }
 
+    public function getAddUrlParams()
+    {
+        $this->getViewConfig()->savePageNumberToCookie();
+
+        return parent::getAddUrlParams();
+    }
+
     public function resetMakairaFilter()
     {
         $this->getViewConfig()->resetMakairaFilter('search', $this->getViewConfig()->getActSearchParam());

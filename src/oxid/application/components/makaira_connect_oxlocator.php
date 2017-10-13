@@ -14,6 +14,7 @@ use Makaira\Query;
 
 class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
 {
+    protected $useCategoryInheritance = null;
     /**
      * Executes locator method according locator type
      *
@@ -22,17 +23,12 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
      */
     public function setLocatorData($oCurrArticle, $oLocatorTarget)
     {
-        return parent::setLocatorData($oCurrArticle, $oLocatorTarget);
-
         if ($oLocatorTarget instanceof Details) {
             if ('list' === $this->_sType) {
                 $categoryId = oxRegistry::get('oxViewConfig')->getActCatId();
                 $activeCategory = $oLocatorTarget->getActiveCategory();
 
                 if ($activeCategory && ($categoryId !== $activeCategory->getId()) && $this->useCategoryInheritance()) {
-                    $locatorObject = oxNew('oxCategory');
-                    $locatorObject->load($categoryId);
-                    $oLocatorTarget->setActiveCategory($locatorObject);
                     $oCategoryTree = oxNew('oxCategoryList');
                     $oCategoryTree->buildTree($categoryId);
                     $oLocatorTarget->setCategoryTree($oCategoryTree);
@@ -45,6 +41,12 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
 
             return;
         }
+        /** @var makaira_connect_request_handler $requestHelper */
+        $requestHelper = oxNew('makaira_connect_request_handler');
+        $iPage  = $requestHelper->getPageNumber($oLocatorTarget->getActPage());
+        $searchAddParams = '';
+        $isSearch = false;
+        $query = new Query();
 
         switch ($this->_sType) {
             case 'list':
@@ -57,6 +59,11 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
                     return parent::setLocatorData($oCurrArticle, $oLocatorTarget);
                 }
                 $locatorObject = $oLocatorTarget->getActiveCategory();
+                if (!$locatorObject) {
+                    return;
+                }
+                $categoryIds = $this->getInheritedCategoryIds($locatorObject);
+                $this->setCategoryToListLink($locatorObject, $iPage);
                 break;
             case 'search':
                 $isActive = oxRegistry::getConfig()->getShopConfVar(
@@ -67,20 +74,23 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
                 if (!$isActive) {
                     return parent::setLocatorData($oCurrArticle, $oLocatorTarget);
                 }
+                $isSearch = true;
+                $query->searchPhrase = oxRegistry::getConfig()->getRequestParameter('searchparam', true);
                 $locatorObject = $oLocatorTarget->getActSearch();
+                if (!$locatorObject) {
+                    return;
+                }
+                $searchAddParams = $this->getSearchAddParams();
+
+                $sPageNr = $this->_getPageNumber($iPage);
+                $sParams = $sPageNr . ($sPageNr ? '&amp;' : '') . $searchAddParams;
+                $locatorObject->toListLink = $this->_makeLink($locatorObject->link, $sParams);
                 break;
             default:
                 return parent::setLocatorData($oCurrArticle, $oLocatorTarget);
         }
 
-        if (!$locatorObject) {
-            return;
-        }
 
-        /** @var makaira_connect_request_handler $requestHelper */
-        $requestHelper = oxNew('makaira_connect_request_handler');
-
-        $query = new Query();
         $query->enableAggregations = false;
 
         $sorting = null;
@@ -89,8 +99,7 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
         }
         $query->sorting = $requestHelper->sanitizeSorting($sorting);
 
-        $iPage  = $this->_findActPageNumber($oLocatorTarget->getActPage());
-        $iNrofCatArticles = (int)$this->getConfig()->getConfigParam('iNrofCatArticles');
+        $iNrofCatArticles = (int) $this->getConfig()->getConfigParam('iNrofCatArticles');
         $limit  = $iNrofCatArticles + 1;
         $offset = 0;
         if ($iPage > 0) {
@@ -99,17 +108,15 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
         }
         $query->count=$limit;
         $query->offset = $offset;
+        $query->isSearch    = $isSearch;
 
-        $categoryIds = $this->getInheritedCategoryIds($locatorObject);
-
-        $query->isSearch = false;
+        $constraints        = [
+            Constraints::SHOP      => oxRegistry::getConfig()->getShopId(),
+            Constraints::LANGUAGE  => oxRegistry::getLang()->getLanguageAbbr(),
+            Constraints::USE_STOCK => oxRegistry::getConfig()->getShopConfVar('blUseStock')
+        ];
         $query->constraints = array_filter(
-            [
-                Constraints::SHOP => oxRegistry::getConfig()->getShopId(),
-                Constraints::LANGUAGE => oxRegistry::getLang()->getLanguageAbbr(),
-                Constraints::USE_STOCK => oxRegistry::getConfig()->getShopConfVar('blUseStock'),
-                Constraints::CATEGORY   => $categoryIds,
-            ]
+            isset($categoryIds) ? array_merge($constraints, [Constraints::CATEGORY => $categoryIds]) : $constraints
         );
 
         $query->aggregations = array_filter(
@@ -127,12 +134,9 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
         }
         $locatorObject->iProductPos = $iPos + $offset;
 
-        $this->setCategoryToListLink($locatorObject, $iPage);
-        $this->setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos);
+        $this->setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos, $searchAddParams);
 
         $oLocatorTarget->setActiveCategory($locatorObject);
-
-
     }
 
     /**
@@ -181,6 +185,23 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
     }
 
     /**
+     * Set to list link
+     *
+     * @param oxCategory $oCategory
+     * @param int        $iPage
+     *
+     * @return void
+     */
+    private function setSearchToListLink(oxCategory $oCategory, $iPage)
+    {
+        if (oxRegistry::get('oxUtils')->seoIsActive() && $iPage) {
+            $oCategory->toListLink = oxRegistry::get('oxSeoEncoderCategory')->getCategoryPageUrl($oCategory, $iPage);
+        } else {
+            $oCategory->toListLink = $this->_makeLink($oCategory->getLink(), $this->_getPageNumber($iPage));
+        }
+    }
+
+    /**
      * setCategoryPageNumbers
      *
      * @param oxCategory $oCategory
@@ -190,7 +211,7 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
      *
      * @return void
      */
-    private function setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos)
+    private function setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos, $searchAddParams = '')
     {
         $sPageNr     = $this->_getPageNumber($iPage);
         $sPageNrPrev = $sPageNrNext = $sPageNr;
@@ -203,6 +224,11 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
             $sPageNrPrev = $this->_getPageNumber($iPage - 1);
         }
 
+        if ($searchAddParams) {
+            $sPageNrNext = $sPageNrNext . ($sPageNrNext ? '&amp;' : '') . $searchAddParams;
+            $sPageNrPrev = $sPageNrPrev . ($sPageNrPrev ? '&amp;' : '') . $searchAddParams;
+        }
+
         $locatorObject->nextProductLink = $this->_oNextProduct ? $this->_makeLink($this->_oNextProduct->getLink(),
             $sPageNrNext) : null;
         $locatorObject->prevProductLink = $this->_oBackProduct ? $this->_makeLink($this->_oBackProduct->getLink(),
@@ -210,14 +236,55 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
     }
 
     /**
-     * @return null|object
+     * @return bool
      */
     private function useCategoryInheritance()
     {
-        return oxRegistry::getConfig()->getShopConfVar(
+        if (null !== $this->useCategoryInheritance) {
+            return $this->useCategoryInheritance;
+        }
+
+        $this->useCategoryInheritance = (bool) oxRegistry::getConfig()->getShopConfVar(
             'makaira_connect_category_inheritance',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
+
+        return $this->useCategoryInheritance;
+    }
+
+    /**
+     * @return string
+     */
+    private function getSearchAddParams()
+    {
+        $sSearchParam     = oxRegistry::getConfig()->getRequestParameter('searchparam', true);
+        $sSearchLinkParam = rawurlencode($sSearchParam);
+
+        $sSearchCat = oxRegistry::getConfig()->getRequestParameter('searchcnid');
+        $sSearchCat = $sSearchCat ? rawurldecode($sSearchCat) : $sSearchCat;
+
+        $sSearchVendor = oxRegistry::getConfig()->getRequestParameter('searchvendor');
+        $sSearchVendor = $sSearchVendor ? rawurldecode($sSearchVendor) : $sSearchVendor;
+
+        $sSearchManufacturer = oxRegistry::getConfig()->getRequestParameter('searchmanufacturer');
+        $sSearchManufacturer = $sSearchManufacturer ? rawurldecode($sSearchManufacturer) : $sSearchManufacturer;
+
+        $sAddSearch = "searchparam={$sSearchLinkParam}";
+        $sAddSearch .= '&amp;listtype=search';
+
+        if ($sSearchCat !== null) {
+            $sAddSearch .= "&amp;searchcnid={$sSearchCat}";
+        }
+
+        if ($sSearchVendor !== null) {
+            $sAddSearch .= "&amp;searchvendor={$sSearchVendor}";
+        }
+
+        if ($sSearchManufacturer !== null) {
+            $sAddSearch .= "&amp;searchmanufacturer={$sSearchManufacturer}";
+        }
+
+        return $sAddSearch;
     }
 }
