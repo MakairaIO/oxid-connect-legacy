@@ -25,7 +25,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
      */
     public function getLinkWithCategory($url = false)
     {
-        $result = $this->getActiveCategory()->getLink();
+        $result   = $this->getActiveCategory()->getLink();
         $category = oxNew('oxcategory');
         if ($category->load(oxRegistry::getConfig()->getRequestParameter('marm_cat')) && !$url) {
             $url = $category->getLink();
@@ -61,6 +61,11 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         $this->getViewConfig()->resetMakairaFilter('category', $this->getViewConfig()->getActCatId());
     }
 
+    public function redirectMakairaFilter()
+    {
+        $this->getViewConfig()->redirectMakairaFilter($this->getActiveCategory()->getLink());
+    }
+
     /**
      * Template variable getter. Returns category's article list
      *
@@ -89,7 +94,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
             // load products from makaira
             $aArticleList = $this->makairaLoadArticles($oCategory);
             $this->addTplParam('isMakairaSearchEnabled', true);
-        }  catch (Exception $e) {
+        } catch (Exception $e) {
             $oxException = new oxException($e->getMessage(), $e->getCode());
             $oxException->debugOut();
             return parent::getArticleList();
@@ -120,9 +125,9 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         $myConfig = $this->getConfig();
 
-        $limit = (int)$myConfig->getConfigParam('iNrofCatArticles');
-        $limit = $limit ? $limit : 1;
-        $offset   = $limit * $this->_getRequestPageNr();
+        $limit   = (int)$myConfig->getConfigParam('iNrofCatArticles');
+        $limit   = $limit ? $limit : 1;
+        $offset  = $limit * $this->_getRequestPageNr();
         $sorting = $this->getSorting($this->getSortIdent());
 
         // TODO: Is there a reason to not use $oCategory->getId() here?
@@ -138,7 +143,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
             $oCategory = oxNew('oxcategory');
             $oCategory->load($categoryId);
             if ($oCategory) {
-                $result = oxDb::getDb()->getCol(
+                $result     = oxDb::getDb()->getCol(
                     "SELECT OXID FROM oxcategories WHERE OXROOTID = ? AND OXLEFT > ? AND OXRIGHT < ?",
                     [
                         $oCategory->oxcategories__oxrootid->value,
@@ -147,7 +152,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
                     ]
                 );
                 $categoryId = array_merge(
-                    (array) $categoryId,
+                    (array)$categoryId,
                     $result
                 );
             }
@@ -159,10 +164,10 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         $query->constraints = array_filter(
             [
-                Constraints::SHOP => $myConfig->getShopId(),
-                Constraints::LANGUAGE => oxRegistry::getLang()->getLanguageAbbr(),
+                Constraints::SHOP      => $myConfig->getShopId(),
+                Constraints::LANGUAGE  => oxRegistry::getLang()->getLanguageAbbr(),
                 Constraints::USE_STOCK => $myConfig->getShopConfVar('blUseStock'),
-                Constraints::CATEGORY   => $categoryId,
+                Constraints::CATEGORY  => $categoryId,
             ]
         );
 
@@ -172,7 +177,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         $query->sorting = $requestHelper->sanitizeSorting($sorting);
 
-        $query->count = $limit;
+        $query->count  = $limit;
         $query->offset = $offset;
 
         $oArtList = $requestHelper->getProductsFromMakaira($query);

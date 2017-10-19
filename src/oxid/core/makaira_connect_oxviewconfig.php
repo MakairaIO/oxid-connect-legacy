@@ -12,6 +12,25 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 {
     protected $makairaFilter = null;
 
+    public function redirectMakairaFilter($baseUrl)
+    {
+        $filterParams = $this->getConfig()->getRequestParameter('makairaFilter');
+
+        if (!empty($filterParams)) {
+            $redirect = '';
+            foreach ($filterParams as $key => $value) {
+                $redirect .= "{$key}_{$value}/";
+            }
+        }
+
+        $parsedUrl = parse_url($baseUrl);
+        $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+        $path      = rtrim($parsedUrl['path'], '/');
+        $finalUrl  = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}/{$redirect}{$query}";
+
+        oxRegistry::getUtils()->redirect($finalUrl, false, 302);
+    }
+
     public function getAggregationFilter()
     {
         $categoryId     = $this->getActCatId();
@@ -22,20 +41,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         // get filter cookie
         $cookieFilter = $this->loadMakairaFilterFromCookie();
         // get filter from form submit
-        $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter');
+        $requestFilter = (array)oxRegistry::getConfig()->getRequestParameter('makairaFilter');
 
         if (!empty($requestFilter)) {
-            switch ($className) {
-                case 'alist':
-                    $cookieFilter['category'][$categoryId] = $requestFilter;
-                    break;
-                case 'manufacturerlist':
-                    $cookieFilter['manufacturer'][$manufacturerId] = $requestFilter;
-                    break;
-                case 'search':
-                    $cookieFilter['search'][$searchParam] = $requestFilter;
-                    break;
-            }
+            $cookieFilter = $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
             $this->saveMakairaFilterToCookie($cookieFilter);
 
             return $requestFilter;
@@ -88,11 +97,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         if (null !== $this->makairaFilter) {
             return $this->makairaFilter;
         }
-        $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+        $oxUtilsServer   = oxRegistry::get('oxUtilsServer');
         $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
-        $this->makairaFilter = (array) $cookieFilter;
+        $this->makairaFilter = (array)$cookieFilter;
 
         return $this->makairaFilter;
     }
@@ -100,17 +109,43 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     /**
      * @param $cookieFilter
      */
-    private function saveMakairaFilterToCookie($cookieFilter)
+    public function saveMakairaFilterToCookie($cookieFilter)
     {
         $this->makairaFilter = $cookieFilter;
-        $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+        $oxUtilsServer       = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaFilter', base64_encode(json_encode($cookieFilter)));
     }
 
     public function savePageNumberToCookie()
     {
-        $pageNumber = oxRegistry::getConfig()->getRequestParameter('pgNr');
+        $pageNumber    = oxRegistry::getConfig()->getRequestParameter('pgNr');
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', $pageNumber);
+    }
+
+    /**
+     * @param $className
+     * @param $requestFilter
+     * @param $cookieFilter
+     * @param $categoryId
+     * @param $manufacturerId
+     * @param $searchParam
+     * @return mixed
+     */
+    public function buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam)
+    {
+        $cookieFilter = [];
+        switch ($className) {
+            case 'alist':
+                $cookieFilter['category'][$categoryId] = $requestFilter;
+                break;
+            case 'manufacturerlist':
+                $cookieFilter['manufacturer'][$manufacturerId] = $requestFilter;
+                break;
+            case 'search':
+                $cookieFilter['search'][$searchParam] = $requestFilter;
+                break;
+        }
+        return $cookieFilter;
     }
 }

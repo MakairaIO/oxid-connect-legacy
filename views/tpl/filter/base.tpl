@@ -27,8 +27,9 @@
             <p class="makaira-filter__header">Produkte</p>
         [{/if}]
     [{/if}]
-    <form class="makaira-form" action="[{oxgetseourl ident=$baseLink}]" method="get">
+    <form class="makaira-form" action="[{oxgetseourl ident=$baseLink}]" method="post">
 
+        <input type="hidden" name="fnc" value="redirectMakairaFilter">
         [{if $topActiveClass == "search" }]
             <input type="hidden" name="cl" value="[{$topActiveClass}]">
             [{$oViewConf->getNavFormParams()}]
