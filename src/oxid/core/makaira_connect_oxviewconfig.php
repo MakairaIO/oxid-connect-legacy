@@ -17,11 +17,18 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $filterParams = $this->getConfig()->getRequestParameter('makairaFilter');
 
         if (!empty($filterParams)) {
-            $redirect = '';
+            $path = [];
             foreach ($filterParams as $key => $value) {
-                $redirect .= "{$key}_{$value}/";
+                if (is_array($value)) {
+                    foreach ($value as $item) {
+                        $path[] = "{$key}_{$item}";
+                    }
+                } else {
+                    $path[] = "{$key}_{$value}";
+                }
             }
         }
+        $redirect = implode('/', $path) . '/';
 
         $parsedUrl = parse_url($baseUrl);
         $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
