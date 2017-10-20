@@ -15,6 +15,22 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
     protected $aggregations;
 
     /**
+     * Set noindex for filtered pages
+     *
+     * @return int
+     */
+    public function noIndex()
+    {
+        $this->_iViewIndexState = parent::noIndex();
+        $oViewConf = $this->getViewConfig();
+        if (!empty($oViewConf->getAggregationFilter())) {
+            $this->_iViewIndexState = VIEW_INDEXSTATE_NOINDEXNOFOLLOW;
+        }
+
+        return $this->_iViewIndexState;
+    }
+
+    /**
      * Template variable getter used in filter templates.
      *
      * @deprecated
@@ -63,6 +79,11 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
     public function resetMakairaFilter()
     {
         $this->getViewConfig()->resetMakairaFilter('manufacturer', $this->getViewConfig()->getActManufacturerId());
+    }
+
+    public function redirectMakairaFilter()
+    {
+        $this->getViewConfig()->redirectMakairaFilter($this->getActiveCategory()->getLink());
     }
 
     /**
