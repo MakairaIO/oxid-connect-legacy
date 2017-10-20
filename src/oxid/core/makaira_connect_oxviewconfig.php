@@ -16,26 +16,13 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     public function redirectMakairaFilter($baseUrl)
     {
+        if (!oxRegistry::getUtils()->seoIsActive()) {
+            return;
+        }
+
         $filterParams = $this->getConfig()->getRequestParameter('makairaFilter');
 
-        if (!empty($filterParams)) {
-            $path = [];
-            foreach ($filterParams as $key => $value) {
-                if (is_array($value)) {
-                    foreach ($value as $item) {
-                        $path[] = "{$key}_{$item}";
-                    }
-                } else {
-                    $path[] = "{$key}_{$value}";
-                }
-            }
-        }
-        $redirect = implode('/', $path) . '/';
-
-        $parsedUrl = parse_url($baseUrl);
-        $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
-        $path      = rtrim($parsedUrl['path'], '/');
-        $finalUrl  = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}/{$redirect}{$query}";
+        $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
 
         oxRegistry::getUtils()->redirect($finalUrl, false, 302);
     }
@@ -69,7 +56,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             return $this->activeFilter;
         }
 
-        if (isset($searchParam)) {
+        if (isset($searchParam) && 'search' == $className) {
             $this->activeFilter = isset($cookieFilter['search'][$searchParam]) ? $cookieFilter['search'][$searchParam] : [];
         } elseif (isset($categoryId)) {
             $this->activeFilter = isset($cookieFilter['category'][$categoryId]) ? $cookieFilter['category'][$categoryId] : [];
@@ -162,5 +149,35 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
                 break;
         }
         return $cookieFilter;
+    }
+
+    /**
+     * @param $baseUrl
+     * @param $filterParams
+     *
+     * @return string
+     */
+    public function generateSeoUrlFromFilter($baseUrl, $filterParams)
+    {
+        if (!empty($filterParams)) {
+            $path = [];
+            foreach ($filterParams as $key => $value) {
+                if (is_array($value)) {
+                    foreach ($value as $item) {
+                        $path[] = "{$key}_{$item}";
+                    }
+                } else {
+                    $path[] = "{$key}_{$value}";
+                }
+            }
+        }
+        $redirect = implode('/', $path) . '/';
+
+        $parsedUrl = parse_url($baseUrl);
+        $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+        $path      = rtrim($parsedUrl['path'], '/');
+        $finalUrl  = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}/{$redirect}{$query}";
+
+        return $finalUrl;
     }
 }
