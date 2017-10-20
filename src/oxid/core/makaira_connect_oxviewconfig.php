@@ -10,7 +10,9 @@
  */
 class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 {
-    protected $makairaFilter = null;
+    protected static $makairaFilter = null;
+
+    protected $activeFilter = null;
 
     public function redirectMakairaFilter($baseUrl)
     {
@@ -40,6 +42,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     public function getAggregationFilter()
     {
+        if (null !== $this->activeFilter) {
+            return $this->activeFilter;
+        }
+
+        $this->activeFilter = [];
         $categoryId     = $this->getActCatId();
         $manufacturerId = $this->getActManufacturerId();
         $searchParam    = $this->getActSearchParam();
@@ -53,24 +60,25 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         if (!empty($requestFilter)) {
             $cookieFilter = $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
             $this->saveMakairaFilterToCookie($cookieFilter);
+            $this->activeFilter = $requestFilter;
 
-            return $requestFilter;
+            return $this->activeFilter;
         }
 
         if (empty($cookieFilter)) {
-            return [];
+            return $this->activeFilter;
         }
 
         if (isset($searchParam)) {
-            return isset($cookieFilter['search'][$searchParam]) ? $cookieFilter['search'][$searchParam] : [];
+            $this->activeFilter = isset($cookieFilter['search'][$searchParam]) ? $cookieFilter['search'][$searchParam] : [];
         } elseif (isset($categoryId)) {
-            return isset($cookieFilter['category'][$categoryId]) ? $cookieFilter['category'][$categoryId] : [];
+            $this->activeFilter = isset($cookieFilter['category'][$categoryId]) ? $cookieFilter['category'][$categoryId] : [];
         } elseif (isset($manufacturerId)) {
-            return isset($cookieFilter['manufacturer'][$manufacturerId]) ?
+            $this->activeFilter = isset($cookieFilter['manufacturer'][$manufacturerId]) ?
                 $cookieFilter['manufacturer'][$manufacturerId] : [];
         }
 
-        return [];
+        return $this->activeFilter;
     }
 
     public function resetMakairaFilter($type, $ident)
@@ -101,16 +109,16 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private function loadMakairaFilterFromCookie()
     {
-        if (null !== $this->makairaFilter) {
-            return $this->makairaFilter;
+        if (null !== static::$makairaFilter) {
+            return static::$makairaFilter;
         }
         $oxUtilsServer   = oxRegistry::get('oxUtilsServer');
         $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
-        $this->makairaFilter = (array)$cookieFilter;
+        static::$makairaFilter = (array)$cookieFilter;
 
-        return $this->makairaFilter;
+        return static::$makairaFilter;
     }
 
     /**
@@ -118,7 +126,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     public function saveMakairaFilterToCookie($cookieFilter)
     {
-        $this->makairaFilter = $cookieFilter;
+        static::$makairaFilter = $cookieFilter;
         $oxUtilsServer       = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaFilter', base64_encode(json_encode($cookieFilter)));
     }
