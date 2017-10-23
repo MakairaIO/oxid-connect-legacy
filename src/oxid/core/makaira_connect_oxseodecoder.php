@@ -16,12 +16,17 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
             return parent::decodeUrl($seoUrl);
         }
 
-        preg_match_all("/([^_]*\/)([^\/]*_[^\/]*)/", $seoUrl, $aMatches);
-
-        $filter = [];
+        preg_match_all("#([^_]*/)([^/]*_[^/]*)#", $seoUrl, $aMatches);
         if (!isset($aMatches[2])) {
             return parent::decodeUrl($seoUrl);
         }
+
+        $pageNumber = '';
+        if (preg_match('#.*/(\d+)$#', rtrim($seoUrl, '/'), $matches)) {
+            $pageNumber = $matches[1].'/';
+        }
+
+        $filter = [];
         foreach ($aMatches[2] as $filterParam) {
             $parts = explode('_', $filterParam);
             $value = array_pop($parts);
@@ -33,7 +38,7 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
             $filter[$key] = $value;
         }
 
-        $seoUrl = $aMatches[1][0];
+        $seoUrl = $aMatches[1][0] . $pageNumber;
 
 
         $decodedUrl   = parent::decodeUrl($seoUrl);

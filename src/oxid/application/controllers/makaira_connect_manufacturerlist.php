@@ -30,6 +30,23 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
         return $this->_iViewIndexState;
     }
 
+    protected function _addPageNrParam($sUrl, $iPage, $iLang = null)
+    {
+        $baseLink = parent::_addPageNrParam($sUrl, $iPage, $iLang);
+        if (!oxRegistry::getUtils()->seoIsActive()) {
+            return $baseLink;
+        }
+        $oxViewConfig = $this->getViewConfig();
+        $filterParams = $oxViewConfig->getAggregationFilter();
+        if (empty($filterParams)) {
+            return $baseLink;
+        }
+
+        $link = $oxViewConfig->generateSeoUrlFromFilter($baseLink, $filterParams);
+
+        return $link;
+    }
+
     /**
      * Template variable getter used in filter templates.
      *

@@ -159,24 +159,37 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     public function generateSeoUrlFromFilter($baseUrl, $filterParams)
     {
-        if (!empty($filterParams)) {
-            $path = [];
-            foreach ($filterParams as $key => $value) {
-                if (is_array($value)) {
-                    foreach ($value as $item) {
-                        $path[] = "{$key}_{$item}";
-                    }
-                } else {
-                    $path[] = "{$key}_{$value}";
+        // TODO: Add caching because this method is called multiple times;
+
+        if (empty($filterParams)) {
+            return $baseUrl;
+        }
+
+        $path = [];
+        foreach ($filterParams as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $item) {
+                    $path[] = "{$key}_{$item}";
                 }
+            } else {
+                $path[] = "{$key}_{$value}";
             }
         }
-        $redirect = implode('/', $path) . '/';
+        $filterString = implode('/', $path);
 
         $parsedUrl = parse_url($baseUrl);
-        $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+
         $path      = rtrim($parsedUrl['path'], '/');
-        $finalUrl  = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}/{$redirect}{$query}";
+        $pageNumber = '';
+        if (preg_match('#(.*)/(\d+)$#', $path,  $matches)) {
+            $path = $matches[1];
+            $pageNumber = $matches[2].'/';
+        }
+        $path = implode('/', [$path, $filterString, $pageNumber]);
+
+        $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+
+        $finalUrl  = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 
         return $finalUrl;
     }
