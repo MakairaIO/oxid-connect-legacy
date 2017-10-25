@@ -6,7 +6,7 @@ use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\Type\Product\Product;
 
-class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
+class ShopModifierTest extends \PHPUnit_Framework_TestCase
 {
     public function testCEPE()
     {
@@ -16,7 +16,7 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
             ->method('query');
         $product = new BaseProduct();
         $product->OXSHOPID = 'test';
-        $modifier = new Product2ShopModifier($dbMock, false);
+        $modifier = new ShopModifier($dbMock, false, 'oxarticles2shop');
         $product = $modifier->apply($product);
         $this->assertEquals(['test'], $product->shop);
     }
@@ -31,7 +31,7 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([['OXSHOPID' => 1], ['OXSHOPID' => 2]]));
         $product = new BaseProduct();
         $product->OXMAPID = 1;
-        $modifier = new Product2ShopModifier($dbMock, true);
+        $modifier = new ShopModifier($dbMock, true, 'oxarticles2shop');
         $product = $modifier->apply($product);
         $this->assertEquals([1, 2], $product->shop);
     }
@@ -41,7 +41,7 @@ class Product2ShopModifierTest extends \PHPUnit_Framework_TestCase
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new Product();
         $product->OXSHOPINCL = 3;
-        $modifier = new Product2ShopModifier($dbMock, true);
+        $modifier = new ShopModifier($dbMock, true, 'oxarticles2shop');
         $product = $modifier->apply($product);
         $this->assertEquals([1, 2], $product->shop);
     }

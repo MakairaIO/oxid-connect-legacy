@@ -6,7 +6,7 @@ use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 
-class Product2ShopModifier extends Modifier
+class ShopModifier extends Modifier
 {
     private $isMultiShop = false;
 
@@ -16,7 +16,7 @@ class Product2ShopModifier extends Modifier
         SELECT
           OXSHOPID
         FROM
-          oxarticles2shop
+          %s
         WHERE
           OXMAPOBJECTID = :mapId;
     ';
@@ -30,10 +30,11 @@ class Product2ShopModifier extends Modifier
      * @param DatabaseInterface $database
      * @param bool              $isMultiShop
      */
-    public function __construct(DatabaseInterface $database, $isMultiShop)
+    public function __construct(DatabaseInterface $database, $isMultiShop, $mappingTable)
     {
         $this->database    = $database;
         $this->isMultiShop = $isMultiShop;
+        $this->selectQuery = sprintf($this->selectQuery, $mappingTable);
     }
 
     private function getArrayFromBitmask($bitmask)
@@ -44,34 +45,39 @@ class Product2ShopModifier extends Modifier
                 $retArray[] = $i + 1;
             }
         }
+
         return $retArray;
     }
 
     /**
      * Modify product and return modified product
      *
-     * @param BaseProduct $product
+     * @param Type $product
      *
-     * @return BaseProduct
+     * @return Type
      */
-    public function apply(Type $product)
+    public function apply(Type $type)
     {
         if ($this->isMultiShop) {
-            if (empty($product->OXMAPID)) {
-                $bitmask = $product->OXSHOPINCL;
-                $product->shop = $this->getArrayFromBitmask($bitmask);
+            if (empty($type->OXMAPID)) {
+                $bitmask    = $type->OXSHOPINCL;
+                $type->shop = $this->getArrayFromBitmask($bitmask);
             } else {
-                $product->shop = $this->database->query($this->selectQuery, ['mapId' => $product->OXMAPID]);
-                $product->shop = array_map(
+                $type->shop = $this->database->query(
+                    $this->selectQuery,
+                    ['mapId' => $type->OXMAPID]
+                );
+                $type->shop = array_map(
                     function ($x) {
                         return $x['OXSHOPID'];
                     },
-                    $product->shop
+                    $type->shop
                 );
             }
         } else {
-            $product->shop = [$product->OXSHOPID];
+            $type->shop = [$type->OXSHOPID];
         }
-        return $product;
+
+        return $type;
     }
 }
