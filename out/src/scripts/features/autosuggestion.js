@@ -53,7 +53,7 @@ const closeAutosuggestions = (event) => {
   if (autosuggestionContainer) {
     let targetNotSearchInput = (target.id !== searchInputId);
     let targetNotSubmitButton = !target.classList.contains('makaira-autosuggestion__submit');
-    // close for alle targets except the searchInput and submitbutton
+    // close for all targets except the searchInput and submitbutton
     if (targetNotSearchInput && targetNotSubmitButton) {
       autosuggestionContainer.innerHTML = '';
     }
