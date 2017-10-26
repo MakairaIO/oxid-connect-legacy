@@ -126,12 +126,26 @@ $dic->tag('makaira.connect.repository.manufacturer', 'makaira.connect.repository
 // --------------------------------------
 
 $dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Common\Product2ShopModifier(
-        $dic['oxid.database'], oxRegistry::getConfig()->isMall()
+    return new \Makaira\Connect\Modifier\Common\ShopModifier(
+        $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxarticles2shop'
     );
 };
 $dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.variant');
+
+$dic['makaira.connect.modifiers.common.category2shop'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\ShopModifier(
+        $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxcategories2shop'
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.category2shop', 'makaira.importer.modifier.category');
+
+$dic['makaira.connect.modifiers.common.manufacturer2shop'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\ShopModifier(
+        $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxmanufacturers2shop'
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.manufacturer2shop', 'makaira.importer.modifier.manufacturer');
 
 $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\AttributeModifier(
