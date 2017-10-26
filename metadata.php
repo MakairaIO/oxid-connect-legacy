@@ -56,6 +56,13 @@ $aModule = array(
         'makaira/filter/list_multiselect.tpl' => 'makaira/connect/views/tpl/filter/list_multiselect.tpl',
         'makaira/filter/range_slider.tpl' => 'makaira/connect/views/tpl/filter/range_slider.tpl',
         'makaira/filter/script.tpl' => 'makaira/connect/views/tpl/filter/script.tpl',
+        /* custom frontend filter */
+        'makaira/filter/list_custom_1.tpl' => 'makaira/connect/views/tpl/filter/custom/list_custom_1.tpl',
+        'makaira/filter/list_custom_2.tpl' => 'makaira/connect/views/tpl/filter/custom/list_custom_2.tpl',
+        'makaira/filter/list_multiselect_custom_1.tpl' => 'makaira/connect/views/tpl/filter/custom/list_multiselect_custom_1.tpl',
+        'makaira/filter/list_multiselect_custom_2.tpl' => 'makaira/connect/views/tpl/filter/custom/list_multiselect_custom_2.tpl',
+        'makaira/filter/range_slider_custom_1.tpl' => 'makaira/connect/views/tpl/filter/custom/range_slider_custom_1.tpl',
+        'makaira/filter/range_slider_custom_2.tpl' => 'makaira/connect/views/tpl/filter/custom/range_slider_custom_2.tpl',
         /* autosuggest */
         'makaira/autosuggest/autosuggest.tpl' => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
         'makaira/autosuggest/types/products.tpl' => 'makaira/connect/views/tpl/autosuggest/types/products.tpl',
