@@ -175,13 +175,17 @@ class makaira_connect_search extends makaira_connect_search_parent
     /**
      * Loads single article by it's number
      *
-     * @param string $nr
+     * @param string $number
      *
-     * @return marm_oxsearch_oxarticle|null
+     * @return oxIArticle|null
      */
-    protected function loadProductByNumber($number) {
+    protected function loadProductByNumber($number)
+    {
+        if ('' === trim($number)) {
+            return null;
+        }
         $number = oxDb::getDb()->quote($number);
-        /** @var oxArticle|marm_oxsearch_oxarticle $oxArticle */
+        /** @var oxArticle $oxArticle */
         $oxArticle = oxNew('oxarticle');
         $table = $oxArticle->getViewName();
         $activeSnippet = $oxArticle->getSqlActiveSnippet();
