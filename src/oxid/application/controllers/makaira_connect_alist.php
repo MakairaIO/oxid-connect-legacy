@@ -167,7 +167,10 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         );
 
         $query->aggregations = array_filter(
-            $this->getViewConfig()->getAggregationFilter()
+            $this->getViewConfig()->getAggregationFilter(),
+            function ($value) {
+                return (bool) $value || ("0" === $value);
+            }
         );
 
         $query->sorting = $requestHelper->sanitizeSorting($sorting);

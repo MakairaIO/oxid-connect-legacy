@@ -144,7 +144,10 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
         );
 
         $query->aggregations = array_filter(
-            $this->getViewConfig()->getAggregationFilter()
+            $this->getViewConfig()->getAggregationFilter(),
+            function ($value) {
+                return (bool) $value || ("0" === $value);
+            }
         );
 
         $query->sorting = $requestHelper->sanitizeSorting($sorting);
