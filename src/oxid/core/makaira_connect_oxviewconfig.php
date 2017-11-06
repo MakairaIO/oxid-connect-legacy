@@ -14,6 +14,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     protected $activeFilter = null;
 
+    protected $generatedFilterUrl = [];
+
     public function redirectMakairaFilter($baseUrl)
     {
         if (!oxRegistry::getUtils()->seoIsActive()) {
@@ -159,7 +161,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     public function generateSeoUrlFromFilter($baseUrl, $filterParams)
     {
-        // TODO: Add caching because this method is called multiple times;
+        if (isset($this->generatedFilterUrl[$baseUrl])) {
+            return $this->generatedFilterUrl[$baseUrl];
+        }
 
         if (empty($filterParams)) {
             return $baseUrl;
@@ -179,18 +183,18 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
         $parsedUrl = parse_url($baseUrl);
 
-        $path      = rtrim($parsedUrl['path'], '/');
+        $path       = rtrim($parsedUrl['path'], '/');
         $pageNumber = '';
-        if (preg_match('#(.*)/(\d+)$#', $path,  $matches)) {
-            $path = $matches[1];
-            $pageNumber = $matches[2].'/';
+        if (preg_match('#(.*)/(\d+)$#', $path, $matches)) {
+            $path       = $matches[1];
+            $pageNumber = $matches[2] . '/';
         }
         $path = implode('/', [$path, $filterString, $pageNumber]);
 
-        $query     = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+        $query = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
 
-        $finalUrl  = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
+        $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 
-        return $finalUrl;
+        return $this->generatedFilterUrl[$baseUrl];
     }
 }
