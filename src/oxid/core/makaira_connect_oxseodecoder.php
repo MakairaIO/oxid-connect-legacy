@@ -1,11 +1,15 @@
 <?php
-
 /**
- * Created by PhpStorm.
- * User: support
- * Date: 19.10.17
- * Time: 14:55
+ * This file is part of a marmalade GmbH project
+ *
+ * It is not Open Source and may not be redistributed.
+ * For contact information please visit http://www.marmalade.de
+ *
+ * Version:    1.0
+ * Author:     Alexander Kraus <kraus@marmalade.de>
+ * Author URI: http://www.marmalade.de
  */
+
 class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
 {
     public function decodeUrl($seoUrl)
