@@ -10,10 +10,32 @@
  */
 class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 {
-    protected $makairaFilter = null;
+    protected static $makairaFilter = null;
+
+    protected $activeFilter = null;
+
+    protected $generatedFilterUrl = [];
+
+    public function redirectMakairaFilter($baseUrl)
+    {
+        if (!oxRegistry::getUtils()->seoIsActive()) {
+            return;
+        }
+
+        $filterParams = $this->getConfig()->getRequestParameter('makairaFilter');
+
+        $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
+
+        oxRegistry::getUtils()->redirect($finalUrl, false, 302);
+    }
 
     public function getAggregationFilter()
     {
+        if (null !== $this->activeFilter) {
+            return $this->activeFilter;
+        }
+
+        $this->activeFilter = [];
         $categoryId     = $this->getActCatId();
         $manufacturerId = $this->getActManufacturerId();
         $searchParam    = $this->getActSearchParam();
@@ -22,39 +44,30 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         // get filter cookie
         $cookieFilter = $this->loadMakairaFilterFromCookie();
         // get filter from form submit
-        $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter');
+        $requestFilter = (array)oxRegistry::getConfig()->getRequestParameter('makairaFilter');
 
         if (!empty($requestFilter)) {
-            switch ($className) {
-                case 'alist':
-                    $cookieFilter['category'][$categoryId] = $requestFilter;
-                    break;
-                case 'manufacturerlist':
-                    $cookieFilter['manufacturer'][$manufacturerId] = $requestFilter;
-                    break;
-                case 'search':
-                    $cookieFilter['search'][$searchParam] = $requestFilter;
-                    break;
-            }
+            $cookieFilter = $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
             $this->saveMakairaFilterToCookie($cookieFilter);
+            $this->activeFilter = $requestFilter;
 
-            return $requestFilter;
+            return $this->activeFilter;
         }
 
         if (empty($cookieFilter)) {
-            return [];
+            return $this->activeFilter;
         }
 
-        if (isset($searchParam)) {
-            return isset($cookieFilter['search'][$searchParam]) ? $cookieFilter['search'][$searchParam] : [];
+        if (isset($searchParam) && 'search' == $className) {
+            $this->activeFilter = isset($cookieFilter['search'][$searchParam]) ? $cookieFilter['search'][$searchParam] : [];
         } elseif (isset($categoryId)) {
-            return isset($cookieFilter['category'][$categoryId]) ? $cookieFilter['category'][$categoryId] : [];
+            $this->activeFilter = isset($cookieFilter['category'][$categoryId]) ? $cookieFilter['category'][$categoryId] : [];
         } elseif (isset($manufacturerId)) {
-            return isset($cookieFilter['manufacturer'][$manufacturerId]) ?
+            $this->activeFilter = isset($cookieFilter['manufacturer'][$manufacturerId]) ?
                 $cookieFilter['manufacturer'][$manufacturerId] : [];
         }
 
-        return [];
+        return $this->activeFilter;
     }
 
     public function resetMakairaFilter($type, $ident)
@@ -85,32 +98,103 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private function loadMakairaFilterFromCookie()
     {
-        if (null !== $this->makairaFilter) {
-            return $this->makairaFilter;
+        if (null !== static::$makairaFilter) {
+            return static::$makairaFilter;
         }
-        $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+        $oxUtilsServer   = oxRegistry::get('oxUtilsServer');
         $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
-        $this->makairaFilter = (array) $cookieFilter;
+        static::$makairaFilter = (array)$cookieFilter;
 
-        return $this->makairaFilter;
+        return static::$makairaFilter;
     }
 
     /**
      * @param $cookieFilter
      */
-    private function saveMakairaFilterToCookie($cookieFilter)
+    public function saveMakairaFilterToCookie($cookieFilter)
     {
-        $this->makairaFilter = $cookieFilter;
-        $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+        static::$makairaFilter = $cookieFilter;
+        $oxUtilsServer       = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaFilter', base64_encode(json_encode($cookieFilter)));
     }
 
     public function savePageNumberToCookie()
     {
-        $pageNumber = oxRegistry::getConfig()->getRequestParameter('pgNr');
+        $pageNumber    = oxRegistry::getConfig()->getRequestParameter('pgNr');
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', $pageNumber);
+    }
+
+    /**
+     * @param $className
+     * @param $requestFilter
+     * @param $cookieFilter
+     * @param $categoryId
+     * @param $manufacturerId
+     * @param $searchParam
+     * @return mixed
+     */
+    public function buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam)
+    {
+        $cookieFilter = [];
+        switch ($className) {
+            case 'alist':
+                $cookieFilter['category'][$categoryId] = $requestFilter;
+                break;
+            case 'manufacturerlist':
+                $cookieFilter['manufacturer'][$manufacturerId] = $requestFilter;
+                break;
+            case 'search':
+                $cookieFilter['search'][$searchParam] = $requestFilter;
+                break;
+        }
+        return $cookieFilter;
+    }
+
+    /**
+     * @param $baseUrl
+     * @param $filterParams
+     *
+     * @return string
+     */
+    public function generateSeoUrlFromFilter($baseUrl, $filterParams)
+    {
+        if (isset($this->generatedFilterUrl[$baseUrl])) {
+            return $this->generatedFilterUrl[$baseUrl];
+        }
+
+        if (empty($filterParams)) {
+            return $baseUrl;
+        }
+
+        $path = [];
+        foreach ($filterParams as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $item) {
+                    $path[] = "{$key}_{$item}";
+                }
+            } else {
+                $path[] = "{$key}_{$value}";
+            }
+        }
+        $filterString = implode('/', $path);
+
+        $parsedUrl = parse_url($baseUrl);
+
+        $path       = rtrim($parsedUrl['path'], '/');
+        $pageNumber = '';
+        if (preg_match('#(.*)/(\d+)$#', $path, $matches)) {
+            $path       = $matches[1];
+            $pageNumber = $matches[2] . '/';
+        }
+        $path = implode('/', [$path, $filterString, $pageNumber]);
+
+        $query = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+
+        $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
+
+        return $this->generatedFilterUrl[$baseUrl];
     }
 }

@@ -50,6 +50,11 @@ class makaira_connect_search extends makaira_connect_search_parent
         stopProfile('searchView');
     }
 
+    public function redirectMakairaFilter()
+    {
+        // Intentionally left empty
+    }
+
     public function getSortIdent()
     {
         return 'search';

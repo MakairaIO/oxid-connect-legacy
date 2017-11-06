@@ -37,7 +37,7 @@ class makaira_connect_request_handler
         if (!is_array($sorting)) {
             return [];
         }
-        $sortField = $sorting['sortby'];
+        $sortField     = $sorting['sortby'];
         $sortDirection = $sorting['sortdir'];
 
         // fix for category quicksort
@@ -88,22 +88,22 @@ class makaira_connect_request_handler
                         unset($aggregations[$aggregation->key]);
                         continue;
                     }
-                    if (isset($query->aggregations[$aggregation->key.'_from'])) {
-                        $aggregations[$aggregation->key]->selectedValues['from'] = $query->aggregations[$aggregation->key.'_from'];
+                    if (isset($query->aggregations[$aggregation->key . '_from'])) {
+                        $aggregations[$aggregation->key]->selectedValues['from'] = $query->aggregations[$aggregation->key . '_from'];
                     }
-                    if (isset($query->aggregations[$aggregation->key.'_to'])) {
-                        $aggregations[$aggregation->key]->selectedValues['to'] = $query->aggregations[$aggregation->key.'_to'];
+                    if (isset($query->aggregations[$aggregation->key . '_to'])) {
+                        $aggregations[$aggregation->key]->selectedValues['to'] = $query->aggregations[$aggregation->key . '_to'];
                     }
                     break;
                 default:
-                    $aggregations[$aggregation->key]->values = array_map(
+                    $aggregations[$aggregation->key]->values         = array_map(
                         function ($value) use ($aggregation, $query) {
-                            $valueObject = new stdClass();
-                            $valueObject->key = key($value);
-                            $valueObject->count = current($value);
+                            $valueObject           = new stdClass();
+                            $valueObject->key      = key($value);
+                            $valueObject->count    = current($value);
                             $valueObject->selected = false;
                             if (isset($query->aggregations[$aggregation->key])) {
-                                $valueObject->selected = in_array($valueObject->key, (array) $query->aggregations[$aggregation->key]);
+                                $valueObject->selected = in_array($valueObject->key, (array)$query->aggregations[$aggregation->key]);
                             }
                             return $valueObject;
                         },
@@ -129,7 +129,7 @@ class makaira_connect_request_handler
         }
 
         $this->additionalResults = array_filter(
-            (array) $this->result,
+            (array)$this->result,
             function ($value, $key) {
                 return ('product' !== $key) && ($value->count > 0);
             },
@@ -156,7 +156,7 @@ class makaira_connect_request_handler
         if (!$pageNumber) {
             /** @var oxUtilsServer $oxUtilsServer */
             $oxUtilsServer = oxRegistry::get('oxUtilsServer');
-            $pageNumber = (int) $oxUtilsServer->getOxCookie('makairaPageNumber');
+            $pageNumber    = (int)$oxUtilsServer->getOxCookie('makairaPageNumber');
         }
 
         return $pageNumber;
@@ -165,6 +165,6 @@ class makaira_connect_request_handler
     public function deletePageNumberCookie()
     {
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
-        $oxUtilsServer->setOxCookie('makairaPageNumber', '', time()-3600);
+        $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
     }
 }
