@@ -29,7 +29,7 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
         $filter = [];
         foreach ($aMatches[2] as $filterParam) {
             $parts = explode('_', $filterParam);
-            $value = array_pop($parts);
+            $value = urldecode(array_pop($parts));
             $key   = implode('_', $parts);
 
             if (isset($filter[$key])) {
