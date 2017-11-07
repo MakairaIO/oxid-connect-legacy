@@ -95,6 +95,7 @@ $aModule = array(
         array('name' => 'makaira_connect_activate_search', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
         array('name' => 'makaira_connect_activate_listing', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
         array('name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
+        array('name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
         array(
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDS',

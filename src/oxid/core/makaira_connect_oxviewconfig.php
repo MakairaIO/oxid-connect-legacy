@@ -22,6 +22,16 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             return;
         }
 
+        $useSeoFilter = $this->getConfig()->getShopConfVar(
+            'makaira_connect_seofilter',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        if (!$useSeoFilter) {
+            return;
+        }
+
         $filterParams = $this->getConfig()->getRequestParameter('makairaFilter');
 
         $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
@@ -167,6 +177,16 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
         if (empty($filterParams)) {
             return $baseUrl;
+        }
+
+        $useSeoFilter = $this->getConfig()->getShopConfVar(
+            'makaira_connect_seofilter',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        if (!$useSeoFilter) {
+            $this->generatedFilterUrl[$baseUrl] = $baseUrl;
+            return $this->generatedFilterUrl[$baseUrl];
         }
 
         $path = [];
