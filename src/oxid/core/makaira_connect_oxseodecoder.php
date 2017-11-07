@@ -25,6 +25,16 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
             return parent::decodeUrl($seoUrl);
         }
 
+        // check setting late because other checks should be faster than database access
+        $useSeoFilter = $this->getConfig()->getShopConfVar(
+            'makaira_connect_seofilter',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        if (!$useSeoFilter) {
+            return parent::decodeUrl($seoUrl);;
+        }
+
         $pageNumber = '';
         if (preg_match('#.*/(\d+)$#', rtrim($seoUrl, '/'), $matches)) {
             $pageNumber = $matches[1].'/';

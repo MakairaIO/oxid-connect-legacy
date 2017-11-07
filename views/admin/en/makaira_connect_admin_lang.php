@@ -13,6 +13,7 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_activate_search' => 'Activate for search',
     'SHOP_MODULE_makaira_connect_activate_listing' => 'Activate for category',
     'SHOP_MODULE_makaira_connect_category_inheritance' => 'Parent category contains all products from child categories',
+    'SHOP_MODULE_makaira_connect_seofilter'       => 'Generate SEO url for filtered category and manufacturer pages',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Fields',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
