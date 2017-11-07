@@ -34,6 +34,7 @@ $aModule = array(
         /* models */
         'oxarticle'  => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
         'oxcategory' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
+        'oxobject2category' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxobject2category',
         'oxmanufacturer' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxmanufacturer',
         /* core */
         'oxviewconfig' => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',

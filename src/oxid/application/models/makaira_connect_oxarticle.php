@@ -69,4 +69,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         return oxRegistry::get('yamm_dic')['makaira.connect.repository'];
     }
 
+    public function executeDependencyEvent($iDependencyEvent = null)
+    {
+        $this->touch($this->getId());
+        return parent::executeDependencyEvent($iDependencyEvent);
+    }
 }
