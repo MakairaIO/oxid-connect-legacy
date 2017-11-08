@@ -34,6 +34,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
         $filterParams = $this->getConfig()->getRequestParameter('makairaFilter');
 
+        // TODO Handle range filter in frontend and remove this
+        if (!empty($filterParams)) {
+            $filterParams = $this->filterRangeValues($filterParams);
+        }
+
         $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
 
         oxRegistry::getUtils()->redirect($finalUrl, false, 302);
@@ -57,6 +62,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $requestFilter = (array)oxRegistry::getConfig()->getRequestParameter('makairaFilter');
 
         if (!empty($requestFilter)) {
+            // TODO Handle range filter in frontend and remove this
+            $requestFilter = $this->filterRangeValues($requestFilter);
+
             $cookieFilter = $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
             $this->saveMakairaFilterToCookie($cookieFilter);
             $this->activeFilter = $requestFilter;
@@ -216,5 +224,42 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 
         return $this->generatedFilterUrl[$baseUrl];
+    }
+
+    /**
+     * @param $filterParams
+     *
+     * @return array
+     */
+    private function filterRangeValues($filterParams)
+    {
+        // TODO Handle range filter in frontend and remove this
+        foreach ($filterParams as $key => $value) {
+            if (false !== ($pos = strrpos($key, '_to'))) {
+                if (isset($filterParams[substr($key, 0, $pos) . '_rangemax'])) {
+                    if ($value == $filterParams[substr($key, 0, $pos) . '_rangemax']) {
+                        unset($filterParams[$key]);
+                        continue;
+                    }
+                }
+            }
+            if (false !== ($pos = strrpos($key, '_from'))) {
+                if (isset($filterParams[substr($key, 0, $pos) . '_rangemin'])) {
+                    if ($value == $filterParams[substr($key, 0, $pos) . '_rangemin']) {
+                        unset($filterParams[$key]);
+                        continue;
+                    }
+                }
+            }
+        }
+        $filterParams = array_filter(
+            $filterParams,
+            function ($key) {
+                return (false === strrpos($key, '_rangemin')) && (false === strrpos($key, '_rangemax'));
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        return $filterParams;
     }
 }

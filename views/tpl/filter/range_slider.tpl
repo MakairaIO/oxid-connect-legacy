@@ -13,6 +13,11 @@
 
     <input type="hidden" class="makaira-filter__input--min" name="[{$fromname}]" value="[{$aggregation->min}]" />
     <input type="hidden" class="makaira-filter__input--max" name="[{$toname}]" value="[{$aggregation->max}]" />
+    [{* TODO Handle min max check in js and remove additional inputs *}]
+    [{assign var='maxname' value='makairaFilter['|cat:$aggregation->key|cat:"_rangemax]"}]
+    [{assign var='minname' value='makairaFilter['|cat:$aggregation->key|cat:"_rangemin]"}]
+    <input type="hidden" name="[{$minname}]" value="[{$aggregation->min|floor}]" />
+    <input type="hidden" name="[{$maxname}]" value="[{$aggregation->max|ceil}]" />
 
     <p class="makaira-filter__slider-values">
         <span class="makaira-filter__symbol--currency">[{$sCurrencySign}]</span>
