@@ -128,13 +128,14 @@ class makaira_connect_request_handler
             return $this->additionalResults;
         }
 
-        $this->additionalResults = array_filter(
-            (array)$this->result,
-            function ($value, $key) {
-                return ('product' !== $key) && ($value->count > 0);
-            },
-            ARRAY_FILTER_USE_BOTH
-        );
+        $filteredArray = [];
+        foreach ((array) $this->result as $type => $result) {
+            if (('product' !== $type) && ($result->count > 0)) {
+                $filteredArray[$type] = $result;
+            }
+        }
+
+        $this->additionalResults = $filteredArray;
 
         return $this->additionalResults;
     }

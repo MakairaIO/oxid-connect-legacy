@@ -47,6 +47,21 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return $link;
     }
 
+    public function getAttributes()
+    {
+        $isActive = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_activate_listing',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        if (!$isActive) {
+            return parent::getAttributes();
+        }
+
+        // Disable oxid attribute filter
+        return false;
+    }
+
     /**
      * Template variable getter used in filter templates.
      *

@@ -21,6 +21,12 @@ class makaira_connect_events
      */
     public static function onActivate()
     {
+        //Don't show errors. This happens by default in ADODbLight
+        error_reporting(0);
+
+        // Support Oxid 5.1
+        self::checkOxConfigOxVarNameLength();
+
         // Add new table to configurate landing pages
         self::addProductSequenceTable();
         self::addUserTokenTable();
@@ -142,5 +148,29 @@ class makaira_connect_events
         $fields = $oDb->metaColumnNames($table, true);
 
         return in_array($column, $fields);
+    }
+
+    private static function checkOxConfigOxVarNameLength()
+    {
+        $databaseName = oxRegistry::getConfig()->getConfigParam('dbName');
+
+        // Check field OXVARNAME in table oxconfig != VARCHAR(100)
+        $oxDb  = oxDb::getDb();
+        $fieldLength = $oxDb->getOne(
+            "SELECT CHARACTER_MAXIMUM_LENGTH 
+            FROM information_schema.COLUMNS 
+            WHERE 
+                TABLE_SCHEMA=? 
+                AND TABLE_NAME='oxconfig' 
+                AND COLUMN_NAME='OXVARNAME'",
+            [$databaseName]
+        );
+
+        // Extend field length
+        if ((false !== $fieldLength) && ((int) $fieldLength < 50)) {
+            $oxDb->execute(
+                "ALTER TABLE oxconfig MODIFY COLUMN OXVARNAME VARCHAR(100) NOT NULL DEFAULT '' COMMENT 'Variable name'"
+            );
+        }
     }
 }

@@ -252,13 +252,16 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
                 }
             }
         }
-        $filterParams = array_filter(
-            $filterParams,
-            function ($key) {
-                return (false === strrpos($key, '_rangemin')) && (false === strrpos($key, '_rangemax'));
-            },
-            ARRAY_FILTER_USE_KEY
-        );
+
+        $filteredFilterParams = [];
+        foreach ($filterParams as $key => $value) {
+            if ((false !== strrpos($key, '_rangemin')) || (false !== strrpos($key, '_rangemax'))) {
+                continue;
+            }
+            $filteredFilterParams[$key] = $value;
+        }
+
+        $filterParams         = $filteredFilterParams;
 
         return $filterParams;
     }
