@@ -96,7 +96,7 @@ class DoctrineDatabase implements DatabaseInterface
                     $statement->bindValue($key, $value, \PDO::PARAM_INT);
                     break;
                 case 'boolean':
-                    $statement->bindValue($key, $value, \PDO::PARAM_BOOLEAN);
+                    $statement->bindValue($key, $value, \PDO::PARAM_BOOL);
                     break;
                 case 'NULL':
                     $statement->bindValue($key, $value, \PDO::PARAM_NULL);
