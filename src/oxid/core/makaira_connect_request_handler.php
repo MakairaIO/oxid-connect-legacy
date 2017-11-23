@@ -182,11 +182,11 @@ class makaira_connect_request_handler
     }
 
     /**
-     * Create/Set User ID (cookie "oiID")
+     * Get User ID (set cookie "oiID")
      */
     public function getUserOiID()
     {
-        /** @var string $userAgent */
+        /** @var string $userID */
         $userID = isset($_COOKIE['oiID']) ? $_COOKIE['oiID'] : false;
 
         if (!$userID || !is_string($userID)) {
