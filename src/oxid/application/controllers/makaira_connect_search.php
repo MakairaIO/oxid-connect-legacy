@@ -87,7 +87,6 @@ class makaira_connect_search extends makaira_connect_search_parent
         ]);
 
         // check mysql for product with product number
-        $oSearchHandler = oxNew('oxsearch');
         $productNumberProduct = $this->loadProductByNumber($query->searchPhrase);
         if($productNumberProduct instanceof oxArticle) {
             oxRegistry::getUtils()->redirect($productNumberProduct->getLink(), false, 302);
@@ -98,13 +97,12 @@ class makaira_connect_search extends makaira_connect_search_parent
 
         $query->constraints = array_filter(
             [
-                Constraints::SHOP => $oxConfig->getShopId(),
-                Constraints::LANGUAGE => oxRegistry::getLang()->getLanguageAbbr(),
-                Constraints::USE_STOCK => $oxConfig->getShopConfVar('blUseStock'),
-                Constraints::CATEGORY   => rawurldecode($oxConfig->getRequestParameter('searchcnid')),
+                Constraints::SHOP         => $oxConfig->getShopId(),
+                Constraints::LANGUAGE     => oxRegistry::getLang()->getLanguageAbbr(),
+                Constraints::USE_STOCK    => $oxConfig->getShopConfVar('blUseStock'),
+                Constraints::CATEGORY     => rawurldecode($oxConfig->getRequestParameter('searchcnid')),
                 Constraints::MANUFACTURER => rawurldecode($oxConfig->getRequestParameter('searchmanufacturer')),
-                'vendor'       => rawurldecode($oxConfig->getRequestParameter('searchvendor')),
-
+                Constraints::VENDOR       => rawurldecode($oxConfig->getRequestParameter('searchvendor')),
             ]
         );
         $query->aggregations = array_filter(

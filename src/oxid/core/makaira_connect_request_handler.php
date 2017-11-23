@@ -11,6 +11,7 @@
 use Makaira\Connect\SearchHandler;
 use Makaira\Query;
 use Makaira\Result;
+use Makaira\Constraints;
 
 /**
  * Class makaira_connect_request_handler
@@ -55,6 +56,15 @@ class makaira_connect_request_handler
 
     public function getProductsFromMakaira(Query $query)
     {
+        $useUserAgent = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_user_agent',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        if ($useUserAgent) {
+            $query->constraints[Constraints::USER_AGENT] = $this->getUserAgentString();
+        }
+
         /** @var oxArticleList $oxArticleList */
         $oxArticleList = oxNew('oxarticlelist');
 
@@ -167,5 +177,16 @@ class makaira_connect_request_handler
     {
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
+    }
+
+    /**
+     * Get actual User Agent String (raw)
+     */
+    public function getUserAgentString()
+    {
+        /** @var string $userAgent */
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+        return is_string($userAgent) ? $userAgent : '';
     }
 }
