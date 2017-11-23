@@ -17,7 +17,7 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_seofilter'            => 'SEO-Urls für gefilterte Kategorie- und Herstellerseiten erzeugen',
 
     'SHOP_MODULE_GROUP_OPERATIONAL INTELLIGENCE'       => 'Operational Intelligence',
-    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'User-Agent mitschicken',
+    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'User-Agent und Zeitzone mitschicken',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Felder',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Produkte</b>: ausgeschlossene Felder',

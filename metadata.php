@@ -39,6 +39,7 @@ $aModule = [
         /* core */
         'oxviewconfig' => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
         'oxseodecoder' => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
+        'oxoutput' => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
         /* components */
         'oxlocator' => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],

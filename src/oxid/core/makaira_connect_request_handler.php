@@ -62,7 +62,8 @@ class makaira_connect_request_handler
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
         if ($useUserAgent) {
-            $query->constraints[Constraints::USER_AGENT] = $this->getUserAgentString();
+            $query->constraints[ Constraints::USER_AGENT ]    = $this->getUserAgentString();
+            $query->constraints[ Constraints::USER_TIMEZONE ] = $this->getUserTimeZone();
         }
 
         /** @var oxArticleList $oxArticleList */
@@ -180,7 +181,7 @@ class makaira_connect_request_handler
     }
 
     /**
-     * Get actual User Agent String (raw)
+     * Get actual User Agent String (raw data)
      */
     public function getUserAgentString()
     {
@@ -188,5 +189,16 @@ class makaira_connect_request_handler
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
         return is_string($userAgent) ? $userAgent : '';
+    }
+
+    /**
+     * Get User Time Zone from cookie "oiLocalTimeZone"
+     */
+    public function getUserTimeZone()
+    {
+        /** @var string $userAgent */
+        $userTimeZone = isset($_COOKIE['oiLocalTimeZone']) ? $_COOKIE['oiLocalTimeZone'] : '';
+
+        return is_string($userTimeZone) ? $userTimeZone : '';
     }
 }

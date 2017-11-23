@@ -17,7 +17,7 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_seofilter'            => 'Generate SEO url for filtered category and manufacturer pages',
 
     'SHOP_MODULE_GROUP_OPERATIONAL INTELLIGENCE'       => 'Operational Intelligence',
-    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'Send User-Agent within Query',
+    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'Send User-Agent and Timezone within Query',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Fields',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
