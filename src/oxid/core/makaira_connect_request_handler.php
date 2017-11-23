@@ -62,6 +62,7 @@ class makaira_connect_request_handler
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
         if ($useUserAgent) {
+            $query->constraints[ Constraints::USER_OI_ID ]    = $this->getUserOiID();
             $query->constraints[ Constraints::USER_AGENT ]    = $this->getUserAgentString();
             $query->constraints[ Constraints::USER_TIMEZONE ] = $this->getUserTimeZone();
         }
@@ -181,6 +182,26 @@ class makaira_connect_request_handler
     }
 
     /**
+     * Create/Set User ID (cookie "oiID")
+     */
+    public function getUserOiID()
+    {
+        /** @var string $userAgent */
+        $userID = isset($_COOKIE['oiID']) ? $_COOKIE['oiID'] : false;
+
+        if (!$userID || !is_string($userID)) {
+            $userID = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+            $userID .= $this->getUserAgentString();
+
+            $userID = md5($userID);
+
+            setcookie('oiID', $userID, (time() + 86400));
+        }
+
+        return $userID;
+    }
+
+    /**
      * Get actual User Agent String (raw data)
      */
     public function getUserAgentString()
@@ -196,7 +217,7 @@ class makaira_connect_request_handler
      */
     public function getUserTimeZone()
     {
-        /** @var string $userAgent */
+        /** @var string $userTimeZone */
         $userTimeZone = isset($_COOKIE['oiLocalTimeZone']) ? $_COOKIE['oiLocalTimeZone'] : '';
 
         return is_string($userTimeZone) ? $userTimeZone : '';
