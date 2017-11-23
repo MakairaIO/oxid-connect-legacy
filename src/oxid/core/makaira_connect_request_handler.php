@@ -195,7 +195,9 @@ class makaira_connect_request_handler
 
             $userID = md5($userID);
 
-            setcookie('oiID', $userID, (time() + 86400));
+            /** @var oxUtilsServer $oxUtilsServer */
+            $oxUtilsServer = oxRegistry::get('oxUtilsServer');
+            $oxUtilsServer->setOxCookie('oiID', $userID, time() + 86400);
         }
 
         return $userID;
