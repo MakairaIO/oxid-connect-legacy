@@ -104,7 +104,7 @@ $aModule = [
         ['name' => 'makaira_connect_activate_listing', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
-        ['name' => 'makaira_connect_use_user_agent', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_use_user_agent', 'group' => 'OPERATIONAL INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDS',
