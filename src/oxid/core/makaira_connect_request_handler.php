@@ -247,6 +247,6 @@ class makaira_connect_request_handler
         /** @var string $userTimeZone */
         $userTimeZone = isset($_COOKIE['oiLocalTimeZone']) ? $_COOKIE['oiLocalTimeZone'] : '';
 
-        return is_string($userTimeZone) ? $userTimeZone : '';
+        return is_string($userTimeZone) ? trim($userTimeZone) : '';
     }
 }
