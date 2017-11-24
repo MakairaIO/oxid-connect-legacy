@@ -95,12 +95,63 @@ class makaira_connect_request_handler
                         $aggregations[$aggregation->key]->selectedValues['to'] = $query->aggregations[$aggregation->key . '_to'];
                     }
                     break;
+                case 'categorytree':
+                    // fallback to categorylist for PHP < 5.6
+                    if (version_compare(PHP_VERSION, '5.6', 'gt')) {
+                        $paths = array_map(
+                            function ($item) {
+                                return explode('//', $item['path']);
+                            },
+                            $aggregation->values
+                        );
+                        $categoryNames = $this->getCategoryNames(array_merge(...$paths));
+                        $selectedValues =
+                            isset($query->aggregations[$aggregation->key]) ?
+                                $query->aggregations[$aggregation->key] : [];
+                        foreach ($paths as $path) {
+                            $treePath[]     = $this->buildTreePath($path, $categoryNames, $selectedValues);
+                        }
+
+                        $tree = array_merge_recursive(...$treePath);
+
+                        foreach ($tree as $root => $branch) {
+                            $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues);
+                        }
+
+                        $aggregations[$aggregation->key]->values = $tree;
+                        $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
+                        break;
+                    }
+                case 'categorylist':
+                    $categoryIds = array_map(
+                        function ($item) {
+                            return $item['key'];
+                        },
+                        $aggregation->values
+                    );
+                    $categoryNames = $this->getCategoryNames($categoryIds);
+                    $aggregations[$aggregation->key]->values         = array_map(
+                        function ($value) use ($aggregation, $query, $categoryNames) {
+                            $valueObject           = new stdClass();
+                            $valueObject->key      = $value['key'];
+                            $valueObject->title    = isset($categoryNames[$valueObject->key]) ? $categoryNames[$valueObject->key] : $valueObject->key;
+                            $valueObject->count    = $value['count'];
+                            $valueObject->selected = false;
+                            if (isset($query->aggregations[$aggregation->key])) {
+                                $valueObject->selected = in_array($valueObject->key, (array)$query->aggregations[$aggregation->key]);
+                            }
+                            return $valueObject;
+                        },
+                        $aggregation->values
+                    );
+                    $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
+                    break;
                 default:
                     $aggregations[$aggregation->key]->values         = array_map(
                         function ($value) use ($aggregation, $query) {
                             $valueObject           = new stdClass();
-                            $valueObject->key      = key($value);
-                            $valueObject->count    = current($value);
+                            $valueObject->key      = $value['key'];
+                            $valueObject->count    = $value['count'];
                             $valueObject->selected = false;
                             if (isset($query->aggregations[$aggregation->key])) {
                                 $valueObject->selected = in_array($valueObject->key, (array)$query->aggregations[$aggregation->key]);
@@ -167,5 +218,77 @@ class makaira_connect_request_handler
     {
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
+    }
+
+    private function getCategoryNames($parameters)
+    {
+        $dic = oxRegistry::get('yamm_dic');
+        /** @var \Makaira\Connect\DatabaseInterface $database */
+        $database = $dic['oxid.database'];
+
+        $inQuery    = implode(',', array_fill(0, count($parameters), '?'));
+
+        // Fixing array index for binding values
+        // @see https://stackoverflow.com/a/5374217
+        array_unshift($parameters, 'placeholder');
+        unset($parameters[0]);
+
+        $result  = $database->query(
+            "SELECT OXID, OXTITLE FROM oxcategories WHERE OXID IN ({$inQuery})",
+            $parameters
+        );
+
+        $titleMap = [];
+        foreach ($result as $item) {
+            $titleMap[$item['OXID']] = $item['OXTITLE'];
+        }
+
+        return $titleMap;
+    }
+
+    private function buildTreePath(array $hierarchy, array $categoryNames, $selectedValues)
+    {
+        if (empty($hierarchy)) {
+            return [];
+        }
+
+        $key   = array_shift($hierarchy);
+        $subTree = $this->buildTreePath($hierarchy, $categoryNames, $selectedValues);
+
+//        $object = new stdClass();
+//        $object->key = $key;
+//        $object->title = isset($categoryNames[$key]) ? $categoryNames[$key] : $key;
+//        $object->selected = false;
+//        $object->subtree = $subTree;
+//        if (!empty($selectedValues)) {
+//            $object->selected = in_array($object->key, (array) $selectedValues);
+//        }
+
+        return [
+            $key => $subTree
+        ];
+
+//        return $object;
+    }
+
+    private function buildTree($key, $subTree, array $categoryNames, $selectedValues)
+    {
+        $object = new stdClass();
+        $object->key = $key;
+        $object->title = isset($categoryNames[$key]) ? $categoryNames[$key] : $key;
+        $object->selected = false;
+        if (!empty($selectedValues)) {
+            $object->selected = in_array($object->key, (array) $selectedValues);
+        }
+
+        if (!empty($subTree)) {
+            foreach ($subTree as $root => $branch) {
+                $subTree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues);
+            }
+
+            $object->subtree = $subTree;
+        }
+
+        return $object;
     }
 }
