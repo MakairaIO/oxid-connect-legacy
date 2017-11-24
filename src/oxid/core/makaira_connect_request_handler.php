@@ -56,15 +56,24 @@ class makaira_connect_request_handler
 
     public function getProductsFromMakaira(Query $query)
     {
+        $useUserIP = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_user_ip',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        if ($useUserIP) {
+            $query->constraints[ Constraints::OI_USER_IP ] = $this->getOiUserIP();
+        }
+
         $useUserAgent = oxRegistry::getConfig()->getShopConfVar(
             'makaira_connect_use_user_agent',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
         if ($useUserAgent) {
-            $query->constraints[ Constraints::USER_OI_ID ]    = $this->getUserOiID();
-            $query->constraints[ Constraints::USER_AGENT ]    = $this->getUserAgentString();
-            $query->constraints[ Constraints::USER_TIMEZONE ] = $this->getUserTimeZone();
+            $query->constraints[ Constraints::OI_USER_ID ]       = $this->getOiUserID();
+            $query->constraints[ Constraints::OI_USER_AGENT ]    = $this->getOiUserAgentString();
+            $query->constraints[ Constraints::OI_USER_TIMEZONE ] = $this->getOiUserTimeZone();
         }
 
         /** @var oxArticleList $oxArticleList */
@@ -184,14 +193,14 @@ class makaira_connect_request_handler
     /**
      * Get User ID (set cookie "oiID")
      */
-    public function getUserOiID()
+    public function getOiUserID()
     {
         /** @var string $userID */
         $userID = isset($_COOKIE['oiID']) ? $_COOKIE['oiID'] : false;
 
         if (!$userID || !is_string($userID)) {
-            $userID = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-            $userID .= $this->getUserAgentString();
+            $userID = $this->getOiUserIP();
+            $userID .= $this->getOiUserAgentString();
 
             $userID = md5($userID);
 
@@ -204,12 +213,28 @@ class makaira_connect_request_handler
     }
 
     /**
+     * Get actual User IP
+     *
+     * 1) from $_SERVER['X_FORWARDED_FOR']
+     * 2) from $_SERVER['REMOTE_ADDR']
+     */
+    public function getOiUserIP()
+    {
+        /** @var string $userIP */
+        $userIP =
+            isset($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] :
+                isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+
+        return is_string($userIP) ? $userIP : '';
+    }
+
+    /**
      * Get actual User Agent String (raw data)
      */
-    public function getUserAgentString()
+    public function getOiUserAgentString()
     {
         /** @var string $userAgent */
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
         return is_string($userAgent) ? $userAgent : '';
     }
@@ -217,7 +242,7 @@ class makaira_connect_request_handler
     /**
      * Get User Time Zone from cookie "oiLocalTimeZone"
      */
-    public function getUserTimeZone()
+    public function getOiUserTimeZone()
     {
         /** @var string $userTimeZone */
         $userTimeZone = isset($_COOKIE['oiLocalTimeZone']) ? $_COOKIE['oiLocalTimeZone'] : '';

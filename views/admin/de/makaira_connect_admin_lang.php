@@ -16,8 +16,9 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_category_inheritance' => 'Oberkategorie enthält alle Produkte der Unterkategorien',
     'SHOP_MODULE_makaira_connect_seofilter'            => 'SEO-Urls für gefilterte Kategorie- und Herstellerseiten erzeugen',
 
-    'SHOP_MODULE_GROUP_OPERATIONAL INTELLIGENCE'       => 'Operational Intelligence',
-    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'User-Agent und Zeitzone mitschicken',
+    'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'       => 'Operational Intelligence',
+    'SHOP_MODULE_makaira_connect_use_user_ip'          => 'User-IP verwenden',
+    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'User-Agent und Zeitzone verwenden',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Felder',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Produkte</b>: ausgeschlossene Felder',
