@@ -239,7 +239,7 @@ $dic->tag('makaira.connect.modifiers.common.blacklist.manufacturer', 'makaira.im
 
 $dic['makaira.connect.modifiers.product.category'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Product\CategoryModifier(
-        $dic['oxid.database'], false // @TODO:Remove flag, move logic to query
+        $dic['oxid.database']
     );
 };
 $dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product');
