@@ -11,14 +11,18 @@ class LongDescriptionModifier extends Modifier
     /** @var  ContentParserInterface */
     private $contentParser;
 
+    /** @var bool */
+    private $parseThroughSmarty;
+
     /**
      * LongDescriptionModifier constructor.
      *
      * @param ContentParserInterface $contentParser
      */
-    public function __construct(ContentParserInterface $contentParser)
+    public function __construct(ContentParserInterface $contentParser, $parseThroughSmarty = false)
     {
-        $this->contentParser = $contentParser;
+        $this->contentParser      = $contentParser;
+        $this->parseThroughSmarty = (bool) $parseThroughSmarty;
     }
 
     /**
@@ -30,7 +34,9 @@ class LongDescriptionModifier extends Modifier
      */
     public function apply(Type $product)
     {
-        $product->OXLONGDESC = trim(strip_tags($this->contentParser->parseContent($product->OXLONGDESC)));
+        $parsedContent       =
+            $this->parseThroughSmarty ? $this->contentParser->parseContent($product->OXLONGDESC) : $product->OXLONGDESC;
+        $product->OXLONGDESC = trim(strip_tags($parsedContent));
 
         return $product;
     }

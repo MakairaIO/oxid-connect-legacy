@@ -41,7 +41,8 @@ $dic['oxid.language'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Utils\OxidSmartyParser(
-        $dic['oxid.language'], oxRegistry::get('oxutilsview')
+        $dic['oxid.language'],
+        oxRegistry::get('oxutilsview')
     );
 };
 
@@ -174,7 +175,10 @@ $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant');
 
 $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Common\LongDescriptionModifier($dic['makaira.content_parser']);
+    return new \Makaira\Connect\Modifier\Common\LongDescriptionModifier(
+        $dic['makaira.content_parser'],
+        oxRegistry::getConfig()->getShopConfVar('bl_perfParseLongDescinSmarty')
+    );
 };
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.product');
 $dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.variant');
