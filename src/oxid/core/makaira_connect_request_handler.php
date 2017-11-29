@@ -98,8 +98,10 @@ class makaira_connect_request_handler
                 case 'categorytree':
                     // fallback to categorylist for PHP < 5.6
                     if (version_compare(PHP_VERSION, '5.6', 'gt')) {
+                        $docCounts = [];
                         $paths = array_map(
-                            function ($item) {
+                            function ($item) use (&$docCounts) {
+                                $docCounts[$item['key']] = $item['count'];
                                 return explode('//', $item['path']);
                             },
                             $aggregation->values
@@ -109,13 +111,13 @@ class makaira_connect_request_handler
                             isset($query->aggregations[$aggregation->key]) ?
                                 $query->aggregations[$aggregation->key] : [];
                         foreach ($paths as $path) {
-                            $treePath[]     = $this->buildTreePath($path, $categoryNames, $selectedValues);
+                            $treePath[]     = $this->buildTreePath($path);
                         }
 
                         $tree = array_merge_recursive(...$treePath);
 
                         foreach ($tree as $root => $branch) {
-                            $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues);
+                            $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
                         }
 
                         $aggregations[$aggregation->key]->values = $tree;
@@ -246,36 +248,26 @@ class makaira_connect_request_handler
         return $titleMap;
     }
 
-    private function buildTreePath(array $hierarchy, array $categoryNames, $selectedValues)
+    private function buildTreePath(array $hierarchy)
     {
         if (empty($hierarchy)) {
             return [];
         }
 
         $key   = array_shift($hierarchy);
-        $subTree = $this->buildTreePath($hierarchy, $categoryNames, $selectedValues);
-
-//        $object = new stdClass();
-//        $object->key = $key;
-//        $object->title = isset($categoryNames[$key]) ? $categoryNames[$key] : $key;
-//        $object->selected = false;
-//        $object->subtree = $subTree;
-//        if (!empty($selectedValues)) {
-//            $object->selected = in_array($object->key, (array) $selectedValues);
-//        }
+        $subTree = $this->buildTreePath($hierarchy);
 
         return [
             $key => $subTree
         ];
-
-//        return $object;
     }
 
-    private function buildTree($key, $subTree, array $categoryNames, $selectedValues)
+    private function buildTree($key, $subTree, array $categoryNames, $selectedValues, $docCounts)
     {
         $object = new stdClass();
         $object->key = $key;
         $object->title = isset($categoryNames[$key]) ? $categoryNames[$key] : $key;
+        $object->count = isset($docCounts[$key]) ? $docCounts[$key] : 0;
         $object->selected = false;
         if (!empty($selectedValues)) {
             $object->selected = in_array($object->key, (array) $selectedValues);
@@ -283,7 +275,7 @@ class makaira_connect_request_handler
 
         if (!empty($subTree)) {
             foreach ($subTree as $root => $branch) {
-                $subTree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues);
+                $subTree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
             }
 
             $object->subtree = $subTree;
