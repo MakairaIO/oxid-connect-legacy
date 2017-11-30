@@ -38,7 +38,8 @@ class AttributeModifier extends Modifier
                             JOIN oxobject2attribute ON (oxarticles.oxid = oxobject2attribute.oxobjectid)
                             JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
                         WHERE
-                            oxarticles.oxparentid = :productId)
+                            oxarticles.oxparentid = :productId
+                            AND {{activeSnippet}})
                         ";
 
     /**
@@ -46,9 +47,12 @@ class AttributeModifier extends Modifier
      */
     private $database;
 
-    public function __construct(DatabaseInterface $database)
+    private $activeSnippet;
+
+    public function __construct(DatabaseInterface $database, $activeSnippet)
     {
-        $this->database = $database;
+        $this->database      = $database;
+        $this->activeSnippet = $activeSnippet;
     }
 
     /**
@@ -64,13 +68,15 @@ class AttributeModifier extends Modifier
             throw new \RuntimeException("Cannot fetch attributes without a product ID.");
         }
 
-        $attributes         = $this->database->query(
-            $this->selectAttributesQuery,
+        $query      = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectAttributesQuery);
+        $attributes = $this->database->query(
+            $query,
             [
                 'productActive' => $product->OXACTIVE,
                 'productId'     => $product->id,
             ]
         );
+
         $product->attribute = array_map(
             function ($row) {
                 return new AssignedAttribute($row);

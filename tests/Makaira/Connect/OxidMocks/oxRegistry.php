@@ -10,6 +10,10 @@ class oxUtilsView
 
 class oxBase
 {
+    public function getSqlActiveSnippet()
+    {
+        return 1;
+    }
 }
 
 class oxSeoEncoder
