@@ -149,7 +149,7 @@ $dic['makaira.connect.modifiers.common.manufacturer2shop'] = function (\Marm\Yam
 $dic->tag('makaira.connect.modifiers.common.manufacturer2shop', 'makaira.importer.modifier.manufacturer');
 
 $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $dic) {
-    $oxArticle = oxNew('oxarticle');
+    $oxArticle = oxRegistry::get('oxArticle');
     return new \Makaira\Connect\Modifier\Common\AttributeModifier(
         $dic['oxid.database'],
         $oxArticle->getSqlActiveSnippet(true)

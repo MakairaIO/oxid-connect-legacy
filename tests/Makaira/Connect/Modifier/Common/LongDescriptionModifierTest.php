@@ -18,7 +18,7 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('parseContent')
             ->will($this->returnArgument(0));
-        $modifier = new LongDescriptionModifier($parserMock);
+        $modifier = new LongDescriptionModifier($parserMock, true);
         $product = new BaseProduct();
         $product->OXLONGDESC = 'This is a short text';
         $product = $modifier->apply($product, $dbMock);
@@ -33,7 +33,7 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('parseContent')
             ->will($this->returnArgument(0));
-        $modifier = new LongDescriptionModifier($parserMock);
+        $modifier = new LongDescriptionModifier($parserMock, true);
         $product = new BaseProduct();
         $product->OXLONGDESC = 'This is a <del>short</del> text';
         $product = $modifier->apply($product, $dbMock);
@@ -48,7 +48,7 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('parseContent')
             ->will($this->returnArgument(0));
-        $modifier = new LongDescriptionModifier($parserMock);
+        $modifier = new LongDescriptionModifier($parserMock, true);
         $product = new BaseProduct();
         $product->OXLONGDESC = '   This is a short text   ' . PHP_EOL;
         $product = $modifier->apply($product, $dbMock);
