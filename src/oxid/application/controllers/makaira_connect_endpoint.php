@@ -80,10 +80,14 @@ class makaira_connect_endpoint extends oxUBase
                     $updates = $this->getLanguagesAction();
                     break;
                 case 'loadUserByUsername':
-                    $updates = $this->getUserAction($body);
+                    $updates = new User([
+                        'ok' => false
+                    ]);
                     break;
                 case 'loadUserByToken':
-                    $updates = $this->getCurrentUserAction($body);
+                    $updates = new User([
+                        'ok' => false
+                    ]);
                     break;
                 case 'getReplicationStatus':
                     $updates = $this->getReplicationStatusAction($body);
