@@ -58,6 +58,8 @@ $aModule = array(
         'makaira/filter/list_multiselect.tpl' => 'makaira/connect/views/tpl/filter/list_multiselect.tpl',
         'makaira/filter/range_slider.tpl' => 'makaira/connect/views/tpl/filter/range_slider.tpl',
         'makaira/filter/script.tpl' => 'makaira/connect/views/tpl/filter/script.tpl',
+        'makaira/filter/categorylist.tpl' => 'makaira/connect/views/tpl/filter/category/list.tpl',
+        'makaira/filter/categorytree.tpl' => 'makaira/connect/views/tpl/filter/category/tree.tpl',
         /* custom frontend filter */
         'makaira/filter/list_custom_1.tpl' => 'makaira/connect/views/tpl/filter/custom/list_custom_1.tpl',
         'makaira/filter/list_custom_2.tpl' => 'makaira/connect/views/tpl/filter/custom/list_custom_2.tpl',

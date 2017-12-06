@@ -254,12 +254,12 @@ $dic['makaira.connect.modifiers.product.tracking'] = function (\Marm\Yamm\DIC $d
 };
 $dic->tag('makaira.connect.modifiers.product.tracking', 'makaira.importer.modifier.product');
 
-$dic['makaira.connect.modifiers.category.oxobject'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Category\OxObjectModifier(
+$dic['makaira.connect.modifiers.category.hierarchy'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Category\HierarchyModifier(
         $dic['oxid.database']
     );
 };
-$dic->tag('makaira.connect.modifiers.category.oxobject', 'makaira.importer.modifier.category');
+$dic->tag('makaira.connect.modifiers.category.hierarchy', 'makaira.importer.modifier.category');
 
 //------------------------------
 $dic['makaira.connect.configuration'] = function (\Marm\Yamm\DIC $dic) {
