@@ -96,34 +96,31 @@ class makaira_connect_request_handler
                     }
                     break;
                 case 'categorytree':
-                    // fallback to categorylist for PHP < 5.6
-                    if (version_compare(PHP_VERSION, '5.6', 'gt')) {
-                        $docCounts = [];
-                        $paths = array_map(
-                            function ($item) use (&$docCounts) {
-                                $docCounts[$item['key']] = $item['count'];
-                                return explode('//', $item['path']);
-                            },
-                            $aggregation->values
-                        );
-                        $categoryNames = $this->getCategoryNames(array_merge(...$paths));
-                        $selectedValues =
-                            isset($query->aggregations[$aggregation->key]) ?
-                                $query->aggregations[$aggregation->key] : [];
-                        foreach ($paths as $path) {
-                            $treePath[]     = $this->buildTreePath($path);
-                        }
-
-                        $tree = array_merge_recursive(...$treePath);
-
-                        foreach ($tree as $root => $branch) {
-                            $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
-                        }
-
-                        $aggregations[$aggregation->key]->values = $tree;
-                        $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
-                        break;
+                    $docCounts = [];
+                    $paths = array_map(
+                        function ($item) use (&$docCounts) {
+                            $docCounts[$item['key']] = $item['count'];
+                            return explode('//', $item['path']);
+                        },
+                        $aggregation->values
+                    );
+                    $categoryNames = $this->getCategoryNames(call_user_func_array('array_merge', $paths));
+                    $selectedValues =
+                        isset($query->aggregations[$aggregation->key]) ?
+                            $query->aggregations[$aggregation->key] : [];
+                    foreach ($paths as $path) {
+                        $treePath[]     = $this->buildTreePath($path);
                     }
+
+                    $tree = call_user_func_array('array_merge_recursive', $treePath);
+
+                    foreach ($tree as $root => $branch) {
+                        $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
+                    }
+
+                    $aggregations[$aggregation->key]->values = $tree;
+                    $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
+                    break;
                 case 'categorylist':
                     $categoryIds = array_map(
                         function ($item) {
