@@ -32,12 +32,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             return;
         }
 
-        $filterParams = $this->getConfig()->getRequestParameter('makairaFilter', true);
-
-        // TODO Handle range filter in frontend and remove this
-        if (!empty($filterParams)) {
-            $filterParams = $this->filterRangeValues($filterParams);
-        }
+        $filterParams = $this->getAggregationFilter();
 
         $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
 
@@ -61,7 +56,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         // get filter from form submit
         $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter', true);
 
-        if (!empty($requestFilter)) {
+        $isFilterAction = oxRegistry::getConfig()->getRequestParameter('isFilterAction');
+
+        if ($isFilterAction || !empty($requestFilter)) {
             // TODO Handle range filter in frontend and remove this
             $requestFilter = $this->filterRangeValues($requestFilter);
 

@@ -35,6 +35,8 @@
             [{$oViewConf->getNavFormParams()}]
         [{/if}]
 
+        <input type="hidden" name="isFilterAction" value="1">
+
         [{*
             FIXME Code from old module
             TODO Do we really need a getter for following params? ['ldtype', '_artperpage', 'listorder', 'listorderby']
