@@ -44,7 +44,10 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
                 }
             }
 
-            return;
+            // Check if widget exists for compatibility with oxid < 4.8
+            if (class_exists('oxwArticleDetails')) {
+                return;
+            }
         }
         /** @var makaira_connect_request_handler $requestHelper */
         $requestHelper = oxNew('makaira_connect_request_handler');
