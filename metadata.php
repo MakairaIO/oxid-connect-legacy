@@ -68,6 +68,7 @@ $aModule = array(
         'makaira/filter/range_slider_custom_1.tpl' => 'makaira/connect/views/tpl/filter/custom/range_slider_custom_1.tpl',
         'makaira/filter/range_slider_custom_2.tpl' => 'makaira/connect/views/tpl/filter/custom/range_slider_custom_2.tpl',
         /* autosuggest */
+        'makaira/autosuggest/assets.tpl' => 'makaira/connect/views/tpl/autosuggest/assets.tpl',
         'makaira/autosuggest/autosuggest.tpl' => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
         'makaira/autosuggest/types/products.tpl' => 'makaira/connect/views/tpl/autosuggest/types/products.tpl',
         'makaira/autosuggest/types/categories.tpl' => 'makaira/connect/views/tpl/autosuggest/types/categories.tpl',

@@ -14,6 +14,11 @@ const classRangeSliderMaxValue = 'makaira-filter__value--max';
 const classRangeSliderMinInput = 'makaira-filter__input--min';
 const classRangeSliderMaxInput = 'makaira-filter__input--max';
 
+const submitClosestForm = (el) => {
+  const form = el.closest(`.${classFilterForm}`);
+  form.submit();
+}
+
 const initRangeSliders = () => {
   const sliderContainers = document.querySelectorAll(`.${classRangeSliderContainer}`);
 
@@ -51,8 +56,7 @@ const initRangeSliders = () => {
     });
 
     slider.noUiSlider.on('change', (values, handle) => {
-      const form = document.querySelector(`.${classFilterForm}`);
-      form.submit();
+      submitClosestForm(slider);
     });
   });
 
@@ -102,8 +106,7 @@ const initHandlers = () => {
       const target = event.target;
 
       if (target.classList.contains(classFilterCheckbox)) {
-        const form = document.querySelector(`.${classFilterForm}`);
-        form.submit();
+        submitClosestForm(target);
       }
     });
   };
