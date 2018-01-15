@@ -82,6 +82,10 @@ class makaira_connect_request_handler
         $aggregations = $productResult->aggregations;
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
+                case 'range_slider_custom_1':
+                    // fallthrough intentional
+                case 'range_slider_custom_2':
+                    // fallthrough intentional
                 case 'range_slider':
                     // Equal min and max values are not allowed
                     if ($aggregation->min == $aggregation->max) {
