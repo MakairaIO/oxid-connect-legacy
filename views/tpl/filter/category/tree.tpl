@@ -1,10 +1,9 @@
 [{assign var="hasAdditionalValues" value=false}]
-[{assign var="isInnerTree" value=false}]
 [{assign var="items" value=$aggregation->values}]
-[{defun name="tree" items=$items}]
+[{defun name="tree" items=$items isInnerTree=false loopName="items"}]
 
 <ul class="makaira-filter__list">
-    [{foreach from=$items item="item" name="items"}]
+    [{foreach from=$items item="item" name=$loopName}]
         [{if !$isInnerTree && $smarty.foreach.items.iteration == 6}]
             [{assign var="hasAdditionalValues" value=true}]
             <li class="makaira-filter__item">
@@ -29,7 +28,7 @@
                 <span>[{$item->title}]</span>
             [{/if}]
             [{if $item->subtree}]
-                [{fun name="tree" items=$item->subtree isInnerTree=true}]
+                [{fun name="tree" items=$item->subtree isInnerTree=true loopName="innerItems"}]
             [{/if}]
         </li>
 
