@@ -116,7 +116,7 @@ class makaira_connect_request_handler
                         $treePath[]     = $this->buildTreePath($path);
                     }
 
-                    $tree = call_user_func_array('array_merge_recursive', $treePath);
+                    $tree = call_user_func_array([$this, 'mergeTree'], $treePath);
 
                     foreach ($tree as $root => $branch) {
                         $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
@@ -283,5 +283,43 @@ class makaira_connect_request_handler
         }
 
         return $object;
+    }
+
+    /**
+     * @see http://php.net/manual/de/function.array-merge-recursive.php#104145
+     *
+     * @return array
+     */
+    private function mergeTree()
+    {
+        if (func_num_args() < 2) {
+            trigger_error(__FUNCTION__ . ' needs two or more array arguments', E_USER_WARNING);
+
+            return [];
+        }
+        $arrays = func_get_args();
+        $merged = array();
+        while ($arrays) {
+            $array = array_shift($arrays);
+
+            if (!is_array($array)) {
+                trigger_error(__FUNCTION__ . ' encountered a non array argument', E_USER_WARNING);
+
+                return [];
+            }
+            if (!$array) {
+                continue;
+            }
+
+            foreach ($array as $key => $value) {
+                if (is_array($value) && array_key_exists($key, $merged) && is_array($merged[$key])) {
+                    $merged[$key] = call_user_func(__METHOD__, $merged[$key], $value);
+                } else {
+                    $merged[$key] = $value;
+                }
+            }
+        }
+
+        return $merged;
     }
 }
