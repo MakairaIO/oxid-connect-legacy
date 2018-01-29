@@ -58,10 +58,8 @@ class makaira_connect_request_handler
         /** @var oxArticleList $oxArticleList */
         $oxArticleList = oxNew('oxarticlelist');
 
-        //TODO: Refactor or remove customFilter hook
-        if (method_exists($oxArticleList, 'getCustomFilters') && is_array($customFilters = $oxArticleList->getCustomFilters())) {
-            $query->aggregations = array_merge($query->aggregations, $customFilters);
-        }
+        // Hook for request modification
+        $this->modifyRequest($query);
 
         $dic = oxRegistry::get('yamm_dic');
         /** @var SearchHandler $searchHandler */
@@ -221,6 +219,11 @@ class makaira_connect_request_handler
     {
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
+    }
+
+    protected function modifyRequest(Query $query)
+    {
+        return $query;
     }
 
     private function getCategoryNames($parameters)
