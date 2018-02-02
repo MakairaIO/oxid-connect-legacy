@@ -41,7 +41,7 @@ class makaira_connect_autosuggester
         $query->isSearch           = true;
         $query->searchPhrase       = $searchPhrase;
         $query->count              = 7;
-        $query->fields             = ['OXID', 'OXTITLE', 'OXVARSELECT'];
+        $query->fields             = ['OXID', 'OXTITLE', 'OXVARSELECT', 'MARM_OXSEARCH_MANUFACTURERTITLE'];
 
         $oxConfig = oxRegistry::getConfig();
 
@@ -130,15 +130,16 @@ class makaira_connect_autosuggester
         if (!empty($doc->fields['oxvarselect'])) {
             $title .= ' | ' . $doc->fields['oxvarselect'];
         }
-        $aItem['label']     = $title;
-        $aItem['value']     = $title;
-        $aItem['link']      = $product->getMainLink();
-        $aItem['image']     = $product->getIconUrl(1);
-        $aItem['thumbnail'] = $product->getThumbnailUrl();
-        $aItem['price']     = $this->preparePrice($product->getPrice());
-        $aItem['uvp']       = $this->preparePrice($product->getTPrice());
-        $aItem['type']      = 'product';
-        $aItem['category']  = $this->translate("MAKAIRA_CONNECT_AUTOSUGGEST_CATEGORY_PRODUCTS");
+        $aItem['label']        = $title;
+        $aItem['value']        = $title;
+        $aItem['link']         = $product->getMainLink();
+        $aItem['image']        = $product->getIconUrl(1);
+        $aItem['thumbnail']    = $product->getThumbnailUrl();
+        $aItem['price']        = $this->preparePrice($product->getPrice());
+        $aItem['uvp']          = $this->preparePrice($product->getTPrice());
+        $aItem['type']         = 'product';
+        $aItem['category']     = $this->translate("MAKAIRA_CONNECT_AUTOSUGGEST_CATEGORY_PRODUCTS");
+        $aItem['manufacturer'] = $doc->fields["marm_oxsearch_manufacturertitle"];
 
         return $aItem;
     }
