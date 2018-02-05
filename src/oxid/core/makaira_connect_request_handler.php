@@ -88,16 +88,20 @@ class makaira_connect_request_handler
                     // fallthrough intentional
                 case 'range_slider':
                     // Equal min and max values are not allowed
-                    if ($aggregation->min == $aggregation->max) {
+                    $from = $aggregation->min;
+                    $to = $aggregation->max;
+                    if ($from == $to) {
                         unset($aggregations[$aggregation->key]);
                         continue;
                     }
                     if (isset($query->aggregations[$aggregation->key . '_from'])) {
-                        $aggregations[$aggregation->key]->selectedValues['from'] = $query->aggregations[$aggregation->key . '_from'];
+                        $from = $query->aggregations[$aggregation->key . '_from'];
                     }
                     if (isset($query->aggregations[$aggregation->key . '_to'])) {
-                        $aggregations[$aggregation->key]->selectedValues['to'] = $query->aggregations[$aggregation->key . '_to'];
+                        $to = $query->aggregations[$aggregation->key . '_to'];
                     }
+                    $aggregations[$aggregation->key]->selectedValues['from'] = $from;
+                    $aggregations[$aggregation->key]->selectedValues['to'] = $to;
                     break;
                 case 'categorytree':
                     $docCounts = [];
