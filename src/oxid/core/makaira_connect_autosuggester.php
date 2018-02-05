@@ -41,7 +41,7 @@ class makaira_connect_autosuggester
         $query->isSearch           = true;
         $query->searchPhrase       = $searchPhrase;
         $query->count              = 7;
-        $query->fields             = ['OXID', 'OXTITLE', 'OXVARSELECT', 'MARM_OXSEARCH_MANUFACTURERTITLE'];
+        $query->fields             = $this->getFieldsForResults();['OXID', 'OXTITLE', 'OXVARSELECT'];
 
         $oxConfig = oxRegistry::getConfig();
 
@@ -62,7 +62,7 @@ class makaira_connect_autosuggester
         // get product results
         $aProducts = [];
         foreach ($result['product']->items as $document) {
-            $aProducts[] = $this->prepareProductItem($document);
+            $aProducts[] = $this->loadProductItem($document);
         }
         // filter out empty values
         $aProducts = array_filter($aProducts);
@@ -114,34 +114,20 @@ class makaira_connect_autosuggester
      *
      * @return array
      */
-    protected function prepareProductItem($doc)
+    protected function loadProductItem($doc)
     {
         if (empty($doc->fields['oxtitle'])) {
             return [];
         }
 
+        /** @var \oxArticle */
         $product = oxNew('oxarticle');
 
         if (!$product->load($doc->id)) {
             return [];
         }
 
-        $title = $doc->fields['oxtitle'];
-        if (!empty($doc->fields['oxvarselect'])) {
-            $title .= ' | ' . $doc->fields['oxvarselect'];
-        }
-        $aItem['label']        = $title;
-        $aItem['value']        = $title;
-        $aItem['link']         = $product->getMainLink();
-        $aItem['image']        = $product->getIconUrl(1);
-        $aItem['thumbnail']    = $product->getThumbnailUrl();
-        $aItem['price']        = $this->preparePrice($product->getPrice());
-        $aItem['uvp']          = $this->preparePrice($product->getTPrice());
-        $aItem['type']         = 'product';
-        $aItem['category']     = $this->translate("MAKAIRA_CONNECT_AUTOSUGGEST_CATEGORY_PRODUCTS");
-        $aItem['manufacturer'] = $doc->fields["marm_oxsearch_manufacturertitle"];
-
-        return $aItem;
+        return $this->prepareProductItem($doc, $product);
     }
 
     protected function prepareCategoryItem($doc)
@@ -222,5 +208,46 @@ class makaira_connect_autosuggester
     protected function translate($string)
     {
         return $this->oxLang->translateString($string);
+    }
+
+    /**
+     * Getter method for resulting fields
+     *
+     * @return array
+     */
+    protected function getFieldsForResults()
+    {
+        $fields = ['OXID', 'OXTITLE', 'OXVARSELECT'];
+
+        return $fields;
+    }
+
+    /**
+     * data preparation hook
+     *
+     * @param object $doc
+     * @param \oxArticle $product
+     *
+     * @return array
+     */
+    protected function prepareProductItem(&$doc, &$product)
+    {
+        $title = $doc->fields['oxtitle'];
+        if (!empty($doc->fields['oxvarselect'])) {
+            $title .= ' | ' . $doc->fields['oxvarselect'];
+        }
+
+        $aItem = [];
+        $aItem['label']     = $title;
+        $aItem['value']     = $title;
+        $aItem['link']      = $product->getMainLink();
+        $aItem['image']     = $product->getIconUrl(1);
+        $aItem['thumbnail'] = $product->getThumbnailUrl();
+        $aItem['price']     = $this->preparePrice($product->getPrice());
+        $aItem['uvp']       = $this->preparePrice($product->getTPrice());
+        $aItem['type']      = 'product';
+        $aItem['category']  = $this->translate("MAKAIRA_CONNECT_AUTOSUGGEST_CATEGORY_PRODUCTS");
+
+        return $aItem;
     }
 }
