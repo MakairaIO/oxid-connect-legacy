@@ -41,7 +41,7 @@ class makaira_connect_autosuggester
         $query->isSearch           = true;
         $query->searchPhrase       = $searchPhrase;
         $query->count              = 7;
-        $query->fields             = $this->getFieldsForResults();['OXID', 'OXTITLE', 'OXVARSELECT'];
+        $query->fields             = $this->getFieldsForResults();
 
         $oxConfig = oxRegistry::getConfig();
 
