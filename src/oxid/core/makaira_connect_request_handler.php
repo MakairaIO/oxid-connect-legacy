@@ -94,14 +94,21 @@ class makaira_connect_request_handler
                         unset($aggregations[$aggregation->key]);
                         continue;
                     }
-                    if (isset($query->aggregations[$aggregation->key . '_from'])) {
-                        $from = $query->aggregations[$aggregation->key . '_from'];
+                    if (
+                        isset($query->aggregations[$aggregation->key . '_from'])
+                        ||
+                        isset($query->aggregations[$aggregation->key . '_to'])
+                    ) {
+                        if (isset($query->aggregations[$aggregation->key . '_from'])) {
+                            $from = $query->aggregations[$aggregation->key . '_from'];
+                        }
+                        if (isset($query->aggregations[$aggregation->key . '_to'])) {
+                            $to = $query->aggregations[$aggregation->key . '_to'];
+                        }
+                        $aggregations[$aggregation->key]->selectedValues['from'] = $from;
+                        $aggregations[$aggregation->key]->selectedValues['to'] = $to;
                     }
-                    if (isset($query->aggregations[$aggregation->key . '_to'])) {
-                        $to = $query->aggregations[$aggregation->key . '_to'];
-                    }
-                    $aggregations[$aggregation->key]->selectedValues['from'] = $from;
-                    $aggregations[$aggregation->key]->selectedValues['to'] = $to;
+
                     break;
                 case 'categorytree':
                     $docCounts = [];
