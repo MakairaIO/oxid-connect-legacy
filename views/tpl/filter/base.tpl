@@ -53,7 +53,7 @@
 
             <section class="makaira-filter__filter makaira-filter__filter--[{$aggregation->type}]">
                 <header class="makaira-filter__filter-headline">[{$filterTitle}]</header>
-                [{include file="makaira/filter/"|cat:$aggregation->type|cat:".tpl"}]
+                [{include file="makaira/filter/"|cat:$aggregation->type|cat:".tpl" blShowDocCount=$aggregation->showDocCount}]
                 [{if !empty($aggregation->selectedValues)}]
                     [{assign var="showResetAll" value=true}]
                     [{*
