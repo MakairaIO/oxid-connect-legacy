@@ -62,16 +62,21 @@ const initRangeSliders = () => {
 
 };
 
-const expandList = (list, buttonItem) => {
+const expandList = (list, expandButtonItem) => {
+  const listCollapseButton = list.querySelector(`.${classListCollapseButton}`);
+  const listCollapseButtonItem = listCollapseButton.parentNode;
+
   list.classList.add(classFilterListExpanded);
-  buttonItem.classList.add(classFilterItemHidden);
+  expandButtonItem.classList.add(classFilterItemHidden);
+  listCollapseButtonItem.classList.remove(classFilterItemHidden);
 };
 
-const collapseList = (list) => {
+const collapseList = (list, collapseButtonItem) => {
   const listExpandButton = list.querySelector(`.${classListExpandButton}`);
   const listExpandButtonItem = listExpandButton.parentNode;
 
   list.classList.remove(classFilterListExpanded);
+  collapseButtonItem.classList.add(classFilterItemHidden);
   listExpandButtonItem.classList.remove(classFilterItemHidden);
 };
 
@@ -95,7 +100,7 @@ const initHandlers = () => {
       const target = event.target;
 
       if (target.classList.contains(classListCollapseButton)) {
-        collapseList(list);
+        collapseList(list, target.parentNode);
       }
     });
   };
