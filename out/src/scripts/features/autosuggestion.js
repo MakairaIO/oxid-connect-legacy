@@ -1,6 +1,7 @@
 import { debounce } from '../lib/helper'
 
 const searchInputId = 'searchParam';
+const searchInput = document.getElementById(`${searchInputId}`);
 const classAutosuggestionContainer = 'makaira-autosuggestion'
 
 const renderAutosuggestions = (response, searchForm) => {
@@ -61,13 +62,10 @@ const closeAutosuggestions = (event) => {
 };
 
 const setupSearchInput = () => {
-  const searchInput = document.getElementById(`${searchInputId}`);
-
   searchInput.setAttribute('autocomplete', 'off');
 };
 
 const initHandlers = () => {
-  const searchInput = document.getElementById(`${searchInputId}`);
   // fetch and display autosuggestions
   searchInput.addEventListener('input', fetchAutosuggestions);
 
@@ -75,5 +73,7 @@ const initHandlers = () => {
   document.body.addEventListener('click', closeAutosuggestions);
 };
 
-setupSearchInput();
-initHandlers();
+if (searchInput) {
+  setupSearchInput();
+  initHandlers();
+}
