@@ -121,11 +121,23 @@ class makaira_connect_request_handler
                     $selectedValues =
                         isset($query->aggregations[$aggregation->key]) ?
                             $query->aggregations[$aggregation->key] : [];
+
+                    $treePath = [];
                     foreach ($paths as $path) {
                         $treePath[]     = $this->buildTreePath($path);
                     }
 
-                    $tree = call_user_func_array([$this, 'mergeTree'], $treePath);
+                    switch (count($treePath)) {
+                        case 0:
+                            $tree = [];
+                            break;
+                        case 1:
+                            $tree = reset($treePath);
+                            break;
+                        default:
+                            $tree = call_user_func_array([$this, 'mergeTree'], $treePath);
+                            break;
+                    }
 
                     foreach ($tree as $root => $branch) {
                         $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
