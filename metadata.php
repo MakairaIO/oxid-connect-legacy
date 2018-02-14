@@ -21,11 +21,11 @@ $aModule = array(
     'id'          => 'makaira/connect',
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
-    'thumbnail'   => 'marmalade.jpg',
+    'thumbnail'   => 'makaira.jpg',
     'version'     => '2017-dev',
     'author'      => 'marmalade GmbH',
-    'url'         => 'http://www.marmalade.de',
-    'email'       => 'support@marmalade.de',
+    'url'         => 'https://www.makaira.io/',
+    'email'       => 'support@makaira.io',
     'extend'      => array(
         /* controllers */
         'search' => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
