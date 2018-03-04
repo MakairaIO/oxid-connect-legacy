@@ -34,6 +34,9 @@ class makaira_connect_events
         // Oxid CE/PE compatibility
         self::addColumnsToOxobject2category();
 
+        // Oxid 6 compatibility
+        self::addOxTagsToOxArtExtends();
+
         $oDbHandler = oxNew("oxDbMetaDataHandler");
         $oDbHandler->updateViews();
     }
@@ -84,6 +87,21 @@ class makaira_connect_events
         if (!self::hasColumn('oxobject2category', 'OXSHOPID')) {
             $sSql = "ALTER TABLE oxobject2category
                      ADD OXSHOPID VARCHAR(32) NOT NULL DEFAULT 'oxbaseshop'";
+            oxDb::getDb()->execute($sSql);
+        }
+    }
+
+    /**
+     * Add OXTAGS to oxartextends to ensure OXID6 compatibility
+     */
+    private static function addOxTagsToOxArtExtends()
+    {
+        if (!self::hasColumn('oxartextends', 'OXTAGS')) {
+            $sSql = "ALTER TABLE oxartextends
+                     ADD OXTAGS VARCHAR(255) NOT NULL COMMENT 'Tags (multilanguage)',
+                     ADD OXTAGS_1 varchar(255) NOT NULL,
+                     ADD OXTAGS_2 varchar(255) NOT NULL,
+                     ADD OXTAGS_3 varchar(255) NOT NULL";
             oxDb::getDb()->execute($sSql);
         }
     }
