@@ -144,11 +144,19 @@ class makaira_connect_events
      */
     private static function hasColumn($table, $column)
     {
-        $oDb    = oxDb::getDb();
-        $fields = $oDb->metaColumnNames($table, true);
+        $dbName = oxRegistry::getConfig()->getConfigParam('dbName');
+        $keyColumnCount = (int) oxDb::getDb(true)->getOne(
+            "SELECT COUNT(*)
+             FROM information_schema.COLUMNS 
+             WHERE 
+                 TABLE_SCHEMA = '{$dbName}' 
+             AND TABLE_NAME = '{$table}'
+             AND COLUMN_NAME = '{$column}'"
+        );
 
-        return in_array($column, $fields);
+        return 0 < $keyColumnCount;
     }
+
 
     private static function checkOxConfigOxVarNameLength()
     {
