@@ -111,13 +111,14 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     /**
      * @return array|mixed
      */
-    private function loadMakairaFilterFromCookie()
+    public function loadMakairaFilterFromCookie()
     {
         if (null !== static::$makairaFilter) {
             return static::$makairaFilter;
         }
         $oxUtilsServer   = oxRegistry::get('oxUtilsServer');
-        $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
+        $lang            = oxRegistry::getLang()->getLanguageAbbr();
+        $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter_' . $lang);
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
         static::$makairaFilter = (array)$cookieFilter;
@@ -131,8 +132,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     public function saveMakairaFilterToCookie($cookieFilter)
     {
         static::$makairaFilter = $cookieFilter;
-        $oxUtilsServer       = oxRegistry::get('oxUtilsServer');
-        $oxUtilsServer->setOxCookie('makairaFilter', base64_encode(json_encode($cookieFilter)));
+        $oxUtilsServer         = oxRegistry::get('oxUtilsServer');
+        $lang                  = oxRegistry::getLang()->getLanguageAbbr();
+        $oxUtilsServer->setOxCookie('makairaFilter_' . $lang, base64_encode(json_encode($cookieFilter)));
     }
 
     public function savePageNumberToCookie()

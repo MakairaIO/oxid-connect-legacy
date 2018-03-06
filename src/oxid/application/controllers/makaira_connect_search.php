@@ -37,7 +37,7 @@ class makaira_connect_search extends makaira_connect_search_parent
             // oxubase::init() has to be called statically, otherwise essential smarty _tpl_vars are not available
             oxubase::init();
             // check for filter reset function call
-            if ('resetMakairaFilter' === $this->getFncName()) {
+            if ('resetmakairafilter' === strtolower($this->getFncName())) {
                 $this->resetMakairaFilter();
             }
             $this->makairaInitSearch();

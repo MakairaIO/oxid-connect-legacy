@@ -74,6 +74,8 @@ class makaira_connect_request_handler
             $productIds[] = $item->id;
         }
 
+        $this->afterSearchRequest($productIds);
+
         $oxArticleList->loadIds($productIds);
         $oxArticleList->sortByIds($productIds);
 
@@ -249,7 +251,7 @@ class makaira_connect_request_handler
         return $query;
     }
 
-    private function getCategoryNames($parameters)
+    protected function getCategoryNames($parameters)
     {
         $dic = oxRegistry::get('yamm_dic');
         /** @var \Makaira\Connect\DatabaseInterface $database */
@@ -347,5 +349,12 @@ class makaira_connect_request_handler
         }
 
         return $merged;
+    }
+
+    /**
+     * @param array $productIds
+     */
+    public function afterSearchRequest(array $productIds = [])
+    {
     }
 }
