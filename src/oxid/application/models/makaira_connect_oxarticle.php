@@ -2,6 +2,18 @@
 
 class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 {
+    /**
+     * @var bool
+     */
+    protected static $disableMakairaTouch = false;
+
+    /**
+     * @param bool $disableTouch
+     */
+    public function disableMakairaTouch($disableTouch = true)
+    {
+        self::$disableMakairaTouch = $disableTouch;
+    }
 
     public function save()
     {
@@ -32,6 +44,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 
     public function touch($oxid = null)
     {
+        if (self::$disableMakairaTouch) {
+            return;
+        }
         $id = $oxid ?: $this->getId();
         if ($parentId = $this->getParentId($oxid)) {
             $this->getRepository()->touch('product', $parentId);

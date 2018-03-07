@@ -2,6 +2,18 @@
 
 class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
 {
+    /**
+     * @var bool
+     */
+    protected static $disableMakairaTouch = false;
+
+    /**
+     * @param bool $disableTouch
+     */
+    public function disableMakairaTouch($disableTouch = true)
+    {
+        self::$disableMakairaTouch = $disableTouch;
+    }
 
     /**
      * @return \Makaira\Connect\Repository
@@ -31,6 +43,9 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
 
     public function touch($oxid = null)
     {
+        if (self::$disableMakairaTouch) {
+            return;
+        }
         $id = $oxid ?: $this->getId();
         $this->getRepository()->touch('category', $id);
     }
