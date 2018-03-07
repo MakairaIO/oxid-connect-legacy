@@ -26,7 +26,7 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     public function save()
     {
         $result = parent::save();
-        if ($result) {
+        if (!self::$disableMakairaTouch && $result) {
             $this->touch($this->getId());
         }
         return $result;
@@ -35,7 +35,7 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     public function delete($sOXID = null)
     {
         $result = parent::delete($sOXID);
-        if ($result) {
+        if (!self::$disableMakairaTouch && $result) {
             $this->touch($sOXID ?: $this->getId());
         }
         return $result;
@@ -43,9 +43,6 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
 
     public function touch($oxid = null)
     {
-        if (self::$disableMakairaTouch) {
-            return;
-        }
         $id = $oxid ?: $this->getId();
         $this->getRepository()->touch('category', $id);
     }
