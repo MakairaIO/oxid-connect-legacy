@@ -24,7 +24,7 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
         $this->_iViewIndexState = parent::noIndex();
         $oViewConf = $this->getViewConfig();
         if (!empty($oViewConf->getAggregationFilter())) {
-            $this->_iViewIndexState = VIEW_INDEXSTATE_NOINDEXNOFOLLOW;
+            $this->_iViewIndexState = VIEW_INDEXSTATE_NOINDEXFOLLOW;
         }
 
         return $this->_iViewIndexState;

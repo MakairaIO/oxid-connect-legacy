@@ -23,9 +23,8 @@ class makaira_connect_alist extends makaira_connect_alist_parent
     {
         $this->_iViewIndexState = parent::noIndex();
         $oViewConf = $this->getViewConfig();
-        $aggregationFilter      = $oViewConf->getAggregationFilter();
-        if (!empty($aggregationFilter)) {
-            $this->_iViewIndexState = VIEW_INDEXSTATE_NOINDEXNOFOLLOW;
+        if (!empty($oViewConf->getAggregationFilter())) {
+            $this->_iViewIndexState = VIEW_INDEXSTATE_NOINDEXFOLLOW;
         }
 
         return $this->_iViewIndexState;
