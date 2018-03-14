@@ -79,6 +79,15 @@ const collapseList = (list, collapseButtonItem) => {
   listExpandButtonItem.classList.remove(classFilterItemHidden)
 }
 
+const resetSingleFilterValues = el => {
+  const filterName = el.getAttribute('name')
+  const otherInputs = Array.from(document.querySelectorAll(`[name="${filterName}"]`)).filter(
+    input => input != el
+  )
+
+  otherInputs.forEach(input => input.removeAttribute('checked'))
+}
+
 const initHandlers = () => {
   const filterLists = document.querySelectorAll(`.${classFilterList}`)
 
@@ -110,6 +119,9 @@ const initHandlers = () => {
       const target = event.target
 
       if (target.classList.contains(classFilterCheckbox)) {
+        if (target.closest('.makaira-filter__filter--list')) {
+          resetSingleFilterValues(target)
+        }
         submitClosestForm(target)
       }
     })
