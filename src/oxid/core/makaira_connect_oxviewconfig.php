@@ -16,23 +16,21 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     protected $generatedFilterUrl = [];
 
-    public function redirectMakairaFilter($baseUrl)
+    public function redirectMakairaFilter($baseUrl, $disableSeoFilter = false)
     {
-        if (!oxRegistry::getUtils()->seoIsActive()) {
-            return;
-        }
-
         $useSeoFilter = $this->getConfig()->getShopConfVar(
             'makaira_connect_seofilter',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
-        if (!$useSeoFilter) {
+        $filterParams = $this->getAggregationFilter();
+
+        if ($disableSeoFilter || !$useSeoFilter || !oxRegistry::getUtils()->seoIsActive()) {
+            $finalUrl = $this->generateFilterUrl($baseUrl, $filterParams);
+            oxRegistry::getUtils()->redirect($finalUrl, false, 302);
             return;
         }
-
-        $filterParams = $this->getAggregationFilter();
 
         $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
 
@@ -219,6 +217,50 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $path = implode('/', [$path, $filterString, $pageNumber]);
 
         $query = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+
+        $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
+
+        return $this->generatedFilterUrl[$baseUrl];
+    }
+
+    /**
+     * @param $baseUrl
+     * @param $filterParams
+     *
+     * @return string
+     */
+    private function generateFilterUrl($baseUrl, $filterParams)
+    {
+        if (isset($this->generatedFilterUrl[$baseUrl])) {
+            return $this->generatedFilterUrl[$baseUrl];
+        }
+
+        $params = [
+            'makairaFilter' => $filterParams,
+        ];
+        $filterQuery  = http_build_query($params);
+
+        $parsedUrl = parse_url($baseUrl);
+
+        $path = rtrim($parsedUrl['path'], '/') . '/';
+
+        $query = '';
+        if ('' !== $parsedUrl['query']) {
+            $queryArray = explode('&amp;', $parsedUrl['query']);
+            $queryArray      = array_filter(
+                $queryArray, function ($part) {
+                return stripos($part, 'fnc=redirectmakaira') !== 0;
+            });
+            $query = implode('&', $queryArray);
+        }
+
+        if ('' !== $filterQuery) {
+            $query = $query ? "{$query}&{$filterQuery}" : "{$filterQuery}";
+        }
+
+        if ('' !== $query) {
+            $query = '?' . $query;
+        }
 
         $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 

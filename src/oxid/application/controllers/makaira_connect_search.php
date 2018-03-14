@@ -40,6 +40,11 @@ class makaira_connect_search extends makaira_connect_search_parent
             if ('resetmakairafilter' === strtolower($this->getFncName())) {
                 $this->resetMakairaFilter();
             }
+
+            if ('redirectmakairafilter' === strtolower($this->getFncName())) {
+                $this->redirectMakairaFilter();
+            }
+
             $this->makairaInitSearch();
             $this->addTplParam('isMakairaSearchEnabled', true);
         } catch (Exception $e) {
@@ -52,7 +57,7 @@ class makaira_connect_search extends makaira_connect_search_parent
 
     public function redirectMakairaFilter()
     {
-        // Intentionally left empty
+        $this->getViewConfig()->redirectMakairaFilter($this->getLink(), true);
     }
 
     public function getSortIdent()
