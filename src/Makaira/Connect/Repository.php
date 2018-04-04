@@ -112,6 +112,9 @@ class Repository
      */
     public function touch($type, $id)
     {
+        if (!$id) {
+            return;
+        }
         $this->database->execute($this->touchQuery, ['type' => $type, 'id' => $id]);
     }
 

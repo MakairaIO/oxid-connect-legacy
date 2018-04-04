@@ -47,6 +47,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
     public function touch($oxid = null)
     {
         $id = $oxid ?: $this->getId();
+        if (!$id) {
+            return;
+        }
         if ($parentId = $this->getParentId($oxid)) {
             $this->getRepository()->touch('product', $parentId);
             $this->getRepository()->touch('variant', $id);
