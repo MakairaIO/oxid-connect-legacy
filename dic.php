@@ -247,6 +247,13 @@ $dic['makaira.connect.modifiers.product.category'] = function (\Marm\Yamm\DIC $d
 };
 $dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product', 1000);
 
+$dic['makaira.connect.modifiers.product.mainCategory'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Product\MainCategoryModifier(
+        $dic['oxid.database']
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.mainCategory', 'makaira.importer.modifier.product', 900);
+
 $dic['makaira.connect.modifiers.category.hierarchy'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Category\HierarchyModifier(
         $dic['oxid.database']
