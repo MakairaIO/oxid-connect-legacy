@@ -66,11 +66,15 @@ class Repository
 
         $changes = array();
         foreach ($result as $row) {
-            $change = $this->getRepositoryForType($row['type'])->get($row['id']);
-            $change->id = $row['id'];
-            $change->sequence = $row['sequence'];
-            $change->type = $row['type'];
-            $changes[] = $change;
+            try {
+                $change = $this->getRepositoryForType($row['type'])->get($row['id']);
+                $change->id = $row['id'];
+                $change->sequence = $row['sequence'];
+                $change->type = $row['type'];
+                $changes[] = $change;
+            } catch (\OutOfBoundsException $e) {
+                // catch no repository found exception
+            }
         }
 
         return new Changes(array(
