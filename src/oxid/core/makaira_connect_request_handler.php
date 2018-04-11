@@ -47,7 +47,8 @@ class makaira_connect_request_handler
                 $sanitizedSorting = [];
                 break;
             default:
-                $sanitizedSorting = [(0 === stripos($sortField, 'OX')) ? strtoupper($sortField) : $sortField => $sortDirection];
+                $sanitizedSorting =
+                    [(0 === stripos($sortField, 'OX')) ? strtoupper($sortField) : $sortField => $sortDirection];
         }
 
         return $sanitizedSorting;
@@ -55,6 +56,54 @@ class makaira_connect_request_handler
 
     public function getProductsFromMakaira(Query $query)
     {
+        $useCategoryInheritance = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_category_inheritance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        $categoryTreeId         = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_categorytree_id',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        $myQuery = clone($query);
+        if ($useCategoryInheritance && $categoryTreeId) {
+            if (isset($query->aggregations[ $categoryTreeId ])) {
+                $_categoryIds = [];
+                foreach ($query->aggregations[ $categoryTreeId ] as $_categoryId) {
+                    $oCategory = oxNew('oxcategory');
+                    $oCategory->load($_categoryId);
+                    if ($oCategory) {
+                        $_categoryIds[ $_categoryId ] = oxDb::getDb()->getCol(
+                            "SELECT OXID FROM oxcategories WHERE OXROOTID = ? AND OXLEFT > ? AND OXRIGHT < ?",
+                            [
+                                $oCategory->oxcategories__oxrootid->value,
+                                $oCategory->oxcategories__oxleft->value,
+                                $oCategory->oxcategories__oxright->value,
+                            ]
+                        );
+                    }
+                }
+                foreach ($_categoryIds as $parentId => $childIds) {
+                    if ($intersection = array_intersect($query->aggregations[ $categoryTreeId ], (array) $childIds)) {
+                        foreach ($intersection as $childId) {
+                            unset($_categoryIds[ $childId ]);
+                        }
+                    }
+                }
+                $categoryIds                            = array_unique(array_keys($_categoryIds));
+                $query->aggregations[ $categoryTreeId ] = $categoryIds;
+                if ($useCategoryInheritance) {
+                    foreach ($_categoryIds as $parentId => $childIds) {
+                        $categoryIds = array_merge($categoryIds, (array) $childIds);
+                    }
+                    $categoryIds                            = array_unique($categoryIds);
+                    $query->aggregations[ $categoryTreeId ] = $categoryIds;
+                }
+            }
+        }
+
         /** @var oxArticleList $oxArticleList */
         $oxArticleList = oxNew('oxarticlelist');
 
@@ -89,107 +138,79 @@ class makaira_connect_request_handler
                 case 'range_slider':
                     // Equal min and max values are not allowed
                     $from = $aggregation->min;
-                    $to = $aggregation->max;
+                    $to   = $aggregation->max;
                     if ($from == $to) {
-                        unset($aggregations[$aggregation->key]);
+                        unset($aggregations[ $aggregation->key ]);
                         continue;
                     }
-                    if (
-                        isset($query->aggregations[$aggregation->key . '_from'])
-                        ||
-                        isset($query->aggregations[$aggregation->key . '_to'])
-                    ) {
-                        if (isset($query->aggregations[$aggregation->key . '_from'])) {
-                            $from = $query->aggregations[$aggregation->key . '_from'];
+                    if (isset($query->aggregations[ $aggregation->key . '_from' ]) ||
+                        isset($query->aggregations[ $aggregation->key . '_to' ])) {
+                        if (isset($query->aggregations[ $aggregation->key . '_from' ])) {
+                            $from = $query->aggregations[ $aggregation->key . '_from' ];
                         }
-                        if (isset($query->aggregations[$aggregation->key . '_to'])) {
-                            $to = $query->aggregations[$aggregation->key . '_to'];
+                        if (isset($query->aggregations[ $aggregation->key . '_to' ])) {
+                            $to = $query->aggregations[ $aggregation->key . '_to' ];
                         }
-                        $aggregations[$aggregation->key]->selectedValues['from'] = $from;
-                        $aggregations[$aggregation->key]->selectedValues['to'] = $to;
+                        $aggregations[ $aggregation->key ]->selectedValues['from'] = $from;
+                        $aggregations[ $aggregation->key ]->selectedValues['to']   = $to;
                     }
 
                     break;
                 case 'categorytree':
-                    $docCounts = [];
-                    $paths = array_map(
-                        function ($item) use (&$docCounts) {
-                            $docCounts[$item['key']] = $item['count'];
-                            return explode('//', $item['path']);
-                        },
-                        $aggregation->values
-                    );
-                    $categoryNames = $this->getCategoryNames(call_user_func_array('array_merge', $paths));
-                    $selectedValues =
-                        isset($query->aggregations[$aggregation->key]) ?
-                            $query->aggregations[$aggregation->key] : [];
+                    // TODO: find better way to convert multi-array to multi-stdobject
+                    $aggregations[ $aggregation->key ]->values =
+                        json_decode(json_encode($aggregations[ $aggregation->key ]->values));
 
-                    $treePath = [];
-                    foreach ($paths as $path) {
-                        $treePath[]     = $this->buildTreePath($path);
+                    if ($useCategoryInheritance &&
+                        $categoryTreeId &&
+                        isset($query->aggregations[ $aggregation->key ])) {
+                        $aggregations[ $aggregation->key ]->selectedValues = $myQuery->aggregations[ $aggregation->key ];
+
+                    } else {
+                        $aggregations[ $aggregation->key ]->selectedValues =
+                            isset($query->aggregations[ $aggregation->key ]) ? $query->aggregations[ $aggregation->key ] :
+                                [];
                     }
 
-                    switch (count($treePath)) {
-                        case 0:
-                            $tree = [];
-                            break;
-                        case 1:
-                            $tree = reset($treePath);
-                            break;
-                        default:
-                            $tree = call_user_func_array([$this, 'mergeTree'], $treePath);
-                            break;
-                    }
-
-                    foreach ($tree as $root => $branch) {
-                        $tree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
-                    }
-
-                    $aggregations[$aggregation->key]->values = $tree;
-                    $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
-                    break;
-                case 'categorylist':
-                    $categoryIds = array_map(
-                        function ($item) {
-                            return $item['key'];
-                        },
-                        $aggregation->values
+                    $this->mapCategoryTitle(
+                        $aggregations[ $aggregation->key ]->values,
+                        $aggregations[ $aggregation->key ]->selectedValues
                     );
-                    $categoryNames = $this->getCategoryNames($categoryIds);
-                    $aggregations[$aggregation->key]->values         = array_map(
-                        function ($value) use ($aggregation, $query, $categoryNames) {
-                            $valueObject           = new stdClass();
-                            $valueObject->key      = $value['key'];
-                            $valueObject->title    = isset($categoryNames[$valueObject->key]) ? $categoryNames[$valueObject->key] : $valueObject->key;
-                            $valueObject->count    = $value['count'];
-                            $valueObject->selected = false;
-                            if (isset($query->aggregations[$aggregation->key])) {
-                                $valueObject->selected = in_array($valueObject->key, (array)$query->aggregations[$aggregation->key]);
-                            }
-                            return $valueObject;
-                        },
-                        $aggregation->values
-                    );
-                    $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
+
                     break;
                 default:
-                    $aggregations[$aggregation->key]->values         = array_map(
+                    $aggregations[ $aggregation->key ]->values         = array_map(
                         function ($value) use ($aggregation, $query) {
                             $valueObject           = new stdClass();
                             $valueObject->key      = $value['key'];
                             $valueObject->count    = $value['count'];
                             $valueObject->selected = false;
-                            if (isset($query->aggregations[$aggregation->key])) {
-                                $valueObject->selected = in_array($valueObject->key, (array)$query->aggregations[$aggregation->key]);
+                            if (isset($query->aggregations[ $aggregation->key ])) {
+                                $valueObject->selected =
+                                    in_array($valueObject->key, (array) $query->aggregations[ $aggregation->key ]);
                             }
                             return $valueObject;
                         },
                         $aggregation->values
                     );
-                    $aggregations[$aggregation->key]->selectedValues = isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
+                    $aggregations[ $aggregation->key ]->selectedValues =
+                        isset($query->aggregations[ $aggregation->key ]) ? $query->aggregations[ $aggregation->key ] :
+                            [];
             }
         }
         $this->aggregations = $aggregations;
+
+        //        if ($categoryTreeId) {
+        //            if (isset($this->aggregations[$categoryTreeId])) {
+        //                if (isset($query->aggregations[$categoryTreeId])) {
+        //                    foreach ($query->aggregations[$categoryTreeId] as $key => $cat) {
+        //                        if (isset($this->aggregations[$categoryTreeId]->selectedValues[$key])) {
+        //                            $query->aggregations[$categoryTreeId][$key] = $this->aggregations[$categoryTreeId]->selectedValues[$key];
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
 
         return $oxArticleList;
     }
@@ -208,7 +229,7 @@ class makaira_connect_request_handler
         $filteredArray = [];
         foreach ((array) $this->result as $type => $result) {
             if (('product' !== $type) && ($result->count > 0)) {
-                $filteredArray[$type] = $result;
+                $filteredArray[ $type ] = $result;
             }
         }
 
@@ -234,7 +255,7 @@ class makaira_connect_request_handler
         if (!$pageNumber) {
             /** @var oxUtilsServer $oxUtilsServer */
             $oxUtilsServer = oxRegistry::get('oxUtilsServer');
-            $pageNumber    = (int)$oxUtilsServer->getOxCookie('makairaPageNumber');
+            $pageNumber    = (int) $oxUtilsServer->getOxCookie('makairaPageNumber');
         }
 
         return $pageNumber;
@@ -251,111 +272,28 @@ class makaira_connect_request_handler
         return $query;
     }
 
-    protected function getCategoryNames($parameters)
-    {
-        $dic = oxRegistry::get('yamm_dic');
-        /** @var \Makaira\Connect\DatabaseInterface $database */
-        $database = $dic['oxid.database'];
-
-        $inQuery    = implode(',', array_fill(0, count($parameters), '?'));
-
-        // Fixing array index for binding values
-        // @see https://stackoverflow.com/a/5374217
-        array_unshift($parameters, 'placeholder');
-        unset($parameters[0]);
-
-        $view = getViewName('oxcategories');
-        $result  = $database->query(
-            "SELECT OXID, OXTITLE FROM {$view} WHERE OXID IN ({$inQuery})",
-            $parameters
-        );
-
-        $titleMap = [];
-        foreach ($result as $item) {
-            $titleMap[$item['OXID']] = $item['OXTITLE'];
-        }
-
-        return $titleMap;
-    }
-
-    private function buildTreePath(array $hierarchy)
-    {
-        if (empty($hierarchy)) {
-            return [];
-        }
-
-        $key   = array_shift($hierarchy);
-        $subTree = $this->buildTreePath($hierarchy);
-
-        return [
-            $key => $subTree
-        ];
-    }
-
-    private function buildTree($key, $subTree, array $categoryNames, $selectedValues, $docCounts)
-    {
-        $object = new stdClass();
-        $object->key = $key;
-        $object->title = isset($categoryNames[$key]) ? $categoryNames[$key] : $key;
-        $object->count = isset($docCounts[$key]) ? $docCounts[$key] : 0;
-        $object->selected = false;
-        if (!empty($selectedValues)) {
-            $object->selected = in_array($object->key, (array) $selectedValues);
-        }
-
-        if (!empty($subTree)) {
-            foreach ($subTree as $root => $branch) {
-                $subTree[$root] = $this->buildTree($root, $branch, $categoryNames, $selectedValues, $docCounts);
-            }
-
-            $object->subtree = $subTree;
-        }
-
-        return $object;
-    }
-
-    /**
-     * @see http://php.net/manual/de/function.array-merge-recursive.php#104145
-     *
-     * @return array
-     */
-    private function mergeTree()
-    {
-        if (func_num_args() < 2) {
-            trigger_error(__FUNCTION__ . ' needs two or more array arguments', E_USER_WARNING);
-
-            return [];
-        }
-        $arrays = func_get_args();
-        $merged = array();
-        while ($arrays) {
-            $array = array_shift($arrays);
-
-            if (!is_array($array)) {
-                trigger_error(__FUNCTION__ . ' encountered a non array argument', E_USER_WARNING);
-
-                return [];
-            }
-            if (!$array) {
-                continue;
-            }
-
-            foreach ($array as $key => $value) {
-                if (is_array($value) && array_key_exists($key, $merged) && is_array($merged[$key])) {
-                    $merged[$key] = call_user_func(__METHOD__, $merged[$key], $value);
-                } else {
-                    $merged[$key] = $value;
-                }
-            }
-        }
-
-        return $merged;
-    }
-
     /**
      * @param array $productIds
      */
     public function afterSearchRequest(array $productIds = [])
     {
+    }
+
+    public function mapCategoryTitle(&$cats, &$selectedCats)
+    {
+        if ($cats && $selectedCats) {
+            foreach ($cats as $cat) {
+                $key = array_search($cat->key, $selectedCats);
+                if (false !== $key) {
+                    $cat->selected        = true;
+                    $selectedCats[ $key ] = $cat->title;
+                } else {
+                    $cat->selected = false;
+                }
+                if ($cat->subtree) {
+                    $this->mapCategoryTitle($cat->subtree, $selectedCats);
+                }
+            }
+        }
     }
 }
