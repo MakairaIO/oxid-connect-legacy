@@ -264,8 +264,9 @@ class makaira_connect_request_handler
         array_unshift($parameters, 'placeholder');
         unset($parameters[0]);
 
+        $view = getViewName('oxcategories');
         $result  = $database->query(
-            "SELECT OXID, OXTITLE FROM oxcategories WHERE OXID IN ({$inQuery})",
+            "SELECT OXID, OXTITLE FROM {$view} WHERE OXID IN ({$inQuery})",
             $parameters
         );
 
