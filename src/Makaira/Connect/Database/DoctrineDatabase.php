@@ -19,6 +19,11 @@ class DoctrineDatabase implements DatabaseInterface
      */
     private $database;
 
+    /**
+     * @var Statement[]
+     */
+    private $preparedStatements = [];
+
     /** @var  TableTranslator */
     private $translator;
 
@@ -41,7 +46,11 @@ class DoctrineDatabase implements DatabaseInterface
     public function execute($query, array $parameters = array())
     {
         $query = $this->translator->translate($query);
-        $statement = $this->database->prepare($query);
+        $cacheKey = md5($query);
+        if (!isset($this->preparedStatements[$cacheKey])) {
+            $this->preparedStatements[$cacheKey] = $this->database->prepare($query);
+        }
+        $statement = $this->preparedStatements[$cacheKey];
         $statement = $this->bindQueryParameters($statement, $parameters);
 
         $statement->execute();
@@ -60,8 +69,11 @@ class DoctrineDatabase implements DatabaseInterface
     public function query($query, array $parameters = array())
     {
         $query = $this->translator->translate($query);
-
-        $statement = $this->database->prepare($query);
+        $cacheKey = md5($query);
+        if (!isset($this->preparedStatements[$cacheKey])) {
+            $this->preparedStatements[$cacheKey] = $this->database->prepare($query);
+        }
+        $statement = $this->preparedStatements[$cacheKey];
         $statement = $this->bindQueryParameters($statement, $parameters);
 
         $statement->execute();

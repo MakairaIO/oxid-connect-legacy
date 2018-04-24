@@ -1,6 +1,6 @@
 <?php
 
-$sLangName  = "Deutsch";
+$sLangName = "Deutsch";
 
 $aLang = array(
     'charset'                                          => 'UTF-8',
@@ -14,6 +14,7 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_activate_search'      => 'Für Suche aktivieren',
     'SHOP_MODULE_makaira_connect_activate_listing'     => 'Für Kategorie aktivieren',
     'SHOP_MODULE_makaira_connect_category_inheritance' => 'Oberkategorie enthält alle Produkte der Unterkategorien',
+    'SHOP_MODULE_makaira_connect_categorytree_id'      => 'ID des Kategorie-Baum-Filters (falls vorhanden)',
     'SHOP_MODULE_makaira_connect_seofilter'            => 'SEO-Urls für gefilterte Kategorie- und Herstellerseiten erzeugen',
 
     'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'       => 'Operational Intelligence',

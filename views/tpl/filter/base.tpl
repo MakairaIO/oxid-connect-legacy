@@ -35,6 +35,8 @@
             [{$oViewConf->getNavFormParams()}]
         [{/if}]
 
+        <input type="hidden" name="isFilterAction" value="1">
+
         [{*
             FIXME Code from old module
             TODO Do we really need a getter for following params? ['ldtype', '_artperpage', 'listorder', 'listorderby']
@@ -51,7 +53,7 @@
 
             <section class="makaira-filter__filter makaira-filter__filter--[{$aggregation->type}]">
                 <header class="makaira-filter__filter-headline">[{$filterTitle}]</header>
-                [{include file="makaira/filter/"|cat:$aggregation->type|cat:".tpl"}]
+                [{include file="makaira/filter/"|cat:$aggregation->type|cat:".tpl" blShowDocCount=$aggregation->showDocCount}]
                 [{if !empty($aggregation->selectedValues)}]
                     [{assign var="showResetAll" value=true}]
                     [{*

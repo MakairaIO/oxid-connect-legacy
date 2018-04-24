@@ -2,11 +2,23 @@
 
 class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 {
+    /**
+     * @var bool
+     */
+    protected static $disableMakairaTouch = false;
+
+    /**
+     * @param bool $disableTouch
+     */
+    public function disableMakairaTouch($disableTouch = true)
+    {
+        self::$disableMakairaTouch = $disableTouch;
+    }
 
     public function save()
     {
         $result = parent::save();
-        if ($result) {
+        if (!self::$disableMakairaTouch && $result) {
             $this->touch();
         }
         return $result;
@@ -14,7 +26,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 
     public function delete($sOXID = null)
     {
-        $this->touch($sOXID);
+        if (!self::$disableMakairaTouch) {
+            $this->touch($sOXID);
+        }
         return parent::delete($sOXID);
     }
 
@@ -33,6 +47,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
     public function touch($oxid = null)
     {
         $id = $oxid ?: $this->getId();
+        if (!$id) {
+            return;
+        }
         if ($parentId = $this->getParentId($oxid)) {
             $this->getRepository()->touch('product', $parentId);
             $this->getRepository()->touch('variant', $id);
@@ -56,7 +73,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         if (!$dAmount) {
             return $result;
         }
-        $this->touch();
+        if (!self::$disableMakairaTouch) {
+            $this->touch();
+        }
 
         return $result;
     }
@@ -71,7 +90,9 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 
     public function executeDependencyEvent($iDependencyEvent = null)
     {
-        $this->touch($this->getId());
+        if (!self::$disableMakairaTouch) {
+            $this->touch($this->getId());
+        }
         return parent::executeDependencyEvent($iDependencyEvent);
     }
 }

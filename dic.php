@@ -41,7 +41,8 @@ $dic['oxid.language'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Utils\OxidSmartyParser(
-        $dic['oxid.language'], oxRegistry::get('oxutilsview')
+        $dic['oxid.language'],
+        oxRegistry::get('oxutilsview')
     );
 };
 
@@ -94,7 +95,7 @@ $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
-$dic->tag('makaira.connect.repository.product', 'makaira.connect.repository');
+$dic->tag('makaira.connect.repository.product', 'makaira.connect.repository', 1000);
 
 $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\VariantRepository(
@@ -103,7 +104,7 @@ $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
-$dic->tag('makaira.connect.repository.variant', 'makaira.connect.repository');
+$dic->tag('makaira.connect.repository.variant', 'makaira.connect.repository', 990);
 
 $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\CategoryRepository(
@@ -112,7 +113,7 @@ $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
         )
     );
 };
-$dic->tag('makaira.connect.repository.category', 'makaira.connect.repository');
+$dic->tag('makaira.connect.repository.category', 'makaira.connect.repository', 980);
 
 $dic['makaira.connect.repository.manufacturer'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\ManufacturerRepository(
@@ -121,7 +122,7 @@ $dic['makaira.connect.repository.manufacturer'] = function (\Marm\Yamm\DIC $dic)
         )
     );
 };
-$dic->tag('makaira.connect.repository.manufacturer', 'makaira.connect.repository');
+$dic->tag('makaira.connect.repository.manufacturer', 'makaira.connect.repository', 970);
 
 // --------------------------------------
 
@@ -130,30 +131,32 @@ $dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC
         $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxarticles2shop'
     );
 };
-$dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.variant');
+$dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.variant', 1000);
 
 $dic['makaira.connect.modifiers.common.category2shop'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ShopModifier(
         $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxcategories2shop'
     );
 };
-$dic->tag('makaira.connect.modifiers.common.category2shop', 'makaira.importer.modifier.category');
+$dic->tag('makaira.connect.modifiers.common.category2shop', 'makaira.importer.modifier.category', 1000);
 
 $dic['makaira.connect.modifiers.common.manufacturer2shop'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ShopModifier(
         $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxmanufacturers2shop'
     );
 };
-$dic->tag('makaira.connect.modifiers.common.manufacturer2shop', 'makaira.importer.modifier.manufacturer');
+$dic->tag('makaira.connect.modifiers.common.manufacturer2shop', 'makaira.importer.modifier.manufacturer', 1000);
 
 $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $dic) {
+    $oxArticle = oxRegistry::get('oxArticle');
     return new \Makaira\Connect\Modifier\Common\AttributeModifier(
-        $dic['oxid.database']
+        $dic['oxid.database'],
+        $oxArticle->getSqlActiveSnippet(true)
     );
 };
-$dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.variant');
+$dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.variant', 1000);
 
 $dic['makaira.connect.modifiers.common.vat'] = function (\Marm\Yamm\DIC $dic) {
     $config = oxRegistry::getConfig();
@@ -164,27 +167,30 @@ $dic['makaira.connect.modifiers.common.vat'] = function (\Marm\Yamm\DIC $dic) {
         $config->getConfigParam('dDefaultVAT')
     );
 };
-$dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.variant');
+$dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.variant', 1000);
 
 $dic['makaira.connect.modifiers.common.active'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ActiveModifier();
 };
-$dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant');
+$dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant', 1000);
 
 $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Common\LongDescriptionModifier($dic['makaira.content_parser']);
+    return new \Makaira\Connect\Modifier\Common\LongDescriptionModifier(
+        $dic['makaira.content_parser'],
+        oxRegistry::getConfig()->getShopConfVar('bl_perfParseLongDescinSmarty')
+    );
 };
-$dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.variant');
+$dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.longdescription', 'makaira.importer.modifier.variant', 1000);
 
 $dic['makaira.connect.modifiers.common.zerodatetime'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ZeroDateTimeModifier();
 };
-$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.variant');
-$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.category');
+$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.variant', 1000);
+$dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.modifier.category', 1000);
 
 $dic['makaira.connect.modifiers.category.url'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\UrlModifier(
@@ -207,9 +213,9 @@ $dic['makaira.connect.modifiers.product.url'] = function (\Marm\Yamm\DIC $dic) {
         $dic['oxid.language']
     );
 };
-$dic->tag('makaira.connect.modifiers.category.url', 'makaira.importer.modifier.category');
-$dic->tag('makaira.connect.modifiers.manufacturer.url', 'makaira.importer.modifier.manufacturer');
-$dic->tag('makaira.connect.modifiers.product.url', 'makaira.importer.modifier.product');
+$dic->tag('makaira.connect.modifiers.category.url', 'makaira.importer.modifier.category', 1000);
+$dic->tag('makaira.connect.modifiers.manufacturer.url', 'makaira.importer.modifier.manufacturer', 1000);
+$dic->tag('makaira.connect.modifiers.product.url', 'makaira.importer.modifier.product', 1000);
 
 $dic['makaira.connect.modifiers.common.blacklist.product'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\BlacklistModifier(
@@ -226,41 +232,34 @@ $dic['makaira.connect.modifiers.common.blacklist.manufacturer'] = function (\Mar
         (array) oxRegistry::getConfig()->getShopConfVar('makaira_field_blacklist_manufacturer')
     );
 };
-$dic->tag('makaira.connect.modifiers.common.blacklist.product', 'makaira.importer.modifier.product');
-$dic->tag('makaira.connect.modifiers.common.blacklist.category', 'makaira.importer.modifier.category');
-$dic->tag('makaira.connect.modifiers.common.blacklist.manufacturer', 'makaira.importer.modifier.manufacturer');
+$dic->tag('makaira.connect.modifiers.common.blacklist.product', 'makaira.importer.modifier.product', -1);
+$dic->tag('makaira.connect.modifiers.common.blacklist.product', 'makaira.importer.modifier.variant', -1);
+$dic->tag('makaira.connect.modifiers.common.blacklist.category', 'makaira.importer.modifier.category', -1);
+$dic->tag('makaira.connect.modifiers.common.blacklist.manufacturer', 'makaira.importer.modifier.manufacturer', -1);
 
 
 // --------------------------------------
 
-$dic['makaira.connect.modifiers.product.suggest'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Product\SuggestModifier(
-        [] // @TODO: Fill with sensible values
-    );
-};
-$dic->tag('makaira.connect.modifiers.product.suggest', 'makaira.importer.modifier.product');
-
 $dic['makaira.connect.modifiers.product.category'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Product\CategoryModifier(
-        $dic['oxid.database'], false // @TODO:Remove flag, move logic to query
-    );
-};
-$dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product');
-
-// @DEPRECATED: Will be removed
-$dic['makaira.connect.modifiers.product.tracking'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Product\TrackingModifier(
-        isset($dic['marm_oxsearch']) ? $dic['marm_oxsearch']['tracking'] : null
-    );
-};
-$dic->tag('makaira.connect.modifiers.product.tracking', 'makaira.importer.modifier.product');
-
-$dic['makaira.connect.modifiers.category.oxobject'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Category\OxObjectModifier(
         $dic['oxid.database']
     );
 };
-$dic->tag('makaira.connect.modifiers.category.oxobject', 'makaira.importer.modifier.category');
+$dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifier.product', 1000);
+
+$dic['makaira.connect.modifiers.product.mainCategory'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Product\MainCategoryModifier(
+        $dic['oxid.database']
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.mainCategory', 'makaira.importer.modifier.product', 900);
+
+$dic['makaira.connect.modifiers.category.hierarchy'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Category\HierarchyModifier(
+        $dic['oxid.database']
+    );
+};
+$dic->tag('makaira.connect.modifiers.category.hierarchy', 'makaira.importer.modifier.category', 1000);
 
 //------------------------------
 $dic['makaira.connect.configuration'] = function (\Marm\Yamm\DIC $dic) {

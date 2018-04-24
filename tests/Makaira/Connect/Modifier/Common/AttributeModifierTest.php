@@ -26,7 +26,7 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
             ->method('query')
             ->will($this->returnValue([$dbResult]));
 
-        $modifier = new AttributeModifier($dbMock);
+        $modifier = new AttributeModifier($dbMock, '1');
 
         $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]));
 

@@ -16,27 +16,20 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     protected $generatedFilterUrl = [];
 
-    public function redirectMakairaFilter($baseUrl)
+    public function redirectMakairaFilter($baseUrl, $disableSeoFilter = false)
     {
-        if (!oxRegistry::getUtils()->seoIsActive()) {
-            return;
-        }
-
         $useSeoFilter = $this->getConfig()->getShopConfVar(
             'makaira_connect_seofilter',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
-        if (!$useSeoFilter) {
+        $filterParams = $this->getAggregationFilter();
+
+        if ($disableSeoFilter || !$useSeoFilter || !oxRegistry::getUtils()->seoIsActive()) {
+            $finalUrl = $this->generateFilterUrl($baseUrl, $filterParams);
+            oxRegistry::getUtils()->redirect($finalUrl, false, 302);
             return;
-        }
-
-        $filterParams = $this->getConfig()->getRequestParameter('makairaFilter', true);
-
-        // TODO Handle range filter in frontend and remove this
-        if (!empty($filterParams)) {
-            $filterParams = $this->filterRangeValues($filterParams);
         }
 
         $finalUrl = $this->generateSeoUrlFromFilter($baseUrl, $filterParams);
@@ -61,7 +54,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         // get filter from form submit
         $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter', true);
 
-        if (!empty($requestFilter)) {
+        $isFilterAction = oxRegistry::getConfig()->getRequestParameter('isFilterAction');
+
+        if ($isFilterAction || !empty($requestFilter)) {
             // TODO Handle range filter in frontend and remove this
             $requestFilter = $this->filterRangeValues($requestFilter);
 
@@ -114,13 +109,14 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     /**
      * @return array|mixed
      */
-    private function loadMakairaFilterFromCookie()
+    public function loadMakairaFilterFromCookie()
     {
         if (null !== static::$makairaFilter) {
             return static::$makairaFilter;
         }
         $oxUtilsServer   = oxRegistry::get('oxUtilsServer');
-        $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter');
+        $lang            = oxRegistry::getLang()->getLanguageAbbr();
+        $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter_' . $lang);
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
         static::$makairaFilter = (array)$cookieFilter;
@@ -134,8 +130,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     public function saveMakairaFilterToCookie($cookieFilter)
     {
         static::$makairaFilter = $cookieFilter;
-        $oxUtilsServer       = oxRegistry::get('oxUtilsServer');
-        $oxUtilsServer->setOxCookie('makairaFilter', base64_encode(json_encode($cookieFilter)));
+        $oxUtilsServer         = oxRegistry::get('oxUtilsServer');
+        $lang                  = oxRegistry::getLang()->getLanguageAbbr();
+        $oxUtilsServer->setOxCookie('makairaFilter_' . $lang, base64_encode(json_encode($cookieFilter)));
     }
 
     public function savePageNumberToCookie()
@@ -220,6 +217,50 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $path = implode('/', [$path, $filterString, $pageNumber]);
 
         $query = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
+
+        $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
+
+        return $this->generatedFilterUrl[$baseUrl];
+    }
+
+    /**
+     * @param $baseUrl
+     * @param $filterParams
+     *
+     * @return string
+     */
+    private function generateFilterUrl($baseUrl, $filterParams)
+    {
+        if (isset($this->generatedFilterUrl[$baseUrl])) {
+            return $this->generatedFilterUrl[$baseUrl];
+        }
+
+        $params = [
+            'makairaFilter' => $filterParams,
+        ];
+        $filterQuery  = http_build_query($params);
+
+        $parsedUrl = parse_url($baseUrl);
+
+        $path = rtrim($parsedUrl['path'], '/') . '/';
+
+        $query = '';
+        if ('' !== $parsedUrl['query']) {
+            $queryArray = explode('&amp;', $parsedUrl['query']);
+            $queryArray      = array_filter(
+                $queryArray, function ($part) {
+                return stripos($part, 'fnc=redirectmakaira') !== 0;
+            });
+            $query = implode('&', $queryArray);
+        }
+
+        if ('' !== $filterQuery) {
+            $query = $query ? "{$query}&{$filterQuery}" : "{$filterQuery}";
+        }
+
+        if ('' !== $query) {
+            $query = '?' . $query;
+        }
 
         $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 

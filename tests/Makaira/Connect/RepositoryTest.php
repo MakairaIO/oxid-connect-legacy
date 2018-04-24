@@ -66,9 +66,6 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
     public function testGetChangesFromInvalidRepository()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
@@ -81,7 +78,15 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 ['id' => 42, 'sequence' => 1, 'type' => 'unknown']
             ]));
 
-        $repository->getChangesSince(0, 50);
+        $result = $repository->getChangesSince(0, 50);
+        $this->assertEquals(
+            new Changes([
+                'since' => 0,
+                'count' => 0,
+                'changes' => [],
+            ]),
+            $result
+        );
     }
 
     public function testGetChangesForMultipleResults()

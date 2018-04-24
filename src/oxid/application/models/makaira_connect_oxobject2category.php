@@ -10,10 +10,24 @@
 
 class makaira_connect_oxobject2category extends makaira_connect_oxobject2category_parent
 {
+    /**
+     * @var bool
+     */
+    protected static $disableMakairaTouch = false;
+
+    /**
+     * @param bool $disableTouch
+     */
+    public function disableMakairaTouch($disableTouch = true)
+    {
+        self::$disableMakairaTouch = $disableTouch;
+    }
+
     public function save()
     {
         $result = parent::save();
-        if ($result) {
+
+        if (!self::$disableMakairaTouch && $result) {
             $oxArticle = oxNew('oxarticle');
             $oxArticle->touch($this->oxobject2category__oxobjectid->value);
         }

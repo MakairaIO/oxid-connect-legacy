@@ -37,9 +37,14 @@ class makaira_connect_search extends makaira_connect_search_parent
             // oxubase::init() has to be called statically, otherwise essential smarty _tpl_vars are not available
             oxubase::init();
             // check for filter reset function call
-            if ('resetMakairaFilter' === $this->getFncName()) {
+            if ('resetmakairafilter' === strtolower($this->getFncName())) {
                 $this->resetMakairaFilter();
             }
+
+            if ('redirectmakairafilter' === strtolower($this->getFncName())) {
+                $this->redirectMakairaFilter();
+            }
+
             $this->makairaInitSearch();
             $this->addTplParam('isMakairaSearchEnabled', true);
         } catch (Exception $e) {
@@ -52,7 +57,7 @@ class makaira_connect_search extends makaira_connect_search_parent
 
     public function redirectMakairaFilter()
     {
-        // Intentionally left empty
+        $this->getViewConfig()->redirectMakairaFilter($this->getLink(), true);
     }
 
     public function getSortIdent()

@@ -31,7 +31,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
         $product->id = 'abc';
         $product->OXACTIVE = 1;
 
-        $modifier = new CategoryModifier($dbMock, false);
+        $modifier = new CategoryModifier($dbMock);
 
         $product = $modifier->apply($product);
 
@@ -47,74 +47,4 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
             ], $product->category
         );
     }
-
-    public function testNested()
-    {
-        $dbMock = $this->getMock(DatabaseInterface::class);
-        $dbMock
-            ->expects($this->exactly(3))
-            ->method('query')
-            ->withConsecutive(
-                [$this->anything(), $this->equalTo(['productId' => 'abc', 'productActive' => 1])],
-                [$this->anything(), $this->equalTo(['catid' => 'def'])],
-                [$this->anything(), $this->equalTo(['oxrootid' => 1, 'oxleft' => 2, 'oxright' => 3, 'shopid' => 1])]
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->returnValue(
-                    [
-                        [
-                            'catid'  => 'def',
-                            'oxpos'  => 1,
-                            'shopid' => 1,
-                        ],
-                    ]
-                ),
-                $this->returnValue(
-                    [
-                        [
-                            'oxrootid' => 1,
-                            'oxleft'   => 2,
-                            'oxright'  => 3,
-                        ],
-                    ]
-                ),
-                $this->returnValue(
-                    [
-                        [
-                            'catid'  => 'ghi',
-                            'oxpos'  => 9999,
-                            'shopid' => 1,
-                        ],
-                    ]
-                )
-            );
-
-        $product = new Product();
-        $product->id = 'abc';
-        $product->OXACTIVE = 1;
-
-        $modifier = new CategoryModifier($dbMock, true);
-
-        $product = $modifier->apply($product);
-
-        $this->assertEquals(
-            [
-                new AssignedCategory(
-                    [
-                        'catid'  => 'def',
-                        'oxpos'  => 1,
-                        'shopid' => 1,
-                    ]
-                ),
-                new AssignedCategory(
-                    [
-                        'catid'  => 'ghi',
-                        'oxpos'  => 9999,
-                        'shopid' => 1,
-                    ]
-                ),
-            ], $product->category
-        );
-    }
-
 }

@@ -2,6 +2,18 @@
 
 class makaira_connect_oxmanufacturer extends makaira_connect_oxmanufacturer_parent
 {
+    /**
+     * @var bool
+     */
+    protected static $disableMakairaTouch = false;
+
+    /**
+     * @param bool $disableTouch
+     */
+    public function disableMakairaTouch($disableTouch = true)
+    {
+        self::$disableMakairaTouch = $disableTouch;
+    }
 
     /**
      * @return \Makaira\Connect\Repository
@@ -14,7 +26,7 @@ class makaira_connect_oxmanufacturer extends makaira_connect_oxmanufacturer_pare
     public function save()
     {
         $result = parent::save();
-        if ($result) {
+        if (!self::$disableMakairaTouch && $result) {
             $this->touch($this->getId());
         }
         return $result;
@@ -23,7 +35,7 @@ class makaira_connect_oxmanufacturer extends makaira_connect_oxmanufacturer_pare
     public function delete($sOXID = null)
     {
         $result = parent::delete($sOXID);
-        if ($result) {
+        if (!self::$disableMakairaTouch && $result) {
             $this->touch($sOXID ?: $this->getId());
         }
         return $result;
