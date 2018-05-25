@@ -15,17 +15,33 @@ use Makaira\RecommendationQuery;
  */
 class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
 {
+    const RECOMMENDATION_TYPE_CROSS_SELLING = 'cross-selling';
+    const RECOMMENDATION_TYPE_ACCESSORIES   = 'accessories';
+
+    /**
+     * @var array
+     */
+    private static $productCache = [];
+
+    /**
+     * @param string $sArticleId
+     *
+     * @return void
+     * @throws \UnexpectedValueException
+     * @throws \RuntimeException
+     * @throws oxSystemComponentException
+     */
     public function loadArticleAccessoires($sArticleId)
     {
         $oxidConfig = oxRegistry::getConfig();
 
-        if (
-        !$oxidConfig->getShopConfVar(
+        $accessoryEnabled = $oxidConfig->getShopConfVar(
             'makaira_recommendation_accessories',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        )
-        ) {
+        );
+
+        if (!$accessoryEnabled) {
             parent::loadArticleAccessoires($sArticleId);
 
             return;
@@ -37,10 +53,25 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
-        $this->fetchFromMakaira($recommendationId, $sArticleId, $oxidConfig->getConfigParam('iNrofCrossellArticles'));
+        $this->fetchFromMakaira(
+            self::RECOMMENDATION_TYPE_ACCESSORIES,
+            $recommendationId,
+            $sArticleId,
+            $oxidConfig->getConfigParam('iNrofCrossellArticles')
+        );
     }
 
-    protected function fetchFromMakaira($recommendationId, $productId, $count = 50)
+    /**
+     * @param string $recommendationType
+     * @param string $recommendationId
+     * @param string $productId
+     * @param int    $count
+     *
+     * @throws \UnexpectedValueException
+     * @throws \RuntimeException
+     * @throws oxSystemComponentException
+     */
+    protected function fetchFromMakaira($recommendationType, $recommendationId, $productId, $count = 50)
     {
         $dic = oxRegistry::get('yamm_dic');
         /** @var RecommendationHandler $handler */
@@ -52,15 +83,31 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
         $query->requestId        = hash('sha256', microtime(true));
         $query->count            = $count;
 
-        $query->constraints[Constraints::SHOP]     = oxRegistry::getConfig()
-            ->getShopId();
-        $query->constraints[Constraints::LANGUAGE] = oxRegistry::getLang()
-            ->getLanguageAbbr();
+        $product = $this->getProduct($productId);
+        if ($categoryId = oxRegistry::get('oxviewconfig')->getActCatId()) {
+            $query->categoryId = $categoryId;
+        } else {
+            $query->categoryId = $product->getCategory();
+        }
+
+        // Hook to define custom price ranges.
+        $priceRange   = $this->getPriceRange($recommendationType, $product);
+        $productPrice = $product->getPrice()->getPrice();
+
+        if (array_key_exists('min', $priceRange) && $priceRange['min']) {
+            $query->priceRangeMin = $productPrice * (float) $priceRange['min'];
+        }
+
+        if (array_key_exists('max', $priceRange) && $priceRange['max']) {
+            $query->priceRangeMax = $productPrice * (float) $priceRange['max'];
+        }
+
+        $query->constraints[Constraints::SHOP]     = oxRegistry::getConfig()->getShopId();
+        $query->constraints[Constraints::LANGUAGE] = oxRegistry::getLang()->getLanguageAbbr();
 
         $result = $handler->recommendation($query);
 
         // Use this snippet if you want to use the Makaira response directly.
-
         /*
         $products = array_map(
             function ($item) {
@@ -81,17 +128,69 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
         $this->sortByIds($productIds);
     }
 
+    /**
+     * @param string $productId
+     *
+     * @return oxArticle
+     * @throws oxSystemComponentException
+     */
+    protected function getProduct($productId)
+    {
+        if (!array_key_exists($productId, self::$productCache)) {
+            self::$productCache[$productId] = oxNew('oxarticle');
+            self::$productCache[$productId]->load($productId);
+        }
+
+        return self::$productCache[$productId];
+    }
+
+    /**
+     * Hook to set
+     *
+     * @param string    $type    Recommendation type (e.g. cross-selling, accessories)
+     * @param oxArticle $product The product instance
+     *
+     * @return array
+     */
+    protected function getPriceRange($type, $product)
+    {
+        $priceRange = [];
+
+        if (self::RECOMMENDATION_TYPE_ACCESSORIES === $type) {
+            $priceRange = [
+                'min' => 0.7,
+                'max' => 1.9,
+            ];
+        }
+
+        if (self::RECOMMENDATION_TYPE_CROSS_SELLING === $type) {
+            $priceRange = [
+                'min' => 0.9,
+            ];
+        }
+
+        return $priceRange;
+    }
+
+    /**
+     * @param string $sArticleId
+     *
+     * @return void
+     * @throws \UnexpectedValueException
+     * @throws \RuntimeException
+     * @throws oxSystemComponentException
+     */
     public function loadArticleCrossSell($sArticleId)
     {
         $oxidConfig = oxRegistry::getConfig();
 
-        if (
-        !$oxidConfig->getShopConfVar(
+        $crosssellingEnabled = $oxidConfig->getShopConfVar(
             'makaira_recommendation_cross_selling',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        )
-        ) {
+        );
+
+        if (!$crosssellingEnabled) {
             parent::loadArticleCrossSell($sArticleId);
 
             return;
@@ -103,6 +202,11 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
-        $this->fetchFromMakaira($recommendationId, $sArticleId, $oxidConfig->getConfigParam('iNrofCrossellArticles'));
+        $this->fetchFromMakaira(
+            self::RECOMMENDATION_TYPE_CROSS_SELLING,
+            $recommendationId,
+            $sArticleId,
+            $oxidConfig->getConfigParam('iNrofCrossellArticles')
+        );
     }
 }
