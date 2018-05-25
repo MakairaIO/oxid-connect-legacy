@@ -11,21 +11,13 @@
 namespace Makaira\Connect;
 
 use Makaira\Aggregation;
-use Makaira\HttpClient;
 use Makaira\Query;
 use Makaira\Result;
 use Makaira\ResultItem;
 
-class SearchHandler
+class SearchHandler extends AbstractHandler
 {
     const API_VERSION = "2018.4";
-
-    public function __construct(HttpClient $httpClient, $url, $instance)
-    {
-        $this->httpClient = $httpClient;
-        $this->url = rtrim($url, '/') . '/';
-        $this->instance = $instance;
-    }
 
     /**
      * @param Query $query

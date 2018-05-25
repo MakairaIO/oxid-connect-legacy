@@ -63,6 +63,15 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
+$dic['makaira.instance'] = function () {
+    return oxRegistry::getConfig()
+        ->getShopConfVar(
+            'makaira_instance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+};
+
 $dic['makaira.connect.utils.tokengenerator'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Utils\TokenGenerator();
 };
@@ -302,4 +311,13 @@ $dic['makaira.connect.searchhandler'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['makaira.connect.suggester'] = function (\Marm\Yamm\DIC $dic) {
     return oxNew('makaira_connect_autosuggester', oxRegistry::getLang());
+};
+
+$dic['makaira.connect.recommendationhandler'] = function (\Marm\Yamm\DIC $dic) {
+    $configuration = $dic['makaira.connect.configuration'];
+    return new \Makaira\Connect\RecommendationHandler(
+        $dic['makaira.connect.http_client'],
+        $configuration->url,
+        $dic['makaira.instance']
+    );
 };

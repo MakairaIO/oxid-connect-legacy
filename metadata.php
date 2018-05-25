@@ -31,6 +31,7 @@ $aModule = array(
         'manufacturerlist'  => 'makaira/connect/src/oxid/application/controllers/makaira_connect_manufacturerlist',
         /* models */
         'oxarticle'         => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
+        'oxarticlelist'     => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticlelist',
         'oxcategory'        => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
         'oxobject2category' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxobject2category',
         'oxmanufacturer'    => 'makaira/connect/src/oxid/application/models/makaira_connect_oxmanufacturer',
@@ -156,6 +157,28 @@ $aModule = array(
             'group' => 'IMPORTFIELDS',
             'type'  => 'arr',
             'value' => [],
+        ),
+        array(
+            'name'  => 'makaira_recommendation_accessories',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'bool',
+            'value' => 0,
+        ),
+        array(
+            'name'  => 'makaira_recommendation_accessory_id',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'str',
+        ),
+        array(
+            'name'  => 'makaira_recommendation_cross_selling',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'bool',
+            'value' => 0,
+        ),
+        array(
+            'name'  => 'makaira_recommendation_cross_selling_id',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'str',
         ),
     ),
 );

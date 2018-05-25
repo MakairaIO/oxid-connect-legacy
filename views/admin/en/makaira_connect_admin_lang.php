@@ -22,4 +22,10 @@ $aLang = array(
     'SHOP_MODULE_makaira_field_blacklist_manufacturer' => '<b>manufacturer</b>: blacklisted fields',
 
     'makaira_connect_iframe' => 'Makaira Configuration',
+
+    'SHOP_MODULE_GROUP_RECOMMENDATION'                    => 'Recommendations',
+    'SHOP_MODULE_makaira_recommendation_accessories'      => 'Activate for accessories',
+    'SHOP_MODULE_makaira_recommendation_accessory_id'     => 'Recommendation Ident for accessories',
+    'SHOP_MODULE_makaira_recommendation_cross_selling'    => 'Activate for cross-selling',
+    'SHOP_MODULE_makaira_recommendation_cross_selling_id' => 'Recommendation Ident for cross-selling',
 );
