@@ -4,6 +4,7 @@ $sLangName = "English";
 
 $aLang = array(
     'charset'                                          => 'UTF-8',
+
     'SHOP_MODULE_GROUP_SETTINGS'                       => 'Settings',
     'SHOP_MODULE_makaira_connect_secret'               => 'Shared Secret',
     'SHOP_MODULE_makaira_application_url'              => 'Makaira Url',
@@ -15,6 +16,10 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_category_inheritance' => 'Parent category contains all products from child categories',
     'SHOP_MODULE_makaira_connect_categorytree_id'      => 'ID of Categorytree filter (if exists)',
     'SHOP_MODULE_makaira_connect_seofilter'            => 'Generate SEO url for filtered category and manufacturer pages',
+
+    'SHOP_MODULE_GROUP_OPERATIONAL INTELLIGENCE'       => 'Operational Intelligence',
+    'SHOP_MODULE_makaira_connect_use_user_ip'          => 'Additionally send User-IP for Geolocation (I have signed a DPA with marmalade GmbH)',
+    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'Send User-Agent and Timezone',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Fields',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
