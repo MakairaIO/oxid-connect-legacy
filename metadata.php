@@ -15,7 +15,7 @@ $sMetadataVersion = '1.1';
 /**
  * Module information
  */
-$aModule = array(
+$aModule = [
     'id'          => 'makaira/connect',
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
@@ -24,7 +24,7 @@ $aModule = array(
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
-    'extend'      => array(
+    'extend'      => [
         /* controllers */
         'search'            => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
         'alist'             => 'makaira/connect/src/oxid/application/controllers/makaira_connect_alist',
@@ -38,18 +38,19 @@ $aModule = array(
         /* core */
         'oxviewconfig'      => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
         'oxseodecoder'      => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
+        'oxoutput'          => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
         /* components */
         'oxlocator'         => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
-    ),
-    'files'       => array(
+    ],
+    'files'       => [
         'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_single_sign_on'  => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'          => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
         'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
         'makaira_connect_autosuggest'     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_autosuggest.php',
         'makaira_connect_autosuggester'   => 'makaira/connect/src/oxid/core/makaira_connect_autosuggester.php',
-    ),
-    'templates'   => array(
+    ],
+    'templates'   => [
         'makaira_connect_single_sign_on.tpl'           => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
         /* frontend filter */
         'makaira/filter/base.tpl'                      => 'makaira/connect/views/tpl/filter/base.tpl',
@@ -74,39 +75,41 @@ $aModule = array(
         'makaira/autosuggest/types/links.tpl'          => 'makaira/connect/views/tpl/autosuggest/types/links.tpl',
         /* results */
         'makaira/results/search.tpl'                   => 'makaira/connect/views/tpl/results/search.tpl',
-    ),
-    'blocks'      => array(
-        array(
+    ],
+    'blocks'      => [
+        [
             'template' => 'page/search/search.tpl',
             'block'    => 'search_results',
             'file'     => 'views/blocks/search_results.tpl',
-        ),
-        array(
+        ],
+        [
             'template' => 'page/list/list.tpl',
             'block'    => 'page_list_listbody',
             'file'     => 'views/blocks/page_list_listbody.tpl',
-        ),
-        array(
+        ],
+        [
             'template' => 'widget/header/search.tpl',
             'block'    => 'widget_header_search_form',
             'file'     => 'views/blocks/autosuggest.tpl',
-        ),
-    ),
-    'events'      => array(
+        ],
+    ],
+    'events'      => [
         'onActivate'   => 'makaira_connect_events::onActivate',
         'onDeactivate' => 'makaira_connect_events::onDeactivate',
-    ),
-    'settings'    => array(
-        array('name' => 'makaira_connect_secret', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
-        array('name' => 'makaira_application_url', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
-        array('name' => 'makaira_connect_load_limit', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
-        array('name' => 'makaira_instance', 'group' => 'SETTINGS', 'type' => 'str', 'value' => 'live'),
-        array('name' => 'makaira_connect_activate_search', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
-        array('name' => 'makaira_connect_activate_listing', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
-        array('name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
-        array('name' => 'makaira_connect_categorytree_id', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''),
-        array('name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0),
-        array(
+    ],
+    'settings'    => [
+        ['name' => 'makaira_connect_secret', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
+        ['name' => 'makaira_application_url', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
+        ['name' => 'makaira_connect_load_limit', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
+        ['name' => 'makaira_instance', 'group' => 'SETTINGS', 'type' => 'str', 'value' => 'live'],
+        ['name' => 'makaira_connect_activate_search', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_activate_listing', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_categorytree_id', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
+        ['name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_use_user_agent', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_use_user_ip', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
+        [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDS',
             'type'  => 'arr',
@@ -142,8 +145,8 @@ $aModule = array(
                 'OXORDERINFO',
                 'OXVPE',
             ],
-        ),
-        array(
+        ],
+        [
             'name'  => 'makaira_field_blacklist_category',
             'group' => 'IMPORTFIELDS',
             'type'  => 'arr',
@@ -151,35 +154,35 @@ $aModule = array(
                 'OXVAT',
                 'OXSKIPDISCOUNTS',
             ],
-        ),
-        array(
+        ],
+        [
             'name'  => 'makaira_field_blacklist_manufacturer',
             'group' => 'IMPORTFIELDS',
             'type'  => 'arr',
             'value' => [],
-        ),
-        array(
+        ],
+        [
             'name'  => 'makaira_recommendation_accessories',
             'group' => 'RECOMMENDATION',
             'type'  => 'bool',
             'value' => 0,
-        ),
-        array(
+        ],
+        [
             'name'  => 'makaira_recommendation_accessory_id',
             'group' => 'RECOMMENDATION',
             'type'  => 'str',
-        ),
-        array(
+        ],
+        [
             'name'  => 'makaira_recommendation_cross_selling',
             'group' => 'RECOMMENDATION',
             'type'  => 'bool',
             'value' => 0,
-        ),
-        array(
+        ],
+        [
             'name'  => 'makaira_recommendation_cross_selling_id',
             'group' => 'RECOMMENDATION',
             'type'  => 'str',
-        ),
+        ],
         array(
             'name'  => 'makaira_recommendation_similar_products',
             'group' => 'RECOMMENDATION',
@@ -191,5 +194,5 @@ $aModule = array(
             'group' => 'RECOMMENDATION',
             'type'  => 'str',
         ),
-    ),
-);
+    ],
+];
