@@ -23,9 +23,11 @@ $aLang = array(
 
     'makaira_connect_iframe' => 'Makaira-Konfiguration',
 
-    'SHOP_MODULE_GROUP_RECOMMENDATION'                    => 'Recommendations',
-    'SHOP_MODULE_makaira_recommendation_accessories'      => 'Für Zubehör aktivieren',
-    'SHOP_MODULE_makaira_recommendation_accessory_id'     => 'Recommendation Ident für das Zubehör',
-    'SHOP_MODULE_makaira_recommendation_cross_selling'    => 'Für Cross-Selling aktivieren',
-    'SHOP_MODULE_makaira_recommendation_cross_selling_id' => 'Recommendation Ident für Cross-Selling',
+    'SHOP_MODULE_GROUP_RECOMMENDATION'                       => 'Recommendations',
+    'SHOP_MODULE_makaira_recommendation_accessories'         => 'Für Zubehör aktivieren',
+    'SHOP_MODULE_makaira_recommendation_accessory_id'        => 'Recommendation Ident für das Zubehör',
+    'SHOP_MODULE_makaira_recommendation_cross_selling'       => 'Für Cross-Selling aktivieren',
+    'SHOP_MODULE_makaira_recommendation_cross_selling_id'    => 'Recommendation Ident für Cross-Selling',
+    'SHOP_MODULE_makaira_recommendation_similar_products'    => 'Für ähnliche Produkte aktivieren',
+    'SHOP_MODULE_makaira_recommendation_similar_products_id' => 'Recommendation Ident für ähnliche Produkte',
 );

@@ -180,5 +180,16 @@ $aModule = array(
             'group' => 'RECOMMENDATION',
             'type'  => 'str',
         ),
+        array(
+            'name'  => 'makaira_recommendation_similar_products',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'bool',
+            'value' => 0,
+        ),
+        array(
+            'name'  => 'makaira_recommendation_similar_products_id',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'str',
+        ),
     ),
 );
