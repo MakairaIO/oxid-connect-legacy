@@ -86,10 +86,10 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
         $query->count            = $count;
 
         $product = $this->getProduct($productId);
-        if ($categoryId = oxRegistry::get('oxviewconfig')->getActCatId()) {
+        if ($category = $product->getCategory()) {
+            $query->categoryId = $category->getId();
+        } elseif ($categoryId = oxRegistry::get('oxviewconfig')->getActCatId()) {
             $query->categoryId = $categoryId;
-        } else {
-            $query->categoryId = $product->getCategory();
         }
 
         // Hook to define custom price ranges.
@@ -229,7 +229,7 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
         $oxidConfig = oxRegistry::getConfig();
 
         $recommendationId = $oxidConfig->getShopConfVar(
-            'makaira_recommendation_cross_selling_id',
+            'makaira_recommendation_similar_products_id',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
