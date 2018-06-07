@@ -104,8 +104,9 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             $query->priceRangeMax = $productPrice * (float) $priceRange['max'];
         }
 
-        $query->constraints[Constraints::SHOP]     = oxRegistry::getConfig()->getShopId();
-        $query->constraints[Constraints::LANGUAGE] = oxRegistry::getLang()->getLanguageAbbr();
+        $query->constraints[Constraints::SHOP]      = oxRegistry::getConfig()->getShopId();
+        $query->constraints[Constraints::LANGUAGE]  = oxRegistry::getLang()->getLanguageAbbr();
+        $query->constraints[Constraints::USE_STOCK] = oxRegistry::getConfig()->getShopConfVar('blUseStock');
 
         $result = $handler->recommendation($query);
 
