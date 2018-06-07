@@ -95,4 +95,35 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         }
         return parent::executeDependencyEvent($iDependencyEvent);
     }
+
+    /**
+     * Returns a list of similar products.
+     *
+     * @return oxArticleList
+     * @throws oxSystemComponentException
+     */
+    public function getSimilarProducts()
+    {
+        $oxidConfig = oxRegistry::getConfig();
+
+        if (!$oxidConfig->getConfigParam('bl_perfLoadSimilar')) {
+            return null;
+        }
+
+        $similarProductsEnabled = $oxidConfig->getShopConfVar(
+            'makaira_recommendation_similar_products',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        if (!$similarProductsEnabled) {
+            return parent::getSimilarProducts();
+        }
+
+        /** @var oxArticleList|makaira_connect_oxarticlelist $oSimilarlist */
+        $oSimilarlist = oxNew('oxarticlelist');
+        $oSimilarlist->loadSimilarProducts($this->getId());
+
+        return $oSimilarlist;
+    }
 }

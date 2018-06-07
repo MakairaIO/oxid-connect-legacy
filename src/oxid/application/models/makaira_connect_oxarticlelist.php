@@ -15,8 +15,10 @@ use Makaira\RecommendationQuery;
  */
 class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
 {
-    const RECOMMENDATION_TYPE_CROSS_SELLING = 'cross-selling';
-    const RECOMMENDATION_TYPE_ACCESSORIES   = 'accessories';
+    const RECOMMENDATION_TYPE_CROSS_SELLING    = 'cross-selling';
+    const RECOMMENDATION_TYPE_ACCESSORIES      = 'accessories';
+    const RECOMMENDATION_TYPE_SIMILAR_PRODUCTS = 'similar-products';
+
 
     /**
      * @var array
@@ -84,10 +86,10 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
         $query->count            = $count;
 
         $product = $this->getProduct($productId);
-        if ($categoryId = oxRegistry::get('oxviewconfig')->getActCatId()) {
+        if ($category = $product->getCategory()) {
+            $query->categoryId = $category->getId();
+        } elseif ($categoryId = oxRegistry::get('oxviewconfig')->getActCatId()) {
             $query->categoryId = $categoryId;
-        } else {
-            $query->categoryId = $product->getCategory();
         }
 
         // Hook to define custom price ranges.
@@ -169,6 +171,13 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             ];
         }
 
+        if (self::RECOMMENDATION_TYPE_SIMILAR_PRODUCTS === $type) {
+            $priceRange = [
+                'min' => 0.8,
+                'max' => 1.6,
+            ];
+        }
+
         return $priceRange;
     }
 
@@ -207,6 +216,29 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             $recommendationId,
             $sArticleId,
             $oxidConfig->getConfigParam('iNrofCrossellArticles')
+        );
+    }
+
+    /**
+     * @param $sArticleId
+     *
+     * @throws oxSystemComponentException
+     */
+    public function loadSimilarProducts($sArticleId)
+    {
+        $oxidConfig = oxRegistry::getConfig();
+
+        $recommendationId = $oxidConfig->getShopConfVar(
+            'makaira_recommendation_similar_products_id',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        $this->fetchFromMakaira(
+            self::RECOMMENDATION_TYPE_SIMILAR_PRODUCTS,
+            $recommendationId,
+            $sArticleId,
+            $oxidConfig->getConfigParam('iNrofSimilarArticles')
         );
     }
 }

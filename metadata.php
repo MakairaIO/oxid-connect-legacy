@@ -183,5 +183,16 @@ $aModule = [
             'group' => 'RECOMMENDATION',
             'type'  => 'str',
         ],
+        [
+            'name'  => 'makaira_recommendation_similar_products',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'bool',
+            'value' => 0,
+        ],
+        [
+            'name'  => 'makaira_recommendation_similar_products_id',
+            'group' => 'RECOMMENDATION',
+            'type'  => 'str',
+        ],
     ],
 ];
