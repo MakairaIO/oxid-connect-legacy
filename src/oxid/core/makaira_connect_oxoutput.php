@@ -21,15 +21,21 @@ class makaira_connect_oxoutput extends makaira_connect_oxoutput_parent
     public function output($sName, $output)
     {
         if (self::OUTPUT_FORMAT_HTML === $this->_sOutputFormat) {
-            $closingHead = "</body>";
-            $closingHeadNew = "<script type=\"text/javascript\">
+            if (oxRegistry::getConfig()->getShopConfVar(
+                'makaira_connect_use_user_agent',
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            )) {
+                $closingHead    = "</body>";
+                $closingHeadNew = "<script type=\"text/javascript\">
 oiOS=new Date().getTimezoneOffset();oiOS=(oiOS<0?\"+\":\"-\")+(\"00\"+parseInt((Math.abs(oiOS/60)))).slice(-2);
 document.cookie= \"oiLocalTimeZone=\"+oiOS+\";path=/;\";
 </script></body>";
 
-            $output = ltrim($output);
-            if (false !== ($pos = stripos($output, $closingHead))) {
-                $output = substr_replace($output, $closingHeadNew, $pos, strlen($closingHead));
+                $output = ltrim($output);
+                if (false !== ($pos = stripos($output, $closingHead))) {
+                    $output = substr_replace($output, $closingHeadNew, $pos, strlen($closingHead));
+                }
             }
         }
 
