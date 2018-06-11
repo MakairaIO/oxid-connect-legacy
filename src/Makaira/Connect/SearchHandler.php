@@ -17,7 +17,7 @@ use Makaira\ResultItem;
 
 class SearchHandler extends AbstractHandler
 {
-    const API_VERSION = "2018.4";
+    const API_VERSION = "2018.6";
 
     /**
      * @param Query $query
@@ -26,6 +26,7 @@ class SearchHandler extends AbstractHandler
      */
     public function search(Query $query)
     {
+        $query->searchPhrase = htmlspecialchars_decode($query->searchPhrase, ENT_QUOTES);
         $query->apiVersion = self::API_VERSION;
         $request = "{$this->url}search/";
         $body = json_encode($query);
