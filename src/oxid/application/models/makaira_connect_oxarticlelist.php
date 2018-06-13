@@ -55,12 +55,19 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
-        $this->fetchFromMakaira(
-            self::RECOMMENDATION_TYPE_ACCESSORIES,
-            $recommendationId,
-            $sArticleId,
-            $oxidConfig->getConfigParam('iNrofCrossellArticles')
-        );
+        try {
+            $this->fetchFromMakaira(
+                self::RECOMMENDATION_TYPE_ACCESSORIES,
+                $recommendationId,
+                $sArticleId,
+                $oxidConfig->getConfigParam('iNrofCrossellArticles')
+            );
+        } catch (Exception $e) {
+            parent::loadArticleAccessoires($sArticleId);
+
+            return;
+        }
+
     }
 
     /**
@@ -212,12 +219,19 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
-        $this->fetchFromMakaira(
-            self::RECOMMENDATION_TYPE_CROSS_SELLING,
-            $recommendationId,
-            $sArticleId,
-            $oxidConfig->getConfigParam('iNrofCrossellArticles')
-        );
+        try {
+            $this->fetchFromMakaira(
+                self::RECOMMENDATION_TYPE_CROSS_SELLING,
+                $recommendationId,
+                $sArticleId,
+                $oxidConfig->getConfigParam('iNrofCrossellArticles')
+            );
+        } catch (Exception $e) {
+            parent::loadArticleCrossSell($sArticleId);
+
+            return;
+        }
+
     }
 
     /**

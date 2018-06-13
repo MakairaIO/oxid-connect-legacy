@@ -120,9 +120,14 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
             return parent::getSimilarProducts();
         }
 
-        /** @var oxArticleList|makaira_connect_oxarticlelist $oSimilarlist */
-        $oSimilarlist = oxNew('oxarticlelist');
-        $oSimilarlist->loadSimilarProducts($this->getId());
+        try {
+            /** @var oxArticleList|makaira_connect_oxarticlelist $oSimilarlist */
+            $oSimilarlist = oxNew('oxarticlelist');
+            $oSimilarlist->loadSimilarProducts($this->getId());
+        } catch (Exception $e) {
+            return parent::getSimilarProducts();
+        }
+
 
         return $oSimilarlist;
     }
