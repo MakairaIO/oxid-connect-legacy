@@ -32,7 +32,8 @@ class makaira_connect_events
         self::addUserTokenTable();
         self::migrate();
         // Oxid CE/PE compatibility
-        self::addColumnsToOxobject2category();
+        $isOxid6 = version_compare('6.0', oxRegistry::getConfig()->getVersion(), '<=');
+        self::addColumnsToOxobject2category($isOxid6);
 
         // Oxid 6 compatibility
         self::addOxTagsToOxArtExtends();
@@ -82,11 +83,16 @@ class makaira_connect_events
     /**
      * Add OXSHOPID to oxobject2category to ensure CE/PE compatibility
      */
-    private static function addColumnsToOxobject2category()
+    private static function addColumnsToOxobject2category($isOxid6 = false)
     {
-        if (!self::hasColumn('oxobject2category', 'OXSHOPID')) {
-            $sSql = "ALTER TABLE oxobject2category
+        $sSql = "ALTER TABLE oxobject2category
                      ADD OXSHOPID VARCHAR(32) NOT NULL DEFAULT 'oxbaseshop'";
+        if ($isOxid6) {
+            $sSql = "ALTER TABLE oxobject2category
+                     ADD OXSHOPID INT(11) NOT NULL DEFAULT 1";
+        }
+
+        if (!self::hasColumn('oxobject2category', 'OXSHOPID')) {
             oxDb::getDb()->execute($sSql);
         }
     }
