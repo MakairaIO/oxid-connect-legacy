@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "3b438a0adfbb01b555165ef5d799a288",
@@ -512,11 +512,11 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2018.3.2",
+            "version": "2018.6.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "2c8ef73138e586742bc9395e7eed2b85df0f2ad4"
+                "reference": "1a683f06f0ffe4f6285c82e00a55e015551841ad"
             },
             "require": {
                 "kore/data-object": "@stable"
@@ -533,7 +533,7 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2018-05-18T13:40:23+00:00"
+            "time": "2018-06-28T08:45:29+00:00"
         },
         {
             "name": "marm/yamm",
