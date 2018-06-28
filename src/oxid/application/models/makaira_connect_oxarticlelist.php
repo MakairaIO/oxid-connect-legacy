@@ -99,6 +99,8 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             $query->categoryId = $categoryId;
         }
 
+        $query->attributes = (array) $this->getAttributeBoosts($product);
+
         // Hook to define custom price ranges.
         $priceRange   = $this->getPriceRange($recommendationType, $product);
         $productPrice = $product->getPrice()->getPrice();
@@ -255,5 +257,15 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             $sArticleId,
             $oxidConfig->getConfigParam('iNrofSimilarArticles')
         );
+    }
+
+    /**
+     * @param oxArticle $product
+     *
+     * @return array
+     */
+    protected function getAttributeBoosts(oxArticle $product)
+    {
+        return [];
     }
 }
