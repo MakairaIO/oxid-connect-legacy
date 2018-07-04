@@ -1,5 +1,7 @@
 <?php
 
+use Makaira\Connect\Exceptions\FeatureNotAvailableException;
+
 class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 {
     /**
@@ -124,6 +126,16 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
             /** @var oxArticleList|makaira_connect_oxarticlelist $oSimilarlist */
             $oSimilarlist = oxNew('oxarticlelist');
             $oSimilarlist->loadSimilarProducts($this->getId());
+        } catch (FeatureNotAvailableException $e) {
+            $oxidConfig->saveShopConfVar(
+                'bool',
+                'makaira_recommendation_similar_products',
+                false,
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+
+            return parent::getSimilarProducts();
         } catch (Exception $e) {
             return parent::getSimilarProducts();
         }

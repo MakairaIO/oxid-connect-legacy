@@ -12,6 +12,7 @@
 namespace Makaira\Connect;
 
 use Makaira\Aggregation;
+use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\RecommendationQuery;
 use Makaira\Result;
 use Makaira\ResultItem;
@@ -31,6 +32,9 @@ class RecommendationHandler extends AbstractHandler
 
         $apiResult = json_decode($response->body, true);
 
+        if (402 === $response->status) {
+            throw new FeatureNotAvailableException("Feature 'recommendations' is not available");
+        }
         if (isset($apiResult['ok']) && $apiResult['ok'] === false) {
             throw new \RuntimeException("Error in makaira: {$apiResult['message']}");
         }

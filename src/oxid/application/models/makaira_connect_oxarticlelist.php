@@ -1,5 +1,6 @@
 <?php
 
+use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\Connect\RecommendationHandler;
 use Makaira\Constraints;
 use Makaira\RecommendationQuery;
@@ -62,6 +63,17 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
                 $sArticleId,
                 $oxidConfig->getConfigParam('iNrofCrossellArticles')
             );
+        } catch (FeatureNotAvailableException $e) {
+            $oxidConfig->saveShopConfVar(
+                'bool',
+                'makaira_recommendation_accessories',
+                false,
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+            parent::loadArticleAccessoires($sArticleId);
+
+            return;
         } catch (Exception $e) {
             parent::loadArticleAccessoires($sArticleId);
 
@@ -228,6 +240,17 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
                 $sArticleId,
                 $oxidConfig->getConfigParam('iNrofCrossellArticles')
             );
+        } catch (FeatureNotAvailableException $e) {
+            $oxidConfig->saveShopConfVar(
+                'bool',
+                'makaira_recommendation_cross_selling',
+                false,
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+            parent::loadArticleCrossSell($sArticleId);
+
+            return;
         } catch (Exception $e) {
             parent::loadArticleCrossSell($sArticleId);
 
