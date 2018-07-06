@@ -198,10 +198,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         foreach ($filterParams as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $item) {
-                    $path[] = "{$key}_{$item}";
+                    $path[] = "{$key}_" . urlencode($item);
                 }
             } else {
-                $path[] = "{$key}_{$value}";
+                $path[] = "{$key}_" . urlencode($value);
             }
         }
         $filterString = implode('/', $path);
