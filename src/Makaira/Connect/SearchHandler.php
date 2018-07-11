@@ -24,7 +24,7 @@ class SearchHandler extends AbstractHandler
      *
      * @return Result
      */
-    public function search(Query $query, $debugTrace = false)
+    public function search(Query $query, $debugTrace = null)
     {
         $query->searchPhrase = htmlspecialchars_decode($query->searchPhrase, ENT_QUOTES);
         $query->apiVersion   = self::API_VERSION;
@@ -32,7 +32,7 @@ class SearchHandler extends AbstractHandler
         $body                = json_encode($query);
         $headers             = ["X-Makaira-Instance: {$this->instance}"];
         if ($debugTrace) {
-            $headers[] = "X-Makaira-Trace: true";
+            $headers[] = "X-Makaira-Trace: {$debugTrace}";
         }
         $response            = $this->httpClient->request('POST', $request, $body, $headers);
 

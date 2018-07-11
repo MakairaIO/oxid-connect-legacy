@@ -56,7 +56,7 @@ class makaira_connect_autosuggester
         $dic = oxRegistry::get('yamm_dic');
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
-        $debugTrace = 'true' === $oxConfig->getRequestParameter("debug");
+        $debugTrace = $oxConfig->getRequestParameter("mak_debug");
 
         $result = $searchHandler->search($query, $debugTrace);
 

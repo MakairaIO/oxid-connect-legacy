@@ -134,7 +134,7 @@ class makaira_connect_request_handler
         $dic = oxRegistry::get('yamm_dic');
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
-        $debugTrace = 'true' === oxRegistry::getConfig()->getRequestParameter("debug");
+        $debugTrace = oxRegistry::getConfig()->getRequestParameter("mak_debug");
 
         $this->result = $searchHandler->search($query, $debugTrace);
 
