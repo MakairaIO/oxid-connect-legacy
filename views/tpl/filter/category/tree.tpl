@@ -1,6 +1,6 @@
 [{assign var="hasAdditionalValues" value=false}]
 [{assign var="items" value=$aggregation->values}]
-[{defun name="tree" items=$items isInnerTree=false loopName="items"}]
+[{defun name="makaira_filter_tree" items=$items isInnerTree=false loopName="items"}]
 
 <ul class="makaira-filter__list">
     [{foreach from=$items item="item" name=$loopName}]
@@ -28,7 +28,7 @@
                 <span>[{$item->title}]</span>
             [{/if}]
             [{if $item->subtree}]
-                [{fun name="tree" items=$item->subtree isInnerTree=true loopName="innerItems"}]
+                [{fun name="makaira_filter_tree" items=$item->subtree isInnerTree=true loopName="innerItems"}]
             [{/if}]
         </li>
 
