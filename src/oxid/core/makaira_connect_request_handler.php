@@ -222,18 +222,6 @@ class makaira_connect_request_handler
         }
         $this->aggregations = $aggregations;
 
-        //        if ($categoryTreeId) {
-        //            if (isset($this->aggregations[$categoryTreeId])) {
-        //                if (isset($query->aggregations[$categoryTreeId])) {
-        //                    foreach ($query->aggregations[$categoryTreeId] as $key => $cat) {
-        //                        if (isset($this->aggregations[$categoryTreeId]->selectedValues[$key])) {
-        //                            $query->aggregations[$categoryTreeId][$key] = $this->aggregations[$categoryTreeId]->selectedValues[$key];
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-
         return $oxArticleList;
     }
 
@@ -365,7 +353,7 @@ class makaira_connect_request_handler
     {
         if ($cats && $selectedCats) {
             foreach ($cats as $cat) {
-                $key = array_search($cat->key, $selectedCats);
+                $key = array_search($cat->key, (array) $selectedCats);
                 if (false !== $key) {
                     $cat->selected        = true;
                     $selectedCats[ $key ] = $cat->title;
