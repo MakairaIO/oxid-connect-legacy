@@ -42,12 +42,13 @@
   &--hidden
     display none
 
+.makaira-filter__list:not(.makaira-filter__list--inner)
   // initially hide all but the first 5 items
-  &:nth-child(n+7)
+  > .makaira-filter__item:nth-child(n+7)
     display none
 
-    .makaira-filter__list--expanded &
-      display list-item
+.makaira-filter__list--expanded .makaira-filter__item:nth-child(n+7)
+  display list-item !important
 
 .makaira-filter__label
   position relative
