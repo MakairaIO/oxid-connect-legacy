@@ -131,7 +131,7 @@ class makaira_connect_search extends makaira_connect_search_parent
         $this->aggregations      = $requestHelper->getAggregations();
         $this->additionalResults = $requestHelper->getAdditionalResults();
 
-        if (1 === $oSearchList->count()) {
+        if (empty($query->aggregations) && 1 === $oSearchList->count()) {
             $productNumberProduct = $oSearchList->current();
             oxRegistry::getUtils()->redirect($productNumberProduct->getLink(), false, 302);
         }
