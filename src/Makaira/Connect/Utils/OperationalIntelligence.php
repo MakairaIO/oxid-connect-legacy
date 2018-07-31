@@ -15,8 +15,8 @@ use Makaira\Query;
 
 class OperationalIntelligence
 {
-    CONST COOKIE_NAME_ID = 'oiID';
-    CONST COOKIE_NAME_TIMEZONE = 'oiLocalTimeZone';
+    const COOKIE_NAME_ID = 'oiID';
+    const COOKIE_NAME_TIMEZONE = 'oiLocalTimeZone';
 
     private $utilsServer;
     private $useUserData;
