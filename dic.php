@@ -63,6 +63,22 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
     );
 };
 
+$dic['makaira.connect.operational_intelligence'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Utils\OperationalIntelligence(
+        oxRegistry::get('oxUtilsServer'),
+        oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_user_data',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        ),
+        oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_user_ip',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )
+    );
+};
+
 $dic['makaira.instance'] = function () {
     return oxRegistry::getConfig()
         ->getShopConfVar(

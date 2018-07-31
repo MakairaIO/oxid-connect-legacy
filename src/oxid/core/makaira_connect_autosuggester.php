@@ -9,6 +9,7 @@
  */
 
 use Makaira\Connect\SearchHandler;
+use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Constraints;
 use Makaira\Query;
 
@@ -54,6 +55,10 @@ class makaira_connect_autosuggester
         );
 
         $dic = oxRegistry::get('yamm_dic');
+        /** @var OperationalIntelligence $operationalIntelligence */
+        $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
+        $operationalIntelligence->apply($query);
+
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
         $debugTrace = $oxConfig->getRequestParameter("mak_debug");

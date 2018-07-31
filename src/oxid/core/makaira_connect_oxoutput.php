@@ -22,7 +22,7 @@ class makaira_connect_oxoutput extends makaira_connect_oxoutput_parent
     {
         if (self::OUTPUT_FORMAT_HTML === $this->_sOutputFormat) {
             if (oxRegistry::getConfig()->getShopConfVar(
-                'makaira_connect_use_user_agent',
+                'makaira_connect_use_user_data',
                 null,
                 oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
             )) {

@@ -19,7 +19,7 @@ $aLang = array(
 
     'SHOP_MODULE_GROUP_OPERATIONAL INTELLIGENCE'       => 'Operational Intelligence',
     'SHOP_MODULE_makaira_connect_use_user_ip'          => 'Additionally send User-IP for Geolocation (I have signed a DPA with marmalade GmbH)',
-    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'Send User-Agent and Timezone',
+    'SHOP_MODULE_makaira_connect_use_user_data'       => 'Send user timezone',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Fields',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
