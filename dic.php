@@ -180,7 +180,9 @@ $dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.pro
 $dic->tag('makaira.connect.modifiers.common.vat', 'makaira.importer.modifier.variant', 1000);
 
 $dic['makaira.connect.modifiers.common.active'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Modifier\Common\ActiveModifier();
+    return new \Makaira\Connect\Modifier\Common\ActiveModifier(
+        $dic['oxid.database']
+    );
 };
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.product', 1000);
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant', 1000);

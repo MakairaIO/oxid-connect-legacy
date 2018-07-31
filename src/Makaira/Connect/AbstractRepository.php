@@ -36,7 +36,7 @@ abstract class AbstractRepository
         }
 
         $type         = $this->getInstance($result[0]);
-        $type         = $this->modifiers->applyModifiers($type, $this->database);
+        $type         = $this->modifiers->applyModifiers($type, $this->getType());
         $change->data = $type;
 
         return $change;

@@ -10,6 +10,7 @@ class Type extends DataObject
     public $timestamp;
     public $shop = [];
     public $active = true;
+    public $mak_active = true;
     public $OXID;
     public $additionalData = [];
 

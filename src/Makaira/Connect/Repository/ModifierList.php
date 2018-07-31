@@ -34,9 +34,10 @@ class ModifierList
      *
      * @return Type
      */
-    public function applyModifiers(Type $type)
+    public function applyModifiers(Type $type, $docType)
     {
         foreach ($this->modifiers as $modifier) {
+            $modifier->setDocType($docType);
             $type = $modifier->apply($type);
         }
 
