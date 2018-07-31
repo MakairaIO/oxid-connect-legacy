@@ -25,6 +25,7 @@ class CategoryInheritance
      * @param DatabaseInterface $database
      * @param bool              $useCategoryInheritance
      * @param bool              $categoryAggregationId
+     *
      */
     public function __construct(DatabaseInterface $database, $useCategoryInheritance, $categoryAggregationId)
     {
@@ -33,6 +34,11 @@ class CategoryInheritance
         $this->categoryAggregationId  = $categoryAggregationId;
     }
 
+    /**
+     * @param Query $query
+     *
+     * @SuppressWarnings(CyclomaticComplexity)
+     */
     public function applyToAggregation(Query $query)
     {
         if (!$this->useCategoryInheritance ||
@@ -58,6 +64,7 @@ class CategoryInheritance
                 );
             }
         }
+        // FIXME: do we really need this loop
         foreach ($childCategories as $parentId => $childIds) {
             if ($intersection = array_intersect($query->aggregations[$key], (array) $childIds)) {
                 foreach ($intersection as $childId) {
