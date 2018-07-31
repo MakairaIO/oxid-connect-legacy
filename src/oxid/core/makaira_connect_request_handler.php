@@ -9,6 +9,7 @@
  */
 
 use Makaira\Connect\SearchHandler;
+use Makaira\Connect\Utils\CategoryInheritance;
 use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Query;
 use Makaira\Result;
@@ -63,53 +64,10 @@ class makaira_connect_request_handler
         $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
         $operationalIntelligence->apply($query);
 
-        $useCategoryInheritance = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_category_inheritance',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
-        $categoryTreeId         = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_categorytree_id',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
-
-        $myQuery = clone($query);
-        if ($useCategoryInheritance && $categoryTreeId) {
-            if (isset($query->aggregations[ $categoryTreeId ])) {
-                $_categoryIds = [];
-                foreach ($query->aggregations[ $categoryTreeId ] as $_categoryId) {
-                    $oCategory = oxNew('oxcategory');
-                    $oCategory->load($_categoryId);
-                    if ($oCategory) {
-                        $_categoryIds[ $_categoryId ] = oxDb::getDb()->getCol(
-                            "SELECT OXID FROM oxcategories WHERE OXROOTID = ? AND OXLEFT > ? AND OXRIGHT < ?",
-                            [
-                                $oCategory->oxcategories__oxrootid->value,
-                                $oCategory->oxcategories__oxleft->value,
-                                $oCategory->oxcategories__oxright->value,
-                            ]
-                        );
-                    }
-                }
-                foreach ($_categoryIds as $parentId => $childIds) {
-                    if ($intersection = array_intersect($query->aggregations[ $categoryTreeId ], (array) $childIds)) {
-                        foreach ($intersection as $childId) {
-                            unset($_categoryIds[ $childId ]);
-                        }
-                    }
-                }
-                $categoryIds                            = array_unique(array_keys($_categoryIds));
-                $query->aggregations[ $categoryTreeId ] = $categoryIds;
-                if ($useCategoryInheritance) {
-                    foreach ($_categoryIds as $parentId => $childIds) {
-                        $categoryIds = array_merge($categoryIds, (array) $childIds);
-                    }
-                    $categoryIds                            = array_unique($categoryIds);
-                    $query->aggregations[ $categoryTreeId ] = $categoryIds;
-                }
-            }
-        }
+        $unmodifiedQuery = clone($query);
+        /** @var CategoryInheritance $categoryInheritance */
+        $categoryInheritance = $dic['makaira.connect.category_inheritance'];
+        $categoryInheritance->applyToAggregation($query);
 
         /** @var oxArticleList $oxArticleList */
         $oxArticleList = oxNew('oxarticlelist');
@@ -168,16 +126,9 @@ class makaira_connect_request_handler
                     $aggregations[ $aggregation->key ]->values =
                         json_decode(json_encode($aggregations[ $aggregation->key ]->values));
 
-                    if ($useCategoryInheritance &&
-                        $categoryTreeId &&
-                        isset($query->aggregations[ $aggregation->key ])) {
-                        $aggregations[ $aggregation->key ]->selectedValues = $myQuery->aggregations[ $aggregation->key ];
-
-                    } else {
-                        $aggregations[ $aggregation->key ]->selectedValues =
-                            isset($query->aggregations[ $aggregation->key ]) ? $query->aggregations[ $aggregation->key ] :
-                                [];
-                    }
+                    $aggregations[$aggregation->key]->selectedValues =
+                        isset($query->aggregations[$aggregation->key]) ?
+                            $unmodifiedQuery->aggregations[$aggregation->key] : [];
 
                     $this->mapCategoryTitle(
                         $aggregations[ $aggregation->key ]->values,
@@ -261,8 +212,6 @@ class makaira_connect_request_handler
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
     }
-
-
 
     protected function modifyRequest(Query $query)
     {

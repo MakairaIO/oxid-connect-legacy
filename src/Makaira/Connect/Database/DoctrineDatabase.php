@@ -100,6 +100,16 @@ class DoctrineDatabase implements DatabaseInterface
         return $result;
     }
 
+    public function getColumn($query, array $parameters = [])
+    {
+        $statement = $this->database->prepare($query);
+        $statement = $this->bindQueryParameters($statement, $parameters);
+
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
     protected function bindQueryParameters(Statement $statement, array $parameters)
     {
         foreach ($parameters as $key => $value) {

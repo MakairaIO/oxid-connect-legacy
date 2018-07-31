@@ -183,30 +183,11 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         // TODO: Is there a reason to not use $oCategory->getId() here?
         $categoryId = oxRegistry::getConfig()->getRequestParameter('cnid');
 
-        $useCategoryInheritance = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_category_inheritance',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
+        $dic = oxRegistry::get('yamm_dic');
 
-        if (isset($categoryId) && $useCategoryInheritance) {
-            $oCategory = oxNew('oxcategory');
-            $oCategory->load($categoryId);
-            if ($oCategory) {
-                $result     = oxDb::getDb()->getCol(
-                    "SELECT OXID FROM oxcategories WHERE OXROOTID = ? AND OXLEFT > ? AND OXRIGHT < ?",
-                    [
-                        $oCategory->oxcategories__oxrootid->value,
-                        $oCategory->oxcategories__oxleft->value,
-                        $oCategory->oxcategories__oxright->value
-                    ]
-                );
-                $categoryId = array_merge(
-                    (array)$categoryId,
-                    $result
-                );
-            }
-        }
+        /** @var CategoryInheritance $categoryInheritance */
+        $categoryInheritance = $dic['makaira.connect.category_inheritance'];
+        $categoryId = $categoryInheritance->buildCategoryInheritance($categoryId);
 
         $query = new Query();
 
