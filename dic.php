@@ -186,6 +186,8 @@ $dic['makaira.connect.modifiers.common.active'] = function (\Marm\Yamm\DIC $dic)
 };
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.product', 1000);
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.variant', 1000);
+$dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.category', 1000);
+$dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.manufacturer', 1000);
 
 $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\LongDescriptionModifier(
