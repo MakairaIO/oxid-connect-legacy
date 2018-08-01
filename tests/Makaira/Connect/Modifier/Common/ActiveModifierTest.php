@@ -14,7 +14,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
         $product = new BaseProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = "0";
-        $modifier = new ActiveModifier();
+        $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(true, $modifier->apply($product, $dbMock)->active);
     }
 
@@ -24,7 +24,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
         $product = new BaseProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = "0";
-        $modifier = new ActiveModifier();
+        $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
 
@@ -34,7 +34,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
         $product = new BaseProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = "1";
-        $modifier = new ActiveModifier();
+        $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
 
@@ -44,7 +44,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
         $product = new BaseProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = "1";
-        $modifier = new ActiveModifier();
+        $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
 
@@ -54,7 +54,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
         $product = new BaseProduct();
         $product->OXACTIVE = "1";
         $product->OXHIDDEN = null;
-        $modifier = new ActiveModifier();
+        $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(true, $modifier->apply($product, $dbMock)->active);
     }
 
@@ -64,7 +64,7 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
         $product = new BaseProduct();
         $product->OXACTIVE = "0";
         $product->OXHIDDEN = null;
-        $modifier = new ActiveModifier();
+        $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
 }
