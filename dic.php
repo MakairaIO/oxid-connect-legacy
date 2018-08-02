@@ -76,6 +76,12 @@ $dic['makaira.connect.utils.tokengenerator'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Utils\TokenGenerator();
 };
 
+$dic['makaira.connect.utils.boostfields'] = function (\Marm\Yamm\DIC $dic) {
+    return new Makaira\Connect\Utils\BoostFields(
+        $dic['oxid.database']
+    );
+};
+
 // --------------------------------------
 
 $dic['makaira.connect.repository.user'] = function (\Marm\Yamm\DIC $dic) {
@@ -142,6 +148,13 @@ $dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC
 };
 $dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.product', 1000);
 $dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.variant', 1000);
+
+$dic['makaira.connect.modifiers.product.boost_field'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Product\BoostFieldModifier(
+        $dic['makaira.connect.utils.boostfields']
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.boost_field', 'makaira.importer.modifier.product', 1000);
 
 $dic['makaira.connect.modifiers.common.category2shop'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ShopModifier(
