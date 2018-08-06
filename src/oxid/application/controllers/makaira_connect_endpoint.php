@@ -3,6 +3,7 @@
 use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Result\Error;
 use Makaira\Connect\Result\ForbiddenException;
+use Makaira\Connect\Utils\BoostFields;
 
 class makaira_connect_endpoint extends oxUBase
 {
@@ -78,6 +79,9 @@ class makaira_connect_endpoint extends oxUBase
             switch ($body->action) {
                 case 'listLanguages':
                     $updates = $this->getLanguagesAction();
+                    break;
+                case 'getBoostFieldStatistics':
+                    $updates = $this->getBoostFieldStatistics();
                     break;
                 case 'loadUserByUsername':
                     $updates = new User([
@@ -235,12 +239,23 @@ class makaira_connect_endpoint extends oxUBase
         /** @var \Marm\Yamm\DIC $dic */
         $dic = oxRegistry::get('yamm_dic');
 
-        /** @var \Makaira\Connect\Repository\UserRepository $repository */
+        /** @var \Makaira\Connect\Repository $repository */
         $repository = $dic['makaira.connect.repository'];
         foreach ($body->indices as $index) {
             $index->openChanges = $repository->countChangesSince($index->lastRevision);
         }
 
         return $body->indices;
+    }
+
+    protected function getBoostFieldStatistics()
+    {
+        /** @var \Marm\Yamm\DIC $dic */
+        $dic = oxRegistry::get('yamm_dic');
+
+        /** @var BoostFields $boostFieldStatistics */
+        $boostFieldStatistics = $dic['makaira.connect.utils.boostfields'];
+
+        return $boostFieldStatistics->getMinMaxValues();
     }
 }
