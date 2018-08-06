@@ -91,12 +91,6 @@ class makaira_connect_search extends makaira_connect_search_parent
             'isSearch' => true,
         ]);
 
-        // check mysql for product with product number
-        $productNumberProduct = $this->loadProductByNumber($query->searchPhrase);
-        if($productNumberProduct instanceof oxArticle) {
-            oxRegistry::getUtils()->redirect($productNumberProduct->getLink(), false, 302);
-        }
-
         /** @var makaira_connect_request_handler $requestHelper */
         $requestHelper = oxNew('makaira_connect_request_handler');
 
@@ -137,6 +131,11 @@ class makaira_connect_search extends makaira_connect_search_parent
         $this->aggregations      = $requestHelper->getAggregations();
         $this->additionalResults = $requestHelper->getAdditionalResults();
 
+        if (empty($query->aggregations) && 1 === $oSearchList->count()) {
+            $productNumberProduct = $oSearchList->current();
+            oxRegistry::getUtils()->redirect($productNumberProduct->getLink(), false, 302);
+        }
+
         // list of found articles
         $this->_aArticleList = $oSearchList;
         $this->_iAllArtCnt = 0;
@@ -160,7 +159,7 @@ class makaira_connect_search extends makaira_connect_search_parent
 
     protected function isSearchEmpty(Query $query)
     {
-        $isEmptySearch = empty($query->searchPhrase) && empty($query->aggregations) && empty($query->contraints);
+        $isEmptySearch = empty($query->searchPhrase) && empty($query->aggregations);
 
         return $isEmptySearch;
     }
@@ -182,31 +181,4 @@ class makaira_connect_search extends makaira_connect_search_parent
 
         return array($displayedProducts, $offset);
     }
-
-    /**
-     * Loads single article by it's number
-     *
-     * @param string $number
-     *
-     * @return oxIArticle|null
-     */
-    protected function loadProductByNumber($number)
-    {
-        if ('' === trim($number)) {
-            return null;
-        }
-        $number = oxDb::getDb()->quote($number);
-        /** @var oxArticle $oxArticle */
-        $oxArticle = oxNew('oxarticle');
-        $table = $oxArticle->getViewName();
-        $activeSnippet = $oxArticle->getSqlActiveSnippet();
-        $sql = "SELECT `OXID` FROM {$table} WHERE {$table}.OXARTNUM = {$number} AND {$activeSnippet}";
-        $id = oxDb::getDb()->getOne($sql);
-        if ($id && $oxArticle->load($id)) {
-            return $oxArticle;
-        }
-
-        return null;
-    }
-
 }
