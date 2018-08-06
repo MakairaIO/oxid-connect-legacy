@@ -60,7 +60,8 @@ class BoostFields
         $min          = $this->scaleValue($minMaxValues["{$key}_min"]);
         $max          = $this->scaleValue($minMaxValues["{$key}_max"]);
         $scaled       = $this->scaleValue($value);
-        $normed       = ($scaled - $min) / ($max - $min);
+        $diff         = $max - $min;
+        $normed       = ($diff > 0) ? (($scaled - $min) / $diff) : 0;
 
         return $maxInfluence * $normed;
     }
