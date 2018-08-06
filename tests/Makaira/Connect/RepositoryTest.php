@@ -2,6 +2,8 @@
 
 namespace Makaira\Connect;
 
+use Makaira\Connect\Repository\AbstractRepository;
+use Makaira\Connect\Repository\ModifierList;
 use Makaira\Connect\Result\Changes;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
@@ -31,7 +33,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetChangesForSingleResult()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $repositoryMock = $this->getMock(RepositoryInterface::class);
+        $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
         $repository = new Repository($databaseMock, ['product' => $repositoryMock]);
 
         $databaseMock
@@ -92,7 +94,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetChangesForMultipleResults()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $repositoryMock = $this->getMock(RepositoryInterface::class);
+        $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
         $repository = new Repository($databaseMock, [
             'firstRepo' => $repositoryMock,
             'secondRepo' => $repositoryMock,
@@ -170,7 +172,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 2]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]]
                 );
-        $repositoryMock1 = $this->getMock(RepositoryInterface::class);
+        $repositoryMock1 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
         $repositoryMock1
             ->expects($this->once())
             ->method('getAllIds')
@@ -193,12 +195,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'secondRepo', 'id' => 4]]
             );
-        $repositoryMock1 = $this->getMock(RepositoryInterface::class);
+        $repositoryMock1 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
         $repositoryMock1
             ->expects($this->once())
             ->method('getAllIds')
             ->will($this->returnValue([1,2,3]));
-        $repositoryMock2 = $this->getMock(RepositoryInterface::class);
+        $repositoryMock2 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
         $repositoryMock2
             ->expects($this->once())
             ->method('getAllIds')

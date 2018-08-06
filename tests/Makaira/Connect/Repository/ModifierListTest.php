@@ -19,7 +19,7 @@ class ModifierListTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($type));
 
         $modifierList = new ModifierList([$modifier]);
-        $result = $modifierList->applyModifiers($type);
+        $result = $modifierList->applyModifiers($type, 'product');
 
         $this->assertSame($type, $result);
     }

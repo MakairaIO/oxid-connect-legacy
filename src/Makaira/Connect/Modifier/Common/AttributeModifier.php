@@ -19,7 +19,6 @@ class AttributeModifier extends Modifier
                             :productActive as `active`,
                             oxattribute.oxid as `oxid`,
                             oxattribute.oxtitle as `oxtitle`,
-                            oxobject2attribute.oxpos as `oxpos`,
                             oxobject2attribute.oxvalue as `oxvalue`
                         FROM
                             oxobject2attribute
@@ -31,7 +30,6 @@ class AttributeModifier extends Modifier
                             oxactive as `active`,
                             oxattribute.oxid as `oxid`,
                             oxattribute.oxtitle as `oxtitle`,
-                            oxobject2attribute.oxpos as `oxpos`,
                             oxobject2attribute.oxvalue as `oxvalue`
                         FROM
                             oxarticles

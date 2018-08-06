@@ -2,67 +2,14 @@
 
 namespace Makaira\Connect\Repository;
 
-use Makaira\Connect\Change;
-use Makaira\Connect\DatabaseInterface;
-use Makaira\Connect\RepositoryInterface;
 use Makaira\Connect\Type\Category\Category;
 
-class CategoryRepository implements RepositoryInterface
+class CategoryRepository extends AbstractRepository
 {
-    protected $selectQuery = "
-      SELECT
-        oxcategories.OXID as `id`,
-        UNIX_TIMESTAMP(oxcategories.oxtimestamp) AS `timestamp`,
-        oxcategories.*
-      FROM
-        oxcategories
-      WHERE
-        oxcategories.oxid = :id
-    ";
-    protected $allIdsQuery = "
-      SELECT
-       OXID
-      FROM
-       oxcategories;
-    ";
-    /**
-     * @var DatabaseInterface
-     */
-    private $database;
-    /**
-     * @var ModifierList
-     */
-    private $modifiers;
-
-    public function __construct(DatabaseInterface $database, ModifierList $modifiers)
-    {
-        $this->database  = $database;
-        $this->modifiers = $modifiers;
-    }
-
-    public function get($id)
-    {
-        $result = $this->database->query($this->selectQuery, ['id' => $id]);
-
-        $change = new Change();
-
-        if (empty($result)) {
-            $change->deleted = true;
-
-            return $change;
-        }
-        $category     = new Category($result[0]);
-        $category     = $this->modifiers->applyModifiers($category, $this->database);
-        $change->data = $category;
-
-        return $change;
-    }
-
     /**
      * Get TYPE of repository.
      *
      * @return string
-     * @codeCoverageIgnore
      */
     public function getType()
     {
@@ -70,19 +17,36 @@ class CategoryRepository implements RepositoryInterface
     }
 
     /**
-     * Get all IDs handled by this repository.
+     * Get an instance of current type.
      *
-     * @return string[]
+     * @return Category
      */
-    public function getAllIds()
+    public function getInstance($id)
     {
-        $result = $this->database->query($this->allIdsQuery);
+        return new Category($id);
+    }
 
-        return array_map(
-            function ($row) {
-                return $row['OXID'];
-            },
-            $result
-        );
+    protected function getSelectQuery()
+    {
+        return "
+          SELECT
+            oxcategories.OXID as `id`,
+            UNIX_TIMESTAMP(oxcategories.oxtimestamp) AS `timestamp`,
+            oxcategories.*
+          FROM
+            oxcategories
+          WHERE
+            oxcategories.oxid = :id
+        ";
+    }
+
+    protected function getAllIdsQuery()
+    {
+        return "
+          SELECT
+           OXID
+          FROM
+           oxcategories;
+        ";
     }
 }
