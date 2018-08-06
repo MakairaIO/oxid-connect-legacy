@@ -18,7 +18,6 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
             'active' => 1,
             'oxid' => $oxid,
             'oxtitle' => 'abcdef',
-            'oxpos' => 0,
             'oxvalue' => 'abcdef'
         ];
         $dbMock
