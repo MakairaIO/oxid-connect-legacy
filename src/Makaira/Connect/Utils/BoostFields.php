@@ -54,7 +54,7 @@ class BoostFields
      *
      * @return float|int
      */
-    public function normalize($value, $key, $maxInfluence = 0.25)
+    public function normalize($value, $key, $maxInfluence = 1.0)
     {
         $minMaxValues = $this->getMinMaxValues();
         $min          = $this->scaleValue($minMaxValues["{$key}_min"]);
@@ -66,20 +66,20 @@ class BoostFields
     }
 
     /**
-     * @param string $timestamp
+     * @param string $value
      * @param string $key
      * @param float  $maxInfluence
      *
      * @return float|int
      */
-    public function normalizeTimestamp($value, $key, $maxInfluence = 0.25)
+    public function normalizeTimestamp($value, $key, $maxInfluence = 1.0)
     {
         $minMaxValues         = $this->getMinMaxValues();
         $max                  = $minMaxValues["{$key}_max"];
 
         $timestamp            = new \DateTime($value);
         $maxTimestamp         = new \DateTime($max);
-        $daysFromMaxTimestamp = (int) $timestamp->diff($maxTimestamp)->format('%a');
+        $daysFromMaxTimestamp = (int) $maxTimestamp->diff($timestamp)->format('%r%a');
 
         $alpha = 0.1;
         $x     = 60;
