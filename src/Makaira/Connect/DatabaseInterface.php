@@ -33,4 +33,14 @@ interface DatabaseInterface
      * @return void
      */
     public function execute($query, array $parameters = array());
+
+    /**
+     * Query database and retrieve column
+     *
+     * @param string $query
+     * @param array $parameters
+     *
+     * @return array
+     */
+    public function getColumn($query, array $parameters = []);
 }

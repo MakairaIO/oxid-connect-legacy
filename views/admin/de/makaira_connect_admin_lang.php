@@ -19,7 +19,7 @@ $aLang = array(
 
     'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'       => 'Operational Intelligence',
     'SHOP_MODULE_makaira_connect_use_user_ip'          => 'zusätzlich User-IP übermitteln für Geolocation (Ich habe einen AV Vertrag mit der marmalade GmbH geschlossen.)',
-    'SHOP_MODULE_makaira_connect_use_user_agent'       => 'User-Agent und Zeitzone übermitteln',
+    'SHOP_MODULE_makaira_connect_use_user_data'       => 'User-Zeitzone übermitteln',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDS'                   => 'Import Felder',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Produkte</b>: ausgeschlossene Felder',

@@ -9,6 +9,8 @@
  */
 
 use Makaira\Connect\SearchHandler;
+use Makaira\Connect\Utils\CategoryInheritance;
+use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Query;
 use Makaira\Result;
 use Makaira\Constraints;
@@ -57,73 +59,15 @@ class makaira_connect_request_handler
 
     public function getProductsFromMakaira(Query $query)
     {
-        $useUserIP = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_use_user_ip',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
-        if ($useUserIP) {
-            $query->constraints[ Constraints::OI_USER_IP ] = $this->getOiUserIP();
-        }
+        $dic = oxRegistry::get('yamm_dic');
+        /** @var OperationalIntelligence $operationalIntelligence */
+        $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
+        $operationalIntelligence->apply($query);
 
-        $useUserAgent = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_use_user_agent',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
-        if ($useUserAgent) {
-            $query->constraints[ Constraints::OI_USER_ID ]       = $this->getOiUserID();
-            $query->constraints[ Constraints::OI_USER_AGENT ]    = $this->getOiUserAgentString();
-            $query->constraints[ Constraints::OI_USER_TIMEZONE ] = $this->getOiUserTimeZone();
-        }
-
-        $useCategoryInheritance = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_category_inheritance',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
-        $categoryTreeId         = oxRegistry::getConfig()->getShopConfVar(
-            'makaira_connect_categorytree_id',
-            null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        );
-
-        $myQuery = clone($query);
-        if ($useCategoryInheritance && $categoryTreeId) {
-            if (isset($query->aggregations[ $categoryTreeId ])) {
-                $_categoryIds = [];
-                foreach ($query->aggregations[ $categoryTreeId ] as $_categoryId) {
-                    $oCategory = oxNew('oxcategory');
-                    $oCategory->load($_categoryId);
-                    if ($oCategory) {
-                        $_categoryIds[ $_categoryId ] = oxDb::getDb()->getCol(
-                            "SELECT OXID FROM oxcategories WHERE OXROOTID = ? AND OXLEFT > ? AND OXRIGHT < ?",
-                            [
-                                $oCategory->oxcategories__oxrootid->value,
-                                $oCategory->oxcategories__oxleft->value,
-                                $oCategory->oxcategories__oxright->value,
-                            ]
-                        );
-                    }
-                }
-                foreach ($_categoryIds as $parentId => $childIds) {
-                    if ($intersection = array_intersect($query->aggregations[ $categoryTreeId ], (array) $childIds)) {
-                        foreach ($intersection as $childId) {
-                            unset($_categoryIds[ $childId ]);
-                        }
-                    }
-                }
-                $categoryIds                            = array_unique(array_keys($_categoryIds));
-                $query->aggregations[ $categoryTreeId ] = $categoryIds;
-                if ($useCategoryInheritance) {
-                    foreach ($_categoryIds as $parentId => $childIds) {
-                        $categoryIds = array_merge($categoryIds, (array) $childIds);
-                    }
-                    $categoryIds                            = array_unique($categoryIds);
-                    $query->aggregations[ $categoryTreeId ] = $categoryIds;
-                }
-            }
-        }
+        $unmodifiedQuery = clone($query);
+        /** @var CategoryInheritance $categoryInheritance */
+        $categoryInheritance = $dic['makaira.connect.category_inheritance'];
+        $categoryInheritance->applyToAggregation($query);
 
         /** @var oxArticleList $oxArticleList */
         $oxArticleList = oxNew('oxarticlelist');
@@ -131,7 +75,6 @@ class makaira_connect_request_handler
         // Hook for request modification
         $this->modifyRequest($query);
 
-        $dic = oxRegistry::get('yamm_dic');
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
         $debugTrace = oxRegistry::getConfig()->getRequestParameter("mak_debug");
@@ -183,16 +126,9 @@ class makaira_connect_request_handler
                     $aggregations[ $aggregation->key ]->values =
                         json_decode(json_encode($aggregations[ $aggregation->key ]->values));
 
-                    if ($useCategoryInheritance &&
-                        $categoryTreeId &&
-                        isset($query->aggregations[ $aggregation->key ])) {
-                        $aggregations[ $aggregation->key ]->selectedValues = $myQuery->aggregations[ $aggregation->key ];
-
-                    } else {
-                        $aggregations[ $aggregation->key ]->selectedValues =
-                            isset($query->aggregations[ $aggregation->key ]) ? $query->aggregations[ $aggregation->key ] :
-                                [];
-                    }
+                    $aggregations[$aggregation->key]->selectedValues =
+                        isset($query->aggregations[$aggregation->key]) ?
+                            $unmodifiedQuery->aggregations[$aggregation->key] : [];
 
                     $this->mapCategoryTitle(
                         $aggregations[ $aggregation->key ]->values,
@@ -275,66 +211,6 @@ class makaira_connect_request_handler
     {
         $oxUtilsServer = oxRegistry::get('oxUtilsServer');
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
-    }
-
-    /**
-     * Get User ID (set cookie "oiID")
-     */
-    public function getOiUserID()
-    {
-        /** @var string $userID */
-        $userID = isset($_COOKIE['oiID']) ? $_COOKIE['oiID'] : false;
-
-        if (!$userID || !is_string($userID)) {
-            $userID = $this->getOiUserIP();
-            $userID .= $this->getOiUserAgentString();
-
-            $userID = md5($userID);
-
-            /** @var oxUtilsServer $oxUtilsServer */
-            $oxUtilsServer = oxRegistry::get('oxUtilsServer');
-            $oxUtilsServer->setOxCookie('oiID', $userID, time() + 86400);
-        }
-
-        return $userID;
-    }
-
-    /**
-     * Get actual User IP
-     *
-     * 1) from $_SERVER['X_FORWARDED_FOR']
-     * 2) from $_SERVER['REMOTE_ADDR']
-     */
-    public function getOiUserIP()
-    {
-        /** @var string $userIP */
-        $userIP =
-            isset($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] :
-                isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-
-        return is_string($userIP) ? $userIP : '';
-    }
-
-    /**
-     * Get actual User Agent String (raw data)
-     */
-    public function getOiUserAgentString()
-    {
-        /** @var string $userAgent */
-        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-
-        return is_string($userAgent) ? $userAgent : '';
-    }
-
-    /**
-     * Get User Time Zone from cookie "oiLocalTimeZone"
-     */
-    public function getOiUserTimeZone()
-    {
-        /** @var string $userTimeZone */
-        $userTimeZone = isset($_COOKIE['oiLocalTimeZone']) ? $_COOKIE['oiLocalTimeZone'] : '';
-
-        return is_string($userTimeZone) ? trim($userTimeZone) : '';
     }
 
     protected function modifyRequest(Query $query)
