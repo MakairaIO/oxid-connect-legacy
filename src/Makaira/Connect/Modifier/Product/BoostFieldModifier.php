@@ -40,27 +40,27 @@ class BoostFieldModifier extends Modifier
      */
     public function apply(Type $type)
     {
-        $type->mak_norm_new = $this->boostFieldUtilities->normalizeTimestamp(
+        $type->mak_boost_norm_insert = $this->boostFieldUtilities->normalizeTimestamp(
             $type->OXINSERT,
             'insert'
         );
 
-        $type->mak_norm_sold = $this->boostFieldUtilities->normalize(
+        $type->mak_boost_norm_sold = $this->boostFieldUtilities->normalize(
             $type->OXSOLDAMOUNT,
             'sold'
         );
-        $type->mak_norm_rating = $this->boostFieldUtilities->normalize(
+        $type->mak_boost_norm_rating = $this->boostFieldUtilities->normalize(
             $type->OXRATING,
             'rating'
         );
 
         $priceAverage = ($type->OXVARMINPRICE + $type->OXVARMAXPRICE)/2;
-        $type->mak_norm_revenue = $this->boostFieldUtilities->normalize(
+        $type->mak_boost_norm_revenue = $this->boostFieldUtilities->normalize(
             $priceAverage * $type->OXSOLDAMOUNT,
             'revenue'
         );
 
-        $type->mak_norm_profit_margin = $this->boostFieldUtilities->normalize(
+        $type->mak_boost_norm_profit_margin = $this->boostFieldUtilities->normalize(
             (0 == round($type->OXBPRICE)) ? 0 : ($priceAverage - $type->OXBPRICE),
             'profit_margin'
         );
