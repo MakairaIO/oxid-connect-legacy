@@ -50,4 +50,17 @@ class ZeroDateTimeModifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($arrayTestValue, $modifier->apply($type)->shop);
     }
+
+    public function testInvalidDateTimeNested()
+    {
+        $modifier = new ZeroDateTimeModifier();
+
+        $type = new Type();
+        $type->additionalData['invalidTimestamp'] = "0000-00-00 00:00:00";
+        $this->assertEquals(null, $modifier->apply($type)->additionalData['invalidTimestamp']);
+
+        $type = new Type();
+        $type->additionalData['invalidTimestamp'] = "0000-00-00";
+        $this->assertEquals(null, $modifier->apply($type)->additionalData['invalidTimestamp']);
+    }
 }

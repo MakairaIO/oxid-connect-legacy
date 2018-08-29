@@ -19,6 +19,13 @@ class ZeroDateTimeModifier extends Modifier
     public function apply(Type $type)
     {
         foreach ($type as $property => $value) {
+            if (is_array($value)) {
+                foreach ($value as $key => $item) {
+                    if (is_string($item) && in_array($item, $this->zeroDateValues)) {
+                        $type->$property[$key] = null;
+                    }
+                }
+            }
             if (is_string($value) && in_array($value, $this->zeroDateValues)) {
                 $type->$property = null;
             }
