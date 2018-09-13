@@ -19,6 +19,7 @@ $dic['doctrine.connection'] = function (\Marm\Yamm\DIC $dic) {
     $config = oxRegistry::getConfig();
     $connectionParams = array(
 		'host' => $config->getConfigParam('dbHost'),
+		'port' => $config->getConfigParam('dbPort'),
 		'dbname' => $config->getConfigParam('dbName'),
 		'user' => $config->getConfigParam('dbUser'),
 		'password' => $config->getConfigParam('dbPwd'),
