@@ -20,11 +20,16 @@ class ZeroDateTimeModifier extends Modifier
     {
         foreach ($type as $property => $value) {
             if (is_array($value)) {
-                foreach ($value as $key => $item) {
-                    if (is_string($item) && in_array($item, $this->zeroDateValues)) {
-                        $type->$property[$key] = null;
-                    }
-                }
+                $type->$property = array_map(
+                    function ($item) {
+                        if (is_string($item) && in_array($item, $this->zeroDateValues)) {
+                            $item = null;
+                        }
+
+                        return $item;
+                    },
+                    $value
+                );
             }
             if (is_string($value) && in_array($value, $this->zeroDateValues)) {
                 $type->$property = null;

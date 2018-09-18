@@ -57,10 +57,14 @@ class ZeroDateTimeModifierTest extends \PHPUnit_Framework_TestCase
 
         $type = new Type();
         $type->additionalData['invalidTimestamp'] = "0000-00-00 00:00:00";
+        $type->additionalData['someOtherProp'] = "test";
         $this->assertEquals(null, $modifier->apply($type)->additionalData['invalidTimestamp']);
+        $this->assertEquals('test', $modifier->apply($type)->additionalData['someOtherProp']);
 
         $type = new Type();
         $type->additionalData['invalidTimestamp'] = "0000-00-00";
+        $type->additionalData['someOtherProp'] = "test";
         $this->assertEquals(null, $modifier->apply($type)->additionalData['invalidTimestamp']);
+        $this->assertEquals('test', $modifier->apply($type)->additionalData['someOtherProp']);
     }
 }
