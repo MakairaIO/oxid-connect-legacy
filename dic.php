@@ -235,6 +235,15 @@ $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.category', 1000);
 $dic->tag('makaira.connect.modifiers.common.active', 'makaira.importer.modifier.manufacturer', 1000);
 
+
+$dic['makaira.connect.modifiers.common.stock'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\StockModifier(
+        $dic['oxid.database']
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.stock', 'makaira.importer.modifier.product', 1000);
+$dic->tag('makaira.connect.modifiers.common.stock', 'makaira.importer.modifier.variant', 1000);
+
 $dic['makaira.connect.modifiers.common.longdescription'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\LongDescriptionModifier(
         $dic['makaira.content_parser'],

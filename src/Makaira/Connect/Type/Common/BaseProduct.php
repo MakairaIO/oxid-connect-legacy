@@ -13,6 +13,9 @@ class BaseProduct extends Type
     /* attributes */
     public $attribute = [];
 
+    /* mak-fields */
+    public $mak_onstock = true;
+
     /* Added for OXSEARCH */
     public $MARM_OXSEARCH_BOOST;
     public $MARM_OXSEARCH_PROFITMARGIN;
