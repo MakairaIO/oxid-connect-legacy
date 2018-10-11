@@ -14,6 +14,8 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 {
     protected $aggregations;
 
+    protected $makairaSearchResult;
+
     /**
      * Set noindex for filtered pages
      *
@@ -170,6 +172,10 @@ class makaira_connect_alist extends makaira_connect_alist_parent
             return parent::_loadArticles($oCategory);
         }
 
+        if (null !== $this->makairaSearchResult) {
+            return $this->makairaSearchResult;
+        }
+
         /** @var makaira_connect_request_handler $requestHelper */
         $requestHelper = oxNew('makaira_connect_request_handler');
 
@@ -222,6 +228,8 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         //$this->facet = $oArtList->getFacets();
         $this->_iCntPages = round($this->_iAllArtCnt / $limit + 0.49);
+
+        $this->makairaSearchResult = $oArtList;
 
         return $oArtList;
     }
