@@ -36,6 +36,6 @@ class OxidSmartyParser implements ContentParserInterface
      */
     public function parseContent($content)
     {
-        return $this->oxUtilsView->parseThroughSmarty($content);
+        return $this->oxUtilsView->parseThroughSmarty($content, null, null, true);
     }
 }
