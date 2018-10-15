@@ -17,4 +17,5 @@ execute_build:
   script:
     - VERSIONSTEST=`cat metadata.php | grep "${CI_BUILD_REF_NAME}"`
     - echo "${VERSIONSTEST}"
+    - echo "${VERSIONSTEST}"
     - if [ "$VERSIONSTEST" = "0" ]; then exit 42; fi
