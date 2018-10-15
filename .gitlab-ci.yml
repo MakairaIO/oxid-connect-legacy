@@ -15,6 +15,6 @@ execute_build:
   only:
     - tags
   script:
-    - VERSIONSTEST=`cat metadata.php | grep 'bla'`
+    - VERSIONSTEST=`cat metadata.php | grep 'blaxx'`
     - echo "${VERSIONSTEST}"
-    - if [ $VERSIONSTEST = '0' ]; then exit 42; fi
+    - if [ "$VERSIONSTEST" = "0" ]; then exit 42; fi
