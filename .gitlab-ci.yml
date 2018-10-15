@@ -15,7 +15,5 @@ execute_build:
   only:
     - tags
   script:
+    - echo "checking Versions-Tag '${CI_BUILD_REF_NAME}'"
     - VERSIONSTEST=`cat metadata.php | grep "${CI_BUILD_REF_NAME}"`
-    - echo "${VERSIONSTEST}"
-    - echo "${VERSIONSTEST}"
-    - if [ "$VERSIONSTEST" = "0" ]; then exit 42; fi
