@@ -15,5 +15,5 @@ execute_build:
   only:
     - tags
   script:
-    - VERSIONSTEST = `cat metadata.php | grep "${CI_BUILD_REF_NAME}" | wc -l`
+    - VERSIONSTEST=`cat metadata.php | grep "${CI_BUILD_REF_NAME}" | wc -l`
     - '[[ -eq $VERSIONSTEST "0" ]] && exit 255'
