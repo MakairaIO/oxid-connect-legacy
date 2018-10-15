@@ -2,6 +2,12 @@
 
 namespace Makaira\Connect;
 
+/**
+ * Class Modifier
+ *
+ * @package Makaira\Connect
+ * @SuppressWarnings(PHPMD)
+ */
 abstract class Modifier
 {
     private $docType;
