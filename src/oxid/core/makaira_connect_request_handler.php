@@ -69,9 +69,6 @@ class makaira_connect_request_handler
         $categoryInheritance = $dic['makaira.connect.category_inheritance'];
         $categoryInheritance->applyToAggregation($query);
 
-        /** @var oxArticleList $oxArticleList */
-        $oxArticleList = oxNew('oxarticlelist');
-
         // Hook for request modification
         $this->modifyRequest($query);
 
@@ -90,8 +87,7 @@ class makaira_connect_request_handler
 
         $this->afterSearchRequest($productIds);
 
-        $oxArticleList->loadIds($productIds);
-        $oxArticleList->sortByIds($productIds);
+        $oxArticleList = $this->loadProducts($productIds, $productResult);
 
         $aggregations = $productResult->aggregations;
         foreach ($aggregations as $aggregation) {
@@ -223,6 +219,22 @@ class makaira_connect_request_handler
      */
     public function afterSearchRequest(array $productIds = [])
     {
+    }
+
+    /**
+     * @param array $productIds
+     * @param Result $productResult
+     * @return oxArticleList|oxarticlelist
+     */
+    public function loadProducts(array $productIds = [], Result $productResult)
+    {
+        /** @var oxArticleList $oxArticleList */
+        $oxArticleList = oxNew('oxarticlelist');
+
+        $oxArticleList->loadIds($productIds);
+        $oxArticleList->sortByIds($productIds);
+
+        return $oxArticleList;
     }
 
     public function mapCategoryTitle(&$cats, &$selectedCats)
