@@ -15,5 +15,5 @@ execute_build:
   only:
     - tags
   script:
-    - echo "checking Versions-Tag '${CI_BUILD_REF_NAME}'"
-    - VERSIONSTEST=`cat metadata.php | grep "${CI_BUILD_REF_NAME}"`
+    - echo "checking Versions-Tag '${CI_COMMIT_REF_NAME}'"
+    - VERSIONSTEST=`cat metadata.php | grep "${CI_COMMIT_REF_NAME}"`
