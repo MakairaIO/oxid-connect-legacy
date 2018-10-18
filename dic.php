@@ -262,21 +262,21 @@ $dic->tag('makaira.connect.modifiers.common.zerodatetime', 'makaira.importer.mod
 
 $dic['makaira.connect.modifiers.category.url'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\UrlModifier(
-        oxRegistry::get('oxCategory'),
+        get_class(oxNew('oxCategory')),
         oxRegistry::get('oxSeoEncoderCategory'),
         $dic['oxid.language']
     );
 };
 $dic['makaira.connect.modifiers.manufacturer.url'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\UrlModifier(
-        oxRegistry::get('oxManufacturer'),
+        get_class(oxNew('oxManufacturer')),
         oxRegistry::get('oxSeoEncoderManufacturer'),
         $dic['oxid.language']
     );
 };
 $dic['makaira.connect.modifiers.product.url'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\UrlModifier(
-        oxRegistry::get('oxArticle'),
+        get_class(oxNew('oxArticle')),
         oxRegistry::get('oxSeoEncoderArticle'),
         $dic['oxid.language']
     );

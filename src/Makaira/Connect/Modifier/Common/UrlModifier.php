@@ -10,23 +10,35 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
+use function get_class;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 
 class UrlModifier extends Modifier
 {
-    private $object;
+    /**
+     * @var string
+     */
+    private $objectClass;
+    /**
+     * @var \oxSeoEncoder|\oxSeoEncoderArticle|\oxSeoEncoderCategory|\oxSeoEncoderManufacturer
+     */
     private $encoder;
+    /**
+     * @var \oxLang
+     */
+    private $oxLang;
 
     /**
      * UrlModifier constructor.
      *
-     * @param \oxBase|\oxArticle|\oxCategory|\oxManufacturer                                     $object
+     * @param string                                     $objectClass
      * @param \oxSeoEncoder|\oxSeoEncoderArticle|\oxSeoEncoderCategory|\oxSeoEncoderManufacturer $encoder
+     * @param \oxLang                                                                            $oxLang
      */
-    public function __construct(\oxBase $object, \oxSeoEncoder $encoder, \oxLang $oxLang)
+    public function __construct($objectClass, \oxSeoEncoder $encoder, \oxLang $oxLang)
     {
-        $this->object  = $object;
+        $this->objectClass = $objectClass;
         $this->encoder = $encoder;
         $this->oxLang = $oxLang;
     }
@@ -37,17 +49,38 @@ class UrlModifier extends Modifier
      * @param Type $type
      *
      * @return Type
+     * @throws \oxSystemComponentException
      */
     public function apply(Type $type)
     {
-        $this->object->load($type->OXID);
+        $objectData = array_merge((array) $type, $type->additionalData);
 
-        if ($this->object instanceof \oxArticle) {
-            $type->url = $this->encoder->getArticleMainUri($this->object, $this->oxLang->getBaseLanguage());
-        } elseif ($this->object instanceof \oxCategory) {
-            $type->url = $this->encoder->getCategoryUri($this->object, $this->oxLang->getBaseLanguage());
-        } elseif ($this->object instanceof \oxManufacturer) {
-            $type->url = $this->encoder->getManufacturerUri($this->object, $this->oxLang->getBaseLanguage());
+        unset(
+            $objectData['active'],
+            $objectData['activefrom'],
+            $objectData['activeto'],
+            $objectData['additionalData'],
+            $objectData['attribute'],
+            $objectData['category'],
+            $objectData['id'],
+            $objectData['mak_active'],
+            $objectData['shop'],
+            $objectData['suggest'],
+            $objectData['timestamp'],
+            $objectData['url'],
+            $objectData['variantactive']
+        );
+
+        /** @var \oxBase $object */
+        $object = new $this->objectClass;
+        $object->assign($objectData);
+
+        if ($object instanceof \oxArticle) {
+            $type->url = $this->encoder->getArticleMainUri($object, $this->oxLang->getBaseLanguage());
+        } elseif ($object instanceof \oxCategory) {
+            $type->url = $this->encoder->getCategoryUri($object, $this->oxLang->getBaseLanguage());
+        } elseif ($object instanceof \oxManufacturer) {
+            $type->url = $this->encoder->getManufacturerUri($object, $this->oxLang->getBaseLanguage());
         }
 
         return $type;
