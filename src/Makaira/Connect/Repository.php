@@ -2,7 +2,7 @@
 
 namespace Makaira\Connect;
 
-use Makaira\Connect\Result\Changes;
+use Makaira\Import\Changes;
 
 class Repository
 {
