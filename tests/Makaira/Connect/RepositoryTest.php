@@ -4,7 +4,7 @@ namespace Makaira\Connect;
 
 use Makaira\Connect\Repository\AbstractRepository;
 use Makaira\Connect\Repository\ModifierList;
-use Makaira\Connect\Result\Changes;
+use Makaira\Import\Changes;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
