@@ -5,10 +5,10 @@ types:
 execute_tests:
   type: test
   script:
-    - composer install
-    - php vendor/bin/phpunit --coverage-text
-    - php vendor/bin/phpcs --standard=PSR2 src/Makaira/
-    - php vendor/bin/phpmd src/Makaira/ text codesize,design
+    - php5.6 /usr/local/bin/composer install
+    - php5.6 vendor/bin/phpunit --coverage-text
+    - php5.6 vendor/bin/phpcs --standard=PSR2 src/Makaira/
+    - php5.6 vendor/bin/phpmd src/Makaira/ text codesize,design
 
 execute_build:
   type: build
