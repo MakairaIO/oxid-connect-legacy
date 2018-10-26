@@ -129,7 +129,9 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
         $query->constraints[Constraints::LANGUAGE]  = oxRegistry::getLang()->getLanguageAbbr();
         $query->constraints[Constraints::USE_STOCK] = oxRegistry::getConfig()->getShopConfVar('blUseStock');
 
-        $result = $handler->recommendation($query);
+        $debugTrace = oxRegistry::getConfig()->getRequestParameter("mak_debug");
+
+        $result = $handler->recommendation($query, $debugTrace);
 
         // Use this snippet if you want to use the Makaira response directly.
         /*

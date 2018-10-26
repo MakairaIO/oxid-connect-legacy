@@ -11,7 +11,6 @@
 
 namespace Makaira\Connect;
 
-use Makaira\Aggregation;
 use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\RecommendationQuery;
 use Makaira\Result;
@@ -19,15 +18,21 @@ use Makaira\ResultItem;
 
 class RecommendationHandler extends AbstractHandler
 {
-    public function recommendation(RecommendationQuery $query)
+    public function recommendation(RecommendationQuery $query, $debugTrace = null)
     {
-        $request  = "{$this->url}recommendation";
-        $body     = json_encode($query);
+        $request = "{$this->url}recommendation";
+        $body    = json_encode($query);
+        $headers = ["X-Makaira-Instance: {$this->instance}"];
+
+        if ($debugTrace) {
+            $headers[] = "X-Makaira-Trace: {$debugTrace}";
+        }
+
         $response = $this->httpClient->request(
             'POST',
             $request,
             $body,
-            ["X-Makaira-Instance: {$this->instance}"]
+            $headers
         );
 
         $apiResult = json_decode($response->body, true);
