@@ -49,6 +49,7 @@ $aModule = [
         'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
         'makaira_connect_autosuggest'     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_autosuggest.php',
         'makaira_connect_autosuggester'   => 'makaira/connect/src/oxid/core/makaira_connect_autosuggester.php',
+        'makaira_connect_econda'          => 'makaira/connect/src/oxid/application/controllers/makaira_connect_econda.php',
     ],
     'templates'   => [
         'makaira_connect_single_sign_on.tpl'           => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
@@ -109,6 +110,7 @@ $aModule = [
         ['name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_use_user_data', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_use_user_ip', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDS',

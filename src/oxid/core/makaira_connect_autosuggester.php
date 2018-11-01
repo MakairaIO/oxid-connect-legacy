@@ -54,7 +54,18 @@ class makaira_connect_autosuggester
             ]
         );
 
+        $useEcondaData = oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_econda',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+        if ($useEcondaData && isset($_COOKIE['mak_econda_session'])) {
+            $econdaData = json_decode($_COOKIE['mak_econda_session']);
+            $query->constraints[ Constraints::ECONDA_DATA ] = $econdaData;
+        }
+
         $dic = oxRegistry::get('yamm_dic');
+
         /** @var OperationalIntelligence $operationalIntelligence */
         $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
         $operationalIntelligence->apply($query);
