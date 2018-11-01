@@ -45,20 +45,39 @@ class AttributeModifier extends Modifier
      */
     private $database;
 
+    /**
+     * @var string
+     */
     private $activeSnippet;
 
-    public function __construct(DatabaseInterface $database, $activeSnippet)
-    {
+    /**
+     * @var array
+     */
+    private $attributeInt = [];
+
+    /**
+     * @var array
+     */
+    private $attributeFloat = [];
+
+    public function __construct(
+        DatabaseInterface $database,
+        $activeSnippet,
+        array $attributeInt,
+        array $attributeFloat
+    ) {
         $this->database      = $database;
         $this->activeSnippet = $activeSnippet;
+        $this->attributeInt = $attributeInt;
+        $this->attributeFloat = $attributeFloat;
     }
 
     /**
      * Modify product and return modified product
      *
-     * @param BaseProduct $product
+     * @param Type $product
      *
-     * @return BaseProduct
+     * @return Type
      */
     public function apply(Type $product)
     {
@@ -81,6 +100,20 @@ class AttributeModifier extends Modifier
             },
             $attributes
         );
+
+        $product->attributeInt   = [];
+        $product->attributeFloat = [];
+        foreach ($attributes as $attribute) {
+            $attributeId = $attribute['oxid'];
+            if (in_array($attributeId, $this->attributeFloat)) {
+                $attribute['oxvalue']      = (float) $attribute['oxvalue'];
+                $product->attributeFloat[] = new AssignedAttribute($attribute);
+            }
+            if (in_array($attributeId, $this->attributeInt)) {
+                $attribute['oxvalue']    = (int) $attribute['oxvalue'];
+                $product->attributeInt[] = new AssignedAttribute($attribute);
+            }
+        }
 
         return $product;
     }
