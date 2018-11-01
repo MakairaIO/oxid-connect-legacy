@@ -68,10 +68,10 @@ class AttributeModifier extends Modifier
         array $attributeInt,
         array $attributeFloat
     ) {
-        $this->database      = $database;
-        $this->activeSnippet = $activeSnippet;
-        $this->attributeInt = $attributeInt;
-        $this->attributeFloat = $attributeFloat;
+        $this->database       = $database;
+        $this->activeSnippet  = $activeSnippet;
+        $this->attributeInt   = array_unique($attributeInt);
+        $this->attributeFloat = array_unique($attributeFloat);
     }
 
     /**
@@ -96,15 +96,22 @@ class AttributeModifier extends Modifier
             ]
         );
 
-        $product->attribute = array_map(
-            function ($row) {
-                return new AssignedAttribute($row);
-            },
-            $attributes
-        );
+        $product->attribute      = [];
+        $product->attributeInt   = [];
+        $product->attributeFloat = [];
+        foreach ($attributes as $attributeData) {
+            $attributeId = $attributeData['oxid'];
+            $attribute   = new AssignedAttribute($attributeData);
 
-        $product->attributeInt   = array_unique($this->attributeInt);
-        $product->attributeFloat = array_unique($this->attributeFloat);
+            $product->attribute[] = $attribute;
+
+            if (in_array($attributeId, $this->attributeInt)) {
+                $product->attributeInt[] = $attribute;
+            }
+            if (in_array($attributeId, $this->attributeFloat)) {
+                $product->attributeFloat[] = $attribute;
+            }
+        }
 
         return $product;
     }
