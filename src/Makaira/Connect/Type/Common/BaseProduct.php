@@ -13,6 +13,12 @@ class BaseProduct extends Type
     /* attributes */
     public $attribute = [];
 
+    /* attributes as Integer */
+    public $attributeInt = [];
+
+    /* attributes as Float */
+    public $attributeFloat = [];
+
     /* mak-fields */
     public $mak_onstock = true;
 

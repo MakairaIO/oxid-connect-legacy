@@ -5,6 +5,8 @@ namespace Makaira\Connect\Modifier\Common;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
+use Makaira\Connect\Type\Common\BaseProduct;
+use Makaira\Connect\Type\Product\Product;
 use Makaira\Connect\Type\Common\AssignedAttribute;
 
 /**
@@ -75,9 +77,9 @@ class AttributeModifier extends Modifier
     /**
      * Modify product and return modified product
      *
-     * @param Type $product
+     * @param BaseProduct|Type $product
      *
-     * @return Type
+     * @return BaseProduct|Type
      */
     public function apply(Type $product)
     {
@@ -101,19 +103,8 @@ class AttributeModifier extends Modifier
             $attributes
         );
 
-        $product->attributeInt   = [];
-        $product->attributeFloat = [];
-        foreach ($attributes as $attribute) {
-            $attributeId = $attribute['oxid'];
-            if (in_array($attributeId, $this->attributeFloat)) {
-                $attribute['oxvalue']      = (float) $attribute['oxvalue'];
-                $product->attributeFloat[] = new AssignedAttribute($attribute);
-            }
-            if (in_array($attributeId, $this->attributeInt)) {
-                $attribute['oxvalue']    = (int) $attribute['oxvalue'];
-                $product->attributeInt[] = new AssignedAttribute($attribute);
-            }
-        }
+        $product->attributeInt   = array_unique($this->attributeInt);
+        $product->attributeFloat = array_unique($this->attributeFloat);
 
         return $product;
     }
