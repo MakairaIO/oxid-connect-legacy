@@ -1,6 +1,5 @@
 <?php
 
-use Makaira\Connect\Result\Changes;
 use Makaira\Connect\Result\Error;
 use Makaira\Connect\Result\ForbiddenException;
 use Makaira\Connect\Utils\BoostFields;
@@ -44,6 +43,8 @@ class makaira_connect_endpoint extends oxUBase
         509 => 'Bandwidth Limit Exceeded',
         510 => 'Not Extended',
     );
+
+    private static $version;
 
     /**
      * Main render method
@@ -95,6 +96,9 @@ class makaira_connect_endpoint extends oxUBase
                     break;
                 case 'getReplicationStatus':
                     $updates = $this->getReplicationStatusAction($body);
+                    break;
+                case 'getVersionNumber':
+                    $updates = $this->getVersionNumber();
                     break;
                 case 'getUpdates':
                 default:
@@ -257,5 +261,20 @@ class makaira_connect_endpoint extends oxUBase
         $boostFieldStatistics = $dic['makaira.connect.utils.boostfields'];
 
         return $boostFieldStatistics->getMinMaxValues();
+    }
+
+    protected function getVersionNumber()
+    {
+        if (null === self::$version) {
+            $pathToMetadata = __DIR__ . '/../../../../metadata.php';
+            self::$version  = '';
+
+            if (file_exists($pathToMetadata)) {
+                include $pathToMetadata;
+                self::$version = $aModule['version'];
+            }
+        }
+
+        return self::$version;
     }
 }
