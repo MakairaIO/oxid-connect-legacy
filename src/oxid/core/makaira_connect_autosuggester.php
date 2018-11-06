@@ -103,6 +103,16 @@ class makaira_connect_autosuggester
         // filter out empty values
         $aLinks = array_filter($aLinks);
 
+        // get suggestion results
+        $aSuggestions = [];
+        if ($result['suggestion']) {
+            foreach ($result['suggestion']->items as $document) {
+                $aSuggestions[] = $this->prepareSuggestionItem($document);
+            }
+        }
+        // filter out empty values
+        $aSuggestions = array_filter($aSuggestions);
+
         return [
             'count'         => count($aProducts),
             'products'      => $aProducts,
@@ -110,6 +120,7 @@ class makaira_connect_autosuggester
             'categories'    => $aCategories,
             'manufacturers' => $aManufacturers,
             'links'         => $aLinks,
+            'suggestions'   => $aSuggestions,
         ];
     }
 
@@ -181,6 +192,17 @@ class makaira_connect_autosuggester
 
         $aItem['label'] = $doc->fields['title'];
         $aItem['link']  = $doc->fields['url'];
+
+        return $aItem;
+    }
+
+    protected function prepareSuggestionItem($doc)
+    {
+        if (empty($doc->fields['title'])) {
+            return [];
+        }
+
+        $aItem['label'] = $doc->fields['title'];
 
         return $aItem;
     }

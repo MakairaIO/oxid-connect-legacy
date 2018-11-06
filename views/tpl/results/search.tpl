@@ -1,4 +1,18 @@
-[{if $category_result || $manufacturer_result || $links_result}]
+[{if $category_result || $manufacturer_result || $links_result || $suggestion_result}]
+    [{if $suggestion_result}]
+        <div class="makaira-search__results">
+            <p class="makaira-search__result-header">[{oxmultilang ident="MAKAIRA_SEARCHRESULT_SUGGESTION" alternative=""}]</p>
+            <ul class="makaira-search__result-list">
+                [{foreach from=$suggestion_result->items item="suggestion"}]
+                    <li class="makaira-search__result-item">
+                        <a href="[{oxgetseourl ident=$baseLink}]/?cl=search&searchparam=[{$suggestion->fields.title}]">
+                            [{$suggestion->fields.title}]
+                        </a>
+                    </li>
+                [{/foreach}]
+            </ul>
+        </div>
+    [{/if}]
     [{if $category_result}]
         <div class="makaira-search__results">
             <p class="makaira-search__result-header">[{oxmultilang ident="MAKAIRA_SEARCHRESULT_CATEGORY" alternative=""}]</p>

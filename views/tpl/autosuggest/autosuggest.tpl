@@ -1,5 +1,10 @@
 <ul class="makaira-autosuggestion__list">
 
+    [{* suggestions *}]
+    [{if $result.suggestions}]
+        [{include file="makaira/autosuggest/types/suggestions.tpl" suggestions=$result.suggestions}]
+    [{/if}]
+
     [{* categories *}]
     [{if $result.categories}]
         [{include file="makaira/autosuggest/types/categories.tpl" categories=$result.categories }]
