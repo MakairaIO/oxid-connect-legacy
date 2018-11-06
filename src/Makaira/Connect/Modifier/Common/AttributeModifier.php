@@ -8,6 +8,7 @@ use Makaira\Connect\Type;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\Type\Product\Product;
 use Makaira\Connect\Type\Common\AssignedAttribute;
+use Makaira\Connect\Type\Common\AssignedTypedAttribute;
 
 /**
  * Class AttributeModifier
@@ -19,9 +20,9 @@ class AttributeModifier extends Modifier
     private $selectAttributesQuery = "
                         ( SELECT
                             :productActive as `active`,
-                            oxattribute.oxid as `oxid`,
-                            oxattribute.oxtitle as `oxtitle`,
-                            oxobject2attribute.oxvalue as `oxvalue`
+                            oxattribute.oxid as `id`,
+                            oxattribute.oxtitle as `title`,
+                            oxobject2attribute.oxvalue as `value`
                         FROM
                             oxobject2attribute
                             JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
@@ -100,11 +101,17 @@ class AttributeModifier extends Modifier
         $product->attributeInt   = [];
         $product->attributeFloat = [];
         foreach ($attributes as $attributeData) {
-            $attributeId = $attributeData['oxid'];
-            $attribute   = new AssignedAttribute($attributeData);
+            $product->attribute[] = new AssignedAttribute([
+                'active' => $attributeData['active'],
+                'oxid' => $attributeData['id'],
+                'oxtitle' => $attributeData['title'],
+                'oxvalue' => $attributeData['value'],
+            ]);
 
-            $product->attribute[] = $attribute;
+            $attribute = new AssignedTypedAttribute($attributeData);
+            $product->attributeStr[] = $attribute;
 
+            $attributeId = $attributeData['id'];
             if (in_array($attributeId, $this->attributeInt)) {
                 $product->attributeInt[] = $attribute;
             }

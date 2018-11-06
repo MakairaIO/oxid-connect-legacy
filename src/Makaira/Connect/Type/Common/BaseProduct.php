@@ -13,6 +13,9 @@ class BaseProduct extends Type
     /* attributes */
     public $attribute = [];
 
+    /* attributes as String */
+    public $attributeStr = [];
+
     /* attributes as Integer */
     public $attributeInt = [];
 

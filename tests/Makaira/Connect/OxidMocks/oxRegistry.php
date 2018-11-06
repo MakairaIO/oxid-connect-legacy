@@ -22,6 +22,8 @@ class oxSeoEncoder
 
 class oxConfig
 {
+    const OXMODULE_MODULE_PREFIX = null;
+
     public function isMall()
     {
         return true;
