@@ -141,7 +141,10 @@ class makaira_connect_request_handler
                             $valueObject->selected = false;
                             if (isset($query->aggregations[ $aggregation->key ])) {
                                 $valueObject->selected =
-                                    in_array($valueObject->key, (array) $query->aggregations[ $aggregation->key ]);
+                                    in_array(
+                                        strtolower($valueObject->key),
+                                        array_map('strtolower', (array) $query->aggregations[ $aggregation->key ])
+                                    );
                             }
                             return $valueObject;
                         },
