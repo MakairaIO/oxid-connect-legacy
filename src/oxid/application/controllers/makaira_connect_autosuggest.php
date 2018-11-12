@@ -20,6 +20,8 @@ class makaira_connect_autosuggest extends oxUBase
         $smarty = $oxUtilsView->getSmarty();
         $smarty->assign('result', $result);
         $smarty->assign('searchPhrase', $searchPhrase);
+        $oxViewConfig = oxNew('oxViewConfig');
+        $smarty->assign('oViewConf', $oxViewConfig);
 
         $html = $smarty->fetch('makaira/autosuggest/autosuggest.tpl');
 

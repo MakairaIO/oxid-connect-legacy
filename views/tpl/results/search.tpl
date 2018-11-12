@@ -5,7 +5,7 @@
             <ul class="makaira-search__result-list">
                 [{foreach from=$suggestion_result->items item="suggestion"}]
                     <li class="makaira-search__result-item">
-                        <a href="[{oxgetseourl ident=$baseLink}]/?cl=search&searchparam=[{$suggestion->fields.title}]">
+                        <a href="[{$oViewConf->getHomeLink()|cat:"cl=search&searchparam="|cat:$suggestion->fields.title}]">
                             [{$suggestion->fields.title}]
                         </a>
                     </li>
