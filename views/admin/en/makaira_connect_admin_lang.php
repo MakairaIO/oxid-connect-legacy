@@ -25,8 +25,8 @@ $aLang = array(
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Products</b>: blacklisted fields',
     'SHOP_MODULE_makaira_field_blacklist_category'     => '<b>Category</b>: blacklisted fields',
     'SHOP_MODULE_makaira_field_blacklist_manufacturer' => '<b>manufacturer</b>: blacklisted fields',
-    'SHOP_MODULE_makaira_attribute_as_int'             => 'Import Attributes as <b>Integer</b>',
-    'SHOP_MODULE_makaira_attribute_as_float'           => 'Import Attributes as <b>Float</b>',
+    'SHOP_MODULE_makaira_attribute_as_int'             => 'Import Attributes as <b>Integer</b> (OXID Liste)',
+    'SHOP_MODULE_makaira_attribute_as_float'           => 'Import Attributes as <b>Float</b> (OXID Liste)',
 
     'makaira_connect_iframe' => 'Makaira Configuration',
 
