@@ -15,9 +15,9 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
         $oxid = 'abcdef';
         $dbResult = [
             'active' => 1,
-            'oxid' => $oxid,
-            'oxtitle' => 'abcdef',
-            'oxvalue' => 'abcdef'
+            'id' => $oxid,
+            'title' => 'abcdef',
+            'value' => 'abcdef'
         ];
         $dbMock
             ->expects($this->atLeastOnce())
@@ -28,6 +28,14 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 
         $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]));
 
-        $this->assertArraySubset([new AssignedAttribute($dbResult)], $product->attribute);
+        $this->assertArraySubset(
+            [new AssignedAttribute([
+                 'active'  => $dbResult['active'],
+                 'oxid'    => $dbResult['id'],
+                 'oxtitle' => $dbResult['title'],
+                 'oxvalue' => $dbResult['value'],
+            ])],
+            $product->attribute
+        );
     }
 }

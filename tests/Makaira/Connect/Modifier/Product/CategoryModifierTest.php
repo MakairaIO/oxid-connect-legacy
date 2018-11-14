@@ -12,7 +12,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $dbMock
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('query')
             ->with($this->anything(), ['productId' => 'abc', 'productActive' => 1])
             ->will(
@@ -22,6 +22,24 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                             'catid'  => 'def',
                             'oxpos'  => 1,
                             'shopid' => 1,
+                            'active' => 1,
+                            'oxleft' => 5,
+                            'oxright' => 7,
+                            'oxrootid' => 42,
+                        ],
+                    ]
+                )
+            );
+        $dbMock
+            ->expects($this->at(1))
+            ->method('query')
+            ->with($this->anything(), ['left' => 5, 'right' => 7, 'rootId' => 42])
+            ->will(
+                $this->returnValue(
+                    [
+                        [
+                            'title'  => 'mytitle',
+                            'active'  => 1
                         ],
                     ]
                 )
@@ -40,8 +58,10 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                 new AssignedCategory(
                     [
                         'catid'  => 'def',
-                        'oxpos'  => 1,
+                        'pos'  => 1,
                         'shopid' => 1,
+                        'depth' => 1,
+                        'path' => 'mytitle/',
                     ]
                 ),
             ], $product->category

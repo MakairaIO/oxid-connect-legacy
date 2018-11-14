@@ -102,8 +102,8 @@ class AttributeModifier extends Modifier
         $product->attributeFloat = [];
         foreach ($attributes as $attributeData) {
             $product->attribute[] = new AssignedAttribute([
-                'active' => $attributeData['active'],
-                'oxid' => $attributeData['id'],
+                'active'  => $attributeData['active'],
+                'oxid'    => $attributeData['id'],
                 'oxtitle' => $attributeData['title'],
                 'oxvalue' => $attributeData['value'],
             ]);
