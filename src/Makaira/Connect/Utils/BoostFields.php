@@ -57,11 +57,20 @@ class BoostFields
     public function normalize($value, $key, $maxInfluence = 1.0)
     {
         $minMaxValues = $this->getMinMaxValues();
-        $min          = $this->scaleValue($minMaxValues["{$key}_min"]);
-        $max          = $this->scaleValue($minMaxValues["{$key}_max"]);
-        $scaled       = $this->scaleValue($value);
-        $diff         = $max - $min;
-        $normed       = ($diff > 0) ? (($scaled - $min) / $diff) : 0;
+        $min = $minMaxValues["{$key}_min"];
+        if ($min < 0) {
+            $max = $this->scaleValue($minMaxValues["{$key}_max"] - $min);
+            $scaled = $this->scaleValue($value - $min);
+            $min = 0;
+        } else {
+            $min = $this->scaleValue($minMaxValues["{$key}_min"]);
+            $max = $this->scaleValue($minMaxValues["{$key}_max"]);
+            $scaled = $this->scaleValue($value);
+        }
+
+
+        $diff = $max - $min;
+        $normed = ($diff > 0) ? (($scaled - $min) / $diff) : 0;
 
         return $maxInfluence * $normed;
     }
@@ -97,7 +106,7 @@ class BoostFields
      */
     private function scaleValue($value)
     {
-        return log(abs($value) + 1);
+        return log($value + 1);
     }
 
     /**
