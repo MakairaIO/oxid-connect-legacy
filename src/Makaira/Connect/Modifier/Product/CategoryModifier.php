@@ -12,15 +12,34 @@ class CategoryModifier extends Modifier
 {
     private $selectCategoriesQuery = "
                         SELECT
-                            oxcatnid AS catid,
-                            oxpos AS oxpos,
-                            oxshopid AS shopid
+                            o2c.oxcatnid AS catid,
+                            o2c.oxpos AS oxpos,
+                            o2c.oxshopid AS shopid,
+                            oc.OXACTIVE AS active,
+                            oc.OXLEFT AS oxleft,
+                            oc.OXRIGHT AS oxright,
+                            oc.OXROOTID AS oxrootid
                         FROM
-                            oxobject2category
+                            oxobject2category o2c
+                        LEFT JOIN oxcategories oc ON
+                            o2c.oxcatnid = oc.oxid
                         WHERE
-                            oxobject2category.oxobjectid = :productId
+                            o2c.oxobjectid = :productId
                             AND :productActive = :productActive
                         ";
+
+    protected $selectCategoryPathQuery = "
+      SELECT
+        oc.OXTITLE as title,
+        oc.OXACTIVE as active
+      FROM
+        oxcategories oc
+      WHERE
+        oc.OXLEFT <= :left 
+        AND oc.OXRIGHT >= :right 
+        AND oc.OXROOTID = :rootId        
+      ORDER BY oc.OXLEFT;
+    ";
 
     /**
      * @var DatabaseInterface
@@ -44,19 +63,49 @@ class CategoryModifier extends Modifier
      */
     public function apply(Type $product)
     {
-        $categories = $this->database->query(
+        $allCats = $this->database->query(
             $this->selectCategoriesQuery,
             [
                 'productId'     => $product->id,
                 'productActive' => $product->OXACTIVE,
             ]
         );
-        $categories = array_map(
-            function ($cat) {
-                return new AssignedCategory($cat);
-            },
-            $categories
-        );
+
+        $categories = [];
+        foreach ($allCats as $cat) {
+            $catPaths = $this->database->query(
+                $this->selectCategoryPathQuery,
+                [
+                    'left'      => $cat['oxleft'],
+                    'right'     => $cat['oxright'],
+                    'rootId'    => $cat['oxrootid'],
+                ]
+            );
+
+            $depth = 0;
+            $path  = '';
+            $active = true;
+            foreach ($catPaths as $catPath) {
+                $active &= $catPath['active'];
+                if (!$active) {
+                    break;
+                }
+                $path .= $catPath['title'] . '/';
+                $depth++;
+            }
+
+            if ($active) {
+                $categories[] = new AssignedCategory(
+                    [
+                        'catid'  => $cat['catid'],
+                        'pos'    => $cat['oxpos'],
+                        'shopid' => $cat['shopid'],
+                        'depth'  => $depth,
+                        'path'   => $path,
+                    ]
+                );
+            }
+        }
 
         $product->category = $categories;
 

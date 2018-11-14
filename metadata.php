@@ -112,7 +112,7 @@ $aModule = [
         ['name' => 'makaira_connect_use_user_ip', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         [
             'name'  => 'makaira_field_blacklist_product',
-            'group' => 'IMPORTFIELDS',
+            'group' => 'IMPORTFIELDSANDATTS',
             'type'  => 'arr',
             'value' => [
                 'OXAMITEMID',
@@ -149,7 +149,7 @@ $aModule = [
         ],
         [
             'name'  => 'makaira_field_blacklist_category',
-            'group' => 'IMPORTFIELDS',
+            'group' => 'IMPORTFIELDSANDATTS',
             'type'  => 'arr',
             'value' => [
                 'OXVAT',
@@ -158,7 +158,19 @@ $aModule = [
         ],
         [
             'name'  => 'makaira_field_blacklist_manufacturer',
-            'group' => 'IMPORTFIELDS',
+            'group' => 'IMPORTFIELDSANDATTS',
+            'type'  => 'arr',
+            'value' => [],
+        ],
+        [
+            'name'  => 'makaira_attribute_as_int',
+            'group' => 'IMPORTFIELDSANDATTS',
+            'type'  => 'arr',
+            'value' => [],
+        ],
+        [
+            'name'  => 'makaira_attribute_as_float',
+            'group' => 'IMPORTFIELDSANDATTS',
             'type'  => 'arr',
             'value' => [],
         ],

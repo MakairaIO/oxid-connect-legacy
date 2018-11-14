@@ -207,7 +207,17 @@ $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $d
     $oxArticle = oxRegistry::get('oxArticle');
     return new \Makaira\Connect\Modifier\Common\AttributeModifier(
         $dic['oxid.database'],
-        $oxArticle->getSqlActiveSnippet(true)
+        $oxArticle->getSqlActiveSnippet(true),
+        (array) oxRegistry::getConfig()->getShopConfVar(
+            'makaira_attribute_as_int',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        ),
+        (array) oxRegistry::getConfig()->getShopConfVar(
+            'makaira_attribute_as_float',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )
     );
 };
 $dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.product', 1000);

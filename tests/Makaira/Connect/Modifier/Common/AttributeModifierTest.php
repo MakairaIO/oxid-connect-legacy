@@ -2,7 +2,6 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
-
 use Makaira\Connect\Type\Common\AssignedAttribute;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
@@ -16,19 +15,27 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
         $oxid = 'abcdef';
         $dbResult = [
             'active' => 1,
-            'oxid' => $oxid,
-            'oxtitle' => 'abcdef',
-            'oxvalue' => 'abcdef'
+            'id' => $oxid,
+            'title' => 'abcdef',
+            'value' => 'abcdef'
         ];
         $dbMock
             ->expects($this->atLeastOnce())
             ->method('query')
             ->will($this->returnValue([$dbResult]));
 
-        $modifier = new AttributeModifier($dbMock, '1');
+        $modifier = new AttributeModifier($dbMock, '1', [], []);
 
         $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]));
 
-        $this->assertArraySubset([new AssignedAttribute($dbResult)], $product->attribute);
+        $this->assertArraySubset(
+            [new AssignedAttribute([
+                 'active'  => $dbResult['active'],
+                 'oxid'    => $dbResult['id'],
+                 'oxtitle' => $dbResult['title'],
+                 'oxvalue' => $dbResult['value'],
+            ])],
+            $product->attribute
+        );
     }
 }
