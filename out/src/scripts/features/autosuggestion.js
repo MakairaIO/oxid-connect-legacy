@@ -23,7 +23,8 @@ const fetchAutosuggestions = debounce(event => {
 
   if (searchTerm.length > 2) {
     var request = new XMLHttpRequest()
-    request.open('GET', `/index.php?cl=makaira_connect_autosuggest&term=${encodeURIComponent(searchTerm)}`, true)
+    var shopUrl = typeof shopBasePath == 'undefined' ? '/index.php' : shopBasePath
+    request.open('GET', `${shopUrl}?cl=makaira_connect_autosuggest&term=${encodeURIComponent(searchTerm)}`, true)
 
     request.onload = () => {
       if (request.status >= 200 && request.status < 400) {

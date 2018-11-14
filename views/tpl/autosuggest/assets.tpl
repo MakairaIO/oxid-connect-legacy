@@ -1,3 +1,7 @@
+<script type="text/javascript">
+    var shopBasePath = '[{$oViewConf->getHomeLink()|regex_replace:"/\?.*/":""}]'
+</script>
+
 [{assign var="cssFilePath" value=$oViewConf->getMakairaMainStylePath()}]
 [{oxstyle include=$oViewConf->getModuleUrl('makaira/connect', $cssFilePath)}]
 
