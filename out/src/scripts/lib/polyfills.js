@@ -11,8 +11,7 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 }
 
 if (!Element.prototype.matches) {
-  Element.prototype.matches =
-    Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector
+  Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector
 }
 
 if (!Element.prototype.closest) {
@@ -24,5 +23,20 @@ if (!Element.prototype.closest) {
       el = el.parentElement || el.parentNode
     } while (el !== null && el.nodeType === 1)
     return null
+  }
+}
+
+if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    'use strict'
+    if (typeof start !== 'number') {
+      start = 0
+    }
+
+    if (start + search.length > this.length) {
+      return false
+    } else {
+      return this.indexOf(search, start) !== -1
+    }
   }
 }
