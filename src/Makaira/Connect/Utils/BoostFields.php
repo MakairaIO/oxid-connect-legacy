@@ -106,7 +106,11 @@ class BoostFields
      */
     private function scaleValue($value)
     {
-        return log($value + 1);
+        if ($value >= 0) {
+            return log($value + 1);
+        } else {
+            return 0;
+        }
     }
 
     /**
