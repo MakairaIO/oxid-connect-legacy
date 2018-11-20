@@ -19,18 +19,22 @@ const renderAutosuggestions = (response, searchForm) => {
 
 const fetchAutosuggestions = debounce(event => {
   const searchTerm = event.target.value.trim()
-  const searchForm = event.target.parentNode
+  const inputContainer = event.target.parentNode
+  const searchForm = inputContainer.parentNode
 
   if (searchTerm.length > 2) {
     var request = new XMLHttpRequest()
-    var shopUrl = typeof shopBasePath == 'undefined' ? '/index.php' : shopBasePath
-    request.open('GET', `${shopUrl}?cl=makaira_connect_autosuggest&term=${encodeURIComponent(searchTerm)}`, true)
+    var shopUrl = searchForm.action
+    // make sure we have valid syntax for parameters
+    shopUrl += shopUrl.includes('?') ? '&' : '?'
+
+    request.open('GET', `${shopUrl}cl=makaira_connect_autosuggest&term=${encodeURIComponent(searchTerm)}`, true)
 
     request.onload = () => {
       if (request.status >= 200 && request.status < 400) {
         // Succes -> we render the suggestions
         const response = request.responseText
-        renderAutosuggestions(response, searchForm)
+        renderAutosuggestions(response, inputContainer)
       } else {
         // We reached our target server, but it returned an error
         console.error('Processing in Makaira failed')
