@@ -43,16 +43,14 @@ class AttributeModifier extends Modifier
                         ";
 
     private $selectVariantsQuery = "
-                        SELECT 
-                            1 as `active`, 
-                            parent.oxvarname as `title`, 
+                        SELECT
+                            1 as `active`,
+                            parent.oxvarname as `title`,
                             variant.oxvarselect as `value`
-                        FROM 
+                        FROM
                             oxarticles parent
                             JOIN oxarticles variant ON parent.oxid = variant.oxparentid
-                        WHERE parent.oxactive = 1
-                            AND parent.oxhidden = 0
-                            AND variant.oxparentid = :productId
+                        WHERE variant.oxparentid = :productId
                         ";
 
     /**
@@ -144,14 +142,7 @@ class AttributeModifier extends Modifier
             $valueArray = array_map('trim', explode('|', $variantData['value']));
 
             foreach ($titleArray as $index => $title) {
-                $title                = "{$title} (VARSELECT)";
-                $product->attribute[] = new AssignedAttribute([
-                    'active'  => $variantData['active'],
-                    'oxid'    => md5($title),
-                    'oxtitle' => $title,
-                    'oxvalue' => $valueArray[$index],
-                ]);
-
+                $title                   = "{$title} :: VARSELECT";
                 $product->attributeStr[] = new AssignedTypedAttribute([
                     'active' => $variantData['active'],
                     'id'     => md5($title),
