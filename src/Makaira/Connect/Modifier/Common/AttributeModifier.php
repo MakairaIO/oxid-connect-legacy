@@ -137,17 +137,34 @@ class AttributeModifier extends Modifier
             ]
         );
 
+        $allVariants = [];
         foreach ($variants as $variantData) {
             $titleArray = array_map('trim', explode('|', $variantData['title']));
             $valueArray = array_map('trim', explode('|', $variantData['value']));
 
             foreach ($titleArray as $index => $title) {
-                $title                   = "{$title} :: VARSELECT";
+                $title                 = "{$title} :: VARSELECT";
+                $allVariants[$title][] = $valueArray[$index];
+            }
+        }
+
+        foreach ($allVariants as $title => $values) {
+            $uniqueValues = array_unique($values);
+            $hashTitle    = md5($title);
+
+            foreach ($uniqueValues as $value) {
+                $product->attribute[] = new AssignedAttribute([
+                    'active'  => $variantData['active'],
+                    'oxid'    => $hashTitle,
+                    'oxtitle' => $title,
+                    'oxvalue' => $value,
+                ]);
+
                 $product->attributeStr[] = new AssignedTypedAttribute([
                     'active' => $variantData['active'],
-                    'id'     => md5($title),
+                    'id'     => $hashTitle,
                     'title'  => $title,
-                    'value'  => $valueArray[$index],
+                    'value'  => $value,
                 ]);
             }
         }
