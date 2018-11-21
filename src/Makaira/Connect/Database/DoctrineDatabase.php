@@ -43,9 +43,11 @@ class DoctrineDatabase implements DatabaseInterface
      *
      * @return void
      */
-    public function execute($query, array $parameters = array())
+    public function execute($query, array $parameters = array(), $translateTables = true)
     {
-        $query = $this->translator->translate($query);
+        if ($translateTables) {
+            $query = $this->translator->translate($query);
+        }
         $cacheKey = md5($query);
         if (!isset($this->preparedStatements[$cacheKey])) {
             $this->preparedStatements[$cacheKey] = $this->database->prepare($query);
@@ -66,9 +68,11 @@ class DoctrineDatabase implements DatabaseInterface
      *
      * @return array
      */
-    public function query($query, array $parameters = array())
+    public function query($query, array $parameters = array(), $translateTables = true)
     {
-        $query = $this->translator->translate($query);
+        if ($translateTables) {
+            $query = $this->translator->translate($query);
+        }
         $cacheKey = md5($query);
         if (!isset($this->preparedStatements[$cacheKey])) {
             $this->preparedStatements[$cacheKey] = $this->database->prepare($query);

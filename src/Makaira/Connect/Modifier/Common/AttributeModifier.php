@@ -53,6 +53,15 @@ class AttributeModifier extends Modifier
                         WHERE variant.oxparentid = :productId
                         ";
 
+    private $selectVariantNameQuery = "
+                        SELECT
+                            oxvarname
+                        FROM
+                            oxarticles
+                        WHERE
+                            oxid = :productId
+                        ";
+
     /**
      * @var DatabaseInterface
      */
@@ -137,20 +146,32 @@ class AttributeModifier extends Modifier
             ]
         );
 
+        $variantName = $this->database->query(
+            $this->selectVariantNameQuery,
+            [
+                'productId' => $product->id,
+            ],
+            false
+        );
+        $hashArray   = array_map('md5', array_map('trim', explode('|', $variantName[0]["oxvarname"])));
+
         $allVariants = [];
         foreach ($variants as $variantData) {
             $titleArray = array_map('trim', explode('|', $variantData['title']));
             $valueArray = array_map('trim', explode('|', $variantData['value']));
 
             foreach ($titleArray as $index => $title) {
-                $title                 = "{$title} :: VARSELECT";
-                $allVariants[$title][] = $valueArray[$index];
+                $title                       = "{$title}  (VARSELECT)";
+                $allVariants[$title][]       = $valueArray[$index];
+                $allVariants[$title]["hash"] = $hashArray[$index];
             }
         }
 
         foreach ($allVariants as $title => $values) {
+            $hashTitle = $values["hash"];
+            unset($values["hash"]);
+
             $uniqueValues = array_unique($values);
-            $hashTitle    = md5($title);
 
             foreach ($uniqueValues as $value) {
                 $product->attribute[] = new AssignedAttribute([
