@@ -5,10 +5,9 @@ namespace Makaira\Connect\Modifier\Common;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
-use Makaira\Connect\Type\Common\BaseProduct;
-use Makaira\Connect\Type\Product\Product;
 use Makaira\Connect\Type\Common\AssignedAttribute;
 use Makaira\Connect\Type\Common\AssignedTypedAttribute;
+use Makaira\Connect\Type\Common\BaseProduct;
 
 /**
  * Class AttributeModifier
@@ -41,6 +40,17 @@ class AttributeModifier extends Modifier
                         WHERE
                             oxarticles.oxparentid = :productId
                             AND {{activeSnippet}})
+                        ";
+
+    private $selectVariantsQuery = "
+                        SELECT
+                            1 as `active`,
+                            parent.oxvarname as `title`,
+                            variant.oxvarselect as `value`
+                        FROM
+                            oxarticles parent
+                            JOIN oxarticles variant ON parent.oxid = variant.oxparentid
+                        WHERE variant.oxparentid = :productId
                         ";
 
     /**
@@ -108,7 +118,7 @@ class AttributeModifier extends Modifier
                 'oxvalue' => $attributeData['value'],
             ]);
 
-            $attribute = new AssignedTypedAttribute($attributeData);
+            $attribute               = new AssignedTypedAttribute($attributeData);
             $product->attributeStr[] = $attribute;
 
             $attributeId = $attributeData['id'];
@@ -117,6 +127,28 @@ class AttributeModifier extends Modifier
             }
             if (in_array($attributeId, $this->attributeFloat)) {
                 $product->attributeFloat[] = $attribute;
+            }
+        }
+
+        $variants = $this->database->query(
+            $this->selectVariantsQuery,
+            [
+                'productId' => $product->id,
+            ]
+        );
+
+        foreach ($variants as $variantData) {
+            $titleArray = array_map('trim', explode('|', $variantData['title']));
+            $valueArray = array_map('trim', explode('|', $variantData['value']));
+
+            foreach ($titleArray as $index => $title) {
+                $title                   = "{$title} :: VARSELECT";
+                $product->attributeStr[] = new AssignedTypedAttribute([
+                    'active' => $variantData['active'],
+                    'id'     => md5($title),
+                    'title'  => $title,
+                    'value'  => $valueArray[$index],
+                ]);
             }
         }
 
