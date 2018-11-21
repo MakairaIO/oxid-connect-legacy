@@ -20,9 +20,19 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
             'value' => 'abcdef'
         ];
         $dbMock
-            ->expects($this->atLeastOnce())
+            ->expects($this->at(0))
             ->method('query')
             ->will($this->returnValue([$dbResult]));
+
+        $dbMock
+            ->expects($this->at(1))
+            ->method('query')
+            ->will($this->returnValue([]));
+
+        $dbMock
+            ->expects($this->at(2))
+            ->method('query')
+            ->will($this->returnValue([["oxvarname" => "qwert"]]));
 
         $modifier = new AttributeModifier($dbMock, '1', [], []);
 
