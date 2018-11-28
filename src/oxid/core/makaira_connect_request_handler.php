@@ -143,7 +143,9 @@ class makaira_connect_request_handler
                                 $valueObject->selected =
                                     in_array(
                                         strtolower($valueObject->key),
-                                        array_map('strtolower', (array) $query->aggregations[ $aggregation->key ])
+                                        array_map(function($element) {
+                                            return is_bool($element) ? $element : strtolower($element);
+                                        }, (array) $query->aggregations[ $aggregation->key ])
                                     );
                             }
                             return $valueObject;
