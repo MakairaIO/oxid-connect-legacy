@@ -34,5 +34,4 @@ class VersionHandler
 
         return self::$connectVersion;
     }
-
 }
