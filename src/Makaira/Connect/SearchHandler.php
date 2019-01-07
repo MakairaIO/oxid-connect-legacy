@@ -14,10 +14,30 @@ use Makaira\Aggregation;
 use Makaira\Query;
 use Makaira\Result;
 use Makaira\ResultItem;
+use Makaira\HttpClient;
+use Makaira\Connect\VersionHandler;
 
 class SearchHandler extends AbstractHandler
 {
-    const API_VERSION = "2018.6";
+    /**
+     * @var VersionHandler
+     */
+    protected $versionHandler;
+
+    /**
+     * SearchHandler constructor.
+     *
+     * @param HttpClient     $httpClient
+     * @param string         $url
+     * @param string         $instance
+     * @param VersionHandler $versionHandler
+     */
+    public function __construct(HttpClient $httpClient, $url, $instance, VersionHandler $versionHandler)
+    {
+        parent::__construct($httpClient, $url, $instance);
+
+        $this->versionHandler = $versionHandler;
+    }
 
     /**
      * @param Query $query
@@ -27,7 +47,7 @@ class SearchHandler extends AbstractHandler
     public function search(Query $query, $debugTrace = null)
     {
         $query->searchPhrase = htmlspecialchars_decode($query->searchPhrase, ENT_QUOTES);
-        $query->apiVersion   = self::API_VERSION;
+        $query->apiVersion   = $this->versionHandler->getVersionNumber();
         $request             = "{$this->url}search/";
         $body                = json_encode($query);
         $headers             = ["X-Makaira-Instance: {$this->instance}"];
