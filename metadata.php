@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2018.11.8',
+    'version'     => '2018.12.1',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -39,7 +39,6 @@ $aModule = [
         'oxviewconfig'      => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
         'oxseodecoder'      => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
         'oxoutput'          => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
-        'oxcache'          => 'makaira/connect/src/oxid/core/makaira_connect_oxcache',
         /* components */
         'oxlocator'         => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],
@@ -68,13 +67,13 @@ $aModule = [
         'makaira/filter/range_slider_custom_1.tpl'     => 'makaira/connect/views/tpl/filter/custom/range_slider_custom_1.tpl',
         'makaira/filter/range_slider_custom_2.tpl'     => 'makaira/connect/views/tpl/filter/custom/range_slider_custom_2.tpl',
         /* autosuggest */
-        'makaira/autosuggest/assets.tpl'              => 'makaira/connect/views/tpl/autosuggest/assets.tpl',
-        'makaira/autosuggest/autosuggest.tpl'         => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
-        'makaira/autosuggest/types/products.tpl'      => 'makaira/connect/views/tpl/autosuggest/types/products.tpl',
-        'makaira/autosuggest/types/categories.tpl'    => 'makaira/connect/views/tpl/autosuggest/types/categories.tpl',
-        'makaira/autosuggest/types/manufacturers.tpl' => 'makaira/connect/views/tpl/autosuggest/types/manufacturers.tpl',
-        'makaira/autosuggest/types/links.tpl'         => 'makaira/connect/views/tpl/autosuggest/types/links.tpl',
-        'makaira/autosuggest/types/suggestions.tpl'   => 'makaira/connect/views/tpl/autosuggest/types/suggestions.tpl',
+        'makaira/autosuggest/assets.tpl'               => 'makaira/connect/views/tpl/autosuggest/assets.tpl',
+        'makaira/autosuggest/autosuggest.tpl'          => 'makaira/connect/views/tpl/autosuggest/autosuggest.tpl',
+        'makaira/autosuggest/types/products.tpl'       => 'makaira/connect/views/tpl/autosuggest/types/products.tpl',
+        'makaira/autosuggest/types/categories.tpl'     => 'makaira/connect/views/tpl/autosuggest/types/categories.tpl',
+        'makaira/autosuggest/types/manufacturers.tpl'  => 'makaira/connect/views/tpl/autosuggest/types/manufacturers.tpl',
+        'makaira/autosuggest/types/links.tpl'          => 'makaira/connect/views/tpl/autosuggest/types/links.tpl',
+        'makaira/autosuggest/types/suggestions.tpl'    => 'makaira/connect/views/tpl/autosuggest/types/suggestions.tpl',
         /* results */
         'makaira/results/search.tpl'                   => 'makaira/connect/views/tpl/results/search.tpl',
     ],
@@ -109,8 +108,16 @@ $aModule = [
         ['name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_categorytree_id', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
         ['name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
-        ['name' => 'makaira_connect_use_user_data', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
-        ['name' => 'makaira_connect_use_user_ip', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
+        ['name'  => 'makaira_connect_use_user_data',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'bool',
+         'value' => 0,
+        ],
+        ['name'  => 'makaira_connect_use_user_ip',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'bool',
+         'value' => 0,
+        ],
         [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDSANDATTS',
@@ -210,3 +217,8 @@ $aModule = [
         ],
     ],
 ];
+
+if(oxRegistry::getConfig()->getEdition() === 'EE') {
+    $aModule['extend']['oxcache'] = 'makaira/connect/src/oxid/core/makaira_connect_oxcache';
+}
+

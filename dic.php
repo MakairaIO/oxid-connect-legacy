@@ -374,7 +374,8 @@ $dic['makaira.connect.searchhandler'] = function (\Marm\Yamm\DIC $dic) {
             'makaira_instance',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-        )
+        ),
+        $dic['makaira.connect.version.handler']
     );
 };
 
@@ -389,4 +390,8 @@ $dic['makaira.connect.recommendationhandler'] = function (\Marm\Yamm\DIC $dic) {
         $configuration->url,
         $dic['makaira.instance']
     );
+};
+
+$dic['makaira.connect.version.handler'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\VersionHandler();
 };

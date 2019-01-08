@@ -44,8 +44,6 @@ class makaira_connect_endpoint extends oxUBase
         510 => 'Not Extended',
     );
 
-    private static $version;
-
     /**
      * Main render method
      *
@@ -98,7 +96,9 @@ class makaira_connect_endpoint extends oxUBase
                     $updates = $this->getReplicationStatusAction($body);
                     break;
                 case 'getVersionNumber':
-                    $updates = $this->getVersionNumber();
+                    $dic            = oxRegistry::get('yamm_dic');
+                    $versionHandler = $dic['makaira.connect.version.handler'];
+                    $updates        = $versionHandler->getVersionNumber();
                     break;
                 case 'getUpdates':
                 default:
@@ -261,20 +261,5 @@ class makaira_connect_endpoint extends oxUBase
         $boostFieldStatistics = $dic['makaira.connect.utils.boostfields'];
 
         return $boostFieldStatistics->getMinMaxValues();
-    }
-
-    protected function getVersionNumber()
-    {
-        if (null === self::$version) {
-            $pathToMetadata = __DIR__ . '/../../../../metadata.php';
-            self::$version  = '';
-
-            if (file_exists($pathToMetadata)) {
-                include $pathToMetadata;
-                self::$version = $aModule['version'];
-            }
-        }
-
-        return self::$version;
     }
 }
