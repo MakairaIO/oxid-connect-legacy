@@ -290,15 +290,15 @@ class makaira_connect_autosuggester
      *
      * @return \Makaira\Query
      */
-    protected function modifyRequest(Query $query)
+    public function modifyRequest(Query $query)
     {
         return $query;
     }
 
     /**
-     * @param array $productIds
+     * @param array|mixed $result
      */
-    public function afterSearchRequest(array $productIds = [])
+    public function afterSearchRequest($result)
     {
     }
 }

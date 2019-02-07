@@ -20,7 +20,7 @@ class VersionHandler
     /**
      * @return string
      */
-    public function getVersionNumber(): string
+    public function getVersionNumber()
     {
         if (null === self::$connectVersion) {
             $pathToMetadata = __DIR__ . '/../../../metadata.php';
