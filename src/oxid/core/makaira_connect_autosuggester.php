@@ -59,11 +59,17 @@ class makaira_connect_autosuggester
         $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
         $operationalIntelligence->apply($query);
 
+        // Hook for request modification
+        $this->modifyRequest($query);
+
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
         $debugTrace = $oxConfig->getRequestParameter("mak_debug");
 
         $result = $searchHandler->search($query, $debugTrace);
+
+        // Hook for result modification
+        $this->afterSearchRequest($result);
 
         // get product results
         $aProducts = [];
@@ -277,5 +283,22 @@ class makaira_connect_autosuggester
         $aItem['category']  = $this->translate("MAKAIRA_CONNECT_AUTOSUGGEST_CATEGORY_PRODUCTS");
 
         return $aItem;
+    }
+
+    /**
+     * @param \Makaira\Query $query
+     *
+     * @return \Makaira\Query
+     */
+    protected function modifyRequest(Query $query)
+    {
+        return $query;
+    }
+
+    /**
+     * @param array $productIds
+     */
+    public function afterSearchRequest(array $productIds = [])
+    {
     }
 }

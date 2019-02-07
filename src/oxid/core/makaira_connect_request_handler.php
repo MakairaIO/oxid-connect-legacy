@@ -85,6 +85,7 @@ class makaira_connect_request_handler
             $productIds[] = $item->id;
         }
 
+        // Hook for result modification
         $this->afterSearchRequest($productIds);
 
         $oxArticleList = $this->loadProducts($productIds, $productResult);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b438a0adfbb01b555165ef5d799a288",
+    "content-hash": "7a82ea30d17023fa53fa470d8877cc17",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -512,11 +512,11 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2018.11.0",
+            "version": "2018.12.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "fcb48d80bf6fe625b517e2afaffaf92bc55ba5a7"
+                "reference": "d33b3ff918d8264cc43c8ad7ab8a809d39da7298"
             },
             "require": {
                 "kore/data-object": "@stable"
@@ -533,7 +533,7 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2018-11-14T09:49:36+00:00"
+            "time": "2019-01-10T16:16:42+00:00"
         },
         {
             "name": "marm/yamm",
