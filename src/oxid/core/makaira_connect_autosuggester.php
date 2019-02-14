@@ -60,7 +60,7 @@ class makaira_connect_autosuggester
         $operationalIntelligence->apply($query);
 
         // Hook for request modification
-        $query = $this->modifyRequest($query);
+        $this->modifyRequest($query);
 
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
@@ -69,7 +69,7 @@ class makaira_connect_autosuggester
         $result = $searchHandler->search($query, $debugTrace);
 
         // Hook for result modification
-        $result = $this->afterSearchRequest($result);
+        $this->afterSearchRequest($result);
 
         // get product results
         $aProducts = [];
@@ -287,21 +287,15 @@ class makaira_connect_autosuggester
 
     /**
      * @param \Makaira\Query $query
-     *
-     * @return \Makaira\Query
      */
     public function modifyRequest(Query &$query)
     {
-        return $query;
     }
 
     /**
      * @param $result
-     *
-     * @return mixed
      */
-    public function afterSearchRequest($result)
+    public function afterSearchRequest(&$result)
     {
-        return $result;
     }
 }
