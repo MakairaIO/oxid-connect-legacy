@@ -290,7 +290,7 @@ class makaira_connect_autosuggester
      *
      * @return \Makaira\Query
      */
-    public function modifyRequest(Query &$query)
+    public function modifyRequest(Query $query)
     {
         return $query;
     }
