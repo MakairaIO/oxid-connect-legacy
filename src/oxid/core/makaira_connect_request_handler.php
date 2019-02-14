@@ -70,7 +70,7 @@ class makaira_connect_request_handler
         $categoryInheritance->applyToAggregation($query);
 
         // Hook for request modification
-        $this->modifyRequest($query);
+        $query = $this->modifyRequest($query);
 
         /** @var SearchHandler $searchHandler */
         $searchHandler = $dic['makaira.connect.searchhandler'];
@@ -86,7 +86,7 @@ class makaira_connect_request_handler
         }
 
         // Hook for result modification
-        $this->afterSearchRequest($productIds);
+        $productIds = $this->afterSearchRequest($productIds);
 
         $oxArticleList = $this->loadProducts($productIds, $productResult);
 
@@ -215,6 +215,11 @@ class makaira_connect_request_handler
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
     }
 
+    /**
+     * @param \Makaira\Query $query
+     *
+     * @return \Makaira\Query
+     */
     protected function modifyRequest(Query $query)
     {
         return $query;
@@ -222,9 +227,12 @@ class makaira_connect_request_handler
 
     /**
      * @param array $productIds
+     *
+     * @return array
      */
     public function afterSearchRequest(array $productIds = [])
     {
+        return $productIds;
     }
 
     /**
