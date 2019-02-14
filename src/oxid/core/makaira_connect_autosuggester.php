@@ -288,7 +288,7 @@ class makaira_connect_autosuggester
     /**
      * @param \Makaira\Query $query
      */
-    public function modifyRequest(Query &$query)
+    public function modifyRequest(Query $query)
     {
     }
 
