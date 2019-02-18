@@ -215,17 +215,15 @@ class makaira_connect_request_handler
         $oxUtilsServer->setOxCookie('makairaPageNumber', '', time() - 3600);
     }
 
-    /**
-     * @param \Makaira\Query $query
-     */
-    protected function modifyRequest(Query &$query)
+    protected function modifyRequest(Query $query)
     {
+        return $query;
     }
 
     /**
      * @param array $productIds
      */
-    public function afterSearchRequest(array &$productIds = [])
+    public function afterSearchRequest(array $productIds = [])
     {
     }
 
