@@ -287,18 +287,15 @@ class makaira_connect_autosuggester
 
     /**
      * @param \Makaira\Query $query
-     *
-     * @return \Makaira\Query
      */
-    public function modifyRequest(Query $query)
+    public function modifyRequest(Query &$query)
     {
-        return $query;
     }
 
     /**
-     * @param array|mixed $result
+     * @param $result
      */
-    public function afterSearchRequest($result)
+    public function afterSearchRequest(&$result)
     {
     }
 }
