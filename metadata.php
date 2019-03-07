@@ -20,7 +20,11 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
+<<<<<<< b87b9de40f3ad0250e7b4f5e75383c67d489a051
     'version'     => '2019.4.0',
+=======
+    'version'     => '2018.10.5-econda',
+>>>>>>> Version bump
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
