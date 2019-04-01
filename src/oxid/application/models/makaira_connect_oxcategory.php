@@ -47,4 +47,13 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
         $this->getRepository()->touch('category', $id);
     }
 
+    public function executeDependencyEvent($aCategoryIds = null, $blFlushArticles = true)
+    {
+        if (!self::$disableMakairaTouch && !is_null($aCategoryIds)) {
+            foreach ($aCategoryIds as $sCategoryId) {
+                $this->touch($sCategoryId);
+            }
+        }
+        return parent::executeDependencyEvent($aCategoryIds, $blFlushArticles);
+    }
 }

@@ -3,22 +3,6 @@
 class makaira_category_order_ajax extends makaira_category_order_ajax_parent
 {
     /**
-     * Removes article from list for sorting in category
-     */
-    public function removeCatOrderArticle()
-    {
-        parent::removeCatOrderArticle();
-    }
-
-    /**
-     * Adds article to list for sorting in category
-     */
-    public function addCatOrderArticle()
-    {
-        parent::addCatOrderArticle();
-    }
-
-    /**
      * Saves category articles ordering.
      *
      * @return null
@@ -56,12 +40,12 @@ class makaira_category_order_ajax extends makaira_category_order_ajax_parent
             $db = oxRegistry::get('yamm_dic')['doctrine.connection'];
 
             $sO2CView = $this->_getViewName('oxobject2category');
-            $sSelect = "select oxobjectid from $sO2CView where $sO2CView.oxcatnid=". $db->quote($sId) . ';';
+            $sSelect = "SELECT OXOBJECTID FROM $sO2CView WHERE $sO2CView.OXCATNID=". $db->quote($sId) . ';';
             $oList = $db->fetchAll($sSelect);
             if ($oList) {
                 $oArticle = oxNew("oxarticle");
                 foreach ($oList as $oObjId) {
-                    $oArticle->touch($oObjId['oxobjectid']);
+                    $oArticle->touch($oObjId['OXOBJECTID']);
                 }
             }
         }

@@ -46,7 +46,6 @@ $aModule = [
         'oxlocator'              => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],
     'files'       => [
-//        'makaira_connect_init'            => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_init.php',
         'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_single_sign_on'  => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'          => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
