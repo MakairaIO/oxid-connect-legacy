@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.2.2',
+    'version'     => '2019.2.3',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -31,6 +31,7 @@ $aModule = [
         'manufacturerlist'       => 'makaira/connect/src/oxid/application/controllers/makaira_connect_manufacturerlist',
         /* admin controllers */
         'article_attribute_ajax' => 'makaira/connect/src/oxid/application/controllers/admin/makaira_article_attribute_ajax',
+        'attribute_main_ajax'    => 'makaira/connect/src/oxid/application/controllers/admin/makaira_attribute_main_ajax',
         'category_order_ajax'    => 'makaira/connect/src/oxid/application/controllers/admin/makaira_category_order_ajax',
         /* models */
         'oxarticle'              => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
@@ -46,6 +47,7 @@ $aModule = [
         'oxlocator'              => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],
     'files'       => [
+        'makaira_connect_helper'          => 'makaira/connect/src/oxid/core/makaira_connect_helper.php',
         'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_single_sign_on'  => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'          => 'makaira/connect/src/oxid/core/makaira_connect_events.php',

@@ -1,12 +1,18 @@
 <?php
+/**
+ * This file is part of a marmalade GmbH project
+ * It is not Open Source and may not be redistributed.
+ * For contact information please visit http://www.marmalade.de
+ * Version:    1.0
+ * Author:     Thomas Uhlig <uhlig@marmalade.de>
+ * Author URI: http://www.marmalade.de
+ */
 
+/**
+ * Class makaira_category_order_ajax
+ */
 class makaira_category_order_ajax extends makaira_category_order_ajax_parent
 {
-    /**
-     * Saves category articles ordering.
-     *
-     * @return null
-     */
     public function saveNewOrder()
     {
         parent::saveNewOrder();
@@ -14,11 +20,6 @@ class makaira_category_order_ajax extends makaira_category_order_ajax_parent
         $this->touchCategoryArticles();
     }
 
-    /**
-     * Removes category articles ordering set by saveneworder() method.
-     *
-     * @return null
-     */
     public function remNewOrder()
     {
         parent::remNewOrder();
@@ -26,12 +27,7 @@ class makaira_category_order_ajax extends makaira_category_order_ajax_parent
         $this->touchCategoryArticles();
     }
 
-    /**
-     * Removes category articles ordering set by saveneworder() method.
-     *
-     * @return null
-     */
-    public function touchCategoryArticles()
+    private function touchCategoryArticles()
     {
         $oCategory = oxNew("oxcategory");
         $sId = oxRegistry::getConfig()->getRequestParameter("oxid");

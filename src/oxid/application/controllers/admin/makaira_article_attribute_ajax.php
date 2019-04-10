@@ -1,35 +1,20 @@
 <?php
+/**
+ * This file is part of a marmalade GmbH project
+ * It is not Open Source and may not be redistributed.
+ * For contact information please visit http://www.marmalade.de
+ * Version:    1.0
+ * Author:     Thomas Uhlig <uhlig@marmalade.de>
+ * Author URI: http://www.marmalade.de
+ */
 
+/**
+ * Class makaira_article_attribute_ajax
+ */
 class makaira_article_attribute_ajax extends makaira_article_attribute_ajax_parent
 {
     /**
-     * Removes article attributes.
-     */
-    public function removeAttr()
-    {
-        parent::removeAttr();
-    }
-
-    /**
-     * Adds attributes to article.
-     */
-    public function addAttr()
-    {
-        parent::addAttr();
-    }
-
-    /**
-     * Saves attribute value
-     */
-    public function saveAttributeValue()
-    {
-        parent::saveAttributeValue();
-    }
-
-    /**
-     * Method is used to bind to attribute and article relation change action.
-     *
-     * @param string $articleId
+     * @param mixed $articleId
      */
     protected function onArticleAttributeRelationChange($articleId)
     {
@@ -40,9 +25,7 @@ class makaira_article_attribute_ajax extends makaira_article_attribute_ajax_pare
     }
 
     /**
-     * Method is used to bind to attribute value change.
-     *
-     * @param \OxidEsales\Eshop\Application\Model\Article $article
+     * @param oxarticle $article
      */
     protected function onAttributeValueChange($article)
     {
