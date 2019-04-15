@@ -15,10 +15,8 @@ class makaira_attribute_main_ajax extends makaira_attribute_main_ajax_parent
 {
     public function removeAttrArticle()
     {
-        parent::removeAttrArticle();
-
-        if (oxRegistry::get('makaira_connect_init')->isOxid6()) {
-            $aChosenCat = $this->_getActionIds('oxobject2attribute.oxid');
+        if (oxRegistry::get('makaira_connect_helper')->isOxid6()) {
+            $aChosenCat       = $this->_getActionIds('oxobject2attribute.oxid');
             $sO2AttributeView = $this->_getViewName('oxobject2attribute');
             /** @var \Doctrine\DBAL\Connection $db */
             $db = oxRegistry::get('yamm_dic')['doctrine.connection'];
@@ -26,13 +24,23 @@ class makaira_attribute_main_ajax extends makaira_attribute_main_ajax_parent
             if (oxRegistry::getConfig()->getRequestParameter('all')) {
                 $sSelectSql = "SELECT $sO2AttributeView.`OXOBJECTID` " . $this->_getQuery();
             } else {
-                $aChosenCat = array_map(function ($item) use ($db) {
-                    return $db->quote($item, 'string');
-                }, $aChosenCat);
-                $sSelectSql = "SELECT `OXOBJECTID` FROM `oxobject2attribute` " .
-                    "WHERE `OXID` in (" . implode(", ", $aChosenCat) . ") ";
+                $aChosenCat = array_map(
+                    function ($item) use ($db) {
+                        return $db->quote($item, 'string');
+                    },
+                    $aChosenCat
+                );
+                $sSelectSql =
+                    "SELECT `OXOBJECTID` FROM `oxobject2attribute` " .
+                    "WHERE `OXID` in (" .
+                    implode(", ", $aChosenCat) .
+                    ") ";
             }
+        }
 
+        parent::removeAttrArticle();
+
+        if (oxRegistry::get('makaira_connect_helper')->isOxid6()) {
             $aArticleIds = $db->fetchAll($sSelectSql);
             if ($aArticleIds) {
                 $oArticle = oxNew("oxarticle");

@@ -9,7 +9,7 @@
  */
 
 /**
- * Class makaira_connect_init
+ * Class makaira_connect_helper
  */
 class makaira_connect_helper
 {

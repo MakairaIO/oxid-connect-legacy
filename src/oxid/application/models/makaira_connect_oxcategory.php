@@ -79,11 +79,16 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     public function executeDependencyEvent($aCategoryIds = null, $blFlushArticles = true)
     {
         if (!self::$disableMakairaTouch && null !== $aCategoryIds) {
+            if (!is_array($aCategoryIds)) {
+                $aCategoryIds = (array) $aCategoryIds;
+            }
             foreach ($aCategoryIds as $sCategoryId) {
                 $this->touch($sCategoryId);
             }
         }
 
-        return parent::executeDependencyEvent($aCategoryIds, $blFlushArticles);
+        if (method_exists(get_parent_class($this), 'executeDependencyEvent')) {
+            return parent::executeDependencyEvent($aCategoryIds, $blFlushArticles);
+        }
     }
 }
