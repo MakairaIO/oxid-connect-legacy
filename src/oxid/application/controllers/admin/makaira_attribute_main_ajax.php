@@ -36,12 +36,13 @@ class makaira_attribute_main_ajax extends makaira_attribute_main_ajax_parent
                     implode(", ", $aChosenCat) .
                     ") ";
             }
+
+            $aArticleIds = $db->fetchAll($sSelectSql);
         }
 
         parent::removeAttrArticle();
 
         if (oxRegistry::get('makaira_connect_helper')->isOxid6()) {
-            $aArticleIds = $db->fetchAll($sSelectSql);
             if ($aArticleIds) {
                 $oArticle = oxNew("oxarticle");
                 foreach ($aArticleIds as $aArticleId) {

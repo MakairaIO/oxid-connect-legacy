@@ -29,10 +29,10 @@ class makaira_article_crossselling_ajax extends makaira_article_crossselling_aja
             $sSelectSql = "SELECT `OXOBJECTID` FROM `oxobject2article` " .
                 "WHERE `OXID` in (" . implode(", ", $aChosenArt) . ") ";
         }
+        $aArticleIds = $db->fetchAll($sSelectSql);
 
         parent::removeArticleCross();
 
-        $aArticleIds = $db->fetchAll($sSelectSql);
         if ($aArticleIds) {
             $oArticle = oxNew("oxarticle");
             foreach ($aArticleIds as $aArticleId) {
