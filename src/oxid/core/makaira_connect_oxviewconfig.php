@@ -299,11 +299,29 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             if ((false !== strrpos($key, '_rangemin')) || (false !== strrpos($key, '_rangemax'))) {
                 continue;
             }
+
+            if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
+                $value = $this->fromCurreny($value);
+            }
             $filteredFilterParams[$key] = $value;
         }
 
         $filterParams         = $filteredFilterParams;
 
         return $filterParams;
+    }
+
+    public function toCurrency($value)
+    {
+        $currency = $this->getConfig()->getActShopCurrencyObject();
+
+        return $value * $currency->rate;
+    }
+
+    public function fromCurreny($value)
+    {
+        $currency = $this->getConfig()->getActShopCurrencyObject();
+
+        return $value / $currency->rate;
     }
 }

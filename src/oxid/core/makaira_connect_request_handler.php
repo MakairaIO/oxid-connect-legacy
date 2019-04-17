@@ -118,6 +118,27 @@ class makaira_connect_request_handler
                     }
 
                     break;
+                case 'range_slider_price':
+                    // Equal min and max values are not allowed
+                    $from = $aggregation->min;
+                    $to   = $aggregation->max;
+                    if ($from == $to) {
+                        unset($aggregations[ $aggregation->key ]);
+                        continue;
+                    }
+                    if (isset($query->aggregations[ $aggregation->key . '_from_price' ]) ||
+                        isset($query->aggregations[ $aggregation->key . '_to_price' ])) {
+                        if (isset($query->aggregations[ $aggregation->key . '_from_price' ])) {
+                            $from = $query->aggregations[ $aggregation->key . '_from_price' ];
+                        }
+                        if (isset($query->aggregations[ $aggregation->key . '_to_price' ])) {
+                            $to = $query->aggregations[ $aggregation->key . '_to_price' ];
+                        }
+                        $aggregations[ $aggregation->key ]->selectedValues['from'] = $from;
+                        $aggregations[ $aggregation->key ]->selectedValues['to']   = $to;
+                    }
+
+                    break;
                 case 'categorytree':
                     // TODO: find better way to convert multi-array to multi-stdobject
                     $aggregations[ $aggregation->key ]->values =
