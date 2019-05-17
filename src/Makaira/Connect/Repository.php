@@ -10,17 +10,9 @@ class Repository
         DELETE FROM
           makaira_connect_changes
         WHERE
-          SEQUENCE NOT IN (
-            SELECT S FROM (
-              SELECT
-                MAX(SEQUENCE) AS S
-              FROM
-                makaira_connect_changes
-              GROUP BY
-                OXID, TYPE
-            ) AS c
-          )
+          changed < DATE_SUB(NOW(), INTERVAL 1 DAY);
     ";
+
     /**
      * @var DatabaseInterface
      */
@@ -136,6 +128,8 @@ class Repository
      */
     public function touchAll()
     {
+        $this->cleanUp();
+
         /**
          * @var string $type
          * @var RepositoryInterface $repository
