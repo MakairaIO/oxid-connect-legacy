@@ -165,9 +165,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $databaseMock
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('execute')
             ->withConsecutive(
+                [$this->stringContains('DELETE FROM')],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 1]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 2]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]]
@@ -187,9 +188,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $databaseMock
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(5))
             ->method('execute')
             ->withConsecutive(
+                [$this->stringContains('DELETE FROM')],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 1]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 2]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]],
