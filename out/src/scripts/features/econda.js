@@ -3,75 +3,88 @@ function hCreateCookie(name, value, lifetime, dom) {
     var expires = "";
     if (lifetime) {
         var date = new Date();
-        date.setTime(date.getTime() + 1000*lifetime);
+        date.setTime(date.getTime() + 1000 * lifetime);
         expires = " expires=" + date.toGMTString() + ";";
     }
     var domain = "";
     if (dom) {
-        domain = " domain=" + dom + ";";
+        domain = " domain=" + dom;
     }
 
     document.cookie = name + "=" + value + ";" + expires + " path=/;" + domain + ";";
 }
 
-//function hReadCookie(name) {
-//    var nameEQ = name + "=";
-//    var ca = document.cookie.split(";");
-//    for (var i = 0; i < ca.length; i++) {
-//        var c = ca[i];
-//        while (c.charAt(0) == " ") {
-//            c = c.substring(1, c.length);
-//        }
-//        if (c.indexOf(nameEQ) == 0) {
-//            return c.substring(nameEQ.length, c.length);
-//        }
-//    }
-//
-//    return null;
-//}
+function hReadCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1, c.length);
+        }
+        if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
 
-//function hDeleteCookie(name) {
-//    createCookie(name, "", -1);
-//}
+    return null;
+}
+
+function hDeleteCookie(name) {
+    createCookie(name, "", -1);
+}
 
 function initEcondaCookie() {
     if ("undefined" != (typeof econda)) {
 
-        var request = new XMLHttpRequest()
-        request.open('GET', `?cl=makaira_connect_econda`, true)
+        var makCookiePrefix    = "mak_";
+        var makCookieAccountId = makCookiePrefix + "econda_aid";
+        var makCookieSession   = makCookiePrefix + "econda_sid";
+        var makCookieLifetime  = 86400;
+        var makCookieDomain    = null;
+        var makCookieValue     = null;
 
-        request.onload = () => {
-            if (request.status >= 200 && request.status < 400) {
+        var makEcondaAccountId = hReadCookie(makCookieAccountId);
 
-                var makEcondaAccountId = request.responseText;
-                var makEcondaRequest = new econda.recengine.Request({accountId: makEcondaAccountId});
-                var makEcondaParams = makEcondaRequest.getRecommendationServiceParameters();
+        if (makEcondaAccountId == null) {
+            var request = new XMLHttpRequest()
+            request.open('GET', `?cl=makaira_connect_econda`, true)
 
-                var makCookiePrefix = "mak";
-                var makCookieName = "econda_session";
-                var makCookieValue = JSON.stringify(makEcondaParams)
-                var makCookieLifetime = 86400;
-                var makCookieDomain = ".";
+            request.onload = () => {
+                if (request.status >= 200 && request.status < 400) {
+                    makEcondaAccountId = request.responseText;
+                    makCookieValue     = btoa(makEcondaAccountId);
 
-                hCreateCookie(
-                    makCookiePrefix + "_" + makCookieName,
-                    makCookieValue,
-                    makCookieLifetime,
-                    makCookieDomain
-                );
-
-            } else {
-                // We reached our target server, but it returned an error
-                console.error('Processing in Makaira failed')
+                    hCreateCookie(
+                        makCookieAccountId,
+                        makCookieValue,
+                        makCookieLifetime,
+                        makCookieDomain
+                    );
+                }
             }
+
+            request.onerror = () => {
+                // There was a connection error of some sort
+            }
+
+            request.send();
+        } else {
+            makEcondaAccountId = atob(makEcondaAccountId);
         }
 
-        request.onerror = () => {
-            // There was a connection error of some sort
-            console.error('Connection to Makaira failed')
-        }
+        if (makEcondaAccountId != null) {
+            var makEcondaRequest = new econda.recengine.Request({accountId: makEcondaAccountId});
+            var makEcondaParams  = makEcondaRequest.getRecommendationServiceParameters();
+            var makCookieValue   = JSON.stringify(makEcondaParams);
 
-        request.send()
+            hCreateCookie(
+                makCookieSession,
+                makCookieValue,
+                makCookieLifetime,
+                makCookieDomain
+            );
+        }
     }
 }
 

@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.4.0-RC2',
+    'version'     => '2019.4.0-RC3',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -78,8 +78,15 @@ $aModule = [
         'makaira/autosuggest/types/suggestions.tpl'    => 'makaira/connect/views/tpl/autosuggest/types/suggestions.tpl',
         /* results */
         'makaira/results/search.tpl'                   => 'makaira/connect/views/tpl/results/search.tpl',
+        /* econda */
+        'makaira/econda_base.tpl'                      => 'makaira/connect/views/tpl/econda_base.tpl',
     ],
     'blocks'      => [
+        [
+            'template' => 'layout/base.tpl',
+            'block'    => 'base_style',
+            'file'     => 'views/blocks/econda.tpl'
+        ],
         [
             'template' => 'page/search/search.tpl',
             'block'    => 'search_results',
