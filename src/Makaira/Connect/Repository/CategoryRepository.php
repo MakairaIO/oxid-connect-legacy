@@ -49,4 +49,16 @@ class CategoryRepository extends AbstractRepository
            oxcategories;
         ";
     }
+
+    protected function getParentIdQuery()
+    {
+        return "
+          SELECT
+            OXPARENTID
+          FROM
+            oxcategories
+          WHERE
+            oxcategories.oxid = :id
+        ";
+    }
 }

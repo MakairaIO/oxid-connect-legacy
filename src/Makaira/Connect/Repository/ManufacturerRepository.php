@@ -57,4 +57,9 @@ class ManufacturerRepository extends AbstractRepository
            oxmanufacturers;
         ";
     }
+
+    protected function getParentIdQuery()
+    {
+        return null;
+    }
 }

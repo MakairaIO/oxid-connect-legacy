@@ -57,4 +57,27 @@ class ProductRepository extends AbstractRepository
             OXPARENTID = ''
         ";
     }
+
+    protected function getParentIdQuery()
+    {
+        return "
+          SELECT
+            OXPARENTID
+          FROM
+            oxarticles
+          WHERE
+            oxarticles.oxid = :id
+        ";
+    }
+
+    public function getParentId($id)
+    {
+        $result = $this->database->getColumn($this->getParentIdQuery(), ['id' => $id]);
+
+        if ($result && isset($result[0])) {
+            return $result[0];
+        }
+
+        return null;
+    }
 }

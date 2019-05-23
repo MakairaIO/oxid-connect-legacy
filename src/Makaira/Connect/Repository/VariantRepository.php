@@ -56,4 +56,9 @@ class VariantRepository extends AbstractRepository
             OXPARENTID != ''
         ";
     }
+
+    protected function getParentIdQuery()
+    {
+        return null;
+    }
 }

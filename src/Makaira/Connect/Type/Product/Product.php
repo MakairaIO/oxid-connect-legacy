@@ -16,4 +16,6 @@ class Product extends BaseProduct
     public $category = [];
     public $url;
     public $TRACKING = null;
+
+    public $parent;
 }

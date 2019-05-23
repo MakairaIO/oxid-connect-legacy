@@ -28,6 +28,7 @@ abstract class AbstractRepository
         $result = $this->database->query($this->getSelectQuery(), ['id' => $id]);
 
         $change = new Change();
+        $change->data = null;
 
         if (empty($result)) {
             $change->deleted = true;
@@ -66,4 +67,6 @@ abstract class AbstractRepository
     abstract protected function getSelectQuery();
 
     abstract protected function getAllIdsQuery();
+
+    abstract protected function getParentIdQuery();
 }

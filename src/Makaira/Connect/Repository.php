@@ -26,7 +26,7 @@ class Repository
         FROM
             makaira_connect_changes
         WHERE
-            makaira_connect_changes.sequence > :since
+            makaira_connect_changes.sequence > :since and type = 'product'
         ORDER BY
             sequence ASC
         LIMIT :limit
@@ -40,16 +40,29 @@ class Repository
         (:id, :type, NOW());
     ";
 
+    /**/
+    private $parentProducts = [];
+
+    private $propsExclude = [];
+
+    private $propsSpecial = [];
+
+    private $propsNullValues = [null, '', []];
+
+    /**/
+
     public function __construct(DatabaseInterface $database, array $repositoryMapping = array())
     {
-        $this->database = $database;
+        $this->database          = $database;
         $this->repositoryMapping = $repositoryMapping;
     }
 
     /**
      * Fetch and serialize changes.
+     *
      * @param int $since Sequence offset
      * @param int $limit Fetch limit
+     *
      * @return Changes
      */
     public function getChangesSince($since, $limit = 50)
@@ -59,21 +72,75 @@ class Repository
         $changes = array();
         foreach ($result as $row) {
             try {
-                $change = $this->getRepositoryForType($row['type'])->get($row['id']);
-                $change->id = $row['id'];
-                $change->sequence = $row['sequence'];
-                $change->type = $row['type'];
+                $type     = $row['type'];
+                $sequence = $row['sequence'];
+                $id       = $row['id'];
+                $parentId = null;
+
+                if ('variant' === $type) {
+                    $parentRepository = $this->getRepositoryForType('product');
+                    $parentId         = $parentRepository->getParentId($id);
+
+                    if ($parentId && !isset($this->parentProducts[ $parentId ])) {
+                        $change       = $parentRepository->get($parentId);
+                        $change->id   = $parentId;
+                        $change->type = 'product';
+
+                        $this->parentProducts[ $parentId ] = $change;
+                        unset($change);
+                    }
+                }
+
+                $repository       = $this->getRepositoryForType($type);
+                $change           = $repository->get($id);
+                $change->id       = $id;
+                $change->sequence = $sequence;
+                $change->type     = $type;
+
+                if ('variant' === $type && $parentId) {
+                    foreach ($change->data as $_key => $_data) {
+                        if (in_array($_key, $this->propsExclude, false)) {
+                            continue;
+                        }
+                        $nullValues =
+                            isset($this->propsSpecial[ $_key ]) ? $this->propsSpecial[ $_key ] : $this->propsNullValues;
+                        if (in_array($_data, $nullValues, true)) {
+                            $change->data->$_key = $this->parentProducts[ $parentId ]->data->$_key;
+                        }
+                    }
+                }
+
                 $changes[] = $change;
+
+                if ('product' == $type &&
+                    (true === $change->deleted ||
+                        (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT))) {
+                    $pChange                   = clone $change;
+                    $pChange->data->OXPARENTID = $id;
+                    $pChange->data->parent     = $id;
+                    $pChange->id               = md5($id . '.variant.new');
+                    $pChange->sequence         = $sequence;
+                    $pChange->type             = 'variant';
+
+                    $changes[] = $pChange;
+                    unset($pChange);
+                }
+
+                unset($change);
             } catch (\OutOfBoundsException $e) {
                 // catch no repository found exception
             }
         }
 
-        return new Changes(array(
-            'since' => $since,
-            'count' => count($changes),
-            'changes' => $changes,
-        ));
+        foreach ($changes as $change) {
+            return new Changes(
+                array(
+                    'since'   => $since,
+                    'count'   => count($changes),
+                    'changes' => $changes,
+                )
+            );
+        }
     }
 
     public function countChangesSince($since)
@@ -93,11 +160,11 @@ class Repository
 
     protected function getRepositoryForType($type)
     {
-        if (!isset($this->repositoryMapping[$type])) {
+        if (!isset($this->repositoryMapping[ $type ])) {
             throw new \OutOfBoundsException("No repository defined for type " . $type);
         }
 
-        return $this->repositoryMapping[$type];
+        return $this->repositoryMapping[ $type ];
     }
 
     /**
@@ -116,6 +183,7 @@ class Repository
 
     /**
      * Clean up changes list.
+     *
      * @ignoreCodeCoverage
      */
     public function cleanup()
@@ -131,7 +199,7 @@ class Repository
         $this->cleanUp();
 
         /**
-         * @var string $type
+         * @var string              $type
          * @var RepositoryInterface $repository
          */
         foreach ($this->repositoryMapping as $type => $repository) {
