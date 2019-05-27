@@ -352,6 +352,13 @@ $dic['makaira.connect.modifiers.category.hierarchy'] = function (\Marm\Yamm\DIC 
 };
 $dic->tag('makaira.connect.modifiers.category.hierarchy', 'makaira.importer.modifier.category', 1000);
 
+$dic['makaira.connect.modifiers.category.subcategories'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Category\SubcategoriesModifier(
+        $dic['makaira.connect.category_inheritance']
+    );
+};
+$dic->tag('makaira.connect.modifiers.category.subcategories', 'makaira.importer.modifier.category', 1000);
+
 //------------------------------
 $dic['makaira.connect.configuration'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\ConnectionConfiguration([
