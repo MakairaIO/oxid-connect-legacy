@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of a marmalade GmbH project
  * It is not Open Source and may not be redistributed.
@@ -8,6 +7,7 @@
  * Author:     Jens Richter <richter@marmalade.de>
  * Author URI: http://www.marmalade.de
  */
+
 class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 {
     protected static $makairaFilter = null;
@@ -44,10 +44,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
 
         $this->activeFilter = [];
-        $categoryId     = $this->getActCatId();
-        $manufacturerId = $this->getActManufacturerId();
-        $searchParam    = $this->getActSearchParam();
-        $className      = $this->getActiveClassName();
+        $categoryId         = $this->getActCatId();
+        $manufacturerId     = $this->getActManufacturerId();
+        $searchParam        = $this->getActSearchParam();
+        $className          = $this->getActiveClassName();
 
         // get filter cookie
         $cookieFilter = $this->loadMakairaFilterFromCookie();
@@ -60,7 +60,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             // TODO Handle range filter in frontend and remove this
             $requestFilter = $this->filterRangeValues($requestFilter);
 
-            $cookieFilter = $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
+            $cookieFilter =
+                $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
             $this->saveMakairaFilterToCookie($cookieFilter);
             $this->activeFilter = $requestFilter;
 
@@ -72,12 +73,15 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
 
         if (isset($searchParam) && 'search' == $className) {
-            $this->activeFilter = isset($cookieFilter['search'][$searchParam]) ? $cookieFilter['search'][$searchParam] : [];
+            $this->activeFilter =
+                isset($cookieFilter['search'][ $searchParam ]) ? $cookieFilter['search'][ $searchParam ] : [];
         } elseif (isset($categoryId)) {
-            $this->activeFilter = isset($cookieFilter['category'][$categoryId]) ? $cookieFilter['category'][$categoryId] : [];
+            $this->activeFilter =
+                isset($cookieFilter['category'][ $categoryId ]) ? $cookieFilter['category'][ $categoryId ] : [];
         } elseif (isset($manufacturerId)) {
-            $this->activeFilter = isset($cookieFilter['manufacturer'][$manufacturerId]) ?
-                $cookieFilter['manufacturer'][$manufacturerId] : [];
+            $this->activeFilter =
+                isset($cookieFilter['manufacturer'][ $manufacturerId ]) ?
+                    $cookieFilter['manufacturer'][ $manufacturerId ] : [];
         }
 
         return $this->activeFilter;
@@ -86,7 +90,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     public function resetMakairaFilter($type, $ident)
     {
         $cookieFilter = $this->loadMakairaFilterFromCookie();
-        unset($cookieFilter[$type][$ident]);
+        unset($cookieFilter[ $type ][ $ident ]);
         $this->saveMakairaFilterToCookie($cookieFilter);
     }
 
@@ -119,7 +123,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter_' . $lang);
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
-        static::$makairaFilter = (array)$cookieFilter;
+        static::$makairaFilter = (array) $cookieFilter;
 
         return static::$makairaFilter;
     }
@@ -145,10 +149,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     /**
      * @param $className
      * @param $requestFilter
-     * @param $cookieFilter
      * @param $categoryId
      * @param $manufacturerId
      * @param $searchParam
+     *
      * @return mixed
      */
     public function buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam)
@@ -156,13 +160,13 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $cookieFilter = [];
         switch ($className) {
             case 'alist':
-                $cookieFilter['category'][$categoryId] = $requestFilter;
+                $cookieFilter['category'][ $categoryId ] = $requestFilter;
                 break;
             case 'manufacturerlist':
-                $cookieFilter['manufacturer'][$manufacturerId] = $requestFilter;
+                $cookieFilter['manufacturer'][ $manufacturerId ] = $requestFilter;
                 break;
             case 'search':
-                $cookieFilter['search'][$searchParam] = $requestFilter;
+                $cookieFilter['search'][ $searchParam ] = $requestFilter;
                 break;
         }
         return $cookieFilter;
@@ -176,8 +180,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     public function generateSeoUrlFromFilter($baseUrl, $filterParams)
     {
-        if (isset($this->generatedFilterUrl[$baseUrl])) {
-            return $this->generatedFilterUrl[$baseUrl];
+        if (isset($this->generatedFilterUrl[ $baseUrl ])) {
+            return $this->generatedFilterUrl[ $baseUrl ];
         }
 
         if (empty($filterParams)) {
@@ -190,8 +194,15 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
         if (!$useSeoFilter) {
-            $this->generatedFilterUrl[$baseUrl] = $baseUrl;
-            return $this->generatedFilterUrl[$baseUrl];
+            $this->generatedFilterUrl[ $baseUrl ] = $baseUrl;
+            return $this->generatedFilterUrl[ $baseUrl ];
+        }
+
+        foreach ($filterParams as $key => $value) {
+            if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
+                $value = $this->fromCurreny($value);
+            }
+            $filterParams[ $key ] = $value;
         }
 
         $path = [];
@@ -218,9 +229,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
         $query = $parsedUrl['query'] ? "?{$parsedUrl['query']}" : "";
 
-        $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
+        $this->generatedFilterUrl[ $baseUrl ] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 
-        return $this->generatedFilterUrl[$baseUrl];
+        return $this->generatedFilterUrl[ $baseUrl ];
     }
 
     /**
@@ -231,14 +242,21 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private function generateFilterUrl($baseUrl, $filterParams)
     {
-        if (isset($this->generatedFilterUrl[$baseUrl])) {
-            return $this->generatedFilterUrl[$baseUrl];
+        if (isset($this->generatedFilterUrl[ $baseUrl ])) {
+            return $this->generatedFilterUrl[ $baseUrl ];
         }
 
-        $params = [
+        foreach ($filterParams as $key => $value) {
+            if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
+                $value = $this->fromCurreny($value);
+            }
+            $filterParams[ $key ] = $value;
+        }
+
+        $params      = [
             'makairaFilter' => $filterParams,
         ];
-        $filterQuery  = http_build_query($params);
+        $filterQuery = http_build_query($params);
 
         $parsedUrl = parse_url($baseUrl);
 
@@ -247,11 +265,13 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $query = '';
         if ('' !== $parsedUrl['query']) {
             $queryArray = explode('&amp;', $parsedUrl['query']);
-            $queryArray      = array_filter(
-                $queryArray, function ($part) {
-                return stripos($part, 'fnc=redirectmakaira') !== 0;
-            });
-            $query = implode('&', $queryArray);
+            $queryArray = array_filter(
+                $queryArray,
+                function ($part) {
+                    return stripos($part, 'fnc=redirectmakaira') !== 0;
+                }
+            );
+            $query      = implode('&', $queryArray);
         }
 
         if ('' !== $filterQuery) {
@@ -262,9 +282,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             $query = '?' . $query;
         }
 
-        $this->generatedFilterUrl[$baseUrl] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
+        $this->generatedFilterUrl[ $baseUrl ] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 
-        return $this->generatedFilterUrl[$baseUrl];
+        return $this->generatedFilterUrl[ $baseUrl ];
     }
 
     /**
@@ -277,17 +297,17 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         // TODO Handle range filter in frontend and remove this
         foreach ($filterParams as $key => $value) {
             if (false !== ($pos = strrpos($key, '_to'))) {
-                if (isset($filterParams[substr($key, 0, $pos) . '_rangemax'])) {
-                    if ($value == $filterParams[substr($key, 0, $pos) . '_rangemax']) {
-                        unset($filterParams[$key]);
+                if (isset($filterParams[ substr($key, 0, $pos) . '_rangemax' ])) {
+                    if ($value == $filterParams[ substr($key, 0, $pos) . '_rangemax' ]) {
+                        unset($filterParams[ $key ]);
                         continue;
                     }
                 }
             }
             if (false !== ($pos = strrpos($key, '_from'))) {
-                if (isset($filterParams[substr($key, 0, $pos) . '_rangemin'])) {
-                    if ($value == $filterParams[substr($key, 0, $pos) . '_rangemin']) {
-                        unset($filterParams[$key]);
+                if (isset($filterParams[ substr($key, 0, $pos) . '_rangemin' ])) {
+                    if ($value == $filterParams[ substr($key, 0, $pos) . '_rangemin' ]) {
+                        unset($filterParams[ $key ]);
                         continue;
                     }
                 }
@@ -299,14 +319,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             if ((false !== strrpos($key, '_rangemin')) || (false !== strrpos($key, '_rangemax'))) {
                 continue;
             }
-
-            if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
-                $value = $this->fromCurreny($value);
-            }
-            $filteredFilterParams[$key] = $value;
+            $filteredFilterParams[ $key ] = $value;
         }
 
-        $filterParams         = $filteredFilterParams;
+        $filterParams = $filteredFilterParams;
 
         return $filterParams;
     }
