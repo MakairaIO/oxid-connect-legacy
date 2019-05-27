@@ -1,10 +1,8 @@
 <?php
 /**
  * This file is part of a marmalade GmbH project
- *
  * It is not Open Source and may not be redistributed.
  * For contact information please visit http://www.marmalade.de
- *
  * Version:    1.0
  * Author:     Alexander Kraus <kraus@marmalade.de>
  * Author URI: http://www.marmalade.de
@@ -32,12 +30,12 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
         if (!$useSeoFilter) {
-            return parent::decodeUrl($seoUrl);;
+            return parent::decodeUrl($seoUrl);
         }
 
         $pageNumber = '';
         if (preg_match('#.*/(\d+)$#', rtrim($seoUrl, '/'), $matches)) {
-            $pageNumber = $matches[1].'/';
+            $pageNumber = $matches[1] . '/';
         }
 
         $filter = [];
@@ -46,20 +44,26 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
             $value = urldecode(array_pop($parts));
             $key   = implode('_', $parts);
 
-            if (isset($filter[$key])) {
-                $value = array_merge((array)$filter[$key], (array)$value);
+            if (isset($filter[ $key ])) {
+                $value = array_merge((array) $filter[ $key ], (array) $value);
             }
-            $filter[$key] = $value;
+            $filter[ $key ] = $value;
         }
 
         $seoUrl = $aMatches[1][0] . $pageNumber;
 
-
-        $decodedUrl   = parent::decodeUrl($seoUrl);
+        $decodedUrl = parent::decodeUrl($seoUrl);
         $oxViewConfig = oxNew('oxViewConfig');
-        $cookieFilter = $oxViewConfig->buildCookieFilter($decodedUrl["cl"], $filter, $decodedUrl["cnid"], $decodedUrl["mnid"], null);
+        $cookieFilter =
+            $oxViewConfig->buildCookieFilter(
+                $decodedUrl["cl"],
+                $filter,
+                $decodedUrl["cnid"],
+                $decodedUrl["mnid"],
+                null
+            );
         $oxViewConfig->saveMakairaFilterToCookie($cookieFilter);
+
         return $decodedUrl;
     }
-
 }
