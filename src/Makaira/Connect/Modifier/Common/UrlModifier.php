@@ -76,7 +76,7 @@ class UrlModifier extends Modifier
         $object->assign($objectData);
 
         if ($object instanceof \oxArticle) {
-            $urlGetter = 'getManufacturerUri';
+            $urlGetter = 'getArticleMainUri';
         } elseif ($object instanceof \oxCategory) {
             $urlGetter = 'getCategoryUri';
         } elseif ($object instanceof \oxManufacturer) {
