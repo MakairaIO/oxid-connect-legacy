@@ -49,16 +49,13 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $searchParam        = $this->getActSearchParam();
         $className          = $this->getActiveClassName();
 
-        // get filter cookie
-        $cookieFilter = $this->loadMakairaFilterFromCookie();
         // get filter from form submit
         $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter', true);
-
         $isFilterAction = oxRegistry::getConfig()->getRequestParameter('isFilterAction');
 
         if ($isFilterAction || !empty($requestFilter)) {
             // TODO Handle range filter in frontend and remove this
-            $requestFilter = $this->filterRangeValues($requestFilter);
+            $requestFilter = $this->filterRangeValues($requestFilter, (1 == $isFilterAction));
 
             $cookieFilter =
                 $this->buildCookieFilter($className, $requestFilter, $categoryId, $manufacturerId, $searchParam);
@@ -68,6 +65,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             return $this->activeFilter;
         }
 
+        // get filter cookie
+        $cookieFilter = $this->loadMakairaFilterFromCookie();
         if (empty($cookieFilter)) {
             return $this->activeFilter;
         }
@@ -198,13 +197,6 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             return $this->generatedFilterUrl[ $baseUrl ];
         }
 
-        foreach ($filterParams as $key => $value) {
-            if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
-                $value = $this->fromCurreny($value);
-            }
-            $filterParams[ $key ] = $value;
-        }
-
         $path = [];
         foreach ($filterParams as $key => $value) {
             if (is_array($value)) {
@@ -246,13 +238,6 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             return $this->generatedFilterUrl[ $baseUrl ];
         }
 
-        foreach ($filterParams as $key => $value) {
-            if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
-                $value = $this->fromCurreny($value);
-            }
-            $filterParams[ $key ] = $value;
-        }
-
         $params      = [
             'makairaFilter' => $filterParams,
         ];
@@ -289,10 +274,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     /**
      * @param $filterParams
+     * @param $recalculatePrices
      *
      * @return array
      */
-    private function filterRangeValues($filterParams)
+    private function filterRangeValues($filterParams, $recalculatePrices)
     {
         // TODO Handle range filter in frontend and remove this
         foreach ($filterParams as $key => $value) {
@@ -319,6 +305,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
             if ((false !== strrpos($key, '_rangemin')) || (false !== strrpos($key, '_rangemax'))) {
                 continue;
             }
+            if ($recalculatePrices) {
+                if ((false !== strrpos($key, '_from_price')) || (false !== strrpos($key, '_to_price'))) {
+                    $value = $this->fromCurrency($value);
+                }
+            }
             $filteredFilterParams[ $key ] = $value;
         }
 
@@ -331,13 +322,13 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     {
         $currency = $this->getConfig()->getActShopCurrencyObject();
 
-        return $value * $currency->rate;
+        return round($value * $currency->rate, 2);
     }
 
-    public function fromCurreny($value)
+    public function fromCurrency($value)
     {
         $currency = $this->getConfig()->getActShopCurrencyObject();
 
-        return $value / $currency->rate;
+        return round($value / $currency->rate, 2);
     }
 }

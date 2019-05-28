@@ -4,22 +4,23 @@
 <div class="makaira-filter__slider-container">
     [{assign var='fromname' value='makairaFilter['|cat:$aggregation->key|cat:"_from_price]"}]
     [{assign var='toname' value='makairaFilter['|cat:$aggregation->key|cat:"_to_price]"}]
-    [{assign var='dataLeft' value=$aggregation->min}]
-    [{assign var='dataRight' value=$aggregation->max}]
+    [{assign var='dataMin' value=$oViewConf->toCurrency($aggregation->min)}]
+    [{assign var='dataMax' value=$oViewConf->toCurrency($aggregation->max)}]
     [{if $aggregation->selectedValues}]
-        [{assign var='dataLeft' value=$aggregation->selectedValues.from}]
-        [{assign var='dataRight' value=$aggregation->selectedValues.to}]
+        [{assign var='dataLeft' value=$oViewConf->toCurrency($aggregation->selectedValues.from)}]
+        [{assign var='dataRight' value=$oViewConf->toCurrency($aggregation->selectedValues.to)}]
+    [{else}]
+        [{assign var='dataLeft' value=$dataMin}]
+        [{assign var='dataRight' value=$dataMax}]
     [{/if}]
-    [{assign var='dataLeft' value=$oViewConf->toCurrency($dataLeft)}]
-    [{assign var='dataRight' value=$oViewConf->toCurrency($dataRight)}]
 
-    <input type="hidden" class="makaira-filter__input--min" name="[{$fromname}]" value="[{$oViewConf->toCurrency($aggregation->min)}]" />
-    <input type="hidden" class="makaira-filter__input--max" name="[{$toname}]" value="[{$oViewConf->toCurrency($aggregation->max)}]" />
+    <input type="hidden" class="makaira-filter__input--min" name="[{$fromname}]" value="[{$dataMin}]" />
+    <input type="hidden" class="makaira-filter__input--max" name="[{$toname}]" value="[{$dataMax}]" />
     [{* TODO Handle min max check in js and remove additional inputs *}]
     [{assign var='maxname' value='makairaFilter['|cat:$aggregation->key|cat:"_rangemax]"}]
     [{assign var='minname' value='makairaFilter['|cat:$aggregation->key|cat:"_rangemin]"}]
-    <input type="hidden" name="[{$minname}]" value="[{$oViewConf->toCurrency($aggregation->min)|floor}]" />
-    <input type="hidden" name="[{$maxname}]" value="[{$oViewConf->toCurrency($aggregation->max)|ceil}]" />
+    <input type="hidden" name="[{$minname}]" value="[{$dataMin|floor}]" />
+    <input type="hidden" name="[{$maxname}]" value="[{$dataMax|ceil}]" />
 
     <p class="makaira-filter__slider-values">
         <span class="makaira-filter__symbol--currency">[{$sCurrencySign}]</span>
@@ -30,8 +31,8 @@
     </p>
     <div
         class="makaira-filter__range-slider"
-        data-min="[{$oViewConf->toCurrency($aggregation->min)}]"
-        data-max="[{$oViewConf->toCurrency($aggregation->max)}]"
+        data-min="[{$dataMin}]"
+        data-max="[{$dataMax}]"
         data-left="[{$dataLeft}]"
         data-right="[{$dataRight}]"
     >
