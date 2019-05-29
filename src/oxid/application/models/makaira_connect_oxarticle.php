@@ -1,7 +1,18 @@
 <?php
+/**
+ * This file is part of a marmalade GmbH project
+ * It is not Open Source and may not be redistributed.
+ * For contact information please visit http://www.marmalade.de
+ * Version:    1.0
+ * Author:     Thomas Uhlig <uhlig@marmalade.de>
+ * Author URI: http://www.marmalade.de
+ */
 
 use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 
+/**
+ * Class makaira_connect_oxarticle
+ */
 class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 {
     /**
@@ -20,45 +31,65 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
     public function save()
     {
         $result = parent::save();
+
         if (!self::$disableMakairaTouch && $result) {
             $this->touch();
         }
+
         return $result;
     }
 
+    /**
+     * @param mixed $sOXID
+     *
+     * @return mixed
+     */
     public function delete($sOXID = null)
     {
         if (!self::$disableMakairaTouch) {
             $this->touch($sOXID);
         }
+
         return parent::delete($sOXID);
     }
 
+    /**
+     * @param mixed $oxid
+     *
+     * @return mixed
+     */
     public function getParentId($oxid = null)
     {
         if (!isset($oxid)) {
+
             return parent::getParentId();
         } else {
             /** @var \Makaira\Connect\DatabaseInterface $db */
-            $db = oxRegistry::get('yamm_dic')['oxid.database'];
+            $db       = oxRegistry::get('yamm_dic')['oxid.database'];
             $parentId = $db->query('SELECT OXPARENTID FROM oxarticles WHERE OXID = :id', ['id' => $oxid]);
+
             return empty($parentId) ? null : $parentId[0]['OXPARENTID'];
         }
     }
 
+    /**
+     * @param mixed $oxid
+     */
     public function touch($oxid = null)
     {
         $id = $oxid ?: $this->getId();
+
         if (!$id) {
             return;
         }
+
         if ($parentId = $this->getParentId($oxid)) {
             $this->getRepository()->touch('product', $parentId);
             $this->getRepository()->touch('variant', $id);
         } else {
             $this->getRepository()->touch('product', $id);
             /** @var \Makaira\Connect\DatabaseInterface $db */
-            $db = oxRegistry::get('yamm_dic')['oxid.database'];
+            $db       = oxRegistry::get('yamm_dic')['oxid.database'];
             $variants = $db->query(
                 'SELECT OXID FROM oxarticles WHERE OXPARENTID = :parentId',
                 ['parentId' => $id]
@@ -72,9 +103,11 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
     public function updateSoldAmount($dAmount = 0)
     {
         $result = parent::updateSoldAmount($dAmount);
+
         if (!$dAmount) {
             return $result;
         }
+
         if (!self::$disableMakairaTouch) {
             $this->touch();
         }
@@ -95,7 +128,10 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         if (!self::$disableMakairaTouch) {
             $this->touch($this->getId());
         }
-        return parent::executeDependencyEvent($iDependencyEvent);
+
+        if (method_exists(get_parent_class($this), 'executeDependencyEvent')) {
+            return parent::executeDependencyEvent($iDependencyEvent);
+        }
     }
 
     /**
@@ -139,7 +175,6 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
         } catch (Exception $e) {
             return parent::getSimilarProducts();
         }
-
 
         return $oSimilarlist;
     }

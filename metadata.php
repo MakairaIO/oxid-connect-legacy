@@ -26,23 +26,31 @@ $aModule = [
     'email'       => 'support@makaira.io',
     'extend'      => [
         /* controllers */
-        'search'            => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
-        'alist'             => 'makaira/connect/src/oxid/application/controllers/makaira_connect_alist',
-        'manufacturerlist'  => 'makaira/connect/src/oxid/application/controllers/makaira_connect_manufacturerlist',
+        'search'                    => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
+        'alist'                     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_alist',
+        'manufacturerlist'          => 'makaira/connect/src/oxid/application/controllers/makaira_connect_manufacturerlist',
+        /* admin controllers */
+        'article_attribute_ajax'    => 'makaira/connect/src/oxid/application/controllers/admin/makaira_article_attribute_ajax',
+        'attribute_main_ajax'       => 'makaira/connect/src/oxid/application/controllers/admin/makaira_attribute_main_ajax',
+        'category_order_ajax'       => 'makaira/connect/src/oxid/application/controllers/admin/makaira_category_order_ajax',
+        'article_extend_ajax'       => 'makaira/connect/src/oxid/application/controllers/admin/makaira_article_extend_ajax',
+        'article_crossselling_ajax' => 'makaira/connect/src/oxid/application/controllers/admin/makaira_article_crossselling_ajax',
+        'manufacturer_main_ajax'    => 'makaira/connect/src/oxid/application/controllers/admin/makaira_manufacturer_main_ajax',
         /* models */
-        'oxarticle'         => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
-        'oxarticlelist'     => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticlelist',
-        'oxcategory'        => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
-        'oxobject2category' => 'makaira/connect/src/oxid/application/models/makaira_connect_oxobject2category',
-        'oxmanufacturer'    => 'makaira/connect/src/oxid/application/models/makaira_connect_oxmanufacturer',
+        'oxarticle'                 => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticle',
+        'oxarticlelist'             => 'makaira/connect/src/oxid/application/models/makaira_connect_oxarticlelist',
+        'oxcategory'                => 'makaira/connect/src/oxid/application/models/makaira_connect_oxcategory',
+        'oxobject2category'         => 'makaira/connect/src/oxid/application/models/makaira_connect_oxobject2category',
+        'oxmanufacturer'            => 'makaira/connect/src/oxid/application/models/makaira_connect_oxmanufacturer',
         /* core */
-        'oxviewconfig'      => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
-        'oxseodecoder'      => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
-        'oxoutput'          => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
+        'oxviewconfig'              => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
+        'oxseodecoder'              => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
+        'oxoutput'                  => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
         /* components */
-        'oxlocator'         => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
+        'oxlocator'                 => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],
     'files'       => [
+        'makaira_connect_helper'          => 'makaira/connect/src/oxid/core/makaira_connect_helper.php',
         'makaira_connect_endpoint'        => 'makaira/connect/src/oxid/application/controllers/makaira_connect_endpoint.php',
         'makaira_connect_single_sign_on'  => 'makaira/connect/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php',
         'makaira_connect_events'          => 'makaira/connect/src/oxid/core/makaira_connect_events.php',
@@ -109,15 +117,17 @@ $aModule = [
         ['name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_categorytree_id', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
         ['name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
-        ['name'  => 'makaira_connect_use_user_data',
-         'group' => 'OPERATIONAL_INTELLIGENCE',
-         'type'  => 'bool',
-         'value' => 0,
+        [
+            'name'  => 'makaira_connect_use_user_data',
+            'group' => 'OPERATIONAL_INTELLIGENCE',
+            'type'  => 'bool',
+            'value' => 0,
         ],
-        ['name'  => 'makaira_connect_use_user_ip',
-         'group' => 'OPERATIONAL_INTELLIGENCE',
-         'type'  => 'bool',
-         'value' => 0,
+        [
+            'name'  => 'makaira_connect_use_user_ip',
+            'group' => 'OPERATIONAL_INTELLIGENCE',
+            'type'  => 'bool',
+            'value' => 0,
         ],
         [
             'name'  => 'makaira_field_blacklist_product',
@@ -219,7 +229,6 @@ $aModule = [
     ],
 ];
 
-if(oxRegistry::getConfig()->getEdition() === 'EE') {
+if (oxRegistry::getConfig()->getEdition() === 'EE') {
     $aModule['extend']['oxcache'] = 'makaira/connect/src/oxid/core/makaira_connect_oxcache';
 }
-

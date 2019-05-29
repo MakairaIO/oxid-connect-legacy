@@ -32,7 +32,7 @@ class makaira_connect_events
         self::addUserTokenTable();
         self::migrate();
         // Oxid CE/PE compatibility
-        $isOxid6 = version_compare('6.0', oxRegistry::getConfig()->getVersion(), '<=');
+        $isOxid6 = oxRegistry::get('makaira_connect_helper')->isOxid6();
         self::addColumnsToOxobject2category($isOxid6);
 
         // Oxid 6 compatibility
