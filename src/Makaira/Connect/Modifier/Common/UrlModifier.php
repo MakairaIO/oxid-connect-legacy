@@ -76,13 +76,26 @@ class UrlModifier extends Modifier
         $object->assign($objectData);
 
         if ($object instanceof \oxArticle) {
-            $type->url = $this->encoder->getArticleMainUri($object, $this->oxLang->getBaseLanguage());
+            $urlGetter = 'getArticleMainUri';
         } elseif ($object instanceof \oxCategory) {
-            $type->url = $this->encoder->getCategoryUri($object, $this->oxLang->getBaseLanguage());
+            $urlGetter = 'getCategoryUri';
         } elseif ($object instanceof \oxManufacturer) {
-            $type->url = $this->encoder->getManufacturerUri($object, $this->oxLang->getBaseLanguage());
+            $urlGetter = 'getManufacturerUri';
         }
+        $type->url = $this->encoder->$urlGetter($object, $this->oxLang->getBaseLanguage());
+        $type->selfLinks = $this->getSelfLinks($object, $urlGetter);
 
         return $type;
+    }
+
+    private function getSelfLinks($object, $urlGetter)
+    {
+        $selfLinks = array();
+        $languageIds = $this->oxLang->getLanguageIds();
+        foreach (array_keys($languageIds) as $id) {
+            $key = $languageIds[$id];
+            $selfLinks[$key] = $this->encoder->$urlGetter($object, $id);
+        }
+        return $selfLinks;
     }
 }

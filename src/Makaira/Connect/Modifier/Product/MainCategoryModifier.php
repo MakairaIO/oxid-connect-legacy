@@ -20,10 +20,20 @@ class MainCategoryModifier extends Modifier
      * @var DatabaseInterface
      */
     private $database;
+    /**
+     * @var \oxSeoEncoder|\oxSeoEncoderArticle|\oxSeoEncoderCategory|\oxSeoEncoderManufacturer
+     */
+    private $encoder;
+    /**
+     * @var \oxLang
+     */
+    private $oxLang;
 
-    public function __construct(DatabaseInterface $database)
+    public function __construct(DatabaseInterface $database, \oxSeoEncoder $encoder, \oxLang $oxLang)
     {
         $this->database = $database;
+        $this->encoder = $encoder;
+        $this->oxLang = $oxLang;
     }
 
     /**
@@ -41,7 +51,12 @@ class MainCategoryModifier extends Modifier
 
             $result             = $this->database->query($sql, ['productId' => $type->OXID]);
             if (count($result) > 0 && isset($result[0]['OXCATNID'])) {
-                $type->mainCategory = $result[0]['OXCATNID'];
+                $categoryId = $result[0]['OXCATNID'];
+                $type->mainCategory = $categoryId;
+                $oCategory = oxNew('oxcategory');
+                $languageId = $this->oxLang->getBaseLanguage();
+                $oCategory->loadInLang($languageId, $categoryId);
+                $type->mainCategoryUrl = $this->encoder->getCategoryUri($oCategory, $languageId);
             }
         }
 

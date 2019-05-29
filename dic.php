@@ -18,15 +18,15 @@ foreach ($autoloadLocations as $autoloadLocation) {
 $dic['doctrine.connection'] = function (\Marm\Yamm\DIC $dic) {
     $config = oxRegistry::getConfig();
     $connectionParams = array(
-		'host' => $config->getConfigParam('dbHost'),
-		'port' => $config->getConfigParam('dbPort'),
-		'dbname' => $config->getConfigParam('dbName'),
-		'user' => $config->getConfigParam('dbUser'),
-		'password' => $config->getConfigParam('dbPwd'),
-		'driver' => 'pdo_mysql',
-		'charset' => 'utf8',
-	);
-	return \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+        'host' => $config->getConfigParam('dbHost'),
+        'port' => $config->getConfigParam('dbPort'),
+        'dbname' => $config->getConfigParam('dbName'),
+        'user' => $config->getConfigParam('dbUser'),
+        'password' => $config->getConfigParam('dbPwd'),
+        'driver' => 'pdo_mysql',
+        'charset' => 'utf8',
+    );
+    return \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 };
 
 $dic['oxid.database'] = function (\Marm\Yamm\DIC $dic) {
@@ -132,13 +132,15 @@ $dic['makaira.connect.repository'] = function (\Marm\Yamm\DIC $dic) {
         $repositories[$repository->getType()] = $repository;
     }
     return new Makaira\Connect\Repository(
-        $dic['oxid.database'], $repositories
+        $dic['oxid.database'],
+        $repositories
     );
 };
 
 $dic['makaira.connect.repository.product'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\ProductRepository(
-        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
+        $dic['oxid.database'],
+        new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.product')
         )
     );
@@ -147,7 +149,8 @@ $dic->tag('makaira.connect.repository.product', 'makaira.connect.repository', 10
 
 $dic['makaira.connect.repository.variant'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\VariantRepository(
-        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
+        $dic['oxid.database'],
+        new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.variant')
         )
     );
@@ -156,7 +159,8 @@ $dic->tag('makaira.connect.repository.variant', 'makaira.connect.repository', 99
 
 $dic['makaira.connect.repository.category'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\CategoryRepository(
-        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
+        $dic['oxid.database'],
+        new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.category')
         )
     );
@@ -165,7 +169,8 @@ $dic->tag('makaira.connect.repository.category', 'makaira.connect.repository', 9
 
 $dic['makaira.connect.repository.manufacturer'] = function (\Marm\Yamm\DIC $dic) {
     return new Makaira\Connect\Repository\ManufacturerRepository(
-        $dic['oxid.database'], new Makaira\Connect\Repository\ModifierList(
+        $dic['oxid.database'],
+        new Makaira\Connect\Repository\ModifierList(
             $dic->getTagged('makaira.importer.modifier.manufacturer')
         )
     );
@@ -176,7 +181,9 @@ $dic->tag('makaira.connect.repository.manufacturer', 'makaira.connect.repository
 
 $dic['makaira.connect.modifiers.common.product2shop'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ShopModifier(
-        $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxarticles2shop'
+        $dic['oxid.database'],
+        oxRegistry::getConfig()->isMall(),
+        'oxarticles2shop'
     );
 };
 $dic->tag('makaira.connect.modifiers.common.product2shop', 'makaira.importer.modifier.product', 1000);
@@ -191,14 +198,18 @@ $dic->tag('makaira.connect.modifiers.product.boost_field', 'makaira.importer.mod
 
 $dic['makaira.connect.modifiers.common.category2shop'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ShopModifier(
-        $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxcategories2shop'
+        $dic['oxid.database'],
+        oxRegistry::getConfig()->isMall(),
+        'oxcategories2shop'
     );
 };
 $dic->tag('makaira.connect.modifiers.common.category2shop', 'makaira.importer.modifier.category', 1000);
 
 $dic['makaira.connect.modifiers.common.manufacturer2shop'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Common\ShopModifier(
-        $dic['oxid.database'], oxRegistry::getConfig()->isMall(), 'oxmanufacturers2shop'
+        $dic['oxid.database'],
+        oxRegistry::getConfig()->isMall(),
+        'oxmanufacturers2shop'
     );
 };
 $dic->tag('makaira.connect.modifiers.common.manufacturer2shop', 'makaira.importer.modifier.manufacturer', 1000);
@@ -327,7 +338,9 @@ $dic->tag('makaira.connect.modifiers.product.category', 'makaira.importer.modifi
 
 $dic['makaira.connect.modifiers.product.mainCategory'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Product\MainCategoryModifier(
-        $dic['oxid.database']
+        $dic['oxid.database'],
+        oxRegistry::get('oxSeoEncoderCategory'),
+        $dic['oxid.language']
     );
 };
 $dic->tag('makaira.connect.modifiers.product.mainCategory', 'makaira.importer.modifier.product', 900);
@@ -338,6 +351,13 @@ $dic['makaira.connect.modifiers.category.hierarchy'] = function (\Marm\Yamm\DIC 
     );
 };
 $dic->tag('makaira.connect.modifiers.category.hierarchy', 'makaira.importer.modifier.category', 1000);
+
+$dic['makaira.connect.modifiers.category.subcategories'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Category\SubcategoriesModifier(
+        $dic['makaira.connect.category_inheritance']
+    );
+};
+$dic->tag('makaira.connect.modifiers.category.subcategories', 'makaira.importer.modifier.category', 1000);
 
 //------------------------------
 $dic['makaira.connect.configuration'] = function (\Marm\Yamm\DIC $dic) {
