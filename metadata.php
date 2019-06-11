@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.5.2',
+    'version'     => '2019.4.0-RC3',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -57,6 +57,7 @@ $aModule = [
         'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
         'makaira_connect_autosuggest'     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_autosuggest.php',
         'makaira_connect_autosuggester'   => 'makaira/connect/src/oxid/core/makaira_connect_autosuggester.php',
+        'makaira_connect_econda'          => 'makaira/connect/src/oxid/application/controllers/makaira_connect_econda.php',
     ],
     'templates'   => [
         'makaira_connect_single_sign_on.tpl'           => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
@@ -85,8 +86,15 @@ $aModule = [
         'makaira/autosuggest/types/suggestions.tpl'    => 'makaira/connect/views/tpl/autosuggest/types/suggestions.tpl',
         /* results */
         'makaira/results/search.tpl'                   => 'makaira/connect/views/tpl/results/search.tpl',
+        /* econda */
+        'makaira/econda_base.tpl'                      => 'makaira/connect/views/tpl/econda_base.tpl',
     ],
     'blocks'      => [
+        [
+            'template' => 'layout/base.tpl',
+            'block'    => 'base_style',
+            'file'     => 'views/blocks/econda.tpl'
+        ],
         [
             'template' => 'page/search/search.tpl',
             'block'    => 'search_results',
@@ -129,6 +137,8 @@ $aModule = [
             'type'  => 'bool',
             'value' => 0,
         ],
+        ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDSANDATTS',
