@@ -51,12 +51,11 @@ class ActiveModifier extends Modifier
 
         $product->mak_active = (bool) count($result);
 
-
         // FIXME: We can only remove this legacy logic once the query is using mak_active and all customers
         // have updated their module (?)
         $product->active = (bool) $product->OXACTIVE;
         if (isset($product->OXHIDDEN)) {
-            $product->active = $product->active && !(bool) $product->OXHIDDEN;
+            $product->active = $product->active && !((bool) $product->OXHIDDEN);
         }
 
         return $product;

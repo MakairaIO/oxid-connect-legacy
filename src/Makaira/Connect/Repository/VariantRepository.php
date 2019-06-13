@@ -2,9 +2,10 @@
 
 namespace Makaira\Connect\Repository;
 
+use Makaira\Connect\Repository\ProductRepository;
 use Makaira\Connect\Type\Variant\Variant;
 
-class VariantRepository extends AbstractRepository
+class VariantRepository extends ProductRepository
 {
     /**
      * Get TYPE of repository.
@@ -55,10 +56,5 @@ class VariantRepository extends AbstractRepository
           WHERE
             OXPARENTID != ''
         ";
-    }
-
-    protected function getParentIdQuery()
-    {
-        return null;
     }
 }

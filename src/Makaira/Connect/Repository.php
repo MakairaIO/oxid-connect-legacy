@@ -26,7 +26,7 @@ class Repository
         FROM
             makaira_connect_changes
         WHERE
-            makaira_connect_changes.sequence > :since and type = 'product'
+            makaira_connect_changes.sequence > :since
         ORDER BY
             sequence ASC
         LIMIT :limit
@@ -43,14 +43,26 @@ class Repository
     /**/
     private $parentProducts = [];
 
-    private $propsExclude = [];
+    /**/
+    private $propsExclude = [
+        'attribute',
+        'attributeStr',
+        'attributeInt',
+        'attributeFloat',
+    ];
 
-    private $propsSpecial = [];
-
+    /**/
     private $propsNullValues = [null, '', []];
 
     /**/
+    private $propsSpecial = [];
 
+    /**
+     * Repository constructor.
+     *
+     * @param \Makaira\Connect\DatabaseInterface $database
+     * @param array                              $repositoryMapping
+     */
     public function __construct(DatabaseInterface $database, array $repositoryMapping = array())
     {
         $this->database          = $database;
@@ -72,32 +84,30 @@ class Repository
         $changes = array();
         foreach ($result as $row) {
             try {
+                $productRepository = $this->getRepositoryForType('product');
+                $typeProduct       = $productRepository->getType();
+                $variantRepository = $this->getRepositoryForType('variant');
+                $typeVariant       = $variantRepository->getType();
+
                 $type     = $row['type'];
                 $sequence = $row['sequence'];
                 $id       = $row['id'];
                 $parentId = null;
 
-                if ('variant' === $type) {
-                    $parentRepository = $this->getRepositoryForType('product');
-                    $parentId         = $parentRepository->getParentId($id);
+                if ($typeVariant === $type) {
+                    $parentId = $productRepository->getParentId($id);
 
                     if ($parentId && !isset($this->parentProducts[ $parentId ])) {
-                        $change       = $parentRepository->get($parentId);
-                        $change->id   = $parentId;
-                        $change->type = 'product';
-
+                        $change                            = $productRepository->get($parentId);
                         $this->parentProducts[ $parentId ] = $change;
                         unset($change);
                     }
                 }
 
-                $repository       = $this->getRepositoryForType($type);
-                $change           = $repository->get($id);
-                $change->id       = $id;
+                $change           = $this->getRepositoryForType($type)->get($id);
                 $change->sequence = $sequence;
-                $change->type     = $type;
 
-                if ('variant' === $type && $parentId) {
+                if ($typeVariant === $type && $parentId) {
                     foreach ($change->data as $_key => $_data) {
                         if (in_array($_key, $this->propsExclude, false)) {
                             continue;
@@ -112,15 +122,15 @@ class Repository
 
                 $changes[] = $change;
 
-                if ('product' == $type &&
+                if ($typeProduct === $type &&
                     (true === $change->deleted ||
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT))) {
                     $pChange                   = clone $change;
-                    $pChange->data->OXPARENTID = $id;
                     $pChange->data->parent     = $id;
+                    $pChange->data->OXPARENTID = $id;
                     $pChange->id               = md5($id . '.variant.new');
                     $pChange->sequence         = $sequence;
-                    $pChange->type             = 'variant';
+                    $pChange->type             = $typeVariant;
 
                     $changes[] = $pChange;
                     unset($pChange);
@@ -132,15 +142,14 @@ class Repository
             }
         }
 
-        foreach ($changes as $change) {
-            return new Changes(
-                array(
-                    'since'   => $since,
-                    'count'   => count($changes),
-                    'changes' => $changes,
-                )
-            );
-        }
+        return new Changes(
+            array(
+                'since'          => $since,
+                'count'          => count($changes),
+                'requestedCount' => $limit,
+                'changes'        => $changes,
+            )
+        );
     }
 
     public function countChangesSince($since)

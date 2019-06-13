@@ -24,16 +24,25 @@ class StockModifier extends Modifier
      */
     public function apply(Type $product)
     {
+        $onStock = true;
+
         if (\oxRegistry::getConfig()->getShopConfVar('blUseStock')) {
             $oxArticle = \oxRegistry::get('oxArticle');
             $table = $oxArticle->getCoreTableName();
-            $stockSnippet = "(oxarticles.oxstockflag = 4 OR oxarticles.oxstock > 0 OR oxarticles.oxvarstock > 0)";
+            $stockSnippet = "(oxarticles.oxstockflag != 2 OR oxarticles.oxstock > 0 OR oxarticles.oxvarstock > 0)";
+
+            // 1 --> Standard
+            // 2 --> Wenn ausverkauft offline
+            // 3 --> Wenn ausverkauft nicht bestellbar
+            // 4 --> Fremdlager
 
             $sql = "SELECT * FROM {$table} WHERE OXID = '{$product->id}' AND {$stockSnippet}";
             $result = $this->database->query($sql);
 
-            $product->mak_onstock = (bool) count($result);
+            $onStock = (bool) count($result);
         }
+
+        $product->mak_onstock = $onStock;
 
         return $product;
     }

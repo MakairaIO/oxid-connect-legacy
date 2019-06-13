@@ -415,3 +415,13 @@ $dic['makaira.connect.recommendationhandler'] = function (\Marm\Yamm\DIC $dic) {
 $dic['makaira.connect.version.handler'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\VersionHandler();
 };
+
+$dic['makaira.connect.modifiers.common.default.values'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\DefaultProperties(
+        $dic['oxid.database']
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.product', 9999);
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.variant', 9999);
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.category', 9999);
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.manufacturer', 9999);

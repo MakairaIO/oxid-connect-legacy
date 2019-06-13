@@ -22,8 +22,22 @@ class BaseProduct extends Type
     /* attributes as Float */
     public $attributeFloat = [];
 
-    /* mak-fields */
-    public $mak_onstock = true;
+    /* required fields + mak-fields */
+    public $mak_ean = '';
+    public $mak_title = '';
+    public $mak_searchkeys = '';
+    public $mak_hidden = false;
+    public $mak_sort = 0;
+    public $mak_longdesc = '';
+    public $mak_shortdesc = '';
+    public $mak_stock = 0;
+    public $mak_onstock = false;
+    public $mak_manufacturerId = '';
+    public $mak_manufacturer_title = '';
+    public $mak_price = 0.00;
+    public $mak_insert;
+    public $mak_soldamount = 0;
+    public $mak_rating = 0.0;
 
     /* Added for OXSEARCH */
     public $MARM_OXSEARCH_BOOST;
@@ -65,11 +79,11 @@ class BaseProduct extends Type
     public $OXVAT;
     public $OXVARMINPRICE;
     public $OXVARMAXPRICE;
-//    public $OXUPDATEPRICE;
-//    public $OXUPDATEPRICEA;
-//    public $OXUPDATEPRICEB;
-//    public $OXUPDATEPRICEC;
-//    public $OXUPDATEPRICETIME;
+    //    public $OXUPDATEPRICE;
+    //    public $OXUPDATEPRICEA;
+    //    public $OXUPDATEPRICEB;
+    //    public $OXUPDATEPRICEC;
+    //    public $OXUPDATEPRICETIME;
 
     /* multishop */
     public $OXMAPID;
@@ -99,11 +113,11 @@ class BaseProduct extends Type
     public $OXPIC5;
     public $OXPIC6;
     public $OXPIC7;
-//    public $OXPIC8;
-//    public $OXPIC9;
-//    public $OXPIC10;
-//    public $OXPIC11;
-//    public $OXPIC12;
+    //    public $OXPIC8;
+    //    public $OXPIC9;
+    //    public $OXPIC10;
+    //    public $OXPIC11;
+    //    public $OXPIC12;
 
     /* dimensions */
     public $OXWEIGHT;
@@ -119,8 +133,8 @@ class BaseProduct extends Type
     public $OXMINDELTIME;
     public $OXMAXDELTIME;
     public $OXDELTIMEUNIT;
-//    public $OXSTOCKTEXT;
-//    public $OXNOSTOCKTEXT;
+    //    public $OXSTOCKTEXT;
+    //    public $OXNOSTOCKTEXT;
 
     /* rating */
     public $OXRATING;
@@ -142,21 +156,21 @@ class BaseProduct extends Type
     /* Backport from Oxid 6.0 */
     public $OXHIDDEN;
 
-//    /* external url */
-//    public $OXEXTURL;
-//    public $OXURLDESC;
-//    public $OXURLIMG;
+    //    /* external url */
+    //    public $OXEXTURL;
+    //    public $OXURLDESC;
+    //    public $OXURLIMG;
 
-//    /* OXID internal */
-//    public $OXREMINDACTIVE;
-//    public $OXREMINDAMOUNT;
-//    public $OXAMITEMID;
-//    public $OXAMTASKID;
-//    public $OXFOLDER;
-//    public $OXTEMPLATE;
-//    public $OXSUBCLASS;
-//    public $OXQUESTIONEMAIL;
-//    public $OXSHOWCUSTOMAGREEMENT;
-//    public $OXSKIPDISCOUNTS;
-//    public $OXBUNDLEID;
+    //    /* OXID internal */
+    //    public $OXREMINDACTIVE;
+    //    public $OXREMINDAMOUNT;
+    //    public $OXAMITEMID;
+    //    public $OXAMTASKID;
+    //    public $OXFOLDER;
+    //    public $OXTEMPLATE;
+    //    public $OXSUBCLASS;
+    //    public $OXQUESTIONEMAIL;
+    //    public $OXSHOWCUSTOMAGREEMENT;
+    //    public $OXSKIPDISCOUNTS;
+    //    public $OXBUNDLEID;
 }

@@ -27,8 +27,9 @@ abstract class AbstractRepository
     {
         $result = $this->database->query($this->getSelectQuery(), ['id' => $id]);
 
-        $change = new Change();
-        $change->data = null;
+        $change       = new Change();
+        $change->id   = $id;
+        $change->type = $this->getType();
 
         if (empty($result)) {
             $change->deleted = true;

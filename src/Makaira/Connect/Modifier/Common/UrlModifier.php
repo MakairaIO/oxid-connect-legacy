@@ -96,6 +96,7 @@ class UrlModifier extends Modifier
             $key = $languageIds[$id];
             $selfLinks[$key] = $this->encoder->$urlGetter($object, $id);
         }
+
         return $selfLinks;
     }
 }

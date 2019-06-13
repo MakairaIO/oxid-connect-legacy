@@ -6,12 +6,17 @@ use Kore\DataObject\DataObject;
 
 class Type extends DataObject
 {
+    /* primary id field */
     public $id;
+
+    /* required fields + mak-fields */
     public $timestamp;
-    public $shop = [];
-    public $active = true;
+    public $url;
     public $mak_active = true;
-    public $OXID;
+    public $active = true;
+    public $shop = [];
+
+    /* additional data array */
     public $additionalData = [];
 
     public function __set($name, $value)
@@ -21,7 +26,7 @@ class Type extends DataObject
         } catch (\Exception $e) {
             // catch exception on unknown fields
             // unknown fields will be added to additional data array
-            $this->additionalData[$name] = $value;
+            $this->additionalData[ $name ] = $value;
         }
     }
 
@@ -35,14 +40,14 @@ class Type extends DataObject
             if (!array_key_exists($name, $this->additionalData)) {
                 throw $e;
             }
-            return $this->additionalData[$name];
+            return $this->additionalData[ $name ];
         }
     }
 
     public function __isset($name)
     {
         // unknown fields are added to additional data array
-        return isset($this->additionalData[$name]);
+        return isset($this->additionalData[ $name ]);
     }
 
     public function __unset($name)
@@ -55,7 +60,7 @@ class Type extends DataObject
             if (!array_key_exists($name, $this->additionalData)) {
                 throw $e;
             }
-            unset($this->additionalData[$name]);
+            unset($this->additionalData[ $name ]);
         }
     }
 }

@@ -11,6 +11,7 @@ use Makaira\Connect\Type;
 class Category extends Type
 {
     public $oxobject = [];
+
     public $OXACTIVE;
     public $OXHIDDEN;
     public $OXPARENTID;
@@ -35,8 +36,8 @@ class Category extends Type
     public $OXSKIPDISCOUNTS;
     public $OXSHOWSUFFIX;
     public $OXTIMESTAMP;
+
     public $MARM_OXSEARCH_FILTERS;
     public $MARM_OXSEARCH_MAPPINGS;
     public $MARMOXSEARCHSEARCHKEYS;
-    public $url;
 }
