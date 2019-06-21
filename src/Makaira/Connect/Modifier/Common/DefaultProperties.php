@@ -36,6 +36,7 @@ class DefaultProperties extends Modifier
         'mak_insert'             => 'OXINSERT',
         'mak_soldamount'         => 'OXSOLDAMOUNT',
         'mak_rating'             => 'OXRATING',
+        'mak_issearch'           => 'OXISSEARCH',
 
         'mak_ean'     => 'OXARTNUM',
         'mak_onstock' => true,
