@@ -6,19 +6,25 @@ use Makaira\Import\Changes;
 
 class Repository
 {
-    protected $cleanupQuery = "
+    /**
+     * @var string
+     */
+    protected $cleanupQuery = '
         DELETE FROM
           makaira_connect_changes
         WHERE
           changed < DATE_SUB(NOW(), INTERVAL 1 DAY);
-    ";
+    ';
 
     /**
      * @var DatabaseInterface
      */
     private $database;
 
-    protected $selectQuery = "
+    /**
+     * @var string
+     */
+    protected $selectQuery = '
         SELECT
             makaira_connect_changes.sequence,
             makaira_connect_changes.oxid AS `id`,
@@ -30,20 +36,27 @@ class Repository
         ORDER BY
             sequence ASC
         LIMIT :limit
-    ";
+    ';
 
-    protected $touchQuery = "
+    /**
+     * @var string
+     */
+    protected $touchQuery = '
         REPLACE INTO
           makaira_connect_changes
         (OXID, TYPE, CHANGED)
           VALUES
         (:id, :type, NOW());
-    ";
+    ';
 
-    /**/
+    /**
+     * @var array
+     */
     private $parentProducts = [];
 
-    /**/
+    /**
+     * @var array
+     */
     private $propsExclude = [
         'attribute',
         'attributeStr',
@@ -51,10 +64,21 @@ class Repository
         'attributeFloat',
     ];
 
-    /**/
+    /**
+     * @var array
+     */
+    private $propsInclude = [
+        'OXISSEARCH',
+    ];
+
+    /**
+     * @var array
+     */
     private $propsNullValues = [null, '', []];
 
-    /**/
+    /**
+     * @var array
+     */
     private $propsSpecial = [];
 
     /**
@@ -114,7 +138,7 @@ class Repository
                         }
                         $nullValues =
                             isset($this->propsSpecial[ $_key ]) ? $this->propsSpecial[ $_key ] : $this->propsNullValues;
-                        if (in_array($_data, $nullValues, true)) {
+                        if (in_array($_key, $this->propsInclude, false) || in_array($_data, $nullValues, true)) {
                             $change->data->$_key = $this->parentProducts[ $parentId ]->data->$_key;
                         }
                     }
