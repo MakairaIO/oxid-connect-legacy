@@ -20,10 +20,12 @@ class MainCategoryModifier extends Modifier
      * @var DatabaseInterface
      */
     private $database;
+
     /**
      * @var \oxSeoEncoder|\oxSeoEncoderArticle|\oxSeoEncoderCategory|\oxSeoEncoderManufacturer
      */
     private $encoder;
+
     /**
      * @var \oxLang
      */
@@ -32,8 +34,8 @@ class MainCategoryModifier extends Modifier
     public function __construct(DatabaseInterface $database, \oxSeoEncoder $encoder, \oxLang $oxLang)
     {
         $this->database = $database;
-        $this->encoder = $encoder;
-        $this->oxLang = $oxLang;
+        $this->encoder  = $encoder;
+        $this->oxLang   = $oxLang;
     }
 
     /**
@@ -49,12 +51,15 @@ class MainCategoryModifier extends Modifier
         if (!isset($type->mainCategory)) {
             $sql = "SELECT OXCATNID FROM oxobject2category WHERE OXOBJECTID=:productId ORDER BY OXTIME LIMIT 1";
 
-            $result             = $this->database->query($sql, ['productId' => $type->OXID]);
+            $result = $this->database->query($sql, ['productId' => $type->OXID]);
+            if (0 == count($result)) {
+                $result = $this->database->query($sql, ['productId' => $type->OXPARENTID]);
+            }
             if (count($result) > 0 && isset($result[0]['OXCATNID'])) {
-                $categoryId = $result[0]['OXCATNID'];
+                $categoryId         = $result[0]['OXCATNID'];
                 $type->mainCategory = $categoryId;
-                $oCategory = oxNew('oxcategory');
-                $languageId = $this->oxLang->getBaseLanguage();
+                $oCategory          = oxNew('oxcategory');
+                $languageId         = $this->oxLang->getBaseLanguage();
                 $oCategory->loadInLang($languageId, $categoryId);
                 $type->mainCategoryUrl = $this->encoder->getCategoryUri($oCategory, $languageId);
             }

@@ -149,12 +149,17 @@ class Repository
                 if ($typeProduct === $type &&
                     (true === $change->deleted ||
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT))) {
-                    $pChange                   = clone $change;
-                    $pChange->data->parent     = $id;
-                    $pChange->data->OXPARENTID = $id;
-                    $pChange->id               = md5($id . '.variant.new');
-                    $pChange->sequence         = $sequence;
-                    $pChange->type             = $typeVariant;
+                    $pChange               = clone $change;
+                    $pChange->data->parent = $id;
+                    if (isset($pChange->data->OXPARENTID)) {
+                        $pChange->data->OXPARENTID = $id;
+                    }
+                    $pChange->id = md5($id . '.variant.new');
+                    if (isset($pChange->data->OXID)) {
+                        $pChange->data->OXID = $pChange->id;
+                    }
+                    $pChange->sequence = $sequence;
+                    $pChange->type     = $typeVariant;
 
                     $changes[] = $pChange;
                     unset($pChange);

@@ -16,7 +16,7 @@ use Makaira\Connect\Type\Common\BaseProduct;
  */
 class AttributeModifier extends Modifier
 {
-    private $selectAttributesQuery = "
+    private $selectAttributesQuery = '
                         ( SELECT
                             :productActive as `active`,
                             oxattribute.oxid as `id`,
@@ -27,6 +27,7 @@ class AttributeModifier extends Modifier
                             JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
                         WHERE
                             oxobject2attribute.oxobjectid = :productId
+                            AND oxobject2attribute.oxvalue != \'\'
                         ) UNION (
                         SELECT
                             oxactive as `active`,
@@ -39,10 +40,11 @@ class AttributeModifier extends Modifier
                             JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
                         WHERE
                             oxarticles.oxparentid = :productId
+                            AND oxobject2attribute.oxvalue != \'\'
                             AND {{activeSnippet}})
-                        ";
+                        ';
 
-    private $selectVariantsQuery = "
+    private $selectVariantsQuery = '
                         SELECT
                             1 as `active`,
                             parent.oxvarname as `title`,
@@ -51,16 +53,16 @@ class AttributeModifier extends Modifier
                             oxarticles parent
                             JOIN oxarticles variant ON parent.oxid = variant.oxparentid
                         WHERE variant.oxparentid = :productId
-                        ";
+                        ';
 
-    private $selectVariantNameQuery = "
+    private $selectVariantNameQuery = '
                         SELECT
                             oxvarname
                         FROM
                             oxarticles
                         WHERE
                             oxid = :productId
-                        ";
+                        ';
 
     /**
      * @var DatabaseInterface
@@ -116,16 +118,16 @@ class AttributeModifier extends Modifier
             ]
         );
 
-        $product->attribute      = [];
+        //        $product->attribute      = [];
         $product->attributeInt   = [];
         $product->attributeFloat = [];
         foreach ($attributes as $attributeData) {
-            $product->attribute[] = new AssignedAttribute([
-                'active'  => $attributeData['active'],
-                'oxid'    => $attributeData['id'],
-                'oxtitle' => $attributeData['title'],
-                'oxvalue' => $attributeData['value'],
-            ]);
+            //            $product->attribute[] = new AssignedAttribute([
+            //                'active'  => $attributeData['active'],
+            //                'oxid'    => $attributeData['id'],
+            //                'oxtitle' => $attributeData['title'],
+            //                'oxvalue' => $attributeData['value'],
+            //            ]);
 
             $attribute               = new AssignedTypedAttribute($attributeData);
             $product->attributeStr[] = $attribute;
@@ -161,9 +163,9 @@ class AttributeModifier extends Modifier
             $valueArray = array_map('trim', explode('|', $variantData['value']));
 
             foreach ($titleArray as $index => $title) {
-                $title                       = "{$title}  (VARSELECT)";
-                $allVariants[$title][]       = $valueArray[$index];
-                $allVariants[$title]["hash"] = $hashArray[$index];
+                $title                         = "{$title}  (VARSELECT)";
+                $allVariants[ $title ][]       = $valueArray[ $index ];
+                $allVariants[ $title ]["hash"] = $hashArray[ $index ];
             }
         }
 
@@ -174,19 +176,21 @@ class AttributeModifier extends Modifier
             $uniqueValues = array_unique($values);
 
             foreach ($uniqueValues as $value) {
-                $product->attribute[] = new AssignedAttribute([
-                    'active'  => $variantData['active'],
-                    'oxid'    => $hashTitle,
-                    'oxtitle' => $title,
-                    'oxvalue' => $value,
-                ]);
+                //                $product->attribute[] = new AssignedAttribute([
+                //                    'active'  => $variantData['active'],
+                //                    'oxid'    => $hashTitle,
+                //                    'oxtitle' => $title,
+                //                    'oxvalue' => $value,
+                //                ]);
 
-                $product->attributeStr[] = new AssignedTypedAttribute([
-                    'active' => $variantData['active'],
-                    'id'     => $hashTitle,
-                    'title'  => $title,
-                    'value'  => $value,
-                ]);
+                $product->attributeStr[] = new AssignedTypedAttribute(
+                    [
+                        'active' => $variantData['active'],
+                        'id'     => $hashTitle,
+                        'title'  => $title,
+                        'value'  => $value,
+                    ]
+                );
             }
         }
 

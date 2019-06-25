@@ -16,10 +16,12 @@ class DefaultProperties extends Modifier
     private $db;
 
     private $commonFieldMapping = [
-        'id'         => 'OXID',
-        'timestamp'  => 'OXTIMESTAMP',
-        'url'        => '',
-        'mak_active' => 'OXACTIVE',
+        'id'                   => 'OXID',
+        'timestamp'            => 'OXTIMESTAMP',
+        'url'                  => '',
+        'mak_active'           => 'OXACTIVE',
+        'mak_meta_keywords'    => '',
+        'mak_meta_description' => '',
     ];
 
     private $productFieldMapping = [
@@ -31,7 +33,6 @@ class DefaultProperties extends Modifier
         'mak_longdesc'           => 'OXLONGDESC',
         'mak_stock'              => 0,
         'mak_manufacturerId'     => 'OXMANUFACTURERID',
-        'mak_manufacturer_title' => 'MARM_OXSEARCH_MANUFACTURERTITLE',
         'mak_price'              => 'OXPRICE',
         'mak_insert'             => 'OXINSERT',
         'mak_soldamount'         => 'OXSOLDAMOUNT',
@@ -68,17 +69,14 @@ class DefaultProperties extends Modifier
             case "product":
             case "variant":
                 $mappingFields = $this->productFieldMapping;
-                //$oxArticle = \oxRegistry::get('oxArticle');
                 break;
 
             case "category":
                 $mappingFields = $this->categoryFieldMapping;
-                //$oxCategory = \oxRegistry::get('oxCategory');
                 break;
 
             case "manufacturer":
                 $mappingFields = $this->manufacturerFieldMapping;
-                //$oxManufacturer = \oxRegistry::get('oxManufacturer');
                 break;
 
             default:
@@ -86,7 +84,7 @@ class DefaultProperties extends Modifier
                 break;
         }
 
-        $mappingFields = array_merge($mappingFields, $this->commonFieldMapping);
+        $mappingFields = array_merge($this->commonFieldMapping, $mappingFields);
 
         foreach ($mappingFields as $target => $source) {
             if ($source && isset($entity->$source)) {
