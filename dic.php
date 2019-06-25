@@ -344,6 +344,7 @@ $dic['makaira.connect.modifiers.product.mainCategory'] = function (\Marm\Yamm\DI
     );
 };
 $dic->tag('makaira.connect.modifiers.product.mainCategory', 'makaira.importer.modifier.product', 900);
+$dic->tag('makaira.connect.modifiers.product.mainCategory', 'makaira.importer.modifier.variant', 900);
 
 $dic['makaira.connect.modifiers.category.hierarchy'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Modifier\Category\HierarchyModifier(
@@ -415,3 +416,36 @@ $dic['makaira.connect.recommendationhandler'] = function (\Marm\Yamm\DIC $dic) {
 $dic['makaira.connect.version.handler'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\VersionHandler();
 };
+
+$dic['makaira.connect.modifiers.common.default.values'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\DefaultProperties(
+        $dic['oxid.database']
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.product', 9999);
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.variant', 9999);
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.category', 9999);
+$dic->tag('makaira.connect.modifiers.common.default.values', 'makaira.importer.modifier.manufacturer', 9999);
+
+$dic['oxid.alist'] = function (\Marm\Yamm\DIC $dic) {
+    return oxRegistry::get('aList');
+};
+$dic['oxid.details'] = function (\Marm\Yamm\DIC $dic) {
+    return oxRegistry::get('Details');
+};
+$dic['oxid.mlist'] = function (\Marm\Yamm\DIC $dic) {
+    return oxRegistry::get('ManufacturerList');
+};
+$dic['makaira.connect.modifiers.common.metaData'] = function (\Marm\Yamm\DIC $dic) {
+    return new \Makaira\Connect\Modifier\Common\MetaDataModifier(
+        $dic['oxid.database'],
+        $dic['oxid.language'],
+        $dic['oxid.alist'],
+        $dic['oxid.details'],
+        $dic['oxid.mlist']
+    );
+};
+$dic->tag('makaira.connect.modifiers.common.metaData', 'makaira.importer.modifier.product', 800);
+$dic->tag('makaira.connect.modifiers.common.metaData', 'makaira.importer.modifier.variant', 800);
+$dic->tag('makaira.connect.modifiers.common.metaData', 'makaira.importer.modifier.category', 800);
+$dic->tag('makaira.connect.modifiers.common.metaData', 'makaira.importer.modifier.manufacturer', 800);

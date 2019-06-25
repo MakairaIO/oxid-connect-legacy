@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.5.3',
+    'version'     => '2019.5.1',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -29,6 +29,7 @@ $aModule = [
         'search'                    => 'makaira/connect/src/oxid/application/controllers/makaira_connect_search',
         'alist'                     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_alist',
         'manufacturerlist'          => 'makaira/connect/src/oxid/application/controllers/makaira_connect_manufacturerlist',
+        'details'                   => 'makaira/connect/src/oxid/application/controllers/makaira_connect_details',
         /* admin controllers */
         'article_attribute_ajax'    => 'makaira/connect/src/oxid/application/controllers/admin/makaira_article_attribute_ajax',
         'attribute_main_ajax'       => 'makaira/connect/src/oxid/application/controllers/admin/makaira_attribute_main_ajax',
@@ -57,6 +58,7 @@ $aModule = [
         'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
         'makaira_connect_autosuggest'     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_autosuggest.php',
         'makaira_connect_autosuggester'   => 'makaira/connect/src/oxid/core/makaira_connect_autosuggester.php',
+        'makaira_connect_trait_metadata'  => 'makaira/connect/src/oxid/core/makaira_connect_trait_metadata.php',
     ],
     'templates'   => [
         'makaira_connect_single_sign_on.tpl'           => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
@@ -164,6 +166,8 @@ $aModule = [
                 'OXPIXIEXPORTED',
                 'OXORDERINFO',
                 'OXVPE',
+                'mak_meta_keywords',
+                'mak_meta_description',
             ],
         ],
         [
@@ -173,13 +177,18 @@ $aModule = [
             'value' => [
                 'OXVAT',
                 'OXSKIPDISCOUNTS',
+                'mak_meta_keywords',
+                'mak_meta_description',
             ],
         ],
         [
             'name'  => 'makaira_field_blacklist_manufacturer',
             'group' => 'IMPORTFIELDSANDATTS',
             'type'  => 'arr',
-            'value' => [],
+            'value' => [
+                'mak_meta_keywords',
+                'mak_meta_description',
+            ],
         ],
         [
             'name'  => 'makaira_attribute_as_int',
