@@ -1,7 +1,4 @@
 <?php
-use Makaira\Constraints;
-use Makaira\Query;
-
 /**
  * This file is part of a marmalade GmbH project
  * It is not Open Source and may not be redistributed.
@@ -10,8 +7,14 @@ use Makaira\Query;
  * Author:     Jens Richter <richter@marmalade.de>
  * Author URI: http://www.marmalade.de
  */
+
+use Makaira\Constraints;
+use Makaira\Query;
+
 class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_parent
 {
+    use makaira_connect_trait_metadata;
+
     protected $aggregations;
 
     /**
