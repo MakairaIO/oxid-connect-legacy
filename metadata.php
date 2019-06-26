@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.5.1',
+    'version'     => '2019.5.4-RC1',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -166,8 +166,6 @@ $aModule = [
                 'OXPIXIEXPORTED',
                 'OXORDERINFO',
                 'OXVPE',
-                'mak_meta_keywords',
-                'mak_meta_description',
             ],
         ],
         [
@@ -177,8 +175,6 @@ $aModule = [
             'value' => [
                 'OXVAT',
                 'OXSKIPDISCOUNTS',
-                'mak_meta_keywords',
-                'mak_meta_description',
             ],
         ],
         [
@@ -186,8 +182,6 @@ $aModule = [
             'group' => 'IMPORTFIELDSANDATTS',
             'type'  => 'arr',
             'value' => [
-                'mak_meta_keywords',
-                'mak_meta_description',
             ],
         ],
         [
