@@ -13,8 +13,6 @@ use Makaira\Query;
 
 class makaira_connect_alist extends makaira_connect_alist_parent
 {
-    use makaira_connect_trait_metadata;
-
     protected $aggregations;
 
     protected $makairaSearchResult;

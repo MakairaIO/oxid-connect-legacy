@@ -13,8 +13,6 @@ use Makaira\Query;
 
 class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_parent
 {
-    use makaira_connect_trait_metadata;
-
     protected $aggregations;
 
     /**
