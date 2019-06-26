@@ -40,6 +40,10 @@ class oxConfig
     }
 }
 
+class oxUBase
+{
+}
+
 class oxRegistry
 {
     public static function getLang()
@@ -60,6 +64,10 @@ class oxRegistry
             case 'oxseoencodercategory':
             case 'oxseoencodermanufacturer':
                 return new oxSeoEncoder();
+            case 'alist':
+            case 'details':
+            case 'manufacturerlist':
+                return new oxUBase();
         }
 
         return null;
