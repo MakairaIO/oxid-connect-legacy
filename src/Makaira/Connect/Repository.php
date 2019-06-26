@@ -154,7 +154,8 @@ class Repository
                     if (isset($pChange->data->OXPARENTID)) {
                         $pChange->data->OXPARENTID = $id;
                     }
-                    $pChange->id = md5($id . '.variant.new');
+                    $pChange->id       = md5($id . '.variant.new');
+                    $pChange->data->id = $pChange->id;
                     if (isset($pChange->data->OXID)) {
                         $pChange->data->OXID = $pChange->id;
                     }
