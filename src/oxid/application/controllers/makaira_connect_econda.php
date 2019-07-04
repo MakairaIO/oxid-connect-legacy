@@ -12,16 +12,23 @@ class makaira_connect_econda extends oxUBase
     {
         parent::__construct();
 
+        $oConfig = oxRegistry::getConfig();
         $econdaAccountId = null;
-        if (oxRegistry::getConfig()->getConfigParam('makaira_connect_use_econda')) {
-            $econdaAccountId = oxRegistry::getConfig()->getConfigParam('sEcondaRecommendationsAID');
-            if (!$econdaAccountId && method_exists($this->getViewConfig(), 'oePersonalizationGetAccountId')) {
-                $econdaAccountId = $this->getViewConfig()->oePersonalizationGetAccountId();
+        if ($oConfig->getConfigParam('makaira_connect_use_econda')) {
+            $oConfig->setEcondaThemeParam();
+            $oViewConfig = $this->getViewConfig();
+
+            $econdaAccountId = $oConfig->getConfigParam('sEcondaRecommendationsAID');
+            if (!$econdaAccountId) {
+                $econdaAccountId = $oViewConfig->getViewThemeParam('sEcondaRecommendationsAID');
+            }
+            if (!$econdaAccountId && method_exists($oViewConfig, 'oePersonalizationGetAccountId')) {
+                $econdaAccountId = $oViewConfig->oePersonalizationGetAccountId();
             }
         }
 
         header('Content-type: text/html');
-        header('Expires: Sat, 01 Jan 2000 03:00:00 GMT');
+        header('Expires: Mon, 04 Sep 2017 03:35:00 GMT');
         header('Cache-Control: no-cache, must-revalidate');
 
         echo $econdaAccountId ? $econdaAccountId : '';

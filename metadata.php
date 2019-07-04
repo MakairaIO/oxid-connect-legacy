@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.5.2-RC1',
+    'version'     => '2019.5.2-RC2',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -46,6 +46,7 @@ $aModule = [
         'oxviewconfig'              => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
         'oxseodecoder'              => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
         'oxoutput'                  => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
+        'oxconfig'                  => 'makaira/connect/src/oxid/core/makaira_connect_oxconfig',
         /* components */
         'oxlocator'                 => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],
