@@ -139,7 +139,6 @@ $aModule = [
             'value' => 0,
         ],
         ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
-        ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDSANDATTS',
