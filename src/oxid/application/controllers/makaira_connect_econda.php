@@ -15,15 +15,20 @@ class makaira_connect_econda extends oxUBase
         $oConfig = oxRegistry::getConfig();
         $econdaAccountId = null;
         if ($oConfig->getConfigParam('makaira_connect_use_econda')) {
-            $oConfig->setEcondaThemeParam();
-            $oViewConfig = $this->getViewConfig();
-
-            $econdaAccountId = $oConfig->getConfigParam('sEcondaRecommendationsAID');
+            $econdaAccountId = $oConfig->getConfigParam('makaira_connect_econda_aid');
             if (!$econdaAccountId) {
+                $oConfig->setEcondaThemeParam();
+                $oViewConfig = $this->getViewConfig();
+
                 $econdaAccountId = $oViewConfig->getViewThemeParam('sEcondaRecommendationsAID');
-            }
-            if (!$econdaAccountId && method_exists($oViewConfig, 'oePersonalizationGetAccountId')) {
-                $econdaAccountId = $oViewConfig->oePersonalizationGetAccountId();
+
+                if (!$econdaAccountId) {
+                    $econdaAccountId = $oViewConfig->getViewThemeParam('sEcondaRecommendationsAID');
+
+                    if (!$econdaAccountId && method_exists($oViewConfig, 'oePersonalizationGetAccountId')) {
+                        $econdaAccountId = $oViewConfig->oePersonalizationGetAccountId();
+                    }
+                }
             }
         }
 
