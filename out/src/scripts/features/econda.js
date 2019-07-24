@@ -39,7 +39,7 @@ function initEcondaCookie() {
 
         var makCookiePrefix    = "mak_";
         var makCookieAccountId = makCookiePrefix + "econda_aid";
-        var makCookieSession   = makCookiePrefix + "econda_sid";
+        var makCookieSession   = makCookiePrefix + "econda_session";
         var makCookieLifetime  = 86400;
         var makCookieDomain    = null;
         var makCookieValue     = null;

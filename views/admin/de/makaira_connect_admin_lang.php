@@ -21,6 +21,7 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_use_user_ip'          => 'zusätzlich User-IP übermitteln für Geolocation (Ich habe einen AV Vertrag mit der marmalade GmbH geschlossen.)',
     'SHOP_MODULE_makaira_connect_use_user_data'        => 'User-Zeitzone übermitteln',
     'SHOP_MODULE_makaira_connect_use_econda'           => 'Econda Unterstützung aktivieren',
+    'SHOP_MODULE_makaira_connect_econda_aid'           => 'Econda Account ID',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDSANDATTS'            => 'Import Attribute & Felder',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Produkte</b>: ausgeschlossene Felder',

@@ -91,6 +91,7 @@ class makaira_connect_request_handler
         $this->result = $searchHandler->search($query, $debugTrace);
 
         $productResult = $this->result['product'];
+        //var_dump($productResult); die();
 
         $productIds = [];
         foreach ($productResult->items as $item) {
@@ -271,7 +272,7 @@ class makaira_connect_request_handler
         $oxArticleList = oxNew('oxarticlelist');
 
         $oxArticleList->loadIds($productIds);
-        $oxArticleList->sortByIds($productIds);
+        //$oxArticleList->sortByIds($productIds);
 
         return $oxArticleList;
     }

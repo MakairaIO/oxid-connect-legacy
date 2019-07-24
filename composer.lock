@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a82ea30d17023fa53fa470d8877cc17",
+    "content-hash": "c648fb53f396186fd9d66111e476314a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -512,11 +512,11 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2018.12.0",
+            "version": "2019.7.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "d33b3ff918d8264cc43c8ad7ab8a809d39da7298"
+                "reference": "db8931419858bc7ae01e2a50c5c6205a5cb68f2a"
             },
             "require": {
                 "kore/data-object": "@stable"
@@ -533,21 +533,15 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2019-01-10T16:16:42+00:00"
+            "time": "2019-07-24T13:28:02+00:00"
         },
         {
             "name": "marm/yamm",
             "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/marmaladeDE/yamm.git",
+                "url": "git@gitlab.marmalade.de:marm/yamm.git",
                 "reference": "2359259bcd717404fd04c96e23c4cae62fc5062f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/2359259bcd717404fd04c96e23c4cae62fc5062f",
-                "reference": "2359259bcd717404fd04c96e23c4cae62fc5062f",
-                "shasum": ""
             },
             "require": {
                 "kore/data-object": "@stable",
@@ -568,7 +562,6 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1418,6 +1411,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
