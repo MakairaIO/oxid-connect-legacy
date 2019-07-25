@@ -49,7 +49,8 @@ class MainCategoryModifier extends Modifier
         if (!isset($type->mainCategory)) {
             $sql = "SELECT OXCATNID FROM oxobject2category WHERE OXOBJECTID=:productId ORDER BY OXTIME LIMIT 1";
 
-            $result             = $this->database->query($sql, ['productId' => $type->OXID]);
+            $oxId = ('' !== $type->OXPARENTID) ? $type->OXPARENTID : $type->OXID;
+            $result = $this->database->query($sql, ['productId' => $oxId]);
             if (count($result) > 0 && isset($result[0]['OXCATNID'])) {
                 $categoryId = $result[0]['OXCATNID'];
                 $type->mainCategory = $categoryId;
