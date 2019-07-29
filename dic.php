@@ -234,6 +234,25 @@ $dic['makaira.connect.modifiers.common.attribute'] = function (\Marm\Yamm\DIC $d
 $dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.product', 1000);
 $dic->tag('makaira.connect.modifiers.common.attribute', 'makaira.importer.modifier.variant', 1000);
 
+$dic['makaira.connect.modifiers.product.variant.attributes'] = function (\Marm\Yamm\DIC $dic) {
+    $oxArticle = oxRegistry::get('oxArticle');
+    return new \Makaira\Connect\Modifier\Product\VariantAttributesModifier(
+        $dic['oxid.database'],
+        $oxArticle->getSqlActiveSnippet(true),
+        (array) oxRegistry::getConfig()->getShopConfVar(
+            'makaira_attribute_as_int',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        ),
+        (array) oxRegistry::getConfig()->getShopConfVar(
+            'makaira_attribute_as_float',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )
+    );
+};
+$dic->tag('makaira.connect.modifiers.product.variant.attributes', 'makaira.importer.modifier.product', 1000);
+
 $dic['makaira.connect.modifiers.common.vat'] = function (\Marm\Yamm\DIC $dic) {
     $config = oxRegistry::getConfig();
 

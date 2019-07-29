@@ -58,7 +58,7 @@ class Repository
      * @var array
      */
     private $propsExclude = [
-        'attribute',
+        'attributes',
         'attributeStr',
         'attributeInt',
         'attributeFloat',

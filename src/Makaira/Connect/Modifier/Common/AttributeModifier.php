@@ -5,7 +5,6 @@ namespace Makaira\Connect\Modifier\Common;
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
-use Makaira\Connect\Type\Common\AssignedAttribute;
 use Makaira\Connect\Type\Common\AssignedTypedAttribute;
 use Makaira\Connect\Type\Common\BaseProduct;
 
@@ -118,17 +117,9 @@ class AttributeModifier extends Modifier
             ]
         );
 
-        //        $product->attribute      = [];
         $product->attributeInt   = [];
         $product->attributeFloat = [];
         foreach ($attributes as $attributeData) {
-            //            $product->attribute[] = new AssignedAttribute([
-            //                'active'  => $attributeData['active'],
-            //                'oxid'    => $attributeData['id'],
-            //                'oxtitle' => $attributeData['title'],
-            //                'oxvalue' => $attributeData['value'],
-            //            ]);
-
             $attribute               = new AssignedTypedAttribute($attributeData);
             $product->attributeStr[] = $attribute;
 
@@ -163,7 +154,7 @@ class AttributeModifier extends Modifier
             $valueArray = array_map('trim', explode('|', $variantData['value']));
 
             foreach ($titleArray as $index => $title) {
-                $title                         = "{$title}  (VARSELECT)";
+                $title                         = "{$title}  (VarSelect)";
                 $allVariants[ $title ][]       = $valueArray[ $index ];
                 $allVariants[ $title ]["hash"] = $hashArray[ $index ];
             }
@@ -176,13 +167,6 @@ class AttributeModifier extends Modifier
             $uniqueValues = array_unique($values);
 
             foreach ($uniqueValues as $value) {
-                //                $product->attribute[] = new AssignedAttribute([
-                //                    'active'  => $variantData['active'],
-                //                    'oxid'    => $hashTitle,
-                //                    'oxtitle' => $title,
-                //                    'oxvalue' => $value,
-                //                ]);
-
                 $product->attributeStr[] = new AssignedTypedAttribute(
                     [
                         'active' => $variantData['active'],
