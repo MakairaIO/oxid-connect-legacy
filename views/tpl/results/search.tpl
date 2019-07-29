@@ -20,7 +20,7 @@
                 [{foreach from=$category_result->items item="category"}]
                     <li class="makaira-search__result-item">
                         <a href="[{oxgetseourl oxid=$category->id type="oxCategory"}]">
-                            [{$category->fields.oxtitle}]
+                            [{$category->fields.mak_category_title}]
                         </a>
                     </li>
                 [{/foreach}]
@@ -34,7 +34,7 @@
                 [{foreach from=$manufacturer_result->items item="manufacturer"}]
                     <li class="makaira-search__result-item">
                         <a href="[{oxgetseourl oxid=$manufacturer->id type="oxManufacturer"}]">
-                            [{$manufacturer->fields.oxtitle}]
+                            [{$manufacturer->fields.mak_manufacturer_title}]
                         </a>
                     </li>
                 [{/foreach}]
