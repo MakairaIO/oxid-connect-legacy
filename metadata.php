@@ -94,7 +94,7 @@ $aModule = [
         [
             'template' => 'layout/base.tpl',
             'block'    => 'base_style',
-            'file'     => 'views/blocks/econda.tpl'
+            'file'     => 'views/blocks/econda.tpl',
         ],
         [
             'template' => 'page/search/search.tpl',
@@ -140,6 +140,21 @@ $aModule = [
         ],
         ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_econda_aid', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'str', 'value' => ''],
+        ['name'  => 'makaira_connect_use_odoscope',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'bool',
+         'value' => 0,
+        ],
+        ['name'  => 'makaira_connect_odoscope_siteid',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'str',
+         'value' => '',
+        ],
+        ['name'  => 'makaira_connect_odoscope_token',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'str',
+         'value' => '',
+        ],
         [
             'name'  => 'makaira_field_blacklist_product',
             'group' => 'IMPORTFIELDSANDATTS',

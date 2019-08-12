@@ -3,7 +3,7 @@
 $sLangName = "Deutsch";
 
 $aLang = array(
-    'charset'                                          => 'UTF-8',
+    'charset' => 'UTF-8',
 
     'SHOP_MODULE_GROUP_SETTINGS'                       => 'Einstellungen',
     'SHOP_MODULE_makaira_connect_secret'               => 'Shared Secret',
@@ -17,11 +17,16 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_categorytree_id'      => 'ID des Kategorie-Baum-Filters (falls vorhanden)',
     'SHOP_MODULE_makaira_connect_seofilter'            => 'SEO-Urls für gefilterte Kategorie- und Herstellerseiten erzeugen',
 
-    'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'       => 'Personalisierung',
-    'SHOP_MODULE_makaira_connect_use_user_ip'          => 'zusätzlich User-IP übermitteln für Geolocation (Ich habe einen AV Vertrag mit der marmalade GmbH geschlossen.)',
-    'SHOP_MODULE_makaira_connect_use_user_data'        => 'User-Zeitzone übermitteln',
-    'SHOP_MODULE_makaira_connect_use_econda'           => 'Econda Unterstützung aktivieren',
-    'SHOP_MODULE_makaira_connect_econda_aid'           => 'Econda Account ID',
+    'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'    => 'Personalisierung',
+    'SHOP_MODULE_makaira_connect_use_user_ip'       => 'zusätzlich User-IP übermitteln für Geolocation (Ich habe einen AV Vertrag mit der marmalade GmbH geschlossen.)',
+    'SHOP_MODULE_makaira_connect_use_user_data'     => 'User-Zeitzone übermitteln',
+    'SHOP_MODULE_makaira_connect_use_econda'        => 'Econda Unterstützung aktivieren',
+    'HELP_SHOP_MODULE_makaira_connect_use_econda'   => '???',
+    'SHOP_MODULE_makaira_connect_econda_aid'        => 'Econda Account ID',
+    'SHOP_MODULE_makaira_connect_use_odoscope'      => 'Odoscope Unterstützung aktivieren',
+    'HELP_SHOP_MODULE_makaira_connect_use_odoscope' => '???',
+    'SHOP_MODULE_makaira_connect_odoscope_siteid'   => 'Odoscope Site ID',
+    'SHOP_MODULE_makaira_connect_odoscope_token'    => 'Odoscope Endpoint Token',
 
     'SHOP_MODULE_GROUP_IMPORTFIELDSANDATTS'            => 'Import Attribute & Felder',
     'SHOP_MODULE_makaira_field_blacklist_product'      => '<b>Produkte</b>: ausgeschlossene Felder',

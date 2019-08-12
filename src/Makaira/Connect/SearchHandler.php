@@ -82,7 +82,7 @@ class SearchHandler extends AbstractHandler
     private function parseResult($data)
     {
         if (!isset($data['items']) && !isset($data['aggregations'])) {
-            return null;
+            return $data;
         }
 
         foreach ($data['items'] as $key => $item) {
