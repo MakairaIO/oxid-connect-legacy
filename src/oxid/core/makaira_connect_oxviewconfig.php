@@ -331,4 +331,9 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
         return round($value / $currency->rate, 2);
     }
+
+    public function isEcondaActive()
+    {
+        return (bool) oxRegistry::getConfig()->getConfigParam('makaira_connect_use_econda');
+    }
 }
