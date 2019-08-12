@@ -17,7 +17,7 @@ class makaira_article_extend_ajax extends makaira_article_extend_ajax_parent
      * @param array  $categoriesToRemove
      * @param string $oxId
      */
-    protected function onCategoriesRemoval($categoriesToRemove, $oxId)
+    public function onCategoriesRemoval($categoriesToRemove, $oxId)
     {
         parent::onCategoriesRemoval($categoriesToRemove, $oxId);
 

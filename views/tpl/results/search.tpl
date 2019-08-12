@@ -5,7 +5,7 @@
             <ul class="makaira-search__result-list">
                 [{foreach from=$suggestion_result->items item="suggestion"}]
                     <li class="makaira-search__result-item">
-                        <a href="[{$oViewConf->getHomeLink()|cat:"cl=search&searchparam="|cat:$suggestion->fields.title}]">
+                        <a href="[{$oViewConf->getSelfActionLink()|cat:"cl=search&searchparam="|cat:$suggestion->fields.title}]">
                             [{$suggestion->fields.title}]
                         </a>
                     </li>
