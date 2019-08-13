@@ -141,8 +141,6 @@ class makaira_connect_request_handler
 
         $this->result = $searchHandler->search($query, $debugTrace);
 
-        //if ('odoscope' === $personalizationType && isset($this->result['product']->additionalData['oscCookie'])) {
-        //if ('odoscope' === $personalizationType && isset($this->result['oscCookie'])) {
         if ('odoscope' === $personalizationType && isset($this->result['personalization']['oscCookie'])) {
             $cookieValue = $this->result['personalization']['oscCookie'];
             oxRegistry::get('oxutilsserver')->setOxCookie(
@@ -156,7 +154,7 @@ class makaira_connect_request_handler
 
         $productIds = [];
         foreach ($productResult->items as $item) {
-            $productIds[] = $item->id;
+            $productIds[] = $item->fields['id'];
         }
 
         // Hook for result modification

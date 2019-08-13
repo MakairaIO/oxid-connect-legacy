@@ -18,8 +18,6 @@ $aLang = array(
     'SHOP_MODULE_makaira_connect_seofilter'            => 'SEO-Urls für gefilterte Kategorie- und Herstellerseiten erzeugen',
 
     'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'    => 'Personalisierung',
-    'SHOP_MODULE_makaira_connect_use_user_ip'       => 'zusätzlich User-IP übermitteln für Geolocation (Ich habe einen AV Vertrag mit der marmalade GmbH geschlossen.)',
-    'SHOP_MODULE_makaira_connect_use_user_data'     => 'User-Zeitzone übermitteln',
     'SHOP_MODULE_makaira_connect_use_econda'        => 'Econda Unterstützung aktivieren',
     'HELP_SHOP_MODULE_makaira_connect_use_econda'   => '???',
     'SHOP_MODULE_makaira_connect_econda_aid'        => 'Econda Account ID',

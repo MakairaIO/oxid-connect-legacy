@@ -36,6 +36,5 @@ class makaira_connect_helper
     public static function isOxid6()
     {
         return version_compare('6.0', self::_getConfig()->getVersion(), '<=');
-        //return version_compare(self::_getConfig()->getActiveShop()->getFieldData('oxversion'), '6.0', '>=');
     }
 }

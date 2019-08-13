@@ -126,18 +126,6 @@ $aModule = [
         ['name' => 'makaira_connect_category_inheritance', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_categorytree_id', 'group' => 'SETTINGS', 'type' => 'str', 'value' => ''],
         ['name' => 'makaira_connect_seofilter', 'group' => 'SETTINGS', 'type' => 'bool', 'value' => 0],
-        [
-            'name'  => 'makaira_connect_use_user_data',
-            'group' => 'OPERATIONAL_INTELLIGENCE',
-            'type'  => 'bool',
-            'value' => 0,
-        ],
-        [
-            'name'  => 'makaira_connect_use_user_ip',
-            'group' => 'OPERATIONAL_INTELLIGENCE',
-            'type'  => 'bool',
-            'value' => 0,
-        ],
         ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
         ['name' => 'makaira_connect_econda_aid', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'str', 'value' => ''],
         ['name'  => 'makaira_connect_use_odoscope',

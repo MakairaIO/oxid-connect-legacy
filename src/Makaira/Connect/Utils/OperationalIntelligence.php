@@ -15,32 +15,22 @@ use Makaira\Query;
 
 class OperationalIntelligence
 {
-    const COOKIE_NAME_ID = 'oiID';
+    const COOKIE_NAME_ID       = 'oiID';
     const COOKIE_NAME_TIMEZONE = 'oiLocalTimeZone';
 
     private $utilsServer;
-    private $useUserData;
-    private $useUserIP;
 
-    public function __construct(\oxUtilsServer $utilsServer, $useUserData, $useUserIP)
+    public function __construct(\oxUtilsServer $utilsServer)
     {
         $this->utilsServer = $utilsServer;
-        $this->useUserData = $useUserData;
-        $this->useUserIP   = $useUserIP;
     }
 
     public function apply(Query $query)
     {
         $query->constraints[ Constraints::OI_USER_AGENT ]    = $this->getUserAgentString();
-
-        if ($this->useUserIP) {
-            $query->constraints[ Constraints::OI_USER_IP ] = $this->getUserIP();
-        }
-
-        if ($this->useUserData) {
-            $query->constraints[ Constraints::OI_USER_ID ]       = $this->generateUserID();
-            $query->constraints[ Constraints::OI_USER_TIMEZONE ] = $this->getUserTimeZone();
-        }
+        $query->constraints[ Constraints::OI_USER_IP ]       = $this->getUserIP();
+        $query->constraints[ Constraints::OI_USER_ID ]       = $this->generateUserID();
+        $query->constraints[ Constraints::OI_USER_TIMEZONE ] = $this->getUserTimeZone();
     }
 
     /**
@@ -49,7 +39,7 @@ class OperationalIntelligence
     private function generateUserID()
     {
         /** @var string $userID */
-        $userID = isset($_COOKIE[self::COOKIE_NAME_ID]) ? $_COOKIE[self::COOKIE_NAME_ID] : false;
+        $userID = isset($_COOKIE[ self::COOKIE_NAME_ID ]) ? $_COOKIE[ self::COOKIE_NAME_ID ] : false;
 
         if (!$userID || !is_string($userID)) {
             $userID = $this->getUserIP();
@@ -65,7 +55,6 @@ class OperationalIntelligence
 
     /**
      * Get actual User IP
-     *
      * 1) from $_SERVER['X_FORWARDED_FOR']
      * 2) from $_SERVER['REMOTE_ADDR']
      */
@@ -96,7 +85,7 @@ class OperationalIntelligence
     private function getUserTimeZone()
     {
         /** @var string $userTimeZone */
-        $userTimeZone = isset($_COOKIE[self::COOKIE_NAME_TIMEZONE]) ? $_COOKIE[self::COOKIE_NAME_TIMEZONE] : '';
+        $userTimeZone = isset($_COOKIE[ self::COOKIE_NAME_TIMEZONE ]) ? $_COOKIE[ self::COOKIE_NAME_TIMEZONE ] : '';
 
         return is_string($userTimeZone) ? trim($userTimeZone) : '';
     }

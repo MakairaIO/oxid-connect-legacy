@@ -17,7 +17,7 @@ class DefaultProperties extends Modifier
 
     private $commonFieldMapping = [
         'id'                   => 'OXID',
-        'es_id'                => 'OXID',
+        'es_id'                => '',
         'timestamp'            => 'OXTIMESTAMP',
         'url'                  => '',
         'mak_active'           => 'OXACTIVE',
