@@ -49,6 +49,8 @@ class DefaultProperties extends Modifier
         'mak_sort'           => 'OXSORT',
         'mak_shortdesc'      => 'OXDESC',
         'mak_longdesc'       => 'OXLONGDESC',
+        'mak_hidden'         => 'OXHIDDEN',
+
     ];
 
     private $manufacturerFieldMapping = [
