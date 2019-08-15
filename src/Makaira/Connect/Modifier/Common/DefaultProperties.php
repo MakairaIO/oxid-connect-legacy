@@ -30,7 +30,7 @@ class DefaultProperties extends Modifier
         'searchkeys'     => 'OXSEARCHKEYS',
         'hidden'         => 'OXHIDDEN',
         'sort'           => 'OXSORT',
-        'mak_shortdesc'      => 'OXSHORTDESC',
+        'shortdesc'      => 'OXSHORTDESC',
         'longdesc'       => 'OXLONGDESC',
         'mak_manufacturerId' => 'OXMANUFACTURERID',
         'mak_price'          => 'OXPRICE',
@@ -47,7 +47,7 @@ class DefaultProperties extends Modifier
     private $categoryFieldMapping = [
         'category_title' => 'OXTITLE',
         'sort'           => 'OXSORT',
-        'mak_shortdesc'      => 'OXDESC',
+        'shortdesc'      => 'OXDESC',
         'longdesc'       => 'OXLONGDESC',
         'hidden'         => 'OXHIDDEN',
 
@@ -55,7 +55,7 @@ class DefaultProperties extends Modifier
 
     private $manufacturerFieldMapping = [
         'mak_manufacturer_title' => 'OXTITLE',
-        'mak_shortdesc'          => 'OXSHORTDESC',
+        'shortdesc'          => 'OXSHORTDESC',
     ];
 
     public function __construct($database)

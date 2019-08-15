@@ -16,7 +16,7 @@ class Manufacturer extends Type
 {
     public $mak_manufacturerId;
     public $mak_manufacturer_title;
-    public $mak_shortdesc;
+    public $shortdesc;
     public $mak_meta_keywords;
     public $mak_meta_description;
     public $selfLinks = [];
