@@ -72,7 +72,6 @@ class CategoryModifier extends Modifier
         );
 
         $categories = [];
-        $mainCategory = [];
 
         foreach ($allCats as $cat) {
             $catPaths = $this->database->query(
