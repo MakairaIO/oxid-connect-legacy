@@ -14,8 +14,8 @@ class Category extends Type
     public $sort;
     public $shortdesc;
     public $longdesc;
-    public $mak_meta_keywords;
-    public $mak_meta_description;
+    public $meta_keywords;
+    public $meta_description;
     public $selfLinks = [];
     public $hierarchy;
     public $depth;

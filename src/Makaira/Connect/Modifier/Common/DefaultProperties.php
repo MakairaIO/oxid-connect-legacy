@@ -21,8 +21,8 @@ class DefaultProperties extends Modifier
         'timestamp'            => 'OXTIMESTAMP',
         'url'                  => '',
         'active'           => 'OXACTIVE',
-        'mak_meta_keywords'    => '',
-        'mak_meta_description' => '',
+        'meta_keywords'    => '',
+        'meta_description' => '',
     ];
 
     private $productFieldMapping = [
