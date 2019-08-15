@@ -39,6 +39,7 @@ class BaseProduct extends Type
     public $mak_soldamount = 0;
     public $mak_rating = 0.0;
     public $mak_issearch = 1;
+    public $picture_url = [];
 
 //    /* active */
 //    public $OXACTIVE;
