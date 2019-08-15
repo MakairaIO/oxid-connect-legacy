@@ -51,7 +51,7 @@ class StockModifier extends Modifier
             $onStock = (2 != $stockFlag) || (0 > $stock);
         }
 
-        $product->mak_onstock = $onStock;
+        $product->onstock = $onStock;
         $product->mak_stock   = $stock;
 
         return $product;

@@ -41,7 +41,7 @@ class DefaultProperties extends Modifier
 
         'mak_ean'     => 'OXARTNUM',
         'mak_stock'   => 1,
-        'mak_onstock' => true,
+        'onstock' => true,
     ];
 
     private $categoryFieldMapping = [

@@ -31,7 +31,7 @@ class BaseProduct extends Type
     public $longdesc = '';
     public $shortdesc = '';
     public $mak_stock = 0;
-    public $mak_onstock = false;
+    public $onstock = false;
     public $mak_manufacturerId = '';
     public $mak_manufacturer_title = '';
     public $mak_price = 0.00;
