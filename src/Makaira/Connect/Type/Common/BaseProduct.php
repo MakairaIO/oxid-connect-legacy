@@ -33,7 +33,7 @@ class BaseProduct extends Type
     public $mak_stock = 0;
     public $onstock = false;
     public $mak_manufacturerId = '';
-    public $mak_manufacturer_title = '';
+    public $manufacturer_title	 = '';
     public $mak_price = 0.00;
     public $mak_insert;
     public $mak_soldamount = 0;

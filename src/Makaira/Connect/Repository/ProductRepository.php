@@ -35,7 +35,7 @@ class ProductRepository extends AbstractRepository
                 oxarticles.*,
                 oxartextends.oxlongdesc AS `OXLONGDESC`,
                 oxartextends.oxtags AS `OXTAGS`,
-                oxmanufacturers.oxtitle AS mak_manufacturer_title
+                oxmanufacturers.oxtitle AS manufacturer_title	
             FROM
                 oxarticles
                 LEFT JOIN oxartextends ON oxarticles.oxid = oxartextends.oxid

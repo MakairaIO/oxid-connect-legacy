@@ -54,7 +54,7 @@ class DefaultProperties extends Modifier
     ];
 
     private $manufacturerFieldMapping = [
-        'mak_manufacturer_title' => 'OXTITLE',
+        'manufacturer_title	' => 'OXTITLE',
         'shortdesc'          => 'OXSHORTDESC',
     ];
 
