@@ -24,25 +24,35 @@ class StockModifier extends Modifier
      */
     public function apply(Type $product)
     {
-        $onStock = true;
+        $stockFlag = 1;
+        $stock     = 1;
+        $onStock   = true;
 
         if (\oxRegistry::getConfig()->getShopConfVar('blUseStock')) {
-            $oxArticle = \oxRegistry::get('oxArticle');
-            $table = $oxArticle->getCoreTableName();
-            $stockSnippet = "(oxarticles.oxstockflag != 2 OR oxarticles.oxstock > 0 OR oxarticles.oxvarstock > 0)";
+            if (!isset($product->OXSTOCKFLAG) || !isset($product->OXSTOCK) || !isset($product->OXVARSTOCK)) {
+                $oxArticle = \oxRegistry::get('oxArticle');
+                $table     = $oxArticle->getCoreTableName();
+                $sql       =
+                    "SELECT OXPARENTID, OXSTOCKFLAG, OXSTOCK, OXVARSTOCK FROM {$table} WHERE OXID = '{$product->id}'";
+                $result    = $this->database->query($sql);
+                if ($result) {
+                    $stockFlag = $result[0]['OXSTOCKFLAG'];
+                    $stock     = $result[0]['OXSTOCK'] + $result[0]['OXVARSTOCK'];
+                }
+            } else {
+                $stock     = $product->OXSTOCK + $product->OXVARSTOCK;
+                $stockFlag = $product->OXSTOCKFLAG;
+            }
 
             // 1 --> Standard
             // 2 --> Wenn ausverkauft offline
             // 3 --> Wenn ausverkauft nicht bestellbar
             // 4 --> Fremdlager
-
-            $sql = "SELECT * FROM {$table} WHERE OXID = '{$product->id}' AND {$stockSnippet}";
-            $result = $this->database->query($sql);
-
-            $onStock = (bool) count($result);
+            $onStock = (2 != $stockFlag) || (0 > $stock);
         }
 
         $product->mak_onstock = $onStock;
+        $product->mak_stock   = $stock;
 
         return $product;
     }

@@ -26,21 +26,21 @@ class DefaultProperties extends Modifier
     ];
 
     private $productFieldMapping = [
-        'mak_title'              => 'OXTITLE',
-        'mak_searchkeys'         => 'OXSEARCHKEYS',
-        'mak_hidden'             => 'OXHIDDEN',
-        'mak_sort'               => 'OXSORT',
-        'mak_shortdesc'          => 'OXSHORTDESC',
-        'mak_longdesc'           => 'OXLONGDESC',
-        'mak_stock'              => 0,
-        'mak_manufacturerId'     => 'OXMANUFACTURERID',
-        'mak_price'              => 'OXPRICE',
-        'mak_insert'             => 'OXINSERT',
-        'mak_soldamount'         => 'OXSOLDAMOUNT',
-        'mak_rating'             => 'OXRATING',
-        'mak_issearch'           => 'OXISSEARCH',
+        'mak_title'          => 'OXTITLE',
+        'mak_searchkeys'     => 'OXSEARCHKEYS',
+        'mak_hidden'         => 'OXHIDDEN',
+        'mak_sort'           => 'OXSORT',
+        'mak_shortdesc'      => 'OXSHORTDESC',
+        'mak_longdesc'       => 'OXLONGDESC',
+        'mak_manufacturerId' => 'OXMANUFACTURERID',
+        'mak_price'          => 'OXPRICE',
+        'mak_insert'         => 'OXINSERT',
+        'mak_soldamount'     => 'OXSOLDAMOUNT',
+        'mak_rating'         => 'OXRATING',
+        'mak_issearch'       => 'OXISSEARCH',
 
         'mak_ean'     => 'OXARTNUM',
+        'mak_stock'   => 1,
         'mak_onstock' => true,
     ];
 
