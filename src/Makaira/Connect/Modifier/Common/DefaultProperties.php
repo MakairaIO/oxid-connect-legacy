@@ -26,7 +26,7 @@ class DefaultProperties extends Modifier
     ];
 
     private $productFieldMapping = [
-        'mak_title'          => 'OXTITLE',
+        'title'          => 'OXTITLE',
         'mak_searchkeys'     => 'OXSEARCHKEYS',
         'mak_hidden'         => 'OXHIDDEN',
         'mak_sort'           => 'OXSORT',

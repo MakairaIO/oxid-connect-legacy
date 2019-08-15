@@ -24,7 +24,7 @@ class BaseProduct extends Type
 
     /* required fields + mak-fields */
     public $mak_ean = '';
-    public $mak_title = '';
+    public $title = '';
     public $mak_searchkeys = '';
     public $mak_hidden = false;
     public $mak_sort = 0;
