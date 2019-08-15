@@ -14,7 +14,7 @@ use Makaira\Connect\Type;
  */
 class Manufacturer extends Type
 {
-    public $mak_manufacturerId;
+    public $manufacturerid;
     public $manufacturer_title	;
     public $shortdesc;
     public $mak_meta_keywords;

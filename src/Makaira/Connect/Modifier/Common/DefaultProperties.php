@@ -32,14 +32,14 @@ class DefaultProperties extends Modifier
         'sort'           => 'OXSORT',
         'shortdesc'      => 'OXSHORTDESC',
         'longdesc'       => 'OXLONGDESC',
-        'mak_manufacturerId' => 'OXMANUFACTURERID',
+        'manufacturerid' => 'OXMANUFACTURERID',
         'price'          => 'OXPRICE',
-        'mak_insert'         => 'OXINSERT',
+        'insert'         => 'OXINSERT',
         'soldamount'     => 'OXSOLDAMOUNT',
         'rating'         => 'OXRATING',
-        'mak_issearch'       => 'OXISSEARCH',
+        'searchable'       => 'OXISSEARCH',
 
-        'mak_ean'     => 'OXARTNUM',
+        'ean'     => 'OXARTNUM',
         'mak_stock'   => 1,
         'onstock' => true,
     ];

@@ -23,7 +23,7 @@ class BaseProduct extends Type
     public $attributeFloat = [];
 
     /* required fields + mak-fields */
-    public $mak_ean = '';
+    public $ean = '';
     public $title = '';
     public $searchkeys = '';
     public $hidden = false;
@@ -32,14 +32,14 @@ class BaseProduct extends Type
     public $shortdesc = '';
     public $mak_stock = 0;
     public $onstock = false;
-    public $mak_manufacturerId = '';
+    public $manufacturerid = '';
     public $manufacturer_title	 = '';
     public $price = 0.00;
-    public $mak_insert;
+    public $insert;
     public $soldamount = 0;
     public $rating = 0.0;
-    public $mak_issearch = 1;
-    public $picture_url = [];
+    public $searchable = 1;
+    public $picture_url_main = [];
 
 //    /* active */
 //    public $OXACTIVE;

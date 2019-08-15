@@ -77,7 +77,7 @@ class UrlModifier extends Modifier
 
         if ($object instanceof \oxArticle) {
             $urlGetter         = 'getArticleMainUri';
-            $type->picture_url = $object->getMasterZoomPictureUrl(1); // $object->getPictureUrl()
+            $type->picture_url_main = $object->getMasterZoomPictureUrl(1); // $object->getPictureUrl()
         } elseif ($object instanceof \oxCategory) {
             $urlGetter = 'getCategoryUri';
         } elseif ($object instanceof \oxManufacturer) {
