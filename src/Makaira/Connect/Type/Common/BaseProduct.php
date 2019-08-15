@@ -30,7 +30,7 @@ class BaseProduct extends Type
     public $sort = 0;
     public $longdesc = '';
     public $shortdesc = '';
-    public $mak_stock = 0;
+    public $stock = 0;
     public $onstock = false;
     public $manufacturerid = '';
     public $manufacturer_title	 = '';

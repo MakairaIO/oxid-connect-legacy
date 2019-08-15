@@ -40,7 +40,7 @@ class DefaultProperties extends Modifier
         'searchable'       => 'OXISSEARCH',
 
         'ean'     => 'OXARTNUM',
-        'mak_stock'   => 1,
+        'stock'   => 1,
         'onstock' => true,
     ];
 

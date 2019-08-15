@@ -52,7 +52,7 @@ class StockModifier extends Modifier
         }
 
         $product->onstock = $onStock;
-        $product->mak_stock   = $stock;
+        $product->stock   = $stock;
 
         return $product;
     }
