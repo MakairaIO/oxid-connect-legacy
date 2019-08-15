@@ -72,6 +72,8 @@ class CategoryModifier extends Modifier
         );
 
         $categories = [];
+        $mainCategory = [];
+
         foreach ($allCats as $cat) {
             $catPaths = $this->database->query(
                 $this->selectCategoryPathQuery,
@@ -84,26 +86,28 @@ class CategoryModifier extends Modifier
 
             $depth = 0;
             $path  = '';
+            $title = '';
             $active = true;
             foreach ($catPaths as $catPath) {
                 $active &= $catPath['active'];
                 if (!$active) {
                     break;
                 }
-                $path .= $catPath['title'] . '/';
+                $title = $catPath['title'];
+                $path .= $title . '/';
                 $depth++;
             }
 
             if ($active) {
-                $categories[] = new AssignedCategory(
+                $categories[] =
                     [
                         'catid'  => $cat['catid'],
+                        'title'  => $title,
                         'pos'    => $cat['oxpos'],
                         'shopid' => $cat['shopid'],
                         'depth'  => $depth,
                         'path'   => $path,
-                    ]
-                );
+                    ];
             }
         }
 
