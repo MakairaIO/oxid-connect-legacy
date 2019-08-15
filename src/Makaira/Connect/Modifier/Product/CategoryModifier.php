@@ -15,6 +15,7 @@ class CategoryModifier extends Modifier
                             o2c.oxcatnid AS catid,
                             o2c.oxpos AS oxpos,
                             o2c.oxshopid AS shopid,
+                            oc.OXTITLE as title,
                             oc.OXACTIVE AS active,
                             oc.OXLEFT AS oxleft,
                             oc.OXRIGHT AS oxright,
@@ -85,28 +86,26 @@ class CategoryModifier extends Modifier
 
             $depth = 0;
             $path  = '';
-            $title = '';
             $active = true;
             foreach ($catPaths as $catPath) {
                 $active &= $catPath['active'];
                 if (!$active) {
                     break;
                 }
-                $title = $catPath['title'];
-                $path .= $title . '/';
+                $path .= $catPath['title'] . '/';
                 $depth++;
             }
 
             if ($active) {
-                $categories[] =
+                $categories[] = new AssignedCategory(
                     [
                         'catid'  => $cat['catid'],
-                        'title'  => $title,
+                        'title'  => $cat['title'],
                         'pos'    => $cat['oxpos'],
                         'shopid' => $cat['shopid'],
                         'depth'  => $depth,
                         'path'   => $path,
-                    ];
+                    ]);
             }
         }
 
