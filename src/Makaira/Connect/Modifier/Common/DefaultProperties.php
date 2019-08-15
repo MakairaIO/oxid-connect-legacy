@@ -45,7 +45,7 @@ class DefaultProperties extends Modifier
     ];
 
     private $categoryFieldMapping = [
-        'mak_category_title' => 'OXTITLE',
+        'category_title' => 'OXTITLE',
         'mak_sort'           => 'OXSORT',
         'mak_shortdesc'      => 'OXDESC',
         'mak_longdesc'       => 'OXLONGDESC',

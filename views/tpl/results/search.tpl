@@ -20,7 +20,7 @@
                 [{foreach from=$category_result->items item="category"}]
                     <li class="makaira-search__result-item">
                         <a href="[{oxgetseourl oxid=$category->id type="oxCategory"}]">
-                            [{$category->fields.mak_category_title}]
+                            [{$category->fields.category_title}]
                         </a>
                     </li>
                 [{/foreach}]
