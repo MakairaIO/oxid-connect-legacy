@@ -10,7 +10,7 @@ use Makaira\Connect\Type;
  */
 class Category extends Type
 {
-    public $category_title;
+    public $title;
     public $sort;
     public $shortdesc;
     public $longdesc;
@@ -20,30 +20,5 @@ class Category extends Type
     public $hierarchy;
     public $depth;
     public $subcategories = [];
-
-    //    public $oxobject = [];
-    //    public $OXACTIVE;
-    //    public $OXHIDDEN;
-    //    public $OXPARENTID;
-    //    public $OXLEFT;
-    //    public $OXRIGHT;
-    //    public $OXROOTID;
-    //    public $OXSORT;
-    //    public $OXSHOPID;
-    //    public $OXTITLE;
-    //    public $OXDESC;
-    //    public $OXLONGDESC;
-    //    public $OXTHUMB;
-    //    public $OXEXTLINK;
-    //    public $OXTEMPLATE;
-    //    public $OXDEFSORT;
-    //    public $OXDEFSORTMODE;
-    //    public $OXPRICEFROM;
-    //    public $OXPRICETO;
-    //    public $OXICON;
-    //    public $OXPROMOICON;
-    //    public $OXVAT;
-    //    public $OXSKIPDISCOUNTS;
-    //    public $OXSHOWSUFFIX;
-    //    public $OXTIMESTAMP;
+    public $hidden = false;
 }

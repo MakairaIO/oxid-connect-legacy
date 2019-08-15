@@ -10,9 +10,6 @@ use Makaira\Connect\Type;
  */
 class BaseProduct extends Type
 {
-    /* variant attributes */
-    public $attributes = [];
-
     /* attributes as String */
     public $attributeStr = [];
 

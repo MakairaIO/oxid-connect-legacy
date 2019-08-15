@@ -16,17 +16,17 @@ class DefaultProperties extends Modifier
     private $db;
 
     private $commonFieldMapping = [
-        'id'                   => 'OXID',
-        'es_id'                => '',
-        'timestamp'            => 'OXTIMESTAMP',
-        'url'                  => '',
+        'id'               => 'OXID',
+        'es_id'            => '',
+        'timestamp'        => 'OXTIMESTAMP',
+        'url'              => '',
         'active'           => 'OXACTIVE',
+        'title'            => 'OXTITLE',
         'meta_keywords'    => '',
         'meta_description' => '',
     ];
 
     private $productFieldMapping = [
-        'title'          => 'OXTITLE',
         'searchkeys'     => 'OXSEARCHKEYS',
         'hidden'         => 'OXHIDDEN',
         'sort'           => 'OXSORT',
@@ -37,25 +37,22 @@ class DefaultProperties extends Modifier
         'insert'         => 'OXINSERT',
         'soldamount'     => 'OXSOLDAMOUNT',
         'rating'         => 'OXRATING',
-        'searchable'       => 'OXISSEARCH',
-
-        'ean'     => 'OXARTNUM',
-        'stock'   => 1,
-        'onstock' => true,
+        'searchable'     => 'OXISSEARCH',
+        'ean'            => 'OXARTNUM',
+        'stock'          => 1,
+        'onstock'        => true,
     ];
 
     private $categoryFieldMapping = [
-        'category_title' => 'OXTITLE',
-        'sort'           => 'OXSORT',
-        'shortdesc'      => 'OXDESC',
-        'longdesc'       => 'OXLONGDESC',
-        'hidden'         => 'OXHIDDEN',
+        'sort'      => 'OXSORT',
+        'shortdesc' => 'OXDESC',
+        'longdesc'  => 'OXLONGDESC',
+        'hidden'    => 'OXHIDDEN',
 
     ];
 
     private $manufacturerFieldMapping = [
-        'manufacturer_title' => 'OXTITLE',
-        'shortdesc'          => 'OXSHORTDESC',
+        'shortdesc' => 'OXSHORTDESC',
     ];
 
     public function __construct($database)

@@ -14,15 +14,9 @@ use Makaira\Connect\Type;
  */
 class Manufacturer extends Type
 {
-    public $manufacturerid;
-    public $manufacturer_title	;
+    public $title;
     public $shortdesc;
+    public $selfLinks = [];
     public $meta_keywords;
     public $meta_description;
-    public $selfLinks = [];
-
-    //    public $OXACTIVE;
-    //    public $OXSHOPID;
-    //    public $OXTITLE;
-    //    public $OXSHORTDESC;
 }

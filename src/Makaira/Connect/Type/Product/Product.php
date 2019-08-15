@@ -6,6 +6,9 @@ use Makaira\Connect\Type\Common\BaseProduct;
 
 class Product extends BaseProduct
 {
+    /* variant attributes */
+    public $attributes = [];
+
     public $parent = '';
 
     public $meta_keywords;

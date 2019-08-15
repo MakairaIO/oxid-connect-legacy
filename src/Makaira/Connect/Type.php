@@ -6,6 +6,9 @@ use Kore\DataObject\DataObject;
 
 class Type extends DataObject
 {
+    /* primary es id field */
+    public $es_id;
+
     /* primary id field */
     public $id;
 
