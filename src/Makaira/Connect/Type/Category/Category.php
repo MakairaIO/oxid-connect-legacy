@@ -10,7 +10,7 @@ use Makaira\Connect\Type;
  */
 class Category extends Type
 {
-    public $title;
+    public $category_title;
     public $sort;
     public $shortdesc;
     public $longdesc;

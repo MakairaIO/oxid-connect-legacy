@@ -21,7 +21,6 @@ class DefaultProperties extends Modifier
         'timestamp'        => 'OXTIMESTAMP',
         'url'              => '',
         'active'           => 'OXACTIVE',
-        'title'            => 'OXTITLE',
         'meta_keywords'    => '',
         'meta_description' => '',
     ];
@@ -41,18 +40,21 @@ class DefaultProperties extends Modifier
         'ean'            => 'OXARTNUM',
         'stock'          => 1,
         'onstock'        => true,
+        'title'          => 'OXTITLE',
     ];
 
     private $categoryFieldMapping = [
-        'sort'      => 'OXSORT',
-        'shortdesc' => 'OXDESC',
-        'longdesc'  => 'OXLONGDESC',
-        'hidden'    => 'OXHIDDEN',
+        'sort'           => 'OXSORT',
+        'shortdesc'      => 'OXDESC',
+        'longdesc'       => 'OXLONGDESC',
+        'hidden'         => 'OXHIDDEN',
+        'category_title' => 'OXTITLE',
 
     ];
 
     private $manufacturerFieldMapping = [
-        'shortdesc' => 'OXSHORTDESC',
+        'shortdesc'          => 'OXSHORTDESC',
+        'manufacturer_title' => 'OXTITLE',
     ];
 
     public function __construct($database)
