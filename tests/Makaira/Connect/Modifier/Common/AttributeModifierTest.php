@@ -14,7 +14,6 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
         $dbMock = $this->getMock(DatabaseInterface::class);
         $oxid = 'abcdef';
         $dbResult = [
-            'active' => 1,
             'id' => $oxid,
             'title' => 'abcdef',
             'value' => 'abcdef'
@@ -40,7 +39,6 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArraySubset(
             [new AssignedAttribute([
-                 'active'  => $dbResult['active'],
                  'oxid'    => $dbResult['id'],
                  'oxtitle' => $dbResult['title'],
                  'oxvalue' => $dbResult['value'],

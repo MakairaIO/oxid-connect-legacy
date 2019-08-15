@@ -82,7 +82,7 @@ class CategoryModifier extends Modifier
                 ]
             );
 
-            $depth = 0;
+            //$depth = 0;
             $path  = '';
             $active = true;
             foreach ($catPaths as $catPath) {
@@ -91,16 +91,15 @@ class CategoryModifier extends Modifier
                     break;
                 }
                 $path .= $catPath['title'] . '/';
-                $depth++;
+                //$depth++;
             }
 
             if ($active) {
                 $categories[] = new AssignedCategory(
                     [
                         'catid'  => $cat['catid'],
-                        'pos'    => $cat['oxpos'],
                         'shopid' => $cat['shopid'],
-                        'depth'  => $depth,
+                        //'depth'  => $depth,
                         'path'   => $path,
                     ]
                 );

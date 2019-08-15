@@ -11,8 +11,8 @@ class Product extends BaseProduct
     public $mak_meta_keywords;
     public $mak_meta_description;
     public $selfLinks = [];
-    public $mainCategory;
-    public $mainCategoryUrl;
+    public $maincategory;
+    public $maincategoryurl;
 
     public $mak_boost_norm_insert = 0.0;
     public $mak_boost_norm_sold = 0.0;

@@ -10,7 +10,6 @@ use Kore\DataObject\DataObject;
  */
 class AssignedTypedAttribute extends DataObject
 {
-    public $active = 0;
     public $id;
     public $title;
     public $value;

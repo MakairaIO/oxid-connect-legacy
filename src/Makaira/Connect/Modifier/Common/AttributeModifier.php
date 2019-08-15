@@ -17,7 +17,6 @@ class AttributeModifier extends Modifier
 {
     private $selectAttributesQuery = '
                         ( SELECT
-                            :productActive as `active`,
                             oxattribute.oxid as `id`,
                             oxattribute.oxtitle as `title`,
                             oxobject2attribute.oxvalue as `value`
@@ -29,10 +28,9 @@ class AttributeModifier extends Modifier
                             AND oxobject2attribute.oxvalue != \'\'
                         ) UNION (
                         SELECT
-                            oxactive as `active`,
-                            oxattribute.oxid as `oxid`,
-                            oxattribute.oxtitle as `oxtitle`,
-                            oxobject2attribute.oxvalue as `oxvalue`
+                            oxattribute.oxid as `id`,
+                            oxattribute.oxtitle as `title`,
+                            oxobject2attribute.oxvalue as `value`
                         FROM
                             oxarticles
                             JOIN oxobject2attribute ON (oxarticles.oxid = oxobject2attribute.oxobjectid)
@@ -45,7 +43,6 @@ class AttributeModifier extends Modifier
 
     private $selectVariantsQuery = '
                         SELECT
-                            1 as `active`,
                             parent.oxvarname as `title`,
                             variant.oxvarselect as `value`
                         FROM
@@ -169,7 +166,6 @@ class AttributeModifier extends Modifier
             foreach ($uniqueValues as $value) {
                 $product->attributeStr[] = new AssignedTypedAttribute(
                     [
-                        'active' => $variantData['active'],
                         'id'     => $hashTitle,
                         'title'  => $title,
                         'value'  => $value,

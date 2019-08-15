@@ -10,7 +10,6 @@ use Kore\DataObject\DataObject;
  */
 class AssignedAttribute extends DataObject
 {
-    public $active = 0;
     public $oxid;
     public $oxtitle;
     public $oxvalue;

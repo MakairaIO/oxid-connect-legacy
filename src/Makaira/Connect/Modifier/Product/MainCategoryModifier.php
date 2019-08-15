@@ -48,7 +48,7 @@ class MainCategoryModifier extends Modifier
     public function apply(Type $type)
     {
         // skip database request if field is already set
-        if (!isset($type->mainCategory)) {
+        if (!isset($type->maincategory)) {
             $sql = "SELECT OXCATNID FROM oxobject2category WHERE OXOBJECTID=:productId ORDER BY OXTIME LIMIT 1";
 
             $result = $this->database->query($sql, ['productId' => $type->OXID]);
@@ -57,11 +57,11 @@ class MainCategoryModifier extends Modifier
             }
             if (count($result) > 0 && isset($result[0]['OXCATNID'])) {
                 $categoryId         = $result[0]['OXCATNID'];
-                $type->mainCategory = $categoryId;
+                $type->maincategory = $categoryId;
                 $oCategory          = oxNew('oxcategory');
                 $languageId         = $this->oxLang->getBaseLanguage();
                 $oCategory->loadInLang($languageId, $categoryId);
-                $type->mainCategoryUrl = $this->encoder->getCategoryUri($oCategory, $languageId);
+                $type->maincategoryurl = $this->encoder->getCategoryUri($oCategory, $languageId);
             }
         }
 
