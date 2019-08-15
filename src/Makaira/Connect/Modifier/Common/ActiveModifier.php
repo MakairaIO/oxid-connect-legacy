@@ -49,14 +49,7 @@ class ActiveModifier extends Modifier
         $sql = "SELECT * FROM {$table} WHERE OXID = '{$product->id}' AND {$activeSnippet}";
         $result = $this->database->query($sql);
 
-        $product->mak_active = (bool) count($result);
-
-        // FIXME: We can only remove this legacy logic once the query is using mak_active and all customers
-        // have updated their module (?)
-        $product->active = (bool) $product->OXACTIVE;
-        if (isset($product->OXHIDDEN)) {
-            $product->active = $product->active && !((bool) $product->OXHIDDEN);
-        }
+        $product->active = (bool) count($result);
 
         return $product;
     }

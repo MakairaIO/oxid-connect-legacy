@@ -23,7 +23,6 @@ class Product extends BaseProduct
     public $isVariant = false;
     public $activeto;
     public $activefrom;
-    public $variantactive = 1;
     public $suggest = [];
     public $category = [];
     public $TRACKING;

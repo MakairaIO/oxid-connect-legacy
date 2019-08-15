@@ -12,7 +12,6 @@ class Type extends DataObject
     /* required fields + mak-fields */
     public $timestamp;
     public $url;
-    public $mak_active = true;
     public $active = true;
     public $shop = [];
 

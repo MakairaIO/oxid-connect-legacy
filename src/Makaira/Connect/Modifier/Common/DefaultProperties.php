@@ -20,7 +20,7 @@ class DefaultProperties extends Modifier
         'es_id'                => '',
         'timestamp'            => 'OXTIMESTAMP',
         'url'                  => '',
-        'mak_active'           => 'OXACTIVE',
+        'active'           => 'OXACTIVE',
         'mak_meta_keywords'    => '',
         'mak_meta_description' => '',
     ];
@@ -54,7 +54,6 @@ class DefaultProperties extends Modifier
     ];
 
     private $manufacturerFieldMapping = [
-        'mak_manufacturerId'     => 'OXID',
         'mak_manufacturer_title' => 'OXTITLE',
         'mak_shortdesc'          => 'OXSHORTDESC',
     ];

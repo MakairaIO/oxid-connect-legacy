@@ -63,7 +63,7 @@ class UrlModifier extends Modifier
             $objectData['attribute'],
             $objectData['category'],
             $objectData['id'],
-            $objectData['mak_active'],
+            $objectData['active'],
             $objectData['shop'],
             $objectData['suggest'],
             $objectData['timestamp'],
