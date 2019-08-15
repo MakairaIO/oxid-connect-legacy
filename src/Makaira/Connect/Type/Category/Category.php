@@ -11,7 +11,7 @@ use Makaira\Connect\Type;
 class Category extends Type
 {
     public $category_title;
-    public $mak_sort;
+    public $sort;
     public $mak_shortdesc;
     public $mak_longdesc;
     public $mak_meta_keywords;

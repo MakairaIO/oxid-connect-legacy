@@ -29,7 +29,7 @@ class DefaultProperties extends Modifier
         'title'          => 'OXTITLE',
         'searchkeys'     => 'OXSEARCHKEYS',
         'hidden'         => 'OXHIDDEN',
-        'mak_sort'           => 'OXSORT',
+        'sort'           => 'OXSORT',
         'mak_shortdesc'      => 'OXSHORTDESC',
         'mak_longdesc'       => 'OXLONGDESC',
         'mak_manufacturerId' => 'OXMANUFACTURERID',
@@ -46,7 +46,7 @@ class DefaultProperties extends Modifier
 
     private $categoryFieldMapping = [
         'category_title' => 'OXTITLE',
-        'mak_sort'           => 'OXSORT',
+        'sort'           => 'OXSORT',
         'mak_shortdesc'      => 'OXDESC',
         'mak_longdesc'       => 'OXLONGDESC',
         'hidden'         => 'OXHIDDEN',

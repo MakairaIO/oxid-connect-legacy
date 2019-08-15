@@ -27,7 +27,7 @@ class BaseProduct extends Type
     public $title = '';
     public $searchkeys = '';
     public $hidden = false;
-    public $mak_sort = 0;
+    public $sort = 0;
     public $mak_longdesc = '';
     public $mak_shortdesc = '';
     public $mak_stock = 0;
