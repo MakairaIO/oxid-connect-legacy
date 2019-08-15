@@ -35,8 +35,8 @@ class LongDescriptionModifier extends Modifier
     public function apply(Type $product)
     {
         $parsedContent       =
-            $this->parseThroughSmarty ? $this->contentParser->parseContent($product->mak_longdesc) : $product->mak_longdesc;
-        $product->mak_longdesc = trim(strip_tags($parsedContent));
+            $this->parseThroughSmarty ? $this->contentParser->parseContent($product->longdesc) : $product->longdesc;
+        $product->longdesc = trim(strip_tags($parsedContent));
 
         return $product;
     }

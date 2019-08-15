@@ -13,7 +13,7 @@ class Category extends Type
     public $category_title;
     public $sort;
     public $mak_shortdesc;
-    public $mak_longdesc;
+    public $longdesc;
     public $mak_meta_keywords;
     public $mak_meta_description;
     public $selfLinks = [];

@@ -31,7 +31,7 @@ class DefaultProperties extends Modifier
         'hidden'         => 'OXHIDDEN',
         'sort'           => 'OXSORT',
         'mak_shortdesc'      => 'OXSHORTDESC',
-        'mak_longdesc'       => 'OXLONGDESC',
+        'longdesc'       => 'OXLONGDESC',
         'mak_manufacturerId' => 'OXMANUFACTURERID',
         'mak_price'          => 'OXPRICE',
         'mak_insert'         => 'OXINSERT',
@@ -48,7 +48,7 @@ class DefaultProperties extends Modifier
         'category_title' => 'OXTITLE',
         'sort'           => 'OXSORT',
         'mak_shortdesc'      => 'OXDESC',
-        'mak_longdesc'       => 'OXLONGDESC',
+        'longdesc'       => 'OXLONGDESC',
         'hidden'         => 'OXHIDDEN',
 
     ];
