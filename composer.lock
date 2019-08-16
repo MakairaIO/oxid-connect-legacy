@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c648fb53f396186fd9d66111e476314a",
+    "content-hash": "3214247d4f5faaa777165e4bb39fe3b1",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -512,11 +512,11 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2019.7.2",
+            "version": "2019.9.0-RC1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "db8931419858bc7ae01e2a50c5c6205a5cb68f2a"
+                "reference": "3ad9982f5b1c2c5e4249caac67470d50cc423183"
             },
             "require": {
                 "kore/data-object": "@stable"
@@ -533,7 +533,7 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2019-07-24T13:28:02+00:00"
+            "time": "2019-08-15T09:06:58+00:00"
         },
         {
             "name": "marm/yamm",
@@ -947,20 +947,20 @@
             "authors": [
                 {
                     "name": "Manuel Pichler",
-                    "role": "Project Founder",
                     "email": "github@manuel-pichler.de",
-                    "homepage": "https://github.com/manuelpichler"
+                    "homepage": "https://github.com/manuelpichler",
+                    "role": "Project Founder"
                 },
                 {
                     "name": "Other contributors",
-                    "role": "Contributors",
-                    "homepage": "https://github.com/phpmd/phpmd/graphs/contributors"
+                    "homepage": "https://github.com/phpmd/phpmd/graphs/contributors",
+                    "role": "Contributors"
                 },
                 {
                     "name": "Marc Würth",
-                    "role": "Project Maintainer",
                     "email": "ravage@bluewin.ch",
-                    "homepage": "https://github.com/ravage84"
+                    "homepage": "https://github.com/ravage84",
+                    "role": "Project Maintainer"
                 }
             ],
             "description": "PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD.",
@@ -1344,8 +1344,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -2131,6 +2131,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "makaira/shared-libs": 5,
         "pdepend/pdepend": 0,
         "phpmd/phpmd": 0,
         "squizlabs/php_codesniffer": 0
