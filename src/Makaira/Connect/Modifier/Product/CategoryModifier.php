@@ -36,9 +36,9 @@ class CategoryModifier extends Modifier
       FROM
         oxcategories oc
       WHERE
-        oc.OXLEFT <= :left 
-        AND oc.OXRIGHT >= :right 
-        AND oc.OXROOTID = :rootId        
+        oc.OXLEFT <= :left
+        AND oc.OXRIGHT >= :right
+        AND oc.OXROOTID = :rootId
       ORDER BY oc.OXLEFT;
     ";
 
@@ -105,7 +105,8 @@ class CategoryModifier extends Modifier
                         'shopid' => $cat['shopid'],
                         'depth'  => $depth,
                         'path'   => $path,
-                    ]);
+                    ]
+                );
             }
         }
 
