@@ -48,7 +48,7 @@ class StockModifier extends Modifier
             // 2 --> Wenn ausverkauft offline
             // 3 --> Wenn ausverkauft nicht bestellbar
             // 4 --> Fremdlager
-            $onStock = (2 != $stockFlag) || (0 > $stock);
+            $onStock = (2 != $stockFlag) || (0 < $stock);
         }
 
         $product->onstock = $onStock;
