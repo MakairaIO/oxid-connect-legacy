@@ -26,6 +26,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                             'oxleft' => 5,
                             'oxright' => 7,
                             'oxrootid' => 42,
+                            'title'  => 'mytitle',
                         ],
                     ]
                 )
@@ -62,6 +63,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                         'shopid' => 1,
                         'depth' => 1,
                         'path' => 'mytitle/',
+                        'title' => 'mytitle',
                     ]
                 ),
             ], $product->category
