@@ -19,6 +19,31 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
     protected static $disableMakairaTouch = false;
 
     /**
+     * @var bool
+     */
+    protected static $callParentMethod;
+
+    /**
+     * @param        $class
+     * @param string $method
+     *
+     * @return bool
+     * @throws \ReflectionException
+     */
+    protected function hasParentMethod($class, $method = 'executeDependencyEvent')
+    {
+        if (null === self::$callParentMethod) {
+            try {
+                self::$callParentMethod = (new ReflectionClass($class))->getParentClass()->hasMethod($method);
+            } catch (ReflectionException $e) {
+                self::$callParentMethod = false;
+            }
+        }
+
+        return self::$callParentMethod;
+    }
+
+    /**
      * @param bool $disableTouch
      */
     public function disableMakairaTouch($disableTouch = true)
@@ -87,7 +112,7 @@ class makaira_connect_oxcategory extends makaira_connect_oxcategory_parent
             }
         }
 
-        if (method_exists(get_parent_class($this), 'executeDependencyEvent')) {
+        if ($this->hasParentMethod(__CLASS__)) {
             return parent::executeDependencyEvent($aCategoryIds, $blFlushArticles);
         }
     }
