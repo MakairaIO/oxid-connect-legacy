@@ -68,7 +68,7 @@ class CategoryModifier extends Modifier
             $this->selectCategoriesQuery,
             [
                 'productId'     => $product->id,
-                'productActive' => $product->OXACTIVE,
+                'productActive' => $product->active,
             ]
         );
 

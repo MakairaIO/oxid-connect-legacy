@@ -21,4 +21,5 @@ class Category extends Type
     public $depth;
     public $subcategories = [];
     public $hidden = false;
+    public $oxobject = [];
 }

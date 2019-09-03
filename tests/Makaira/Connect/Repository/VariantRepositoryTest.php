@@ -29,6 +29,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             new Change(
                 array(
+                    'id' => 42,
+                    'type' => 'variant',
                     'data' => new Variant(
                         array(
                             'id' => 42,
@@ -59,6 +61,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             new Change(
                 array(
+                    'id' => 42,
+                    'type' => 'variant',
                     'deleted' => true,
                 )
             ),
@@ -86,6 +90,8 @@ class VariantRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             new Change(
                 array(
+                    'id' => 42,
+                    'type' => 'variant',
                     'data' => 'modified',
                 )
             ),

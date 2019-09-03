@@ -35,15 +35,15 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
 
         $modifier = new AttributeModifier($dbMock, '1', [], []);
 
-        $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'OXACTIVE' => 1]));
+        $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'active' => 1]));
 
         $this->assertArraySubset(
             [new AssignedAttribute([
-                 'oxid'    => $dbResult['id'],
-                 'oxtitle' => $dbResult['title'],
-                 'oxvalue' => $dbResult['value'],
+                 'id'    => $dbResult['id'],
+                 'title' => $dbResult['title'],
+                 'value' => $dbResult['value'],
             ])],
-            $product->attribute
+            $product->attributeStr
         );
     }
 }
