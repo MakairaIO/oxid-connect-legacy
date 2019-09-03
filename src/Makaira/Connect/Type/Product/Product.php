@@ -4,6 +4,9 @@ namespace Makaira\Connect\Type\Product;
 
 use Makaira\Connect\Type\Common\BaseProduct;
 
+/**
+ * @SuppressWarnings(TooManyFields)
+ */
 class Product extends BaseProduct
 {
     /* variant attributes */

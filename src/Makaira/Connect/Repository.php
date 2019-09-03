@@ -100,6 +100,9 @@ class Repository
      * @param int $limit Fetch limit
      *
      * @return Changes
+     *
+     * @SuppressWarnings(CyclomaticComplexity)
+     * @SuppressWarnings(NPathComplexity)
      */
     public function getChangesSince($since, $limit = 50)
     {

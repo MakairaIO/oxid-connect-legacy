@@ -85,6 +85,8 @@ class VariantAttributesModifier extends Modifier
      * @param BaseProduct|Type $product
      *
      * @return BaseProduct|Type
+     *
+     * @SuppressWarnings(CyclomaticComplexity)
      */
     public function apply(Type $product)
     {

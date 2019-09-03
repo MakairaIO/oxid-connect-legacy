@@ -62,6 +62,9 @@ class DefaultProperties extends Modifier
         $this->db = $database;
     }
 
+    /**
+     * @SuppressWarnings(CyclomaticComplexity)
+     */
     public function apply(Type $entity)
     {
         $mappingFields = [];
