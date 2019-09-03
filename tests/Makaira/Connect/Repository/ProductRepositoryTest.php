@@ -29,6 +29,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(array(
+                'id' => 42,
+                'type' => 'product',
                 'data' => new Product(array(
                     'id' => 42,
                 )),
@@ -55,6 +57,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(array(
+                'id' => 42,
+                'type' => 'product',
                 'deleted' => true,
             )),
             $change
@@ -80,6 +84,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(array(
+                'id' => 42,
+                'type' => 'product',
                 'data' => 'modified',
             )),
             $change

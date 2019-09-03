@@ -12,8 +12,8 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
-        $product->OXACTIVE = "1";
-        $product->OXHIDDEN = "0";
+        $product->active = "1";
+        $product->hidden = "0";
         $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(true, $modifier->apply($product, $dbMock)->active);
     }
@@ -22,8 +22,8 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
-        $product->OXACTIVE = "0";
-        $product->OXHIDDEN = "0";
+        $product->active = "0";
+        $product->hidden = "0";
         $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
@@ -32,8 +32,8 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
-        $product->OXACTIVE = "0";
-        $product->OXHIDDEN = "1";
+        $product->active = "0";
+        $product->hidden = "1";
         $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
@@ -42,8 +42,8 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
-        $product->OXACTIVE = "1";
-        $product->OXHIDDEN = "1";
+        $product->active = "1";
+        $product->hidden = "1";
         $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }
@@ -52,8 +52,8 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
-        $product->OXACTIVE = "1";
-        $product->OXHIDDEN = null;
+        $product->active = "1";
+        $product->hidden = null;
         $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(true, $modifier->apply($product, $dbMock)->active);
     }
@@ -62,8 +62,8 @@ class ActiveModifierTest extends \PHPUnit_Framework_TestCase
     {
         $dbMock = $this->getMock(DatabaseInterface::class);
         $product = new BaseProduct();
-        $product->OXACTIVE = "0";
-        $product->OXHIDDEN = null;
+        $product->active = "0";
+        $product->hidden = null;
         $modifier = new ActiveModifier($dbMock);
         $this->assertEquals(false, $modifier->apply($product, $dbMock)->active);
     }

@@ -45,7 +45,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
 
         $product = new Product();
         $product->id = 'abc';
-        $product->OXACTIVE = 1;
+        $product->active = 1;
 
         $modifier = new CategoryModifier($dbMock);
 

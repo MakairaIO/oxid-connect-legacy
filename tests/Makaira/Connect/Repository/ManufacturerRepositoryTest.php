@@ -30,6 +30,8 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(
+                'id' => 42,
+                'type' => 'manufacturer',
                 array(
                     'data' => new Manufacturer(
                         array(
@@ -60,6 +62,8 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(
+                'id' => 42,
+                'type' => 'manufacturer',
                 array(
                     'deleted' => true,
                 )
@@ -87,6 +91,8 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(
+                'id' => 42,
+                'type' => 'manufacturer',
                 array(
                     'data' => 'modified',
                 )

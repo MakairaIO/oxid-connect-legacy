@@ -31,6 +31,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(
+                'id' => 42,
+                'type' => 'category',
                 array(
                     'data' => new Category(
                         array(
@@ -61,6 +63,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(
+                'id' => 42,
+                'type' => 'category',
                 array(
                     'deleted' => true,
                 )
@@ -88,6 +92,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $change = $repository->get(42);
         $this->assertEquals(
             new Change(
+                'id' => 42,
+                'type' => 'category',
                 array(
                     'data' => 'modified',
                 )
