@@ -2138,6 +2138,11 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": []
+    "platform": {
+        "php": ">5.6.0"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "5.6.31"
+    }
 }

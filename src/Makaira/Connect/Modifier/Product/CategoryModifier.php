@@ -15,6 +15,7 @@ class CategoryModifier extends Modifier
                             o2c.oxcatnid AS catid,
                             o2c.oxpos AS oxpos,
                             o2c.oxshopid AS shopid,
+                            oc.OXTITLE as title,
                             oc.OXACTIVE AS active,
                             oc.OXLEFT AS oxleft,
                             oc.OXRIGHT AS oxright,
@@ -35,9 +36,9 @@ class CategoryModifier extends Modifier
       FROM
         oxcategories oc
       WHERE
-        oc.OXLEFT <= :left 
-        AND oc.OXRIGHT >= :right 
-        AND oc.OXROOTID = :rootId        
+        oc.OXLEFT <= :left
+        AND oc.OXRIGHT >= :right
+        AND oc.OXROOTID = :rootId
       ORDER BY oc.OXLEFT;
     ";
 
@@ -72,6 +73,7 @@ class CategoryModifier extends Modifier
         );
 
         $categories = [];
+
         foreach ($allCats as $cat) {
             $catPaths = $this->database->query(
                 $this->selectCategoryPathQuery,
@@ -98,8 +100,8 @@ class CategoryModifier extends Modifier
                 $categories[] = new AssignedCategory(
                     [
                         'catid'  => $cat['catid'],
+                        'title'  => $cat['title'],
                         'shopid' => $cat['shopid'],
-                        //'depth'  => $depth,
                         'path'   => $path,
                     ]
                 );
