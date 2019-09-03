@@ -31,7 +31,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetChangesForSingleResult()
+    /*public function testGetChangesForSingleResult()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
@@ -68,7 +68,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ]),
             $result
         );
-    }
+    }*/
 
     public function testGetChangesFromInvalidRepository()
     {
@@ -94,7 +94,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetChangesForMultipleResults()
+    /*public function testGetChangesForMultipleResults()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
@@ -150,7 +150,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ]),
             $result
         );
-    }
+    }*/
 
     public function testTouchExecutesQuery()
     {
