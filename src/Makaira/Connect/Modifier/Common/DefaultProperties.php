@@ -81,7 +81,6 @@ class DefaultProperties extends Modifier
                 break;
 
             default:
-
                 break;
         }
 

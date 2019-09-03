@@ -30,7 +30,7 @@ class BaseProduct extends Type
     public $stock = 0;
     public $onstock = false;
     public $manufacturerid = '';
-    public $manufacturer_title	 = '';
+    public $manufacturer_title = '';
     public $price = 0.00;
     public $insert;
     public $soldamount = 0;
