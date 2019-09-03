@@ -6,7 +6,7 @@ use Makaira\Connect\Type\Common\AssignedAttribute;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
 
-class AttributeModifierTest extends \PHPUnit_Framework_TestCase
+class TypedAttributeModifierTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testApply()
@@ -38,7 +38,7 @@ class AttributeModifierTest extends \PHPUnit_Framework_TestCase
         $product = $modifier->apply(new BaseProduct(['id' => $oxid, 'active' => 1]));
 
         $this->assertArraySubset(
-            [new AssignedAttribute([
+            [new AssignedTypedAttribute([
                  'id'    => $dbResult['id'],
                  'title' => $dbResult['title'],
                  'value' => $dbResult['value'],
