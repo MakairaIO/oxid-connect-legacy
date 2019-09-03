@@ -14,7 +14,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
         $dbMock
             ->expects($this->at(0))
             ->method('query')
-            ->with($this->anything(), ['productId' => 'abc'])
+            ->with($this->anything(), ['productId' => 'abc', 'productActive' => 1])
             ->will(
                 $this->returnValue(
                     [
