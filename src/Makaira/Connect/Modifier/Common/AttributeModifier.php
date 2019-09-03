@@ -109,7 +109,7 @@ class AttributeModifier extends Modifier
         $attributes = $this->database->query(
             $query,
             [
-                'productActive' => $product->OXACTIVE,
+                'productActive' => $product->active,
                 'productId'     => $product->id,
             ]
         );
