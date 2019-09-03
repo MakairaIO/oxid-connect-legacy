@@ -20,9 +20,9 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $modifier = new LongDescriptionModifier($parserMock, true);
         $product = new BaseProduct();
-        $product->OXLONGDESC = 'This is a short text';
+        $product->longdesc = 'This is a short text';
         $product = $modifier->apply($product, $dbMock);
-        $this->assertEquals('This is a short text', $product->OXLONGDESC);
+        $this->assertEquals('This is a short text', $product->longdesc);
     }
 
     public function testShortTextWithHTML()
@@ -35,9 +35,9 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $modifier = new LongDescriptionModifier($parserMock, true);
         $product = new BaseProduct();
-        $product->OXLONGDESC = 'This is a <del>short</del> text';
+        $product->longdesc = 'This is a <del>short</del> text';
         $product = $modifier->apply($product, $dbMock);
-        $this->assertEquals('This is a short text', $product->OXLONGDESC);
+        $this->assertEquals('This is a short text', $product->longdesc);
     }
 
     public function testTrimming()
@@ -50,9 +50,9 @@ class LongDescriptionModifierTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $modifier = new LongDescriptionModifier($parserMock, true);
         $product = new BaseProduct();
-        $product->OXLONGDESC = '   This is a short text   ' . PHP_EOL;
+        $product->longdesc = '   This is a short text   ' . PHP_EOL;
         $product = $modifier->apply($product, $dbMock);
-        $this->assertEquals('This is a short text', $product->OXLONGDESC);
+        $this->assertEquals('This is a short text', $product->longdesc);
     }
 
 }

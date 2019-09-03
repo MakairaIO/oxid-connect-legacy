@@ -24,6 +24,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             new Changes([
                 'since' => 0,
                 'count' => 0,
+                'requestedCount' => 50,
                 'changes' => [],
             ]),
             $result
@@ -55,6 +56,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             new Changes([
                 'since' => 0,
                 'count' => 1,
+                'requestedCount' => 50,
                 'changes' => [
                     new Change([
                         'id' => 42,
@@ -85,6 +87,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             new Changes([
                 'since' => 0,
                 'count' => 0,
+                'requestedCount' => 50,
                 'changes' => [],
             ]),
             $result
@@ -122,6 +125,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             new Changes([
                 'since' => 0,
                 'count' => 3,
+                'requestedCount' => 50,
                 'changes' => [
                     // This order MUST NOT change
                     new Change([
