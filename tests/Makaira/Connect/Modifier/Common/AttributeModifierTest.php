@@ -2,7 +2,7 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
-use Makaira\Connect\Type\Common\AssignedAttribute;
+use Makaira\Connect\Type\Common\AssignedTypedAttribute;
 use Makaira\Connect\Type\Common\BaseProduct;
 use Makaira\Connect\DatabaseInterface;
 
