@@ -1,4 +1,3 @@
-
 function hCreateCookie(name, value, lifetime, dom) {
     var expires = "";
     if (lifetime) {
@@ -35,14 +34,16 @@ function hDeleteCookie(name) {
 }
 
 function initEcondaCookie() {
-    if ("undefined" != (typeof econda)) {
-
-        var makCookiePrefix    = "mak_";
+    if ("undefined" !=
+        (
+            typeof econda
+        )) {
+        var makCookiePrefix = "mak_";
         var makCookieAccountId = makCookiePrefix + "econda_aid";
-        var makCookieSession   = makCookiePrefix + "econda_session";
-        var makCookieLifetime  = 86400;
-        var makCookieDomain    = null;
-        var makCookieValue     = null;
+        var makCookieSession = makCookiePrefix + "econda_session";
+        var makCookieLifetime = 86400;
+        var makCookieDomain = null;
+        var makCookieValue = null;
 
         var makEcondaAccountId = hReadCookie(makCookieAccountId);
 
@@ -53,14 +54,9 @@ function initEcondaCookie() {
             request.onload = () => {
                 if (request.status >= 200 && request.status < 400) {
                     makEcondaAccountId = request.responseText;
-                    makCookieValue     = btoa(makEcondaAccountId);
+                    makCookieValue = btoa(makEcondaAccountId);
 
-                    hCreateCookie(
-                        makCookieAccountId,
-                        makCookieValue,
-                        makCookieLifetime,
-                        makCookieDomain
-                    );
+                    hCreateCookie(makCookieAccountId, makCookieValue, makCookieLifetime, makCookieDomain);
                 }
             }
 
@@ -75,17 +71,14 @@ function initEcondaCookie() {
 
         if (makEcondaAccountId != null) {
             var makEcondaRequest = new econda.recengine.Request({accountId: makEcondaAccountId});
-            var makEcondaParams  = makEcondaRequest.getRecommendationServiceParameters();
-            var makCookieValue   = JSON.stringify(makEcondaParams);
+            var makEcondaParams = makEcondaRequest.getRecommendationServiceParameters();
+            makCookieValue = JSON.stringify(makEcondaParams);
 
-            hCreateCookie(
-                makCookieSession,
-                makCookieValue,
-                makCookieLifetime,
-                makCookieDomain
-            );
+            hCreateCookie(makCookieSession, makCookieValue, makCookieLifetime, makCookieDomain);
         }
+    } else {
+        hDeleteCookie("mak_econda_session");
     }
 }
 
-initEcondaCookie();
+setTimeout(initEcondaCookie, 500);
