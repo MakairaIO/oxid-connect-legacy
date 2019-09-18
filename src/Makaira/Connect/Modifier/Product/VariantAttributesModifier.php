@@ -44,8 +44,7 @@ class VariantAttributesModifier extends Modifier
                             JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
                         WHERE
                             oxobject2attribute.oxvalue != \'\'
-                            AND (oxobject2attribute.oxobjectid = :productId
-                                OR oxobject2attribute.oxobjectid = :variantId)
+                            AND oxobject2attribute.oxobjectid in (:productId, :variantId)
                         ';
 
     /**
@@ -86,7 +85,6 @@ class VariantAttributesModifier extends Modifier
      * @param BaseProduct|Type $product
      *
      * @return BaseProduct|Type
-     *
      * @SuppressWarnings(CyclomaticComplexity)
      */
     public function apply(Type $product)
@@ -104,29 +102,37 @@ class VariantAttributesModifier extends Modifier
             ],
             false
         );
-        $titleArray  = array_map('trim', explode('|', $variantName[0]['oxvarname']));
-        $hashArray   = array_map('md5', $titleArray);
+        $single      = ($variantName[0]['oxvarname'] === '');
 
-        $query    = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectVariantDataQuery);
-        $variants = $this->database->query(
-            $query,
-            [
-                'productId' => $product->id,
-            ]
-        );
+        if (!$single) {
+            $titleArray = array_map('trim', explode('|', $variantName[0]['oxvarname']));
+            $hashArray  = array_map('md5', $titleArray);
+
+            $query    = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectVariantDataQuery);
+            $variants = $this->database->query(
+                $query,
+                [
+                    'productId' => $product->id,
+                ]
+            );
+        } else {
+            $variants = [['id' => '']];
+        }
 
         foreach ($variants as $variant) {
-            $id                = $variant['id'];
-            $valueArray        = array_map('trim', explode('|', $variant['value']));
-            $variantAttributes = [];
+            $id = $variant['id'];
+            if ($id) {
+                $valueArray        = array_map('trim', explode('|', $variant['value']));
+                $variantAttributes = [];
 
-            foreach ($hashArray as $index => $hash) {
-                if (in_array($hash, $this->attributeInt)) {
-                    $variantAttributes[ $hash ] = (int) $valueArray[ $index ];
-                } elseif (in_array($hash, $this->attributeFloat)) {
-                    $variantAttributes[ $hash ] = (float) $valueArray[ $index ];
-                } else {
-                    $variantAttributes[ $hash ] = (string) $valueArray[ $index ];
+                foreach ($hashArray as $index => $hash) {
+                    if (in_array($hash, $this->attributeInt)) {
+                        $variantAttributes[ $hash ] = (int) $valueArray[ $index ];
+                    } elseif (in_array($hash, $this->attributeFloat)) {
+                        $variantAttributes[ $hash ] = (float) $valueArray[ $index ];
+                    } else {
+                        $variantAttributes[ $hash ] = (string) $valueArray[ $index ];
+                    }
                 }
             }
 

@@ -74,6 +74,13 @@ class Repository
     /**
      * @var array
      */
+    private $propsDoNotClone = [
+        'attributes',
+    ];
+
+    /**
+     * @var array
+     */
     private $propsNullValues = [null, '', []];
 
     /**
@@ -153,6 +160,11 @@ class Repository
                     (true === $change->deleted ||
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT))) {
                     $pChange               = clone $change;
+                    foreach ($this->propsDoNotClone as $_props) {
+                        if (isset($pChange->data->$_props)) {
+                            unset($pChange->data->$_props);
+                        }
+                    }
                     $pChange->data->parent = $id;
                     if (isset($pChange->data->OXPARENTID)) {
                         $pChange->data->OXPARENTID = $id;
