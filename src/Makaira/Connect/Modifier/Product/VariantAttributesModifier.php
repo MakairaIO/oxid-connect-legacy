@@ -43,8 +43,9 @@ class VariantAttributesModifier extends Modifier
                             oxobject2attribute
                             JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
                         WHERE
-                            oxobject2attribute.oxobjectid = :variantId
-                            AND oxobject2attribute.oxvalue != \'\'
+                            oxobject2attribute.oxvalue != \'\'
+                            AND (oxobject2attribute.oxobjectid = :productId
+                                OR oxobject2attribute.oxobjectid = :variantId)
                         ';
 
     /**
@@ -132,6 +133,7 @@ class VariantAttributesModifier extends Modifier
             $attributes = $this->database->query(
                 $this->selectVariantAttributesQuery,
                 [
+                    'productId' => $product->id,
                     'variantId' => $id,
                 ]
             );
