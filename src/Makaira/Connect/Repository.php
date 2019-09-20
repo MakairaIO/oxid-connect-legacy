@@ -57,11 +57,19 @@ class Repository
     /**
      * @var array
      */
+    private $parentAttributes = [];
+
+    /**
+     * @var array
+     */
     private $propsExclude = [
         'attributes',
         'attributeStr',
+        '_attributeStr',
         'attributeInt',
+        '_attributeInt',
         'attributeFloat',
+        '_attributeFloat',
     ];
 
     /**
@@ -107,7 +115,6 @@ class Repository
      * @param int $limit Fetch limit
      *
      * @return Changes
-     *
      * @SuppressWarnings(CyclomaticComplexity)
      * @SuppressWarnings(NPathComplexity)
      */
@@ -115,14 +122,13 @@ class Repository
     {
         $result = $this->database->query($this->selectQuery, ['since' => $since ?: 0, 'limit' => $limit]);
 
-        $changes = array();
+        $changes           = array();
+        $productRepository = $this->getRepositoryForType('product');
+        $typeProduct       = $productRepository->getType();
+        $variantRepository = $this->getRepositoryForType('variant');
+        $typeVariant       = $variantRepository->getType();
         foreach ($result as $row) {
             try {
-                $productRepository = $this->getRepositoryForType('product');
-                $typeProduct       = $productRepository->getType();
-                $variantRepository = $this->getRepositoryForType('variant');
-                $typeVariant       = $variantRepository->getType();
-
                 $type     = $row['type'];
                 $sequence = $row['sequence'];
                 $id       = $row['id'];
@@ -132,8 +138,8 @@ class Repository
                     $parentId = $productRepository->getParentId($id);
 
                     if ($parentId && !isset($this->parentProducts[ $parentId ])) {
-                        $change                            = $productRepository->get($parentId);
-                        $this->parentProducts[ $parentId ] = $change;
+                        $change = $productRepository->get($parentId);
+                        $this->setParentCache($parentId, $change);
                         unset($change);
                     }
                 }
@@ -152,35 +158,49 @@ class Repository
                             $change->data->$_key = $this->parentProducts[ $parentId ]->data->$_key;
                         }
                     }
+                    $change->data->attributeStr   = array_merge(
+                        (array) $this->parentAttributes[ $parentId ]['attributeStr'],
+                        $change->data->attributeStr
+                    );
+                    $change->data->attributeInt   = array_merge(
+                        (array) $this->parentAttributes[ $parentId ]['attributeInt'],
+                        $change->data->attributeInt
+                    );
+                    $change->data->attributeFloat = array_merge(
+                        (array) $this->parentAttributes[ $parentId ]['attributeFloat'],
+                        $change->data->attributeFloat
+                    );
+                }
+
+                if ($typeProduct === $type) {
+                    if (true === $change->deleted ||
+                        (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT)) {
+                        $pChange = clone $change;
+                        foreach ($this->propsDoNotClone as $_props) {
+                            if (isset($pChange->data->$_props)) {
+                                unset($pChange->data->$_props);
+                            }
+                        }
+                        $pChange->data->parent = $id;
+                        if (isset($pChange->data->OXPARENTID)) {
+                            $pChange->data->OXPARENTID = $id;
+                        }
+                        $pChange->id       = md5($id . '.variant.new');
+                        $pChange->data->id = $pChange->id;
+                        if (isset($pChange->data->OXID)) {
+                            $pChange->data->OXID = $pChange->id;
+                        }
+                        $pChange->sequence = $sequence;
+                        $pChange->type     = $typeVariant;
+
+                        $changes[] = $pChange;
+                        unset($pChange);
+                    } else {
+                        $this->setParentCache($id, $change);
+                    }
                 }
 
                 $changes[] = $change;
-
-                if ($typeProduct === $type &&
-                    (true === $change->deleted ||
-                        (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT))) {
-                    $pChange               = clone $change;
-                    foreach ($this->propsDoNotClone as $_props) {
-                        if (isset($pChange->data->$_props)) {
-                            unset($pChange->data->$_props);
-                        }
-                    }
-                    $pChange->data->parent = $id;
-                    if (isset($pChange->data->OXPARENTID)) {
-                        $pChange->data->OXPARENTID = $id;
-                    }
-                    $pChange->id       = md5($id . '.variant.new');
-                    $pChange->data->id = $pChange->id;
-                    if (isset($pChange->data->OXID)) {
-                        $pChange->data->OXID = $pChange->id;
-                    }
-                    $pChange->sequence = $sequence;
-                    $pChange->type     = $typeVariant;
-
-                    $changes[] = $pChange;
-                    unset($pChange);
-                }
-
                 unset($change);
             } catch (\OutOfBoundsException $e) {
                 // catch no repository found exception
@@ -195,6 +215,20 @@ class Repository
                 'changes'        => $changes,
             )
         );
+    }
+
+    protected function setParentCache($parentId, &$parentData)
+    {
+        $this->parentAttributes[ $parentId ] = [
+            'attributeStr'   => $parentData->data->_attributeStr,
+            'attributeInt'   => $parentData->data->_attributeInt,
+            'attributeFloat' => $parentData->data->_attributeFloat,
+        ];
+        unset(
+            $parentData->data->_attributeStr, $parentData->data->_attributeInt, $parentData->data->_attributeFloat
+        );
+
+        $this->parentProducts[ $parentId ] = $parentData;
     }
 
     public function countChangesSince($since)

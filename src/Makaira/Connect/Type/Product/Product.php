@@ -32,4 +32,8 @@ class Product extends BaseProduct
     public $suggest = [];
     public $category = [];
     public $TRACKING;
+
+    public $_attributeStr = [];
+    public $_attributeInt = [];
+    public $_attributeFloat = [];
 }

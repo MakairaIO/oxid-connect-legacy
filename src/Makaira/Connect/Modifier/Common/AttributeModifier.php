@@ -15,8 +15,8 @@ use Makaira\Connect\Type\Common\BaseProduct;
  */
 class AttributeModifier extends Modifier
 {
-    private $selectAttributesQuery = '
-                        ( SELECT
+    private $selectAttributesQueryParent = '
+                        SELECT
                             oxattribute.oxid as `id`,
                             oxattribute.oxtitle as `title`,
                             oxobject2attribute.oxvalue as `value`
@@ -26,7 +26,9 @@ class AttributeModifier extends Modifier
                         WHERE
                             oxobject2attribute.oxobjectid = :productId
                             AND oxobject2attribute.oxvalue != \'\'
-                        ) UNION (
+                        ';
+
+    private $selectAttributesQueryVariant = '
                         SELECT
                             oxattribute.oxid as `id`,
                             oxattribute.oxtitle as `title`,
@@ -38,7 +40,7 @@ class AttributeModifier extends Modifier
                         WHERE
                             oxarticles.oxparentid = :productId
                             AND oxobject2attribute.oxvalue != \'\'
-                            AND {{activeSnippet}})
+                            AND {{activeSnippet}}
                         ';
 
     private $selectVariantsQuery = '
@@ -48,7 +50,19 @@ class AttributeModifier extends Modifier
                         FROM
                             oxarticles parent
                             JOIN oxarticles variant ON parent.oxid = variant.oxparentid
-                        WHERE variant.oxparentid = :productId
+                        WHERE
+                            variant.oxparentid = :productId
+                        ';
+
+    private $selectVariantQuery = '
+                        SELECT
+                            parent.oxvarname as `title`,
+                            variant.oxvarselect as `value`
+                        FROM
+                            oxarticles parent
+                            JOIN oxarticles variant ON parent.oxid = variant.oxparentid
+                        WHERE
+                            variant.oxid = :productId
                         ';
 
     private $selectVariantNameQuery = '
@@ -105,17 +119,45 @@ class AttributeModifier extends Modifier
             throw new \RuntimeException("Cannot fetch attributes without a product ID.");
         }
 
-        $query      = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectAttributesQuery);
+        if (false === $product->isVariant) {
+            $attributes               = $this->database->query(
+                $this->selectAttributesQueryParent,
+                [
+                    'productId' => $product->id,
+                ]
+            );
+            $product->_attributeStr   = [];
+            $product->_attributeInt   = [];
+            $product->_attributeFloat = [];
+            foreach ($attributes as $attributeData) {
+                $attribute                = new AssignedTypedAttribute($attributeData);
+                $product->_attributeStr[] = $attribute;
+
+                $attributeId = $attributeData['id'];
+                if (in_array($attributeId, $this->attributeInt)) {
+                    $product->_attributeInt[] = $attribute;
+                }
+                if (in_array($attributeId, $this->attributeFloat)) {
+                    $product->_attributeInt[] = $attribute;
+                }
+            }
+            $product->attributeStr   = $product->_attributeStr;
+            $product->attributeInt   = $product->_attributeInt;
+            $product->attributeFloat = $product->_attributeFloat;
+        } else {
+            $product->attributeStr   = [];
+            $product->attributeInt   = [];
+            $product->attributeFloat = [];
+        }
+
+        $query      = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectAttributesQueryVariant);
         $attributes = $this->database->query(
             $query,
             [
-                'productActive' => $product->active,
-                'productId'     => $product->id,
+                'productId' => $product->id,
             ]
         );
 
-        $product->attributeInt   = [];
-        $product->attributeFloat = [];
         foreach ($attributes as $attributeData) {
             $attribute               = new AssignedTypedAttribute($attributeData);
             $product->attributeStr[] = $attribute;
@@ -129,12 +171,21 @@ class AttributeModifier extends Modifier
             }
         }
 
-        $variants = $this->database->query(
-            $this->selectVariantsQuery,
-            [
-                'productId' => $product->id,
-            ]
-        );
+        if (false === $product->isVariant) {
+            $variants = $this->database->query(
+                $this->selectVariantsQuery,
+                [
+                    'productId' => $product->id,
+                ]
+            );
+        } else {
+            $variants = $this->database->query(
+                $this->selectVariantQuery,
+                [
+                    'productId' => $product->id,
+                ]
+            );
+        }
 
         $variantName = $this->database->query(
             $this->selectVariantNameQuery,
@@ -166,9 +217,9 @@ class AttributeModifier extends Modifier
             foreach ($uniqueValues as $value) {
                 $product->attributeStr[] = new AssignedTypedAttribute(
                     [
-                        'id'     => $hashTitle,
-                        'title'  => $title,
-                        'value'  => $value,
+                        'id'    => $hashTitle,
+                        'title' => $title,
+                        'value' => $value,
                     ]
                 );
             }
