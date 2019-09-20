@@ -20,7 +20,7 @@ $aModule = [
     'title'       => 'Makaira :: Connect',
     'description' => 'Connector to Makaira',
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2019.8.3',
+    'version'     => '2019.8.4',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -46,6 +46,7 @@ $aModule = [
         'oxviewconfig'              => 'makaira/connect/src/oxid/core/makaira_connect_oxviewconfig',
         'oxseodecoder'              => 'makaira/connect/src/oxid/core/makaira_connect_oxseodecoder',
         'oxoutput'                  => 'makaira/connect/src/oxid/core/makaira_connect_oxoutput',
+        'oxconfig'                  => 'makaira/connect/src/oxid/core/makaira_connect_oxconfig',
         /* components */
         'oxlocator'                 => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
     ],
@@ -57,6 +58,7 @@ $aModule = [
         'makaira_connect_request_handler' => 'makaira/connect/src/oxid/core/makaira_connect_request_handler.php',
         'makaira_connect_autosuggest'     => 'makaira/connect/src/oxid/application/controllers/makaira_connect_autosuggest.php',
         'makaira_connect_autosuggester'   => 'makaira/connect/src/oxid/core/makaira_connect_autosuggester.php',
+        'makaira_connect_econda'          => 'makaira/connect/src/oxid/application/controllers/makaira_connect_econda.php',
     ],
     'templates'   => [
         'makaira_connect_single_sign_on.tpl'           => 'makaira/connect/views/admin/tpl/makaira_connect_single_sign_on.tpl',
@@ -85,8 +87,15 @@ $aModule = [
         'makaira/autosuggest/types/suggestions.tpl'    => 'makaira/connect/views/tpl/autosuggest/types/suggestions.tpl',
         /* results */
         'makaira/results/search.tpl'                   => 'makaira/connect/views/tpl/results/search.tpl',
+        /* econda */
+        'makaira/econda_base.tpl'                      => 'makaira/connect/views/tpl/econda_base.tpl',
     ],
     'blocks'      => [
+        [
+            'template' => 'layout/base.tpl',
+            'block'    => 'base_style',
+            'file'     => 'views/blocks/econda.tpl',
+        ],
         [
             'template' => 'page/search/search.tpl',
             'block'    => 'search_results',
@@ -128,6 +137,23 @@ $aModule = [
             'group' => 'OPERATIONAL_INTELLIGENCE',
             'type'  => 'bool',
             'value' => 0,
+        ],
+        ['name' => 'makaira_connect_use_econda', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'bool', 'value' => 0],
+        ['name' => 'makaira_connect_econda_aid', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'str', 'value' => ''],
+        ['name'  => 'makaira_connect_use_odoscope',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'bool',
+         'value' => 0,
+        ],
+        ['name'  => 'makaira_connect_odoscope_siteid',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'str',
+         'value' => '',
+        ],
+        ['name'  => 'makaira_connect_odoscope_token',
+         'group' => 'OPERATIONAL_INTELLIGENCE',
+         'type'  => 'str',
+         'value' => '',
         ],
         [
             'name'  => 'makaira_field_blacklist_product',

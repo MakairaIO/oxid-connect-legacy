@@ -54,7 +54,69 @@ class makaira_connect_autosuggester
             ]
         );
 
+        $personalizationType = null;
+        if (oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_econda',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )) {
+            if (isset($_COOKIE['mak_econda_session'])) {
+                $personalizationType                                     = 'econda';
+                $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
+                $econdaData                                              = json_decode($_COOKIE['mak_econda_session']);
+                $query->constraints[ Constraints::PERSONALIZATION_DATA ] = $econdaData;
+            }
+        } elseif (oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_use_odoscope',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )) {
+            $personalizationType                                     = 'odoscope';
+            $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
+
+            $token  = oxRegistry::getConfig()->getShopConfVar(
+                'makaira_connect_odoscope_token',
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+            $siteId = oxRegistry::getConfig()->getShopConfVar(
+                'makaira_connect_odoscope_siteid',
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $userIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                $userIp = preg_replace('/,.*$/', '', $userIp);
+            } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $userIp = $_SERVER['HTTP_CLIENT_IP'];
+            } else {
+                $userIp = $_SERVER['REMOTE_ADDR'];
+            }
+            if (is_string($userIp)) {
+                $userIp = preg_replace('/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', '$1.$2.*.*', $userIp);
+            } else {
+                $userIp = '';
+            }
+
+            $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+            $userAgent = is_string($userAgent) ? $userAgent : '';
+
+            $userRef = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+            $userRef = is_string($userRef) ? $userRef : '';
+
+            $query->constraints[ Constraints::PERSONALIZATION_DATA ] = [
+                'token'     => $token,
+                'siteid'    => $siteId,
+                'osccookie' => $_COOKIE["osc-{$token}"],
+                'uip'       => $userIp,
+                'uas'       => $userAgent,
+                'ref'       => $userRef,
+            ];
+        }
+
         $dic = oxRegistry::get('yamm_dic');
+
         /** @var OperationalIntelligence $operationalIntelligence */
         $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
         $operationalIntelligence->apply($query);
@@ -67,6 +129,15 @@ class makaira_connect_autosuggester
         $debugTrace = $oxConfig->getRequestParameter("mak_debug");
 
         $result = $searchHandler->search($query, $debugTrace);
+
+        if ('odoscope' === $personalizationType && isset($this->result['personalization']['oscCookie'])) {
+            $cookieValue = $this->result['personalization']['oscCookie'];
+            oxRegistry::get('oxutilsserver')->setOxCookie(
+                "osc-{$token}",
+                $cookieValue,
+                oxRegistry::get("oxutilsdate")->getTime() + 86400
+            );
+        }
 
         // Hook for result modification
         $this->afterSearchRequest($result);
