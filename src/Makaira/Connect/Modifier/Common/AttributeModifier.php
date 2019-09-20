@@ -40,7 +40,6 @@ class AttributeModifier extends Modifier
                         WHERE
                             oxarticles.oxid = :productId
                             AND oxobject2attribute.oxvalue != \'\'
-                            AND {{activeSnippet}}
                         ';
 
     private $selectVariantsQuery = '
@@ -141,9 +140,8 @@ class AttributeModifier extends Modifier
             $product->attributeFloat = [];
         }
 
-        $query      = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectAttributesQueryVariant);
         $attributes = $this->database->query(
-            $query,
+            $this->selectAttributesQueryVariant,
             [
                 'productId' => $product->id,
             ]
@@ -179,7 +177,7 @@ class AttributeModifier extends Modifier
         }
 
         if ($variants) {
-            $hashArray   = array_map('md5', array_map('trim', explode('|', $variants[0]['title'])));
+            $hashArray = array_map('md5', array_map('trim', explode('|', $variants[0]['title'])));
 
             $allVariants = [];
             foreach ($variants as $variantData) {
