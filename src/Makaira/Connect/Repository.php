@@ -65,10 +65,10 @@ class Repository
     private $propsExclude = [
         'attributes',
         'attributeStr',
-        '_attributeStr',
         'attributeInt',
-        '_attributeInt',
         'attributeFloat',
+        '_attributeStr',
+        '_attributeInt',
         '_attributeFloat',
     ];
 
@@ -84,6 +84,9 @@ class Repository
      */
     private $propsDoNotClone = [
         'attributes',
+        '_attributeStr',
+        '_attributeInt',
+        '_attributeFloat',
     ];
 
     /**
@@ -148,6 +151,10 @@ class Repository
                 $change->sequence = $sequence;
 
                 if ($typeVariant === $type && $parentId) {
+                    unset(
+                        $change->data->_attributeStr, $change->data->_attributeInt, $change->data->_attributeFloat
+                    );
+
                     foreach ($change->data as $_key => $_data) {
                         if (in_array($_key, $this->propsExclude, false)) {
                             continue;
@@ -176,6 +183,7 @@ class Repository
                     if (true === $change->deleted ||
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT)) {
                         $pChange = clone $change;
+                        $pChange->isVariant = true;
                         foreach ($this->propsDoNotClone as $_props) {
                             if (isset($pChange->data->$_props)) {
                                 unset($pChange->data->$_props);
