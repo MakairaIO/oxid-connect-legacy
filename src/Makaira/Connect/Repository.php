@@ -84,9 +84,9 @@ class Repository
      */
     private $propsDoNotClone = [
         'attributes',
-        '_attributeStr',
-        '_attributeInt',
-        '_attributeFloat',
+        'tmpAttributeStr',
+        'tmpAttributeInt',
+        'tmpAttributeFloat',
     ];
 
     /**
@@ -152,7 +152,9 @@ class Repository
 
                 if ($typeVariant === $type && $parentId) {
                     unset(
-                        $change->data->_attributeStr, $change->data->_attributeInt, $change->data->_attributeFloat
+                        $change->data->tmpAttributeStr,
+                        $change->data->tmpAttributeInt,
+                        $change->data->tmpAttributeFloat
                     );
 
                     foreach ($change->data as $_key => $_data) {
@@ -182,7 +184,7 @@ class Repository
                 if ($typeProduct === $type) {
                     if (true === $change->deleted ||
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT)) {
-                        $pChange = clone $change;
+                        $pChange                  = clone $change;
                         $pChange->data->isVariant = true;
                         foreach ($this->propsDoNotClone as $_props) {
                             if (isset($pChange->data->$_props)) {
@@ -228,12 +230,14 @@ class Repository
     protected function setParentCache($parentId, &$parentData)
     {
         $this->parentAttributes[ $parentId ] = [
-            'attributeStr'   => $parentData->data->_attributeStr,
-            'attributeInt'   => $parentData->data->_attributeInt,
-            'attributeFloat' => $parentData->data->_attributeFloat,
+            'attributeStr'   => $parentData->data->tmpAttributeStr,
+            'attributeInt'   => $parentData->data->tmpAttributeInt,
+            'attributeFloat' => $parentData->data->tmpAttributeFloat,
         ];
         unset(
-            $parentData->data->_attributeStr, $parentData->data->_attributeInt, $parentData->data->_attributeFloat
+            $parentData->data->tmpAttributeStr,
+            $parentData->data->tmpAttributeInt,
+            $parentData->data->tmpAttributeFloat
         );
 
         $this->parentProducts[ $parentId ] = $parentData;
