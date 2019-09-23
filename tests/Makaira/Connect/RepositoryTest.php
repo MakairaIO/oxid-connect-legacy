@@ -8,7 +8,7 @@ use Makaira\Import\Changes;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetChangesForEmptyResult()
+    /*public function testGetChangesForEmptyResult()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $repository = new Repository($databaseMock);
@@ -29,7 +29,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ]),
             $result
         );
-    }
+    }*/
 
     /*public function testGetChangesForSingleResult()
     {
@@ -70,7 +70,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }*/
 
-    public function testGetChangesFromInvalidRepository()
+    /*public function testGetChangesFromInvalidRepository()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
         $repository = new Repository($databaseMock, []);
@@ -92,7 +92,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ]),
             $result
         );
-    }
+    }*/
 
     /*public function testGetChangesForMultipleResults()
     {
