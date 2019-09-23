@@ -4,6 +4,12 @@ namespace Makaira\Connect;
 
 use Makaira\Import\Changes;
 
+/**
+ * Class Repository
+ *
+ * @package Makaira\Connect
+ * @SuppressWarnings(PHPMD)
+ */
 class Repository
 {
     /**

@@ -12,6 +12,7 @@ use Makaira\Connect\Type\Common\BaseProduct;
  * Class AttributeModifier
  *
  * @package Makaira\Connect\Type\ProductRepository
+ * @SuppressWarnings(PHPMD)
  */
 class AttributeModifier extends Modifier
 {
