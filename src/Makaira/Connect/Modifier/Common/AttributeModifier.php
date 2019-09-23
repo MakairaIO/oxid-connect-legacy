@@ -39,6 +39,21 @@ class AttributeModifier extends Modifier
                             variant.oxparentid = :productId
                         ';
 
+    private $selectVariantsAttributesQuery = '
+                        SELECT
+                            oxattribute.oxid as `id`,
+                            oxattribute.oxtitle as `title`,
+                            oxobject2attribute.oxvalue as `value`
+                        FROM
+                            oxarticles
+                            JOIN oxobject2attribute ON (oxarticles.oxid = oxobject2attribute.oxobjectid)
+                            JOIN oxattribute ON oxobject2attribute.oxattrid = oxattribute.oxid
+                        WHERE
+                            oxarticles.oxparentid = :productId
+                            AND oxobject2attribute.oxvalue != \'\'
+                            AND {{activeSnippet}}
+                        ';
+
     private $selectVariantQuery = '
                         SELECT
                             parent.oxvarname as `title`,
@@ -121,28 +136,46 @@ class AttributeModifier extends Modifier
             $product->attributeStr   = $product->_attributeStr;
             $product->attributeInt   = $product->_attributeInt;
             $product->attributeFloat = $product->_attributeFloat;
-            $variants                = $this->database->query(
+            $query                   =
+                str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectVariantsAttributesQuery);
+            $_attributes             = $this->database->query(
+                $query,
+                [
+                    'productId' => $product->id,
+                ]
+            );
+            $attributes              = [];
+            foreach ($_attributes as $attributeData) {
+                $id                = $attributeData['id'] . $attributeData['value'];
+                $attributes[ $id ] = $attributeData;
+            }
+        } else {
+            $product->attributeStr   = [];
+            $product->attributeInt   = [];
+            $product->attributeFloat = [];
+        }
+
+        foreach ($attributes as $attributeData) {
+            $attribute               = new AssignedTypedAttribute($attributeData);
+            $product->attributeStr[] = $attribute;
+
+            $attributeId = $attributeData['id'];
+            if (in_array($attributeId, $this->attributeInt)) {
+                $product->attributeInt[] = $attribute;
+            }
+            if (in_array($attributeId, $this->attributeFloat)) {
+                $product->attributeFloat[] = $attribute;
+            }
+        }
+
+        if (false === $product->isVariant) {
+            $variants = $this->database->query(
                 $this->selectVariantsQuery,
                 [
                     'productId' => $product->id,
                 ]
             );
         } else {
-            $product->attributeStr   = [];
-            $product->attributeInt   = [];
-            $product->attributeFloat = [];
-            foreach ($attributes as $attributeData) {
-                $attribute               = new AssignedTypedAttribute($attributeData);
-                $product->attributeStr[] = $attribute;
-
-                $attributeId = $attributeData['id'];
-                if (in_array($attributeId, $this->attributeInt)) {
-                    $product->attributeInt[] = $attribute;
-                }
-                if (in_array($attributeId, $this->attributeFloat)) {
-                    $product->attributeFloat[] = $attribute;
-                }
-            }
             $variants = $this->database->query(
                 $this->selectVariantQuery,
                 [

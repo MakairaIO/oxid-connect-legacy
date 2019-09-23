@@ -13,4 +13,9 @@ class AssignedTypedAttribute extends DataObject
     public $id;
     public $title;
     public $value;
+
+    public function __toString()
+    {
+        return md5($this->id . $this->value);
+    }
 }
