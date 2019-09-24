@@ -166,7 +166,7 @@ class makaira_connect_autosuggester
 
     protected function prepareCategoryItem($doc)
     {
-        if (empty($doc->fields['title'])) {
+        if (empty($doc->fields['category_title'])) {
             return [];
         }
 
@@ -176,7 +176,7 @@ class makaira_connect_autosuggester
             return [];
         }
 
-        $aItem['label'] = $doc->fields['title'];
+        $aItem['label'] = $doc->fields['category_title'];
         $aItem['link']  = $category->getLink();
 
         return $aItem;
@@ -184,7 +184,7 @@ class makaira_connect_autosuggester
 
     protected function prepareManufacturerItem($doc)
     {
-        if (empty($doc->fields['title'])) {
+        if (empty($doc->fields['manufacturer_title'])) {
             return [];
         }
 
@@ -194,7 +194,7 @@ class makaira_connect_autosuggester
             return [];
         }
 
-        $aItem['label'] = $doc->fields['title'];
+        $aItem['label'] = $doc->fields['manufacturer_title'];
         $aItem['link']  = $manufacturer->getLink();
         $aItem['image'] = $manufacturer->getIconUrl();
 
