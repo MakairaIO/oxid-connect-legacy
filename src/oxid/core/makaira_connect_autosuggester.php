@@ -150,7 +150,7 @@ class makaira_connect_autosuggester
      */
     protected function loadProductItem($doc)
     {
-        if (empty($doc->fields['oxtitle'])) {
+        if (empty($doc->fields['title'])) {
             return [];
         }
 
@@ -166,7 +166,7 @@ class makaira_connect_autosuggester
 
     protected function prepareCategoryItem($doc)
     {
-        if (empty($doc->fields['oxtitle'])) {
+        if (empty($doc->fields['title'])) {
             return [];
         }
 
@@ -176,7 +176,7 @@ class makaira_connect_autosuggester
             return [];
         }
 
-        $aItem['label'] = $doc->fields['oxtitle'];
+        $aItem['label'] = $doc->fields['title'];
         $aItem['link']  = $category->getLink();
 
         return $aItem;
@@ -184,7 +184,7 @@ class makaira_connect_autosuggester
 
     protected function prepareManufacturerItem($doc)
     {
-        if (empty($doc->fields['oxtitle'])) {
+        if (empty($doc->fields['title'])) {
             return [];
         }
 
@@ -194,7 +194,7 @@ class makaira_connect_autosuggester
             return [];
         }
 
-        $aItem['label'] = $doc->fields['oxtitle'];
+        $aItem['label'] = $doc->fields['title'];
         $aItem['link']  = $manufacturer->getLink();
         $aItem['image'] = $manufacturer->getIconUrl();
 
@@ -262,7 +262,8 @@ class makaira_connect_autosuggester
      */
     protected function getFieldsForResults()
     {
-        $fields = ['OXID', 'OXTITLE', 'OXVARSELECT'];
+//        $fields = ['OXID', 'OXTITLE', 'OXVARSELECT'];
+        $fields = ['id', 'title', 'OXVARSELECT'];
 
         return $fields;
     }
@@ -277,7 +278,7 @@ class makaira_connect_autosuggester
      */
     protected function prepareProductItem(&$doc, &$product)
     {
-        $title = $doc->fields['oxtitle'];
+        $title = $doc->fields['title'];
         if (!empty($doc->fields['oxvarselect'])) {
             $title .= ' | ' . $doc->fields['oxvarselect'];
         }

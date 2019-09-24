@@ -92,6 +92,10 @@ class SearchHandler extends AbstractHandler
             $data['aggregations'][$key] = new Aggregation($item);
         }
 
+        if (array_key_exists('viewConfiguration', $data)) {
+            unset($data['viewConfiguration']);
+        }
+
         return new Result($data);
     }
 }
