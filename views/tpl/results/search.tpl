@@ -6,7 +6,7 @@
                 [{foreach from=$suggestion_result->items item="suggestion"}]
                     <li class="makaira-search__result-item">
                         <a href="[{$oViewConf->getSelfActionLink()|cat:"cl=search&searchparam="|cat:$suggestion->fields.title}]">
-                            [{$suggestion->fields.title}]
+                            [{ $suggestion->fields.title }]
                         </a>
                     </li>
                 [{/foreach}]
@@ -20,7 +20,7 @@
                 [{foreach from=$category_result->items item="category"}]
                     <li class="makaira-search__result-item">
                         <a href="[{oxgetseourl oxid=$category->id type="oxCategory"}]">
-                            [{$category->fields.category_title}]
+                            [{ $category->fields.category_title }]
                         </a>
                     </li>
                 [{/foreach}]
@@ -34,7 +34,7 @@
                 [{foreach from=$manufacturer_result->items item="manufacturer"}]
                     <li class="makaira-search__result-item">
                         <a href="[{oxgetseourl oxid=$manufacturer->id type="oxManufacturer"}]">
-                            [{$manufacturer->fields.manufacturer_title	}]
+                            [{ $manufacturer->fields.manufacturer_title	}]
                         </a>
                     </li>
                 [{/foreach}]
@@ -48,7 +48,7 @@
                 [{foreach from=$links_result->items item="link"}]
                     <li class="makaira-search__result-item">
                         <a href="[{$link->fields.url}]" [{if $link->fields.isExternal}]target="_blank" rel="noreferrer noopener"[{/if}]>
-                            [{$link->fields.title}]
+                            [{ $link->fields.title }]
                         </a>
                     </li>
                 [{/foreach}]
