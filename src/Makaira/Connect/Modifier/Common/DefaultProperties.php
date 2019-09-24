@@ -57,6 +57,11 @@ class DefaultProperties extends Modifier
         'manufacturer_title' => 'OXTITLE',
     ];
 
+    private $boolFields = [
+        'searchable',
+        'hidden'
+    ];
+
     public function __construct($database)
     {
         $this->db = $database;
@@ -94,6 +99,12 @@ class DefaultProperties extends Modifier
                 $entity->$target = $entity->$source;
             } elseif ($target && !isset($entity->$target)) {
                 $entity->$target = $source;
+            }
+        }
+
+	foreach ($this->boolFields as $boolField) {
+            if (isset($entity->$boolField)) {
+                $entity->$boolField = (bool) $entity->$boolField;
             }
         }
 
