@@ -35,6 +35,6 @@ class BaseProduct extends Type
     public $insert;
     public $soldamount = 0;
     public $rating = 0.0;
-    public $searchable = 1;
+    public $searchable = true;
     public $picture_url_main = [];
 }
