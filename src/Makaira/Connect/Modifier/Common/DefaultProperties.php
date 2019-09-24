@@ -102,7 +102,7 @@ class DefaultProperties extends Modifier
             }
         }
 
-	foreach ($this->boolFields as $boolField) {
+        foreach ($this->boolFields as $boolField) {
             if (isset($entity->$boolField)) {
                 $entity->$boolField = (bool) $entity->$boolField;
             }
