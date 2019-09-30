@@ -231,6 +231,12 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         $this->makairaSearchResult = $oArtList;
 
+        $this->modifyViewData($requestHelper);
+
         return $oArtList;
+    }
+
+    protected function modifyViewData($requestHelper) {
+        return;
     }
 }

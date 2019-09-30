@@ -156,6 +156,12 @@ class makaira_connect_search extends makaira_connect_search_parent
         foreach ((array)$this->additionalResults as $key => $value) {
             $this->_aViewData[$key . '_result'] = $value;
         }
+
+        $this->_aViewData = $this->modifyViewData($this->_aViewData, $requestHelper);
+    }
+
+    protected function modifyViewData($_aViewData, $requestHelper) {
+        return $_aViewData;
     }
 
     protected function isSearchEmpty(Query $query)
