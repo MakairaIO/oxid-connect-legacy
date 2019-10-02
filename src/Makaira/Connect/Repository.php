@@ -73,9 +73,9 @@ class Repository
         'attributeStr',
         'attributeInt',
         'attributeFloat',
-        '_attributeStr',
-        '_attributeInt',
-        '_attributeFloat',
+        'tmpAttributeStr',
+        'tmpAttributeInt',
+        'tmpAttributeFloat',
     ];
 
     /**
@@ -157,12 +157,6 @@ class Repository
                 $change->sequence = $sequence;
 
                 if ($typeVariant === $type && $parentId) {
-                    unset(
-                        $change->data->tmpAttributeStr,
-                        $change->data->tmpAttributeInt,
-                        $change->data->tmpAttributeFloat
-                    );
-
                     foreach ($change->data as $_key => $_data) {
                         if (in_array($_key, $this->propsExclude, false)) {
                             continue;
@@ -184,6 +178,11 @@ class Repository
                     $change->data->attributeFloat = array_merge(
                         (array) $this->parentAttributes[ $parentId ]['attributeFloat'],
                         $change->data->attributeFloat
+                    );
+                    unset(
+                        $change->data->tmpAttributeStr,
+                        $change->data->tmpAttributeInt,
+                        $change->data->tmpAttributeFloat
                     );
                 }
 
@@ -212,12 +211,18 @@ class Repository
                         $changes[] = $pChange;
                         unset($pChange);
                     } else {
-                        $this->setParentCache($id, $change);
+                        $change = $this->setParentCache($id, $change);
                     }
+                    unset(
+                        $change->data->tmpAttributeStr,
+                        $change->data->tmpAttributeInt,
+                        $change->data->tmpAttributeFloat
+                    );
                 }
 
                 $changes[] = $change;
                 unset($change);
+
             } catch (\OutOfBoundsException $e) {
                 // catch no repository found exception
             }
@@ -233,19 +238,13 @@ class Repository
         );
     }
 
-    protected function setParentCache($parentId, &$parentData)
+    protected function setParentCache($parentId, $parentData)
     {
         $this->parentAttributes[ $parentId ] = [
             'attributeStr'   => $parentData->data->tmpAttributeStr,
             'attributeInt'   => $parentData->data->tmpAttributeInt,
             'attributeFloat' => $parentData->data->tmpAttributeFloat,
         ];
-        unset(
-            $parentData->data->tmpAttributeStr,
-            $parentData->data->tmpAttributeInt,
-            $parentData->data->tmpAttributeFloat
-        );
-
         $this->parentProducts[ $parentId ] = $parentData;
     }
 

@@ -119,24 +119,24 @@ class AttributeModifier extends Modifier
         );
 
         if (false === $product->isVariant) {
-            $product->_attributeStr   = [];
-            $product->_attributeInt   = [];
-            $product->_attributeFloat = [];
+            $product->tmpAttributeStr   = [];
+            $product->tmpAttributeInt   = [];
+            $product->tmpAttributeFloat = [];
             foreach ($attributes as $attributeData) {
                 $attribute                = new AssignedTypedAttribute($attributeData);
-                $product->_attributeStr[] = $attribute;
+                $product->tmpAttributeStr[] = $attribute;
 
                 $attributeId = $attributeData['id'];
                 if (in_array($attributeId, $this->attributeInt)) {
-                    $product->_attributeInt[] = $attribute;
+                    $product->tmpAttributeInt[] = $attribute;
                 }
                 if (in_array($attributeId, $this->attributeFloat)) {
-                    $product->_attributeInt[] = $attribute;
+                    $product->tmpAttributeFloat[] = $attribute;
                 }
             }
-            $product->attributeStr   = $product->_attributeStr;
-            $product->attributeInt   = $product->_attributeInt;
-            $product->attributeFloat = $product->_attributeFloat;
+            $product->attributeStr   = $product->tmpAttributeStr;
+            $product->attributeInt   = $product->tmpAttributeInt;
+            $product->attributeFloat = $product->tmpAttributeFloat;
             $query                   =
                 str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectVariantsAttributesQuery);
             $_attributes             = $this->database->query(
