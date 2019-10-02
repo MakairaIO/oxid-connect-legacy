@@ -211,7 +211,7 @@ class Repository
                         $changes[] = $pChange;
                         unset($pChange);
                     } else {
-                        $change = $this->setParentCache($id, $change);
+                        $this->setParentCache($id, $change);
                     }
                     unset(
                         $change->data->tmpAttributeStr,
