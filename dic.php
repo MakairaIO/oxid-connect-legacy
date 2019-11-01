@@ -384,7 +384,7 @@ $dic['makaira.connect.configuration'] = function (\Marm\Yamm\DIC $dic) {
 
 $dic['makaira.connect.http_client'] = function (\Marm\Yamm\DIC $dic) {
     $configuration = $dic['makaira.connect.configuration'];
-    $timeout = oxRegistry::getConfig()->getConfigParam('makairaConnectTimeout') ?: 1;
+    $timeout = oxRegistry::getConfig()->getConfigParam('makairaConnectTimeout') ?: 5;
 
     return new Makaira\HttpClient\Signing(
         new Makaira\HttpClient\Curl($timeout),

@@ -59,6 +59,9 @@ class makaira_connect_request_handler
 
     public function getProductsFromMakaira(Query $query)
     {
+        global $odoscopeTracking;
+        $odoscopeTracking = false;
+
         $dic = oxRegistry::get('yamm_dic');
 
         /** @var OperationalIntelligence $operationalIntelligence */
@@ -141,13 +144,27 @@ class makaira_connect_request_handler
 
         $this->result = $searchHandler->search($query, $debugTrace);
 
-        if ('odoscope' === $personalizationType && isset($this->result['personalization']['oscCookie'])) {
-            $cookieValue = $this->result['personalization']['oscCookie'];
-            oxRegistry::get('oxutilsserver')->setOxCookie(
-                "osc-{$token}",
-                $cookieValue,
-                oxRegistry::get("oxutilsdate")->getTime() + 86400
-            );
+        if ('odoscope' === $personalizationType) {
+            if (isset($this->result['personalization']['oscCookie'])) {
+                $cookieValue = $this->result['personalization']['oscCookie'];
+                oxRegistry::get('oxutilsserver')->setOxCookie(
+                    "osc-{$token}",
+                    $cookieValue,
+                    oxRegistry::get("oxutilsdate")->getTime() + 86400
+                );
+            }
+
+            if (isset($this->result['personalization']['oscTrackingGroup'])) {
+                $odoscopeTracking['group'] = $this->result['personalization']['oscTrackingGroup'];
+            } else {
+                $odoscopeTracking['group'] = 'ERROR';
+            }
+
+            if (isset($this->result['personalization']['oscTrackingData'])) {
+                $odoscopeTracking['data'] = $this->result['personalization']['oscTrackingData'];
+            } else {
+                $odoscopeTracking['data'] = $token;
+            }
         }
 
         $productResult = $this->result['product'];

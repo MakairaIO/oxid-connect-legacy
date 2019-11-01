@@ -49,6 +49,8 @@ $aModule = [
         'oxconfig'                  => 'makaira/connect/src/oxid/core/makaira_connect_oxconfig',
         /* components */
         'oxlocator'                 => 'makaira/connect/src/oxid/application/components/makaira_connect_oxlocator',
+        /* tracking */
+        'MakairaTrackingDataGenerator' => 'makaira/connect/src/Makaira/Tracking/TrackingWithOdoscopeData',
     ],
     'files'       => [
         'makaira_connect_helper'          => 'makaira/connect/src/oxid/core/makaira_connect_helper.php',
