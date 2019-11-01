@@ -222,7 +222,6 @@ class Repository
 
                 $changes[] = $change;
                 unset($change);
-
             } catch (\OutOfBoundsException $e) {
                 // catch no repository found exception
             }
