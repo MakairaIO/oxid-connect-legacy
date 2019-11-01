@@ -13,7 +13,7 @@
 /**
  * This adds Odoscope tracking data to standard makaira tracking
  */
-class TrackingWithOdoscopeData extends TrackingWithOdoscopeData_parent
+class makaira_tracking_with_odoscope_data extends makaira_tracking_with_odoscope_data_parent
 {
     /**
      * Hook to add custom data to Piwik/Matomo tracking.
