@@ -28,10 +28,7 @@ class StockModifier extends Modifier
         $stock     = 1;
         $onStock   = true;
 
-        if (
-        \oxRegistry::getConfig()
-            ->getShopConfVar('blUseStock')
-        ) {
+        if (\oxRegistry::getConfig()->getShopConfVar('blUseStock')) {
             if (!isset($product->OXSTOCKFLAG) || !isset($product->OXSTOCK) || !isset($product->OXVARSTOCK)) {
                 $oxArticle = \oxRegistry::get('oxArticle');
                 $table     = $oxArticle->getCoreTableName();
@@ -63,4 +60,3 @@ class StockModifier extends Modifier
         return $product;
     }
 }
-    
