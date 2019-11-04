@@ -28,7 +28,10 @@ class StockModifier extends Modifier
         $stock     = 1;
         $onStock   = true;
 
-        if (\oxRegistry::getConfig()->getShopConfVar('blUseStock')) {
+        if (
+        \oxRegistry::getConfig()
+            ->getShopConfVar('blUseStock')
+        ) {
             if (!isset($product->OXSTOCKFLAG) || !isset($product->OXSTOCK) || !isset($product->OXVARSTOCK)) {
                 $oxArticle = \oxRegistry::get('oxArticle');
                 $table     = $oxArticle->getCoreTableName();
@@ -40,7 +43,7 @@ class StockModifier extends Modifier
                     $stock     = $result[0]['OXSTOCK'] + $result[0]['OXVARSTOCK'];
                 }
             } else {
-                $stock     = $product->OXSTOCK + $product->OXVARSTOCK;
+                $stock = $product->OXSTOCK + $product->OXVARSTOCK;
                 $stockFlag = $product->OXSTOCKFLAG;
             }
 
@@ -49,6 +52,9 @@ class StockModifier extends Modifier
             // 3 --> Wenn ausverkauft nicht bestellbar
             // 4 --> Fremdlager
             $onStock = (2 != $stockFlag) || (0 < $stock);
+            if (4 === $stockFlag) {
+                $stock = 1;
+            }
         }
 
         $product->onstock = $onStock;
@@ -57,3 +63,4 @@ class StockModifier extends Modifier
         return $product;
     }
 }
+    
