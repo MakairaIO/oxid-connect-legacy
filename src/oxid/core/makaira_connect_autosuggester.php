@@ -210,10 +210,6 @@ class makaira_connect_autosuggester
      */
     protected function loadProductItem($doc)
     {
-        if (empty($doc->fields['title'])) {
-            return [];
-        }
-
         /** @var \oxArticle */
         $product = oxNew('oxarticle');
 
