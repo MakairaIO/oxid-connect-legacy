@@ -1,8 +1,8 @@
 <?php
 
 use Makaira\Connect\Result\Error;
-use Makaira\Connect\Result\ForbiddenException;
 use Makaira\Connect\Utils\BoostFields;
+use Makaira\Connect\Exception as ConnectException;
 
 class makaira_connect_endpoint extends oxUBase
 {
@@ -72,7 +72,7 @@ class makaira_connect_endpoint extends oxUBase
         try {
             $body = json_decode(file_get_contents('php://input'));
             if ($body === null) {
-                throw new \RuntimeException("Failed to decode request body");
+                throw new ConnectException("Failed to decode request body");
             }
 
             switch ($body->action) {
@@ -106,6 +106,17 @@ class makaira_connect_endpoint extends oxUBase
             }
 
             echo json_encode($updates);
+        } catch (ConnectException $e) {
+            $this->setStatusHeader(500);
+            $error = new Error($e->getMessage());
+
+            if (!oxRegistry::getConfig()->isProductiveMode()) {
+                $error->file = $e->getFile();
+                $error->line = $e->getLine();
+                $error->stack = explode(PHP_EOL, $e->getTraceAsString());
+            }
+
+            echo json_encode($error);
         } catch (\Exception $e) {
             $this->setStatusHeader(500);
             $error = new Error($e->getMessage());
@@ -145,7 +156,7 @@ class makaira_connect_endpoint extends oxUBase
     public function getUpdatesAction($body)
     {
         if (!isset($body->since)) {
-            throw new \RuntimeException("since parameter not set");
+            throw new ConnectException("since parameter not set");
         }
 
         /** @var \Marm\Yamm\DIC $dic */
@@ -205,7 +216,7 @@ class makaira_connect_endpoint extends oxUBase
     public function getUserAction($body)
     {
         if (!isset($body->username)) {
-            throw new \RuntimeException("username parameter not set");
+            throw new ConnectException("username parameter not set");
         }
 
         /** @var \Marm\Yamm\DIC $dic */
@@ -221,7 +232,7 @@ class makaira_connect_endpoint extends oxUBase
     public function getCurrentUserAction($body)
     {
         if (!isset($body->token)) {
-            throw new \RuntimeException("token parameter not set");
+            throw new ConnectException("token parameter not set");
         }
 
         /** @var \Marm\Yamm\DIC $dic */

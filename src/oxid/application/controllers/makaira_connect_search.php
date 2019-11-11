@@ -11,6 +11,7 @@
 use Makaira\Connect\SearchHandler;
 use Makaira\Constraints;
 use Makaira\Query;
+use Makaira\Connect\Exception as ConnectException;
 
 /**
  * Class makaira_connect_search
@@ -47,6 +48,10 @@ class makaira_connect_search extends makaira_connect_search_parent
 
             $this->makairaInitSearch();
             $this->addTplParam('isMakairaSearchEnabled', true);
+        } catch (ConnectException $e) {
+            $oxException = new oxException($e->getMessage(), $e->getCode());
+            $oxException->debugOut();
+            parent::init();
         } catch (Exception $e) {
             $oxException = new oxException($e->getMessage(), $e->getCode());
             $oxException->debugOut();
@@ -160,7 +165,8 @@ class makaira_connect_search extends makaira_connect_search_parent
         $this->_aViewData = $this->modifyViewData($this->_aViewData, $requestHelper);
     }
 
-    protected function modifyViewData($_aViewData, $requestHelper) {
+    protected function modifyViewData($_aViewData, $requestHelper)
+    {
         return $_aViewData;
     }
 

@@ -135,4 +135,9 @@ class DoctrineDatabase implements DatabaseInterface
 
         return $statement;
     }
+
+    public function quote($value)
+    {
+        return $this->database->quote($value);
+    }
 }

@@ -1,6 +1,8 @@
 <?php
+
 use Makaira\Constraints;
 use Makaira\Query;
+use Makaira\Connect\Exception as ConnectException;
 
 /**
  * This file is part of a marmalade GmbH project
@@ -12,9 +14,20 @@ use Makaira\Query;
  */
 class makaira_connect_alist extends makaira_connect_alist_parent
 {
+    /**
+     * @var
+     */
     protected $aggregations;
 
+    /**
+     * @var
+     */
     protected $makairaSearchResult;
+
+    /**
+     * @var bool
+     */
+    protected $blArticleListLoaded;
 
     /**
      * Set noindex for filtered pages
@@ -24,9 +37,9 @@ class makaira_connect_alist extends makaira_connect_alist_parent
     public function noIndex()
     {
         $this->_iViewIndexState = parent::noIndex();
-        $oViewConf = $this->getViewConfig();
+        $oViewConf              = $this->getViewConfig();
 
-        $aggregationFilter      = $oViewConf->getAggregationFilter();
+        $aggregationFilter = $oViewConf->getAggregationFilter();
         if (!empty($aggregationFilter)) {
             $this->_iViewIndexState = VIEW_INDEXSTATE_NOINDEXFOLLOW;
         }
@@ -34,6 +47,13 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return $this->_iViewIndexState;
     }
 
+    /**
+     * @param      $sUrl
+     * @param      $iPage
+     * @param null $iLang
+     *
+     * @return mixed
+     */
     protected function _addPageNrParam($sUrl, $iPage, $iLang = null)
     {
         $baseLink = parent::_addPageNrParam($sUrl, $iPage, $iLang);
@@ -51,6 +71,9 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return $link;
     }
 
+    /**
+     * @return bool
+     */
     public function getAttributes()
     {
         $isActive = oxRegistry::getConfig()->getShopConfVar(
@@ -67,13 +90,11 @@ class makaira_connect_alist extends makaira_connect_alist_parent
     }
 
     /**
-     * Template variable getter used in filter templates.
-     *
-     * @deprecated
-     *
      * @param bool $url
      *
      * @return string
+     *
+     * @deprecated
      */
     public function getLinkWithCategory($url = false)
     {
@@ -101,6 +122,9 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return $this->aggregations;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAddSeoUrlParams()
     {
         $this->getViewConfig()->savePageNumberToCookie();
@@ -108,11 +132,17 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return parent::getAddSeoUrlParams();
     }
 
+    /**
+     *
+     */
     public function resetMakairaFilter()
     {
         $this->getViewConfig()->resetMakairaFilter('category', $this->getViewConfig()->getActCatId());
     }
 
+    /**
+     *
+     */
     public function redirectMakairaFilter()
     {
         $this->getViewConfig()->redirectMakairaFilter($this->getActiveCategory()->getLink());
@@ -125,7 +155,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
      */
     public function getArticleList()
     {
-        if ($this->_aArticleList !== null) {
+        if (null !== $this->_aArticleList || true === $this->blArticleListLoaded) {
             return $this->_aArticleList;
         }
 
@@ -134,26 +164,31 @@ class makaira_connect_alist extends makaira_connect_alist_parent
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
-        if (!$isActive) {
-            return parent::getArticleList();
-        }
 
-        if (!$oCategory = $this->getActiveCategory()) {
+        if (!$isActive || false === $this->blArticleListLoaded) {
+            $this->_aArticleList       = parent::getArticleList();
+            $this->blArticleListLoaded = true;
             return $this->_aArticleList;
         }
 
-        try {
-            // load products from makaira
-            $aArticleList = $this->makairaLoadArticles($oCategory);
-            $this->addTplParam('isMakairaSearchEnabled', true);
-        } catch (Exception $e) {
-            $oxException = new oxException($e->getMessage(), $e->getCode());
-            $oxException->debugOut();
-            return parent::getArticleList();
-        }
+        $this->blArticleListLoaded = false;
 
-        if (count($aArticleList)) {
-            $this->_aArticleList = $aArticleList;
+        if ($oCategory = $this->getActiveCategory()) {
+            try {
+                // load products from makaira
+                $aArticleList = $this->makairaLoadArticles($oCategory);
+                if (count($aArticleList)) {
+                    $this->_aArticleList = $aArticleList;
+                }
+                $this->blArticleListLoaded = true;
+                $this->addTplParam('isMakairaSearchEnabled', true);
+            } catch (ConnectException $e) {
+                $oxException = new oxException($e->getMessage(), $e->getCode());
+                $oxException->debugOut();
+            } catch (\Exception $e) {
+                $oxException = new oxException($e->getMessage(), $e->getCode());
+                $oxException->debugOut();
+            }
         }
 
         return $this->_aArticleList;
@@ -164,7 +199,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
      *
      * @param $oCategory
      *
-     * @return oxArticleList
+     * @return \oxArticleList
      */
     protected function makairaLoadArticles($oCategory)
     {
@@ -181,7 +216,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         $myConfig = $this->getConfig();
 
-        $limit   = (int)$myConfig->getConfigParam('iNrofCatArticles');
+        $limit   = (int) $myConfig->getConfigParam('iNrofCatArticles');
         $limit   = $limit ? $limit : 1;
         $offset  = $limit * $this->_getRequestPageNr();
         $sorting = $this->getSorting($this->getSortIdent());
@@ -193,7 +228,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
 
         /** @var CategoryInheritance $categoryInheritance */
         $categoryInheritance = $dic['makaira.connect.category_inheritance'];
-        $categoryId = $categoryInheritance->buildCategoryInheritance($categoryId);
+        $categoryId          = $categoryInheritance->buildCategoryInheritance($categoryId);
 
         $query = new Query();
 
@@ -236,7 +271,11 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         return $oArtList;
     }
 
-    protected function modifyViewData($requestHelper) {
+    /**
+     * @param $requestHelper
+     */
+    protected function modifyViewData($requestHelper)
+    {
         return;
     }
 }

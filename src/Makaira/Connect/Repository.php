@@ -3,6 +3,8 @@
 namespace Makaira\Connect;
 
 use Makaira\Import\Changes;
+use Makaira\Connect\Exception as ConnectException;
+use Makaira\Connect\Exceptions\OutOfBoundsException;
 
 /**
  * Class Repository
@@ -222,7 +224,7 @@ class Repository
 
                 $changes[] = $change;
                 unset($change);
-            } catch (\OutOfBoundsException $e) {
+            } catch (OutOfBoundsException $e) {
                 // catch no repository found exception
             }
         }
@@ -265,7 +267,7 @@ class Repository
     protected function getRepositoryForType($type)
     {
         if (!isset($this->repositoryMapping[ $type ])) {
-            throw new \OutOfBoundsException("No repository defined for type " . $type);
+            throw new OutOfBoundsException("No repository defined for type " . $type);
         }
 
         return $this->repositoryMapping[ $type ];

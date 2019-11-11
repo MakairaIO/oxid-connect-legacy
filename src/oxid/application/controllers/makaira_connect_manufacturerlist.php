@@ -1,6 +1,8 @@
 <?php
+
 use Makaira\Constraints;
 use Makaira\Query;
+use Makaira\Connect\Exception as ConnectException;
 
 /**
  * This file is part of a marmalade GmbH project
@@ -135,6 +137,10 @@ class makaira_connect_manufacturerlist extends makaira_connect_manufacturerlist_
             // load products from makaira
             $aArticleList = $this->makairaLoadArticles($oManufacturer);
             $this->addTplParam('isMakairaSearchEnabled', true);
+        }  catch (ConnectException $e) {
+            $oxException = new oxException($e->getMessage(), $e->getCode());
+            $oxException->debugOut();
+            return parent::getArticleList();
         }  catch (Exception $e) {
             $oxException = new oxException($e->getMessage(), $e->getCode());
             $oxException->debugOut();

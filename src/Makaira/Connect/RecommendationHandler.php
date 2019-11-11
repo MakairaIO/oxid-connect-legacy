@@ -15,6 +15,8 @@ use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\RecommendationQuery;
 use Makaira\Result;
 use Makaira\ResultItem;
+use Makaira\Connect\Exception as ConnectException;
+use Makaira\Connect\Exceptions\UnexpectedValueException;
 
 class RecommendationHandler extends AbstractHandler
 {
@@ -41,11 +43,11 @@ class RecommendationHandler extends AbstractHandler
             throw new FeatureNotAvailableException("Feature 'recommendations' is not available");
         }
         if (isset($apiResult['ok']) && $apiResult['ok'] === false) {
-            throw new \RuntimeException("Error in makaira: {$apiResult['message']}");
+            throw new ConnectException("Error in makaira: {$apiResult['message']}");
         }
 
         if (!isset($apiResult['items'])) {
-            throw new \UnexpectedValueException("Item results missing");
+            throw new UnexpectedValueException("Item results missing");
         }
 
         return $this->parseResult($apiResult);

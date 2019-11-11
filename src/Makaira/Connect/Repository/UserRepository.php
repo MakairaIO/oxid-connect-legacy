@@ -12,6 +12,7 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Result\User;
+use Makaira\Connect\Exception as ConnectException;
 
 class UserRepository
 {
@@ -138,6 +139,8 @@ class UserRepository
 
         try {
             $this->database->execute($sql, $params);
+        } catch (ConnectException $ex) {
+            return false;
         } catch (\Exception $ex) {
             return false;
         }

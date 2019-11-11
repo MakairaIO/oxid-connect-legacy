@@ -9,6 +9,7 @@
  */
 
 use Makaira\Connect\Exceptions\FeatureNotAvailableException;
+use Makaira\Connect\Exception as ConnectException;
 
 /**
  * Class makaira_connect_oxarticle
@@ -196,6 +197,8 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
                 oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
             );
 
+            return parent::getSimilarProducts();
+        } catch (ConnectException $e) {
             return parent::getSimilarProducts();
         } catch (Exception $e) {
             return parent::getSimilarProducts();

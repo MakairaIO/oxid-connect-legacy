@@ -1,10 +1,4 @@
 <?php
-
-use Makaira\Connect\Exceptions\FeatureNotAvailableException;
-use Makaira\Connect\RecommendationHandler;
-use Makaira\Constraints;
-use Makaira\RecommendationQuery;
-
 /**
  * This file is part of a marmalade GmbH project
  * It is not Open Source and may not be redistributed.
@@ -14,12 +8,18 @@ use Makaira\RecommendationQuery;
  * @author  Stefan Krenz <krenz@marmalade.de>
  * @link    http://www.marmalade.de
  */
+
+use Makaira\Connect\Exception as ConnectException;
+use Makaira\Connect\Exceptions\FeatureNotAvailableException;
+use Makaira\Connect\RecommendationHandler;
+use Makaira\Constraints;
+use Makaira\RecommendationQuery;
+
 class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
 {
     const RECOMMENDATION_TYPE_CROSS_SELLING    = 'cross-selling';
     const RECOMMENDATION_TYPE_ACCESSORIES      = 'accessories';
     const RECOMMENDATION_TYPE_SIMILAR_PRODUCTS = 'similar-products';
-
 
     /**
      * @var array
@@ -74,12 +74,15 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             parent::loadArticleAccessoires($sArticleId);
 
             return;
+        } catch (ConnectException $e) {
+            parent::loadArticleAccessoires($sArticleId);
+
+            return;
         } catch (Exception $e) {
             parent::loadArticleAccessoires($sArticleId);
 
             return;
         }
-
     }
 
     /**
@@ -125,9 +128,9 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             $query->priceRangeMax = $productPrice * (float) $priceRange['max'];
         }
 
-        $query->constraints[Constraints::SHOP]      = oxRegistry::getConfig()->getShopId();
-        $query->constraints[Constraints::LANGUAGE]  = oxRegistry::getLang()->getLanguageAbbr();
-        $query->constraints[Constraints::USE_STOCK] = oxRegistry::getConfig()->getShopConfVar('blUseStock');
+        $query->constraints[ Constraints::SHOP ]      = oxRegistry::getConfig()->getShopId();
+        $query->constraints[ Constraints::LANGUAGE ]  = oxRegistry::getLang()->getLanguageAbbr();
+        $query->constraints[ Constraints::USE_STOCK ] = oxRegistry::getConfig()->getShopConfVar('blUseStock');
 
         $debugTrace = oxRegistry::getConfig()->getRequestParameter("mak_debug");
 
@@ -163,11 +166,11 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
     protected function getProduct($productId)
     {
         if (!array_key_exists($productId, self::$productCache)) {
-            self::$productCache[$productId] = oxNew('oxarticle');
-            self::$productCache[$productId]->load($productId);
+            self::$productCache[ $productId ] = oxNew('oxarticle');
+            self::$productCache[ $productId ]->load($productId);
         }
 
-        return self::$productCache[$productId];
+        return self::$productCache[ $productId ];
     }
 
     /**
@@ -253,12 +256,15 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             parent::loadArticleCrossSell($sArticleId);
 
             return;
+        } catch (ConnectException $e) {
+            parent::loadArticleCrossSell($sArticleId);
+
+            return;
         } catch (Exception $e) {
             parent::loadArticleCrossSell($sArticleId);
 
             return;
         }
-
     }
 
     /**
@@ -292,5 +298,61 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
     protected function getAttributeBoosts(oxArticle $product)
     {
         return [];
+    }
+
+    /**
+     * Creates SQL Statement to load Articles, etc.
+     *
+     * @param string $sFields        Fields which are loaded e.g. "oxid" or "*" etc.
+     * @param string $sCatId         Category tree ID
+     * @param array  $aSessionFilter Like array ( catid => array( attrid => value,...))
+     *
+     * @return string SQL
+     */
+
+    /**
+     * @param $sFields
+     * @param $sCatId
+     * @param $aSessionFilter
+     *
+     * @return string
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     */
+    protected function _getCategorySelect($sFields, $sCatId, $aSessionFilter)
+    {
+        $sSelect = parent::_getCategorySelect($sFields, $sCatId, $aSessionFilter);
+
+        if (oxRegistry::getConfig()->getShopConfVar(
+            'makaira_connect_category_inheritance',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        )) {
+            $dic      = oxRegistry::get('yamm_dic');
+            $db       = $dic['oxid.database'];
+            $catIds   = $db->getColumn(
+                'SELECT c2.OXID FROM oxcategories c1
+                LEFT JOIN oxcategories c2 ON c1.OXROOTID = c2.OXROOTID
+                WHERE c1.OXID = :catid AND c1.OXLEFT < c2.OXLEFT AND c1.OXRIGHT > c2.OXRIGHT',
+                [
+                    'catid' => $sCatId,
+                ]
+            );
+            $catIds   = $catIds ? (array) $catIds : [];
+            $catIds[] = $sCatId;
+            $catIds   = implode(
+                ',',
+                array_map(
+                    function ($i) use ($db) {
+                        return $db->quote($i);
+                    },
+                    $catIds
+                )
+            );
+
+            $sReplace = "oxcatnid in ({$catIds}) ";
+            $sSelect  = preg_replace('/oxcatnid = [^ ]+ /', $sReplace, $sSelect);
+        }
+
+        return $sSelect;
     }
 }

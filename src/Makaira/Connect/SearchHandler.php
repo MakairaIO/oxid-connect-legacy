@@ -16,6 +16,8 @@ use Makaira\Result;
 use Makaira\ResultItem;
 use Makaira\HttpClient;
 use Makaira\Connect\VersionHandler;
+use Makaira\Connect\Exception as ConnectException;
+use Makaira\Connect\Exceptions\UnexpectedValueException;
 
 class SearchHandler extends AbstractHandler
 {
@@ -59,11 +61,11 @@ class SearchHandler extends AbstractHandler
         $apiResult = json_decode($response->body, true);
 
         if (isset($apiResult['ok']) && $apiResult['ok'] === false) {
-            throw new \RuntimeException("Error in makaira: {$apiResult['message']}");
+            throw new ConnectException("Error in makaira: {$apiResult['message']}");
         }
 
         if (!isset($apiResult['product'])) {
-            throw new \UnexpectedValueException("Product results missing");
+            throw new UnexpectedValueException("Product results missing");
         }
 
         $result = [];

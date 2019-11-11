@@ -7,6 +7,7 @@ use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 use Makaira\Connect\Type\Common\AssignedTypedAttribute;
 use Makaira\Connect\Type\Common\BaseProduct;
+use Makaira\Connect\Exception as ConnectException;
 
 /**
  * Class AttributeModifier
@@ -108,7 +109,7 @@ class AttributeModifier extends Modifier
     public function apply(Type $product)
     {
         if (!$product->id) {
-            throw new \RuntimeException("Cannot fetch attributes without a product ID.");
+            throw new ConnectException("Cannot fetch attributes without a product ID.");
         }
 
         $attributes = $this->database->query(
