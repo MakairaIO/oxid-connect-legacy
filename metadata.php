@@ -242,6 +242,36 @@ $aModule = [
             'group' => 'RECOMMENDATION',
             'type'  => 'str',
         ],
+        [
+            'group' => 'makaira_search_results',
+            'name'  => 'makaira_search_results_category',
+            'type'  => 'str',
+            'value' => '-1',
+        ],
+        [
+            'group' => 'makaira_search_results',
+            'name'  => 'makaira_search_results_links',
+            'type'  => 'str',
+            'value' => '-1',
+        ],
+        [
+            'group' => 'makaira_search_results',
+            'name'  => 'makaira_search_results_manufacturer',
+            'type'  => 'str',
+            'value' => '-1',
+        ],
+        [
+            'group' => 'makaira_search_results',
+            'name'  => 'makaira_search_results_product',
+            'type'  => 'str',
+            'value' => '-1',
+        ],
+        [
+            'group' => 'makaira_search_results',
+            'name'  => 'makaira_search_results_suggestion',
+            'type'  => 'str',
+            'value' => '-1',
+        ],
     ],
 ];
 

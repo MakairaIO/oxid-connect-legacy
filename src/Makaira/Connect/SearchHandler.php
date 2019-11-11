@@ -22,6 +22,17 @@ use Makaira\Connect\Exceptions\UnexpectedValueException;
 class SearchHandler extends AbstractHandler
 {
     /**
+     * @var array
+     */
+    protected $maxItems = [
+        'category'     => -1,
+        'links'        => -1,
+        'manufacturer' => -1,
+        'product'      => -1,
+        'suggestion'   => -1,
+    ];
+
+    /**
      * @var VersionHandler
      */
     protected $versionHandler;
@@ -60,6 +71,10 @@ class SearchHandler extends AbstractHandler
 
         $apiResult = json_decode($response->body, true);
 
+        if ($response->status !== 200) {
+            throw new ConnectException("Connect to '{$request}' failed. HTTP-Status {$response->status}");
+        }
+
         if (isset($apiResult['ok']) && $apiResult['ok'] === false) {
             throw new ConnectException("Error in makaira: {$apiResult['message']}");
         }
@@ -68,34 +83,65 @@ class SearchHandler extends AbstractHandler
             throw new UnexpectedValueException("Product results missing");
         }
 
-        $result = [];
+        $result                         = [];
+        $this->maxItems['category']     = $this->loadConfigParam('makaira_search_results_category');
+        $this->maxItems['links']        = $this->loadConfigParam('makaira_search_results_links');
+        $this->maxItems['manufacturer'] = $this->loadConfigParam('makaira_search_results_manufacturer');
+        $this->maxItems['product']      = $this->loadConfigParam('makaira_search_results_product');
+        $this->maxItems['suggestion']   = $this->loadConfigParam('makaira_search_results_suggestion');
         foreach ($apiResult as $documentType => $data) {
-            $result[$documentType] = $this->parseResult($data);
+            $result[ $documentType ] = $this->parseResult(
+                $data,
+                isset($this->maxItems[ $documentType ]) ? $this->maxItems[ $documentType ] : -1
+            );
         }
 
         return array_filter($result);
     }
 
     /**
-     * @param $data
+     * @param $param
+     *
+     * @return mixed
+     */
+    protected function loadConfigParam($param)
+    {
+        $value = (int) oxRegistry::getConfig()->getShopConfVar(
+            $param,
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        if ($value <= 0) {
+            $value = -1;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param mixed $data
+     * @param int   $max_items
      *
      * @return Result
      */
-    private function parseResult($data)
+    private function parseResult($data, $max_items = -1)
     {
         if (!isset($data['items']) && !isset($data['aggregations'])) {
-            return $data;
+            return null;
         }
 
-        foreach ($data['items'] as $key => $item) {
-            $data['items'][$key] = new ResultItem($item);
+        $items         = $data['items'];
+        $data['items'] = [];
+        foreach ($items as $key => $item) {
+            if (-1 === $max_items || count($data['items']) < $max_items) {
+                $data['items'][ $key ] = new ResultItem($item);
+            }
         }
+        $data['count'] = count($data['items']);
+
         foreach ($data['aggregations'] as $key => $item) {
-            $data['aggregations'][$key] = new Aggregation($item);
-        }
-
-        if (array_key_exists('viewConfiguration', $data)) {
-            unset($data['viewConfiguration']);
+            $data['aggregations'][ $key ] = new Aggregation($item);
         }
 
         return new Result($data);

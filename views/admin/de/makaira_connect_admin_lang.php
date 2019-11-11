@@ -2,7 +2,7 @@
 
 $sLangName = "Deutsch";
 
-$aLang = array(
+$aLang = [
     'charset' => 'UTF-8',
 
     'SHOP_MODULE_GROUP_SETTINGS'                       => 'Einstellungen',
@@ -42,4 +42,11 @@ $aLang = array(
     'SHOP_MODULE_makaira_recommendation_cross_selling_id'    => 'Recommendation Ident für Cross-Selling',
     'SHOP_MODULE_makaira_recommendation_similar_products'    => 'Für ähnliche Produkte aktivieren',
     'SHOP_MODULE_makaira_recommendation_similar_products_id' => 'Recommendation Ident für ähnliche Produkte',
-);
+
+    'SHOP_MODULE_GROUP_makaira_search_results'        => 'Suchergebnisse',
+    'SHOP_MODULE_makaira_search_results_category'     => 'max. Anzahl Kategorien',
+    'SHOP_MODULE_makaira_search_results_links'        => 'max. Anzahl Links',
+    'SHOP_MODULE_makaira_search_results_manufacturer' => 'max. Anzahl Hersteller',
+    'SHOP_MODULE_makaira_search_results_product'      => 'max. Anzahl Artikel',
+    'SHOP_MODULE_makaira_search_results_suggestion'   => 'max. Anzahl Suchvorschläge',
+];

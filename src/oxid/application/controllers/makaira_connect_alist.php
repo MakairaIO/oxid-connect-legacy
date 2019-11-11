@@ -183,8 +183,8 @@ class makaira_connect_alist extends makaira_connect_alist_parent
                 $this->blArticleListLoaded = true;
                 $this->addTplParam('isMakairaSearchEnabled', true);
             } catch (ConnectException $e) {
-                $oxException = new oxException($e->getMessage(), $e->getCode());
-                $oxException->debugOut();
+                //$oxException = new oxException($e->getMessage(), $e->getCode());
+                //$oxException->debugOut();
             } catch (\Exception $e) {
                 $oxException = new oxException($e->getMessage(), $e->getCode());
                 $oxException->debugOut();

@@ -144,44 +144,47 @@ class makaira_connect_oxlocator extends makaira_connect_oxlocator_parent
             oxRegistry::get('oxViewConfig')->getAggregationFilter()
         );
 
-        $idList = $requestHelper->getProductsFromMakaira($query);
-
-        $locatorObject->iCntOfProd = $requestHelper->getProductCount($query);
-
-        $iPos = $this->_getProductPos($oCurrArticle, $idList, $oLocatorTarget);
-        if ($iPage > 0) {
-            $iPos--;
-            $offset++;
-        }
-        if (1 > $iPos) {
-            $requestHelper->deletePageNumberCookie();
-            $iPage = 0;
-            $offset = 0;
-            $query->count            = $iNrofCatArticles + 1;
-            $query->offset           = $offset;
+        try {
             $idList = $requestHelper->getProductsFromMakaira($query);
+
+            $locatorObject->iCntOfProd = $requestHelper->getProductCount($query);
+
             $iPos = $this->_getProductPos($oCurrArticle, $idList, $oLocatorTarget);
-        }
-
-        if ($locatorObject instanceof oxCategory) {
-            $this->setCategoryToListLink($locatorObject, $iPage, $requestHelper);
-        } elseif ($locatorObject instanceof oxManufacturer) {
-            $isSeoActive = oxRegistry::get('oxUtils')->seoIsActive();
-            if (!$isSeoActive) {
-                $addParams = 'listtype=manufacturer&amp;mnid=' . $manufacturerId;
+            if ($iPage > 0) {
+                $iPos--;
+                $offset++;
             }
-            $this->setManufacturerToListLink($locatorObject, $iPage, $isSeoActive);
-        } elseif ('search' == $this->_sType) {
-            $sPageNr                   = $this->_getPageNumber($iPage);
-            $sParams                   = $sPageNr . ($sPageNr ? '&amp;' : '') . $addParams;
-            $locatorObject->toListLink = $this->_makeLink($locatorObject->link, $sParams);
+            if (1 > $iPos) {
+                $requestHelper->deletePageNumberCookie();
+                $iPage = 0;
+                $offset = 0;
+                $query->count            = $iNrofCatArticles + 1;
+                $query->offset           = $offset;
+                $idList = $requestHelper->getProductsFromMakaira($query);
+                $iPos = $this->_getProductPos($oCurrArticle, $idList, $oLocatorTarget);
+            }
+
+            if ($locatorObject instanceof oxCategory) {
+                $this->setCategoryToListLink($locatorObject, $iPage, $requestHelper);
+            } elseif ($locatorObject instanceof oxManufacturer) {
+                $isSeoActive = oxRegistry::get('oxUtils')->seoIsActive();
+                if (!$isSeoActive) {
+                    $addParams = 'listtype=manufacturer&amp;mnid=' . $manufacturerId;
+                }
+                $this->setManufacturerToListLink($locatorObject, $iPage, $isSeoActive);
+            } elseif ('search' == $this->_sType) {
+                $sPageNr                   = $this->_getPageNumber($iPage);
+                $sParams                   = $sPageNr . ($sPageNr ? '&amp;' : '') . $addParams;
+                $locatorObject->toListLink = $this->_makeLink($locatorObject->link, $sParams);
+            }
+
+            $locatorObject->iProductPos = $iPos + $offset;
+
+            $this->setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos, $addParams);
+
+            $oLocatorTarget->setActiveCategory($locatorObject);
+        } catch (\Exception $e) {
         }
-
-        $locatorObject->iProductPos = $iPos + $offset;
-
-        $this->setPrevNextLinks($locatorObject, $iPage, $iNrofCatArticles, $iPos, $addParams);
-
-        $oLocatorTarget->setActiveCategory($locatorObject);
     }
 
     /**
