@@ -106,10 +106,10 @@ class SearchHandler extends AbstractHandler
      */
     protected function loadConfigParam($param)
     {
-        $value = (int) oxRegistry::getConfig()->getShopConfVar(
+        $value = (int) \oxRegistry::getConfig()->getShopConfVar(
             $param,
             null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            \oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         );
 
         if ($value <= 0) {
