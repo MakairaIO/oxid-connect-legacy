@@ -28,9 +28,7 @@ class makaira_connect_autosuggest extends oxUBase
 
             $html = $smarty->fetch('makaira/autosuggest/autosuggest.tpl');
         } catch (ConnectException $e) {
-            $oxException = new oxException($e->getMessage(), $e->getCode());
-            $oxException->debugOut();
-            $html = $e->getCode() . '  ' . $e->getMessage();
+            $html = '';
         } catch (Exception $e) {
             $html = '';
         }

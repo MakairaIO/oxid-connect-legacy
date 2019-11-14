@@ -14,7 +14,7 @@
     }
   },
   "require": {
-    "makaira/shared-libs": "2019.9.0-RC3",
+    "makaira/shared-libs": "2019.9.0-RC5",
     "marm/yamm": ">=1.4.0",
     "doctrine/dbal": "^2.5",
     "php": ">5.6.0"
