@@ -17,7 +17,7 @@
                 <label class="makaira-filter__label">
                     <input
                             type="checkbox"
-                            name="makairaFilter[[{$aggregation->key}]][]"
+                            name="[{$oViewConf->getFilterParamName()}][[{$aggregation->key}]][]"
                             class="makaira-input makaira-input--checkbox"
                             value="[{$item->key}]"
                             [{if $item->selected}]checked="checked"[{/if}]
