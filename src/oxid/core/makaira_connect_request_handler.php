@@ -8,12 +8,13 @@
  * Author URI: http://www.marmalade.de
  */
 
+use Makaira\Aggregation;
 use Makaira\Connect\SearchHandler;
 use Makaira\Connect\Utils\CategoryInheritance;
 use Makaira\Connect\Utils\OperationalIntelligence;
+use Makaira\Constraints;
 use Makaira\Query;
 use Makaira\Result;
-use Makaira\Constraints;
 
 /**
  * Class makaira_connect_request_handler
@@ -179,98 +180,7 @@ class makaira_connect_request_handler
 
         $oxArticleList = $this->loadProducts($productIds, $productResult);
 
-        $aggregations = $productResult->aggregations;
-        foreach ($aggregations as $aggregation) {
-            switch ($aggregation->type) {
-                case 'range_slider_custom_1':
-                    // fallthrough intentional
-                case 'range_slider_custom_2':
-                    // fallthrough intentional
-                case 'range_slider':
-                    // Equal min and max values are not allowed
-                    $from = $aggregation->min;
-                    $to   = $aggregation->max;
-                    if ($from == $to) {
-                        unset($aggregations[ $aggregation->key ]);
-                        continue;
-                    }
-                    if (isset($query->aggregations[ $aggregation->key . '_from' ]) ||
-                        isset($query->aggregations[ $aggregation->key . '_to' ])) {
-                        if (isset($query->aggregations[ $aggregation->key . '_from' ])) {
-                            $from = $query->aggregations[ $aggregation->key . '_from' ];
-                        }
-                        if (isset($query->aggregations[ $aggregation->key . '_to' ])) {
-                            $to = $query->aggregations[ $aggregation->key . '_to' ];
-                        }
-                        $aggregations[ $aggregation->key ]->selectedValues['from'] = $from;
-                        $aggregations[ $aggregation->key ]->selectedValues['to']   = $to;
-                    }
-
-                    break;
-                case 'range_slider_price':
-                    // Equal min and max values are not allowed
-                    $from = $aggregation->min;
-                    $to   = $aggregation->max;
-                    if ($from == $to) {
-                        unset($aggregations[ $aggregation->key ]);
-                        continue;
-                    }
-                    if (isset($query->aggregations[ $aggregation->key . '_from_price' ]) ||
-                        isset($query->aggregations[ $aggregation->key . '_to_price' ])) {
-                        if (isset($query->aggregations[ $aggregation->key . '_from_price' ])) {
-                            $from = $query->aggregations[ $aggregation->key . '_from_price' ];
-                        }
-                        if (isset($query->aggregations[ $aggregation->key . '_to_price' ])) {
-                            $to = $query->aggregations[ $aggregation->key . '_to_price' ];
-                        }
-                        $aggregations[ $aggregation->key ]->selectedValues['from'] = $from;
-                        $aggregations[ $aggregation->key ]->selectedValues['to']   = $to;
-                    }
-
-                    break;
-                case 'categorytree':
-                    // TODO: find better way to convert multi-array to multi-stdobject
-                    $aggregations[ $aggregation->key ]->values =
-                        json_decode(json_encode($aggregations[ $aggregation->key ]->values));
-
-                    $aggregations[ $aggregation->key ]->selectedValues =
-                        isset($query->aggregations[ $aggregation->key ]) ?
-                            $unmodifiedQuery->aggregations[ $aggregation->key ] : [];
-
-                    $this->mapCategoryTitle(
-                        $aggregations[ $aggregation->key ]->values,
-                        $aggregations[ $aggregation->key ]->selectedValues
-                    );
-
-                    break;
-                default:
-                    $aggregations[ $aggregation->key ]->values         = array_map(
-                        function ($value) use ($aggregation, $query) {
-                            $valueObject           = new stdClass();
-                            $valueObject->key      = $value['key'];
-                            $valueObject->count    = $value['count'];
-                            $valueObject->selected = false;
-                            if (isset($query->aggregations[ $aggregation->key ])) {
-                                $valueObject->selected = in_array(
-                                    strtolower($valueObject->key),
-                                    array_map(
-                                        function ($element) {
-                                            return is_bool($element) ? $element : strtolower($element);
-                                        },
-                                        (array) $query->aggregations[ $aggregation->key ]
-                                    )
-                                );
-                            }
-                            return $valueObject;
-                        },
-                        $aggregation->values
-                    );
-                    $aggregations[ $aggregation->key ]->selectedValues =
-                        isset($query->aggregations[ $aggregation->key ]) ? $query->aggregations[ $aggregation->key ] :
-                            [];
-            }
-        }
-        $this->aggregations = $aggregations;
+        $this->aggregations = $this->postProcessAggregations($productResult->aggregations, $query, $unmodifiedQuery);
 
         return $oxArticleList;
     }
@@ -373,4 +283,107 @@ class makaira_connect_request_handler
             }
         }
     }
+
+    /**
+     * @param Aggregation $aggregations
+     * @param Query                $query
+     * @param Query                $unmodifiedQuery
+     *
+     * @return Aggregation
+     */
+    protected function postProcessAggregations(Aggregation $aggregations, Query $query, Query $unmodifiedQuery)
+    {
+        foreach ($aggregations as $aggregation) {
+            switch ($aggregation->type) {
+                case 'range_slider_custom_1':
+                    // fallthrough intentional
+                case 'range_slider_custom_2':
+                    // fallthrough intentional
+                case 'range_slider':
+                    // Equal min and max values are not allowed
+                    if ($aggregation->min == $aggregation->max) {
+                        unset($aggregations[$aggregation->key]);
+                        continue;
+                    }
+                    $aggregationFromKey = "{$aggregation->key}_from";
+                    $aggregationToKey = "{$aggregation->key}_to";
+                    $aggregationHasFrom = isset($query->aggregations[$aggregationFromKey]);
+                    $aggregationHasTo = isset($query->aggregations[$aggregationToKey]);
+
+                    if ($aggregationHasFrom || $aggregationHasTo) {
+                        $aggregations[$aggregation->key]->selectedValues['from'] = $aggregationHasFrom ?
+                            $query->aggregations[$aggregationFromKey] :
+                            $aggregation->min;
+                        $aggregations[$aggregation->key]->selectedValues['to']   = $aggregationHasTo ?
+                            $query->aggregations[$aggregationToKey] :
+                            $aggregation->max;
+                    }
+
+                    break;
+                case 'range_slider_price':
+                    // Equal min and max values are not allowed
+                    if ($aggregation->min == $aggregation->max) {
+                        unset($aggregations[$aggregation->key]);
+                        continue;
+                    }
+                    $aggregationFromKey = "{$aggregation->key}_from_price";
+                    $aggregationToKey = "{$aggregation->key}_to_price";
+                    $aggregationHasFrom = isset($query->aggregations[$aggregationFromKey]);
+                    $aggregationHasTo = isset($query->aggregations[$aggregationToKey]);
+
+                    if ($aggregationHasFrom || $aggregationHasTo) {
+                        $aggregations[$aggregation->key]->selectedValues['from'] = $aggregationHasFrom ?
+                            $query->aggregations[$aggregationFromKey] :
+                            $aggregation->min;
+                        $aggregations[$aggregation->key]->selectedValues['to']   = $aggregationHasTo ?
+                            $query->aggregations[$aggregationToKey] :
+                            $aggregation->max;
+                    }
+
+                    break;
+                case 'categorytree':
+                    // TODO: find better way to convert multi-array to multi-stdobject
+                    $aggregations[$aggregation->key]->values =
+                        json_decode(json_encode($aggregations[$aggregation->key]->values));
+
+                    $aggregations[$aggregation->key]->selectedValues =
+                        isset($query->aggregations[$aggregation->key]) ?
+                            $unmodifiedQuery->aggregations[$aggregation->key] : [];
+
+                    $this->mapCategoryTitle(
+                        $aggregations[$aggregation->key]->values,
+                        $aggregations[$aggregation->key]->selectedValues
+                    );
+
+                    break;
+                default:
+                    $aggregations[$aggregation->key]->values         = array_map(
+                        function ($value) use ($aggregation, $query) {
+                            $valueObject           = new stdClass();
+                            $valueObject->key      = $value['key'];
+                            $valueObject->count    = $value['count'];
+                            $valueObject->selected = false;
+                            if (isset($query->aggregations[$aggregation->key])) {
+                                $valueObject->selected = in_array(
+                                    strtolower($valueObject->key),
+                                    array_map(
+                                        function ($element) {
+                                            return is_bool($element) ? $element : strtolower($element);
+                                        },
+                                        (array) $query->aggregations[$aggregation->key]
+                                    )
+                                );
+                            }
+
+                            return $valueObject;
+                        },
+                        $aggregation->values
+                    );
+                    $aggregations[$aggregation->key]->selectedValues =
+                        isset($query->aggregations[$aggregation->key]) ? $query->aggregations[$aggregation->key] : [];
+            }
+        }
+
+        return $aggregations;
+}
 }
