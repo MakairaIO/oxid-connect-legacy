@@ -285,13 +285,13 @@ class makaira_connect_request_handler
     }
 
     /**
-     * @param Aggregation $aggregations
+     * @param array $aggregations
      * @param Query                $query
      * @param Query                $unmodifiedQuery
      *
-     * @return Aggregation
+     * @return array
      */
-    protected function postProcessAggregations(Aggregation $aggregations, Query $query, Query $unmodifiedQuery)
+    protected function postProcessAggregations(array $aggregations, Query $query, Query $unmodifiedQuery)
     {
         foreach ($aggregations as $aggregation) {
             switch ($aggregation->type) {
