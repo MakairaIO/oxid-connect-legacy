@@ -16,6 +16,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
 
     protected $generatedFilterUrl = [];
 
+    /**
+     * @var string
+     */
+    private static $filterParamName;
+
     public function redirectMakairaFilter($baseUrl, $disableSeoFilter = false)
     {
         $useSeoFilter = $this->getConfig()->getShopConfVar(
@@ -50,7 +55,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $className          = $this->getActiveClassName();
 
         // get filter from form submit
-        $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter('makairaFilter', true);
+        $requestFilter = (array) oxRegistry::getConfig()->getRequestParameter($this->getFilterParamName(), true);
         $isFilterAction = oxRegistry::getConfig()->getRequestParameter('isFilterAction');
 
         if ($isFilterAction || !empty($requestFilter)) {
@@ -119,7 +124,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
         $oxUtilsServer   = oxRegistry::get('oxUtilsServer');
         $lang            = oxRegistry::getLang()->getLanguageAbbr();
-        $rawCookieFilter = $oxUtilsServer->getOxCookie('makairaFilter_' . $lang);
+        $rawCookieFilter = $oxUtilsServer->getOxCookie("{$this->getFilterParamName()}_{$lang}");
         $cookieFilter    = !empty($rawCookieFilter) ? json_decode(base64_decode($rawCookieFilter), true) : [];
 
         static::$makairaFilter = (array) $cookieFilter;
@@ -135,7 +140,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         static::$makairaFilter = $cookieFilter;
         $oxUtilsServer         = oxRegistry::get('oxUtilsServer');
         $lang                  = oxRegistry::getLang()->getLanguageAbbr();
-        $oxUtilsServer->setOxCookie('makairaFilter_' . $lang, base64_encode(json_encode($cookieFilter)));
+        $oxUtilsServer->setOxCookie("{$this->getFilterParamName()}_{$lang}", base64_encode(json_encode($cookieFilter)));
     }
 
     public function savePageNumberToCookie()
@@ -239,7 +244,7 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
 
         $params      = [
-            'makairaFilter' => $filterParams,
+            $this->getFilterParamName() => $filterParams,
         ];
         $filterQuery = http_build_query($params);
 
@@ -335,5 +340,21 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
     public function isEcondaActive()
     {
         return (bool) oxRegistry::getConfig()->getConfigParam('makaira_connect_use_econda');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilterParamName()
+    {
+        if (null === self::$filterParamName) {
+            self::$filterParamName = (string) $this->getConfig()->getShopConfVar(
+                'makaira_connect_url_param',
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+        }
+
+        return self::$filterParamName;
     }
 }
