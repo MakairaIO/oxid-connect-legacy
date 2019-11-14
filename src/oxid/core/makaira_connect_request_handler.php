@@ -385,5 +385,5 @@ class makaira_connect_request_handler
         }
 
         return $aggregations;
-}
+    }
 }
