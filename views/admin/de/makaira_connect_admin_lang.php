@@ -16,6 +16,7 @@ $aLang = [
     'SHOP_MODULE_makaira_connect_category_inheritance' => 'Oberkategorie enthält alle Produkte der Unterkategorien',
     'SHOP_MODULE_makaira_connect_categorytree_id'      => 'ID des Kategorie-Baum-Filters (falls vorhanden)',
     'SHOP_MODULE_makaira_connect_seofilter'            => 'SEO-Urls für gefilterte Kategorie- und Herstellerseiten erzeugen',
+    'SHOP_MODULE_makaira_connect_url_param'            => 'Name des URL-Parameters für die Filter',
 
     'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'    => 'Personalisierung',
     'SHOP_MODULE_makaira_connect_use_econda'        => 'Econda Unterstützung aktivieren',

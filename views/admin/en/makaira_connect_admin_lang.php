@@ -16,6 +16,7 @@ $aLang = [
     'SHOP_MODULE_makaira_connect_category_inheritance' => 'Parent category contains all products from child categories',
     'SHOP_MODULE_makaira_connect_categorytree_id'      => 'ID of Categorytree filter (if exists)',
     'SHOP_MODULE_makaira_connect_seofilter'            => 'Generate SEO url for filtered category and manufacturer pages',
+    'SHOP_MODULE_makaira_connect_url_param'            => 'Name of the URL parameters used for filters',
 
     'SHOP_MODULE_GROUP_OPERATIONAL_INTELLIGENCE'    => 'Personalization',
     'SHOP_MODULE_makaira_connect_use_econda'        => 'Use Econda Support',
