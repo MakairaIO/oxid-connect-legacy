@@ -14,4 +14,5 @@ $aLang = array(
     'MAKAIRA_SEARCHRESULT_MANUFACTURER' => "Hersteller",
     'MAKAIRA_SEARCHRESULT_SEARCHLINK' => "Seiten",
     'MAKAIRA_SEARCHRESULT_SUGGESTION' => "Suchvorschläge",
+    'MAKAIRA_PRODUCTS' => "Produkte",
 );

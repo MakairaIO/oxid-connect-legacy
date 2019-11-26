@@ -24,7 +24,7 @@
     [{* show small header if we have other search results located above producs *}]
     [{if $topActiveClass == "search" }]
         [{if $category_result || $manufacturer_result || $links_result}]
-            <p class="makaira-filter__header">Produkte</p>
+            <p class="makaira-filter__header">[{oxmultilang ident="MAKAIRA_PRODUCTS"}]</p>
         [{/if}]
     [{/if}]
     <form class="makaira-form" action="[{oxgetseourl ident=$baseLink}]" method="post">
