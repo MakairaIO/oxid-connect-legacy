@@ -2,8 +2,8 @@
 [{assign var=sCurrencySign value=$oActCurrency->sign}]
 
 <div class="makaira-filter__slider-container">
-    [{assign var='fromname' value="`$oViewConf->getFilterParamName()`[`$aggregation->key`_from_price]"}]
-    [{assign var='toname' value="`$oViewConf->getFilterParamName()`[`$aggregation->key`_to_price]"}]
+    [{assign var='fromname' value=$oViewConf->getFilterParamName()|cat:"["|cat:$aggregation->key|cat:"_from_price]"}]
+    [{assign var='toname' value=$oViewConf->getFilterParamName()|cat:"["|cat:$aggregation->key|cat:"_to_price]"}]
     [{assign var='dataMin' value=$oViewConf->toCurrency($aggregation->min)}]
     [{assign var='dataMax' value=$oViewConf->toCurrency($aggregation->max)}]
     [{if $aggregation->selectedValues}]
@@ -17,8 +17,8 @@
     <input type="hidden" class="makaira-filter__input--min" name="[{$fromname}]" value="[{$dataMin}]" />
     <input type="hidden" class="makaira-filter__input--max" name="[{$toname}]" value="[{$dataMax}]" />
     [{* TODO Handle min max check in js and remove additional inputs *}]
-    [{assign var='maxname' value="`$oViewConf->getFilterParamName()`[`$aggregation->key`_rangemax]"}]
-    [{assign var='minname' value="`$oViewConf->getFilterParamName()`[`$aggregation->key`_rangemin]"}]
+    [{assign var='maxname' value=$oViewConf->getFilterParamName()|cat:"["|cat:$aggregation->key|cat:"_rangemax]"}]
+    [{assign var='minname' value=$oViewConf->getFilterParamName()|cat:"["|cat:$aggregation->key|cat:"_rangemin]"}]
     <input type="hidden" name="[{$minname}]" value="[{$dataMin|floor}]" />
     <input type="hidden" name="[{$maxname}]" value="[{$dataMax|ceil}]" />
 
