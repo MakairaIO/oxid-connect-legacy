@@ -20,6 +20,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                     [
                         [
                             'catid'  => 'def',
+                            'title'  => 'mysubcat',
                             'oxpos'  => 1,
                             'shopid' => 1,
                             'active' => 1,
@@ -61,7 +62,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                         'pos'  => 1,
                         'shopid' => 1,
                         'path' => 'mytitle/',
-                        'title' => 'mytitle'
+                        'title' => 'mysubcat'
                     ]
                 ),
             ], $product->category
