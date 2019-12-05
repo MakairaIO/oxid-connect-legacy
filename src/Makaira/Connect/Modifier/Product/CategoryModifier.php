@@ -84,7 +84,6 @@ class CategoryModifier extends Modifier
                 ]
             );
 
-            //$depth = 0;
             $path  = '';
             $active = true;
             foreach ($catPaths as $catPath) {
@@ -93,7 +92,6 @@ class CategoryModifier extends Modifier
                     break;
                 }
                 $path .= $catPath['title'] . '/';
-                //$depth++;
             }
 
             if ($active) {
@@ -102,6 +100,7 @@ class CategoryModifier extends Modifier
                         'catid'  => $cat['catid'],
                         'title'  => $cat['title'],
                         'shopid' => $cat['shopid'],
+                        'pos'    => $cat['oxpos'],
                         'path'   => $path,
                     ]
                 );
