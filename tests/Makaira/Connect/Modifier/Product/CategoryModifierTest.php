@@ -61,6 +61,7 @@ class CategoryModifierTest extends \PHPUnit_Framework_TestCase
                         'pos'  => 1,
                         'shopid' => 1,
                         'path' => 'mytitle/',
+                        'title' => 'mytitle'
                     ]
                 ),
             ], $product->category
