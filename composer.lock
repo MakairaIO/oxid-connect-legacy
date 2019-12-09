@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef04f3cd94401b3c448dd49adaa11006",
+    "content-hash": "39798ac0cc41752181f78ae8572a14e3",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -512,11 +512,11 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2019.9.0-RC6",
+            "version": "2019.9.0-RC9",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "08f974c41a818e71d196b4994fa9bc706d122076"
+                "reference": "879907cb209312fb59cc97ff3d91b26db6f8d2bf"
             },
             "require": {
                 "kore/data-object": "@stable"
