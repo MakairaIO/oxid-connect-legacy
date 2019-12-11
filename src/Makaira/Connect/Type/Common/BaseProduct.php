@@ -20,6 +20,7 @@ class BaseProduct extends Type
     public $attributeFloat = [];
 
     /* required fields + mak-fields */
+    public $isPseudo = false;
     public $ean = '';
     public $title = '';
     public $searchkeys = '';
