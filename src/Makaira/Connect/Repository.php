@@ -192,7 +192,10 @@ class Repository
                     if (true === $change->deleted ||
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT)) {
                         $pChange                  = clone $change;
+
+                        $pChange->data->isPseudo  = true;
                         $pChange->data->isVariant = true;
+
                         foreach ($this->propsDoNotClone as $_props) {
                             if (isset($pChange->data->$_props)) {
                                 unset($pChange->data->$_props);
