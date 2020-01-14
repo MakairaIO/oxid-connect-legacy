@@ -193,6 +193,10 @@ class Repository
                         (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT)) {
                         $pChange                  = clone $change;
 
+                        if (is_null($pChange->data)) {
+                            $pChange->data = new \stdClass();
+                        }
+
                         $pChange->data->isPseudo  = true;
                         $pChange->data->isVariant = true;
 
