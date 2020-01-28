@@ -206,10 +206,10 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         foreach ($filterParams as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $item) {
-                    $path[] = "{$key}_" . urlencode($item);
+                    $path[] = "{$key}_" . $this->encodeFilterValue($item);
                 }
             } else {
-                $path[] = "{$key}_" . urlencode($value);
+                $path[] = "{$key}_" . $this->encodeFilterValue($value);
             }
         }
         $filterString = implode('/', $path);
@@ -229,6 +229,18 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         $this->generatedFilterUrl[ $baseUrl ] = "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$query}";
 
         return $this->generatedFilterUrl[ $baseUrl ];
+    }
+
+    /**
+     * Encode filter value for use in SEO URLs.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    protected function encodeFilterValue($value)
+    {
+        return urlencode(str_replace('/', '---', $value));
     }
 
     /**

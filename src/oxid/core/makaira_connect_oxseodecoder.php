@@ -47,7 +47,7 @@ class makaira_connect_oxseodecoder extends makaira_connect_oxseodecoder_parent
             if (isset($filter[ $key ])) {
                 $value = array_merge((array) $filter[ $key ], (array) $value);
             }
-            $filter[ $key ] = $value;
+            $filter[ $key ] = str_replace('---', '/', $value);
         }
 
         $seoUrl = $aMatches[1][0] . $pageNumber;
