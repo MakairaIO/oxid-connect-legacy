@@ -17,7 +17,7 @@ use Makaira\Connect\Exception as ConnectException;
  */
 class AttributeModifier extends Modifier
 {
-    private $selectAttributesQuery = '
+    public $selectAttributesQuery = '
                         SELECT
                             oxattribute.oxid as `id`,
                             oxattribute.oxtitle as `title`,
@@ -30,7 +30,7 @@ class AttributeModifier extends Modifier
                             AND oxobject2attribute.oxvalue != \'\'
                         ';
 
-    private $selectVariantsQuery = '
+    public $selectVariantsQuery = '
                         SELECT
                             parent.oxvarname as `title`,
                             variant.oxvarselect as `value`
@@ -41,7 +41,7 @@ class AttributeModifier extends Modifier
                             variant.oxparentid = :productId
                         ';
 
-    private $selectVariantsAttributesQuery = '
+    public $selectVariantsAttributesQuery = '
                         SELECT
                             oxattribute.oxid as `id`,
                             oxattribute.oxtitle as `title`,
@@ -56,7 +56,7 @@ class AttributeModifier extends Modifier
                             AND {{activeSnippet}}
                         ';
 
-    private $selectVariantQuery = '
+    public $selectVariantQuery = '
                         SELECT
                             parent.oxvarname as `title`,
                             variant.oxvarselect as `value`
