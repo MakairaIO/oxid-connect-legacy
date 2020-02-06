@@ -128,7 +128,7 @@ class SearchHandler extends AbstractHandler
     private function parseResult($data, $max_items = -1)
     {
         if (!isset($data['items']) && !isset($data['aggregations'])) {
-            return null;
+            return $data;
         }
 
         $items         = $data['items'];
