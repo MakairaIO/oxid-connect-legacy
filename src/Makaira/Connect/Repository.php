@@ -211,9 +211,7 @@ class Repository
                         }
                         $pChange->id       = md5($id . '.variant.new');
                         $pChange->data->id = $pChange->id;
-                        if (isset($pChange->data->OXID)) {
-                            $pChange->data->OXID = $pChange->id;
-                        }
+                        
                         $pChange->sequence = $sequence;
                         $pChange->type     = $typeVariant;
 
