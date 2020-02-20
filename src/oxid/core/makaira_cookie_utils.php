@@ -6,8 +6,8 @@ class makaira_cookie_utils
 
     public function hasCookiesAccepted()
     {
-        if (isset($_COOKIE['cookie-consent']) && 'accept' === $_COOKIE['cookie-consent']) {
-            return true;
+        if (isset($_COOKIE['cookie-consent'])) {
+            return 'accept' === $_COOKIE['cookie-consent'];
         }
 
         if (null === self::$bannerEnabled) {
