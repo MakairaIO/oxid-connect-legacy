@@ -27,7 +27,12 @@
     "prettier": "^1.11.1",
     "stylus": "^0.54.5",
     "uglify-js": "^3.0.22",
-    "watchify": "^3.9.0"
+    "watchify": "^3.9.0",
+    "debug": "^2.6.9",
+    "randomatic": "^3.0.0",
+    "lodash": "^4.17.12",
+    "cached-path-relative": "^1.0.2",
+    "braces": "^2.3.1"
   },
   "dependencies": {
     "nouislider": "^10.0.0"
