@@ -132,7 +132,7 @@ class makaira_connect_autosuggester
 
         if ('odoscope' === $personalizationType && isset($this->result['personalization']['oscCookie'])) {
             $cookieValue = $this->result['personalization']['oscCookie'];
-            oxRegistry::get('oxutilsserver')->setOxCookie(
+            oxRegistry::get(makaira_cookie_utils::class)->setCookie(
                 "osc-{$token}",
                 $cookieValue,
                 oxRegistry::get("oxutilsdate")->getTime() + 86400

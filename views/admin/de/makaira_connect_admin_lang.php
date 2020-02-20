@@ -50,4 +50,10 @@ $aLang = [
     'SHOP_MODULE_makaira_search_results_manufacturer' => 'max. Anzahl Hersteller',
     'SHOP_MODULE_makaira_search_results_product'      => 'max. Anzahl Artikel',
     'SHOP_MODULE_makaira_search_results_suggestion'   => 'max. Anzahl Suchvorschläge',
+
+    'SHOP_MODULE_makaira_tracking_page_id'  => 'Seiten-ID für das Tracking',
+
+    'SHOP_MODULE_makaira_cookie_banner_enabled'      => 'Cookie-Banner aktivieren',
+    'HELP_SHOP_MODULE_makaira_cookie_banner_enabled' => '<strong>Wenn Sie das Cookie-Banner deaktivieren, müssen Sie ' .
+        'die Rechtssicherheit Ihres Shops gewährleisten!</strong>',
 ];
