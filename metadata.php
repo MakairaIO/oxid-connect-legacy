@@ -20,7 +20,10 @@ $moduleId = 'makaira/connect';
 $aModule = [
     'id'          => $moduleId,
     'title'       => 'Makaira :: Connect',
-    'description' => 'Connector to Makaira',
+    'description' => [
+        'en' => '<p>Connector to Makaira</p><p>The Makaira :: Connect module GDPR is compliant with this version.</p><div class="errorbox"><p>Please deactivate the Makaira :: Tracking module, if available and activated, before you activate the new Connect version.</p></div>',
+        'de' => '<p>Connector zum Makaira</p><p>Mit dieser Version ist das Makaira :: Connect Modul DSGVO konform.</p><div class="errorbox"><p>Bitte deaktivieren Sie das Makaira :: Tracking Modul, falls vorhanden und aktiviert, bevor Sie die neue Connect Version aktivieren.</p></div>',
+    ],
     'thumbnail'   => 'makaira.jpg',
     'version'     => '2019.9.0-RC30',
     'author'      => 'marmalade GmbH',
