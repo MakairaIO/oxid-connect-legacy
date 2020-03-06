@@ -10,15 +10,7 @@ class makaira_cookie_utils
             return 'accept' === $_COOKIE['cookie-consent'];
         }
 
-        if (null === self::$bannerEnabled) {
-            self::$bannerEnabled = oxRegistry::getConfig()->getShopConfVar(
-                'makaira_cookie_banner_enabled',
-                null,
-                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
-            );
-        }
-
-        return self::$bannerEnabled;
+        return false;
     }
 
     public function setCookie(
