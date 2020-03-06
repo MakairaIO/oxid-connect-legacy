@@ -140,13 +140,13 @@ $aModule = [
         ['name' => 'makaira_connect_econda_aid', 'group' => 'OPERATIONAL_INTELLIGENCE', 'type' => 'str', 'value' => ''],
         ['name' => 'makaira_connect_url_param', 'group' => 'SETTINGS', 'type' => 'str', 'value' => 'makairaFilter'],
         [
-            'group' => 'SETTINGS',
+            'group' => 'TRACKING_PRIVACY',
             'name'  => 'makaira_tracking_page_id',
             'type'  => 'str',
             'value' => '',
         ],
         [
-            'group' => 'SETTINGS',
+            'group' => 'TRACKING_PRIVACY',
             'name'  => 'makaira_cookie_banner_enabled',
             'type'  => 'bool',
             'value' => true,

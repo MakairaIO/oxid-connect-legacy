@@ -55,5 +55,7 @@ $aLang = [
 
     'SHOP_MODULE_makaira_cookie_banner_enabled'      => 'Enable cooke banner',
     'HELP_SHOP_MODULE_makaira_cookie_banner_enabled' => '<strong>If you disable the cookie banner, you must ensure ' .
-        'the legal security of your store!</strong>'
+        'the legal security of your store!</strong>',
+
+    'SHOP_MODULE_GROUP_TRACKING_PRIVACY'               => 'Tracking & data protection',
 ];
