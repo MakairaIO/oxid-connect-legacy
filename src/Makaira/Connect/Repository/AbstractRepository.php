@@ -4,6 +4,7 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\Change;
 use Makaira\Connect\DatabaseInterface;
+use Makaira\Connect\Event\RepositoryCollectEvent;
 
 abstract class AbstractRepository
 {
@@ -21,6 +22,13 @@ abstract class AbstractRepository
     {
         $this->database  = $database;
         $this->modifiers = $modifiers;
+    }
+
+    public function addRepository($e)
+    {
+        if ($e instanceof RepositoryCollectEvent) {
+            $e->addRepository($this);
+        }
     }
 
     public function get($id)

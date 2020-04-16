@@ -1,6 +1,6 @@
 {
   "name": "makaira/connect",
-  "type": "oxid-module",
+  "type": "oxideshop-module",
   "require-dev": {
     "phpunit/phpunit": "^4.0",
     "pdepend/pdepend": "@stable",
@@ -9,25 +9,24 @@
   },
   "autoload": {
     "classmap": ["src/"],
-    "psr-0": {
-        "Makaira": ["src/", "tests/"]
+    "psr-4": {
+        "Makaira\\Connect\\": ["src/Makaira/Connect"]
     }
   },
   "require": {
-    "makaira/shared-libs": "^2020.3.1",
-    "marm/yamm": ">=1.4.0",
-    "doctrine/dbal": "^2.5",
-    "php": ">5.6.0"
+    "makaira/shared-libs": "^2020.3.1"
   },
-  "config": {
-    "platform": {
-      "php": "5.6.40"
+  "extra": {
+    "oxideshop": {
+      "blacklist-filter": [
+        "tests/**/*",
+        "phpunit.xml",
+        ".gitignore",
+        "changelog.txt",
+        "dic.php",
+        "src/Makaira/Connect/**/*"
+      ],
+      "target-directory": "makaira/connect"
     }
-  },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "git@gitlab.marmalade.de:makaira/shared-libs.git"
-    }
-  ]
+  }
 }

@@ -276,6 +276,6 @@ $aModule = [
     ],
 ];
 
-if (oxRegistry::getConfig()->getEdition() === 'EE') {
+if (\OxidEsales\Eshop\Core\Registry::getConfig()->getEdition() === 'EE') {
     $aModule['extend']['oxcache'] = 'makaira/connect/src/oxid/core/makaira_connect_oxcache';
 }

@@ -2,7 +2,10 @@
 
 use Makaira\Connect\Result\Error;
 use Makaira\Connect\Utils\BoostFields;
+use Makaira\Connect\Utils\TableTranslator;
 use Makaira\Connect\Exception as ConnectException;
+use Makaira\Connect\Repository\UserRepository;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 
 class makaira_connect_endpoint extends oxUBase
 {
@@ -96,8 +99,8 @@ class makaira_connect_endpoint extends oxUBase
                     $updates = $this->getReplicationStatusAction($body);
                     break;
                 case 'getVersionNumber':
-                    $dic            = oxRegistry::get('yamm_dic');
-                    $versionHandler = $dic['makaira.connect.version.handler'];
+                    $container = ContainerFactory::getInstance()->getContainer();
+                    $versionHandler = $container->get(\Makaira\Connect\VersionHandler::class);
                     $updates        = $versionHandler->getVersionNumber();
                     break;
                 case 'getUpdates':
@@ -159,29 +162,28 @@ class makaira_connect_endpoint extends oxUBase
             throw new ConnectException("since parameter not set");
         }
 
-        /** @var \Marm\Yamm\DIC $dic */
-        $dic = oxRegistry::get('yamm_dic');
+        $container = ContainerFactory::getInstance()->getContainer();
 
         if (property_exists($body, 'language')) {
-            $oxLang = $dic['oxid.language'];
+            $oxLang = $container->get('makaira.connect.oxid.language');
             $language = $body->language;
             $langIds = $oxLang->getLanguageIds();
             $langIds = array_flip($langIds);
             if (isset($langIds[$language])) {
                 /** @var oxLang $oxLang */
-                $oxLang = $dic['oxid.language'];
+                $oxLang = $container->get('makaira.connect.oxid.language');
                 $oxLang->setBaseLanguage($langIds[$language]);
             }
         } else {
             $language = oxRegistry::getLang()->getLanguageAbbr();
         }
 
-        /** @var \Makaira\Connect\Utils\TableTranslator $translator */
-        $translator = $dic['oxid.table_translator'];
+        /** @var TableTranslator $translator */
+        $translator = $container->get(TableTranslator::class);
         $translator->setLanguage($language);
 
         /** @var \Makaira\Connect\Repository $repository */
-        $repository = $dic['makaira.connect.repository'];
+        $repository = $container->get(\Makaira\Connect\Repository::class);
 
         $result = $repository->getChangesSince($body->since, isset($body->count) ? $body->count : 50);
         $result->language = $language;
@@ -219,11 +221,9 @@ class makaira_connect_endpoint extends oxUBase
             throw new ConnectException("username parameter not set");
         }
 
-        /** @var \Marm\Yamm\DIC $dic */
-        $dic = oxRegistry::get('yamm_dic');
-
-        /** @var \Makaira\Connect\Repository\UserRepository $repository */
-        $repository = $dic['makaira.connect.repository.user'];
+        $container = ContainerFactory::getInstance()->getContainer();
+        /** @var UserRepository $repository */
+        $repository = $container->get(UserRepository::class);
         $user = $repository->getAuthorizedUserByUsername($body->username);
 
         return $user;
@@ -235,11 +235,9 @@ class makaira_connect_endpoint extends oxUBase
             throw new ConnectException("token parameter not set");
         }
 
-        /** @var \Marm\Yamm\DIC $dic */
-        $dic = oxRegistry::get('yamm_dic');
-
-        /** @var \Makaira\Connect\Repository\UserRepository $repository */
-        $repository = $dic['makaira.connect.repository.user'];
+        $container = ContainerFactory::getInstance()->getContainer();
+        /** @var UserRepository $repository */
+        $repository = $container->get(UserRepository::class);
         $user = $repository->getAuthorizedUserByToken($body->token);
 
         return $user;
@@ -251,11 +249,10 @@ class makaira_connect_endpoint extends oxUBase
             return [];
         }
 
-        /** @var \Marm\Yamm\DIC $dic */
-        $dic = oxRegistry::get('yamm_dic');
+        $container = ContainerFactory::getInstance()->getContainer();
+        /** @var UserRepository $repository */
+        $repository = $container->get(\Makaira\Connect\Repository::class);
 
-        /** @var \Makaira\Connect\Repository $repository */
-        $repository = $dic['makaira.connect.repository'];
         foreach ($body->indices as $index) {
             $index->openChanges = $repository->countChangesSince($index->lastRevision);
         }
@@ -265,11 +262,11 @@ class makaira_connect_endpoint extends oxUBase
 
     protected function getBoostFieldStatistics()
     {
-        /** @var \Marm\Yamm\DIC $dic */
-        $dic = oxRegistry::get('yamm_dic');
+        $container = ContainerFactory::getInstance()->getContainer();
+        /** @var UserRepository $repository */
 
         /** @var BoostFields $boostFieldStatistics */
-        $boostFieldStatistics = $dic['makaira.connect.utils.boostfields'];
+        $boostFieldStatistics = $container->get(BoostFields::class);
 
         return $boostFieldStatistics->getMinMaxValues();
     }

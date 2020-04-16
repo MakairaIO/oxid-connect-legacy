@@ -5,6 +5,8 @@ namespace Makaira\Connect;
 use Makaira\Import\Changes;
 use Makaira\Connect\Exception as ConnectException;
 use Makaira\Connect\Exceptions\OutOfBoundsException;
+use Makaira\Connect\Repository\AbstractRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Repository
@@ -108,15 +110,25 @@ class Repository
     private $propsSpecial = [];
 
     /**
+     * @var array
+     */
+    private $repositoryMapping;
+
+    /**
      * Repository constructor.
      *
      * @param \Makaira\Connect\DatabaseInterface $database
-     * @param array                              $repositoryMapping
+     * @param EventDispatcherInterface           $dispatcher
      */
-    public function __construct(DatabaseInterface $database, array $repositoryMapping = array())
+    public function __construct(DatabaseInterface $database, EventDispatcherInterface $dispatcher)
     {
         $this->database          = $database;
-        $this->repositoryMapping = $repositoryMapping;
+        $dispatcher->dispatch('makaira.connect.repository', new Event\RepositoryCollectEvent($this));
+    }
+
+    public function addRepositoryMapping(AbstractRepository $repository)
+    {
+        $this->repositoryMapping[$repository->getType()] = $repository;
     }
 
     /**

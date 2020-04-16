@@ -2,6 +2,7 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
+use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 
@@ -62,7 +63,7 @@ class DefaultProperties extends Modifier
         'hidden'
     ];
 
-    public function __construct($database)
+    public function __construct(DatabaseInterface $database)
     {
         $this->db = $database;
     }

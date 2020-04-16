@@ -2,6 +2,8 @@
 
 namespace Makaira\Connect;
 
+use Makaira\Connect\Event\ModifierCollectEvent;
+
 /**
  * Class Modifier
  *
@@ -29,5 +31,12 @@ abstract class Modifier
     public function setDocType($docType)
     {
         $this->docType = $docType;
+    }
+
+    public function addModifier($e)
+    {
+        if ($e instanceof ModifierCollectEvent) {
+            $e->addModifier($this);
+        }
     }
 }

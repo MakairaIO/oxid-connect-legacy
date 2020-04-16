@@ -87,16 +87,22 @@ class AttributeModifier extends Modifier
      */
     private $attributeFloat = [];
 
+    /**
+     * @param DatabaseInterface $database
+     * @param string $activeSnippet
+     * @param array $attributeInt
+     * @param array $attributeFloat
+     */
     public function __construct(
         DatabaseInterface $database,
         $activeSnippet,
-        array $attributeInt,
-        array $attributeFloat
+        $attributeInt,
+        $attributeFloat
     ) {
         $this->database       = $database;
         $this->activeSnippet  = $activeSnippet;
-        $this->attributeInt   = array_unique($attributeInt);
-        $this->attributeFloat = array_unique($attributeFloat);
+        $this->attributeInt   = array_unique((array) $attributeInt);
+        $this->attributeFloat = array_unique((array) $attributeFloat);
     }
 
     /**

@@ -9,11 +9,13 @@
  * @link    http://www.marmalade.de
  */
 
+use Makaira\Connect\Database\DoctrineDatabase;
 use Makaira\Connect\Exception as ConnectException;
 use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\Connect\RecommendationHandler;
 use Makaira\Constraints;
 use Makaira\RecommendationQuery;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 
 class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
 {
@@ -97,9 +99,9 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
      */
     protected function fetchFromMakaira($recommendationType, $recommendationId, $productId, $count = 50)
     {
-        $dic = oxRegistry::get('yamm_dic');
+        $container = ContainerFactory::getInstance()->getContainer();
         /** @var RecommendationHandler $handler */
-        $handler = $dic['makaira.connect.recommendationhandler'];
+        $handler = $container->get(RecommendationHandler::class);
 
         $query                   = new RecommendationQuery();
         $query->recommendationId = $recommendationId;
@@ -327,8 +329,8 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
-            $dic      = oxRegistry::get('yamm_dic');
-            $db       = $dic['oxid.database'];
+            $container = ContainerFactory::getInstance()->getContainer();
+            $db       = $container->get(DoctrineDatabase::class);
             $catIds   = $db->getColumn(
                 'SELECT c2.OXID FROM oxcategories c1
                 LEFT JOIN oxcategories c2 ON c1.OXROOTID = c2.OXROOTID

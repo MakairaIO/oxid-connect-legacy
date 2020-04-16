@@ -9,6 +9,8 @@
  */
 
 use Makaira\Connect\Utils\TokenGenerator;
+use Makaira\Connect\Repository\UserRepository;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 
 /**
  * Class makaira_connect_single_sign_on
@@ -21,17 +23,15 @@ class makaira_connect_single_sign_on extends oxAdminDetails
     {
         parent::render();
 
-        /** @var \Marm\Yamm\DIC $dic */
-        $dic = oxRegistry::get('yamm_dic');
-
+        $container = ContainerFactory::getInstance()->getContainer();
         /** @var TokenGenerator $tokenGenerator */
-        $tokenGenerator = $dic['makaira.connect.utils.tokengenerator'];
+        $tokenGenerator = $container->get(TokenGenerator::class);
 
         $token = $tokenGenerator->generate();
         $userId = $this->getUser()->getId();
 
-        /** @var \Makaira\Connect\Repository\UserRepository $repository */
-        $repository = $dic['makaira.connect.repository.user'];
+        /** @var UserRepository $repository */
+        $repository = $container->get(UserRepository::class);
 
         $repository->addUserToken($userId, $token, self::TOKEN_VALIDITY);
 

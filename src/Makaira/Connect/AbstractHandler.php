@@ -40,7 +40,7 @@ abstract class AbstractHandler
     public function __construct(HttpClient $httpClient, $url, $instance)
     {
         $this->httpClient = $httpClient;
-        $this->url        = rtrim($url, '/') . '/';
+        $this->url        = $url ? rtrim($url, '/') . '/' : null;
         $this->instance   = $instance;
     }
 }

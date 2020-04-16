@@ -4,17 +4,17 @@ namespace Makaira\Connect\Repository;
 
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
+use Makaira\Connect\Event\ModifierCollectEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ModifierList
 {
     /** @var Modifier[] */
     private $modifiers = [];
 
-    public function __construct(array $modifiers = array())
+    public function __construct(string $tag, EventDispatcherInterface $dispatcher)
     {
-        foreach ($modifiers as $modifier) {
-            $this->addModifier($modifier);
-        }
+        $dispatcher->dispatch($tag, new ModifierCollectEvent($this));
     }
 
     /**

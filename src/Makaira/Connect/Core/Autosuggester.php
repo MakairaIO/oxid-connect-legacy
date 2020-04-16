@@ -8,6 +8,9 @@
  * Author URI: http://www.marmalade.de
  */
 
+namespace Makaira\Connect\Core;
+
+use OxidEsales\Eshop\Core\Language;
 use Makaira\Connect\SearchHandler;
 use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Constraints;
@@ -16,16 +19,28 @@ use Makaira\Query;
 /**
  * Class makaira_connect_autosuggester
  */
-class makaira_connect_autosuggester
+class Autosuggester
 {
     /**
-     * @var oxLang
+     * @var Language
      */
     private $oxLang;
 
-    public function __construct(oxLang $oxLang)
+    /**
+     * @var OperationalIntelligence
+     */
+    private $operationalIntelligence;
+
+    /**
+     * @var SearchHandler
+     */
+    private $searchHandler;
+
+    public function __construct(Language $oxLang, OperationalIntelligence $operationalIntelligence, SearchHandler $searchHandler)
     {
         $this->oxLang = $oxLang;
+        $this->operationalIntelligence = $operationalIntelligence;
+        $this->searchHandler = $searchHandler;
     }
 
     /**
@@ -115,20 +130,14 @@ class makaira_connect_autosuggester
             ];
         }
 
-        $dic = oxRegistry::get('yamm_dic');
-
-        /** @var OperationalIntelligence $operationalIntelligence */
-        $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
-        $operationalIntelligence->apply($query);
+        $this->operationalIntelligence->apply($query);
 
         // Hook for request modification
         $this->modifyRequest($query);
 
-        /** @var SearchHandler $searchHandler */
-        $searchHandler = $dic['makaira.connect.searchhandler'];
         $debugTrace = $oxConfig->getRequestParameter("mak_debug");
 
-        $result = $searchHandler->search($query, $debugTrace);
+        $result = $this->searchHandler->search($query, $debugTrace);
 
         if ('odoscope' === $personalizationType && isset($this->result['personalization']['oscCookie'])) {
             $cookieValue = $this->result['personalization']['oscCookie'];

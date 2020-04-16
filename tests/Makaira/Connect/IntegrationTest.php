@@ -2,6 +2,8 @@
 
 namespace Makaira\Connect;
 
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+
 if (!class_exists('oxDb')) {
     require_once __DIR__ . '/OxidMocks/oxDb.php';
 }
@@ -18,9 +20,6 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
     protected function getContainer()
     {
-        $dic = new \Marm\Yamm\DIC();
-        require __DIR__ . '/../../../dic.php';
-
-        return $dic;
+        return ContainerFactory::getInstance()->getContainer();
     }
 }

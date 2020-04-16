@@ -17,9 +17,12 @@ class BlacklistModifier extends Modifier
 {
     private $blacklistedFields =  [];
 
-    public function __construct(array $blacklistedFields = [])
+    /**
+     * @param array $blacklistedFields
+     */
+    public function __construct($blacklistedFields = [])
     {
-        $this->blacklistedFields = $blacklistedFields;
+        $this->blacklistedFields = (array) $blacklistedFields;
     }
 
     /**

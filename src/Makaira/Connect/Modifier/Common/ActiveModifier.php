@@ -2,6 +2,7 @@
 
 namespace Makaira\Connect\Modifier\Common;
 
+use Makaira\Connect\DatabaseInterface;
 use Makaira\Connect\Modifier;
 use Makaira\Connect\Type;
 use Makaira\Connect\Type\Product\Product;
@@ -10,7 +11,7 @@ class ActiveModifier extends Modifier
 {
     private $database;
 
-    public function __construct($database)
+    public function __construct(DatabaseInterface $database)
     {
         $this->database = $database;
     }

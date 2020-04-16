@@ -15,6 +15,7 @@ use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Constraints;
 use Makaira\Query;
 use Makaira\Result;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 
 /**
  * Class makaira_connect_request_handler
@@ -63,16 +64,17 @@ class makaira_connect_request_handler
         global $odoscopeTracking;
         $odoscopeTracking = false;
 
-        $dic = oxRegistry::get('yamm_dic');
+        $container = ContainerFactory::getInstance()->getContainer();
 
         /** @var OperationalIntelligence $operationalIntelligence */
-        $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
+        $operationalIntelligence = $container->get(OperationalIntelligence::class);
         $operationalIntelligence->apply($query);
 
         $unmodifiedQuery = clone($query);
 
         /** @var CategoryInheritance $categoryInheritance */
-        $categoryInheritance = $dic['makaira.connect.category_inheritance'];
+        $categoryInheritance = $container->get(CategoryInheritance::class);
+
         $categoryInheritance->applyToAggregation($query);
 
         $personalizationType = null;
@@ -140,7 +142,7 @@ class makaira_connect_request_handler
         $this->modifyRequest($query);
 
         /** @var SearchHandler $searchHandler */
-        $searchHandler = $dic['makaira.connect.searchhandler'];
+        $searchHandler = $container->get(SearchHandler::class);
         $debugTrace    = oxRegistry::getConfig()->getRequestParameter("mak_debug");
 
         $this->result = $searchHandler->search($query, $debugTrace);
@@ -211,9 +213,9 @@ class makaira_connect_request_handler
     public function getProductCount(Query $query)
     {
         if (!isset($this->result)) {
-            $dic = oxRegistry::get('yamm_dic');
+            $container = ContainerFactory::getInstance()->getContainer();
             /** @var SearchHandler $searchHandler */
-            $searchHandler = $dic['makaira.connect.searchhandler'];
+            $searchHandler = $container->get(SearchHandler::class);
 
             $this->result = $searchHandler->search($query);
         }
