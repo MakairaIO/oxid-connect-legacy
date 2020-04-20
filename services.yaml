@@ -1,20 +1,25 @@
 
 services:
-  _defaults:
-    autowire: true
-    public: false
-    bind:
-      $oxLang: '@makaira.connect.oxid.language'
+  # _defaults:
+  #   autowire: true
+  #   public: false
+  #   bind:
+  #     $oxLang: '@makaira.connect.oxid.language'
 
   # oxid.database
   Makaira\Connect\Database\DoctrineDatabase:
     class: Makaira\Connect\Database\DoctrineDatabase
     public: true
+    autowire: false
+    arguments:
+      $database: '@Doctrine\DBAL\Connection'
+      $translator: '@Makaira\Connect\Utils\TableTranslator'
 
   # oxid.table_translator
   Makaira\Connect\Utils\TableTranslator:
     class: Makaira\Connect\Utils\TableTranslator
     public: true
+    autowire: true
     arguments:
       - ['oxarticles', 'oxartextends', 'oxattribute', 'oxcategories', 'oxmanufacturers', 'oxobject2attribute']
 
@@ -22,7 +27,9 @@ services:
   # makaira.content_parser
   Makaira\Connect\Utils\OxidSmartyParser:
     class: Makaira\Connect\Utils\OxidSmartyParser
+    public: false
     arguments:
+      $oxLang: '@makaira.connect.oxid.language'
       $oxUtilsView: '@makaira.connect.oxid.utils_view'
 
   # oxid.language
@@ -68,12 +75,16 @@ services:
   # makaira.connect.http_client
   Makaira\HttpClient\Signing:
     class: Makaira\HttpClient\Signing
+    autowire: false
+    public: false
     arguments:
       $aggregate: '@Makaira\HttpClient\Curl'
       $sharedSecret: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_connect_secret', null, 'module:makaira/connect')"
 
   Makaira\HttpClient\Curl:
     class: Makaira\HttpClient\Curl
+    autowire: true
+    public: false
     arguments:
       $timeout: "@=service('makaira.connect.oxid.config').getConfigParam('makairaConnectTimeout', 2)"
 
@@ -81,12 +92,15 @@ services:
   Makaira\Connect\Utils\BoostFields:
     class: Makaira\Connect\Utils\BoostFields
     public: true
+    autowire: true
 
   # makaira.connect.category_inheritance
   Makaira\Connect\Utils\CategoryInheritance:
     class: Makaira\Connect\Utils\CategoryInheritance
     public: true
+    autowire: false
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $useCategoryInheritance: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_connect_category_inheritance', null, 'module:makaira/connect')"
       $categoryAggregationId: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_connect_categorytree_id', null, 'module:makaira/connect')"
 
@@ -94,11 +108,15 @@ services:
   Makaira\Connect\Core\Autosuggester:
     class: Makaira\Connect\Core\Autosuggester
     public: true
+    autowire: true
+    arguments:
+      $oxLang: '@makaira.connect.oxid.language'
 
   # makaira.connect.searchhandler
   Makaira\Connect\SearchHandler:
     class: Makaira\Connect\SearchHandler
     public: true
+    autowire: false
     arguments:
       $httpClient: '@Makaira\HttpClient\Signing'
       $url: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_application_url', null, 'module:makaira/connect')"
@@ -108,11 +126,13 @@ services:
   Makaira\Connect\Utils\TokenGenerator:
     class: Makaira\Connect\Utils\TokenGenerator
     public: true
+    autowire: true
 
   # makaira.connect.recommendationhandler
   Makaira\Connect\RecommendationHandler:
     class: Makaira\Connect\RecommendationHandler
     public: true
+    autowire: false
     arguments:
       $httpClient: '@Makaira\HttpClient\Signing'
       $url: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_application_url', null, 'module:makaira/connect')"
@@ -122,18 +142,21 @@ services:
   Makaira\Connect\Utils\OperationalIntelligence:
     class: Makaira\Connect\Utils\OperationalIntelligence
     public: true
+    autowire: true
     arguments:
       $utilsServer: '@makaira.connect.oxid.utils_server'
 
   Makaira\Connect\Command\TouchAllCommand:
     class: Makaira\Connect\Command\TouchAllCommand
     public: true
+    autowire: true
     tags:
     - { name: 'console.command' }
 
   Makaira\Connect\Command\CleanupCommand:
     class: Makaira\Connect\Command\CleanupCommand
     public: true
+    autowire: true
     tags:
     - { name: 'console.command' }
 
@@ -141,29 +164,39 @@ services:
   Makaira\Connect\Repository:
     class: Makaira\Connect\Repository
     public: true
+    autowire: true
 
   # makaira.connect.repository.user
   Makaira\Connect\Repository\UserRepository:
     class: Makaira\Connect\Repository\UserRepository
     public: true
+    autowire: true
 
   makaira.connect.modifiers.common.product2shop:
     class: Makaira\Connect\Modifier\Common\ShopModifier
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $isMultiShop: "@=service('makaira.connect.oxid.config').isMall()"
       $mappingTable: 'oxarticles2shop'
+    autowire: false
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.boost_field:
     class: Makaira\Connect\Modifier\Product\BoostFieldModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.category2shop:
     class: Makaira\Connect\Modifier\Common\ShopModifier
+    autowire: false
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $isMultiShop: "@=service('makaira.connect.oxid.config').isMall()"
       $mappingTable: 'oxcategories2shop'
     tags:
@@ -171,7 +204,10 @@ services:
 
   makaira.connect.modifiers.common.manufacturer2shop:
     class: Makaira\Connect\Modifier\Common\ShopModifier
+    autowire: false
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $isMultiShop: "@=service('makaira.connect.oxid.config').isMall()"
       $mappingTable: 'oxmanufacturers2shop'
     tags:
@@ -179,7 +215,10 @@ services:
 
   makaira.connect.modifiers.common.attribute:
     class: Makaira\Connect\Modifier\Common\AttributeModifier
+    autowire: false
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $activeSnippet: "@=service('makaira.connect.oxid.article').getSqlActiveSnippet(true)"
       $attributeInt: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_int', null, 'module:makaira/connect')"
       $attributeFloat: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_float', null, 'module:makaira/connect')"
@@ -189,7 +228,10 @@ services:
 
   makaira.connect.modifiers.product.variant.attributes:
     class: Makaira\Connect\Modifier\Product\VariantAttributesModifier
+    autowire: false
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $activeSnippet: "@=service('makaira.connect.oxid.article').getSqlActiveSnippet(true)"
       $attributeInt: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_int', null, 'module:makaira/connect')"
       $attributeFloat: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_float', null, 'module:makaira/connect')"
@@ -198,6 +240,8 @@ services:
 
   makaira.connect.modifiers.common.vat:
     class: Makaira\Connect\Modifier\Common\PriceModifier
+    autowire: false
+    public: true
     arguments:
       $isNetto: "@=service('makaira.connect.oxid.config').getConfigParam('blEnterNetPrice')"
       $showNetto: "@=service('makaira.connect.oxid.config').getConfigParam('blShowNetPrice')"
@@ -208,6 +252,8 @@ services:
 
   makaira.connect.modifiers.common.active:
     class: Makaira\Connect\Modifier\Common\ActiveModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
@@ -216,12 +262,16 @@ services:
 
   makaira.connect.modifiers.common.stock:
     class: Makaira\Connect\Modifier\Common\StockModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.longdescription:
     class: Makaira\Connect\Modifier\Common\LongDescriptionModifier
+    autowire: false
+    public: true
     arguments:
       $contentParser: '@Makaira\Connect\Utils\OxidSmartyParser'
       $parseThroughSmarty: "@=service('makaira.connect.oxid.config').getShopConfVar('bl_perfParseLongDescinSmarty', null, 'module:makaira/connect')"
@@ -231,6 +281,8 @@ services:
 
   makaira.connect.modifiers.common.zerodatetime:
     class: Makaira\Connect\Modifier\Common\ZeroDateTimeModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
@@ -238,30 +290,41 @@ services:
 
   makaira.connect.modifiers.category.url:
     class: Makaira\Connect\Modifier\Common\UrlModifier
+    autowire: false
+    public: true
     arguments:
       $objectClass: OxidEsales\Eshop\Application\Model\Category
       $encoder: '@makaira.connect.oxid.seo_encoder_category'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.manufacturer.url:
     class: Makaira\Connect\Modifier\Common\UrlModifier
+    autowire: false
+    public: true
     arguments:
       $objectClass: OxidEsales\Eshop\Application\Model\Manufacturer
       $encoder: '@makaira.connect.oxid.seo_encoder_manufacturer'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.manufacturer', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.url:
     class: Makaira\Connect\Modifier\Common\UrlModifier
+    autowire: false
+    public: true
     arguments:
       $objectClass: OxidEsales\Eshop\Application\Model\Article
       $encoder: '@makaira.connect.oxid.seo_encoder_article'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.blacklist.product:
     class: Makaira\Connect\Modifier\Common\BlacklistModifier
+    autowire: true
+    public: true
     arguments:
       $blacklistedFields: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_field_blacklist_product', null, 'module:makaira/connect')"
     tags:
@@ -270,6 +333,8 @@ services:
 
   makaira.connect.modifiers.common.blacklist.category:
     class: Makaira\Connect\Modifier\Common\BlacklistModifier
+    autowire: true
+    public: true
     arguments:
       $blacklistedFields: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_field_blacklist_category', null, 'module:makaira/connect')"
     tags:
@@ -277,6 +342,8 @@ services:
 
   makaira.connect.modifiers.common.blacklist.manufacturer:
     class: Makaira\Connect\Modifier\Common\BlacklistModifier
+    autowire: true
+    public: true
     arguments:
       $blacklistedFields: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_field_blacklist_manufacturer', null, 'module:makaira/connect')"
     tags:
@@ -284,28 +351,39 @@ services:
 
   makaira.connect.modifiers.product.category:
     class: Makaira\Connect\Modifier\Product\CategoryModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.mainCategory:
     class: Makaira\Connect\Modifier\Product\MainCategoryModifier
+    autowire: false
+    public: true
     arguments:
       $encoder: '@makaira.connect.oxid.seo_encoder_category'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.category.hierarchy:
     class: Makaira\Connect\Modifier\Category\HierarchyModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.category.subcategories:
     class: Makaira\Connect\Modifier\Category\SubcategoriesModifier
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.default.values:
     class: Makaira\Connect\Modifier\Common\DefaultProperties
+    autowire: true
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 9999, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 9999, method: addModifier }
@@ -316,6 +394,7 @@ services:
   Makaira\Connect\Repository\ProductRepository:
     class: Makaira\Connect\Repository\ProductRepository
     public: true
+    autowire: false
     arguments:
       $modifiers: '@makaira.connect.repository.product.mofifier_list'
     tags:
@@ -323,13 +402,17 @@ services:
 
   makaira.connect.repository.product.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    autowire: false
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.product'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.variant
   Makaira\Connect\Repository\VariantRepository:
     class: Makaira\Connect\Repository\VariantRepository
     public: true
+    autowire: false
     arguments:
       $modifiers: '@makaira.connect.repository.variant.mofifier_list'
     tags:
@@ -337,13 +420,17 @@ services:
 
   makaira.connect.repository.variant.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    autowire: false
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.variant'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.category
   Makaira\Connect\Repository\CategoryRepository:
     class: Makaira\Connect\Repository\CategoryRepository
     public: true
+    autowire: false
     arguments:
       $modifiers: '@makaira.connect.repository.category.mofifier_list'
     tags:
@@ -351,13 +438,17 @@ services:
 
   makaira.connect.repository.category.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    autowire: false
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.category'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.manufacturer
   Makaira\Connect\Repository\ManufacturerRepository:
     class: Makaira\Connect\Repository\ManufacturerRepository
     public: true
+    autowire: false
     arguments:
       $modifiers: '@makaira.connect.repository.manufacturer.mofifier_list'
     tags:
@@ -365,10 +456,14 @@ services:
 
   makaira.connect.repository.manufacturer.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    autowire: false
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.manufacturer'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.version.handler
   Makaira\Connect\VersionHandler:
     class: Makaira\Connect\VersionHandler
     public: true
+    autowire: true

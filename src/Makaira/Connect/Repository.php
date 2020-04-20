@@ -112,7 +112,7 @@ class Repository
     /**
      * @var array
      */
-    private $repositoryMapping;
+    private $repositoryMapping = [];
 
     /**
      * Repository constructor.

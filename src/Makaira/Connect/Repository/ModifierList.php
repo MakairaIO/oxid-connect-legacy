@@ -12,7 +12,7 @@ class ModifierList
     /** @var Modifier[] */
     private $modifiers = [];
 
-    public function __construct(string $tag, EventDispatcherInterface $dispatcher)
+    public function __construct($tag, EventDispatcherInterface $dispatcher)
     {
         $dispatcher->dispatch($tag, new ModifierCollectEvent($this));
     }
