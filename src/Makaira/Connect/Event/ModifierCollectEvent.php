@@ -10,23 +10,25 @@
 
 namespace Makaira\Connect\Event;
 
-use Makaira\Connect\Repository;
-use Makaira\Connect\Repository\AbstractRepository;
+use Makaira\Connect\Modifier;
+use Makaira\Connect\Repository\ModifierList;
 use Symfony\Component\EventDispatcher\Event;
 
-class RepositoryCollectEvent extends Event {
+class ModifierCollectEvent extends Event
+{
 
     /**
-     * @var Repository
+     * @var ModifierList
      */
-    public $repository;
+    public $modifierList;
 
-    function __construct(Repository $repository) {
-        $this->repository = $repository;
+    public function __construct(ModifierList $modifierList)
+    {
+        $this->modifierList = $modifierList;
     }
 
-    public function addRepository(AbstractRepository $repository)
+    public function addModifier(Modifier $modifier)
     {
-        $this->repository->addRepositoryMapping($repository);
+        $this->modifierList->addModifier($modifier);
     }
 }

@@ -14,7 +14,7 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testLoadManufacturer()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new ManufacturerRepository($databaseMock, $modifiersMock);
 
         $databaseMock
@@ -47,7 +47,7 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSetDeletedMarker()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new ManufacturerRepository($databaseMock, $modifiersMock);
 
         $databaseMock
@@ -75,7 +75,7 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testRunModifierLoadManufacturer()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new ManufacturerRepository($databaseMock, $modifiersMock);
 
         $databaseMock
@@ -104,7 +104,7 @@ class ManufacturerRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetAllIds()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new ManufacturerRepository($databaseMock, $modifiersMock);
 
         $databaseMock

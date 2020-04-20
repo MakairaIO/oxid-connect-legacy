@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    autowire: true
+    public: false
+
+  Symfony\Component\EventDispatcher\EventDispatcherInterface:
+    class: Symfony\Component\EventDispatcher\EventDispatcher
+    public: true
+
+  Doctrine\DBAL\Connection:
+    class: Doctrine\DBAL\Connection
+    public: true
+    arguments:
+      $params: []
+      $driver: '@driver'
+
+  driver:
+    class: Doctrine\DBAL\Driver\Mysqli\Driver
+
+  # OxidEsales\Eshop\Core\Registry:
+  #   public: true
+  #   class: oxRegistry # from OxidMocks through tests/bootstrap.php

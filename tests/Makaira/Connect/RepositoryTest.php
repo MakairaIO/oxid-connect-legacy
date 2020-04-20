@@ -34,7 +34,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     /*public function testGetChangesForSingleResult()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
+        $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class, [], [], '', false)]);
         $repository = new Repository($databaseMock, ['product' => $repositoryMock]);
 
         $databaseMock
@@ -97,7 +97,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     /*public function testGetChangesForMultipleResults()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
+        $repositoryMock = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class, [], [], '', false)]);
         $repository = new Repository($databaseMock, [
             'firstRepo' => $repositoryMock,
             'secondRepo' => $repositoryMock,
@@ -155,7 +155,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testTouchExecutesQuery()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $repository = new Repository($databaseMock);
+        $repository = new Repository($databaseMock, new \Symfony\Component\EventDispatcher\EventDispatcher());
 
         $databaseMock
             ->expects($this->any())
@@ -177,14 +177,17 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 2]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]]
                 );
-        $repositoryMock1 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
+        $repositoryMock1 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class, [], [], '', false)]);
+        $repositoryMock1
+            ->expects($this->once())
+            ->method('getType')
+            ->willReturn('firstRepo');
         $repositoryMock1
             ->expects($this->once())
             ->method('getAllIds')
             ->will($this->returnValue([1,2,3]));
-        $repository = new Repository($databaseMock, [
-            'firstRepo' => $repositoryMock1,
-        ]);
+        $repository = new Repository($databaseMock, new \Symfony\Component\EventDispatcher\EventDispatcher());
+        $repository->addRepositoryMapping($repositoryMock1);
         $repository->touchAll();
     }
 
@@ -201,20 +204,27 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 [$this->stringContains('REPLACE INTO'), ['type' => 'firstRepo', 'id' => 3]],
                 [$this->stringContains('REPLACE INTO'), ['type' => 'secondRepo', 'id' => 4]]
             );
-        $repositoryMock1 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
+        $repositoryMock1 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class, [], [], '', false)]);
+        $repositoryMock1
+            ->expects($this->once())
+            ->method('getType')
+            ->willReturn('firstRepo');
         $repositoryMock1
             ->expects($this->once())
             ->method('getAllIds')
             ->will($this->returnValue([1,2,3]));
-        $repositoryMock2 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class)]);
+        $repositoryMock2 = $this->getMock(AbstractRepository::class, [], [$databaseMock, $this->getMock(ModifierList::class, [], [], '', false)]);
+        $repositoryMock2
+            ->expects($this->once())
+            ->method('getType')
+            ->willReturn('secondRepo');
         $repositoryMock2
             ->expects($this->once())
             ->method('getAllIds')
             ->will($this->returnValue([4]));
-        $repository = new Repository($databaseMock, [
-            'firstRepo' => $repositoryMock1,
-            'secondRepo' => $repositoryMock2,
-        ]);
+        $repository = new Repository($databaseMock, new \Symfony\Component\EventDispatcher\EventDispatcher());
+        $repository->addRepositoryMapping($repositoryMock1);
+        $repository->addRepositoryMapping($repositoryMock2);
         $repository->touchAll();
     }
 }

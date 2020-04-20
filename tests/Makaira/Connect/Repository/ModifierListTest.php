@@ -18,7 +18,8 @@ class ModifierListTest extends \PHPUnit_Framework_TestCase
             ->with($type)
             ->will($this->returnValue($type));
 
-        $modifierList = new ModifierList([$modifier]);
+        $modifierList = new ModifierList('match-no-tag', new \Symfony\Component\EventDispatcher\EventDispatcher());
+        $modifierList->addModifier($modifier);
         $result = $modifierList->applyModifiers($type, 'product');
 
         $this->assertSame($type, $result);

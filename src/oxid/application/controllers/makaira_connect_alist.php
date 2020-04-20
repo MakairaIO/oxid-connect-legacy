@@ -3,6 +3,7 @@
 use Makaira\Constraints;
 use Makaira\Query;
 use Makaira\Connect\Exception as ConnectException;
+use Makaira\Connect\Utils\CategoryInheritance;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 
 /**

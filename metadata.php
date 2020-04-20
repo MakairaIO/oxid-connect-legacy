@@ -276,6 +276,10 @@ $aModule = [
     ],
 ];
 
-if (\OxidEsales\Eshop\Core\Registry::getConfig()->getEdition() === 'EE') {
+// if (!class_exists('OxidEsales\Eshop\Core\Registry')) {
+//     include __DIR__ . '/../../autoload.php';
+// }
+
+if (true || \OxidEsales\Eshop\Core\Registry::getConfig()->getEdition() === 'EE') { // TODO: fixme
     $aModule['extend']['oxcache'] = 'makaira/connect/src/oxid/core/makaira_connect_oxcache';
 }

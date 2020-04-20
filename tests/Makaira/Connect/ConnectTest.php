@@ -14,9 +14,12 @@ class ConnectTest extends IntegrationTest
     public function testGetProductRepositoryWithModifierConfiguration()
     {
         $container = $this->getContainer();
+        // $e = $container->get('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        // var_dump($e); die;
+
         $this->assertInstanceOf(
             ProductRepository::class,
-            $container['makaira.connect.repository.product']
+            $container->get(ProductRepository::class)
         );
     }
 
@@ -25,7 +28,7 @@ class ConnectTest extends IntegrationTest
         $container = $this->getContainer();
         $this->assertInstanceOf(
             VariantRepository::class,
-            $container['makaira.connect.repository.variant']
+            $container->get(VariantRepository::class)
         );
     }
 
@@ -34,7 +37,7 @@ class ConnectTest extends IntegrationTest
         $container = $this->getContainer();
         $this->assertInstanceOf(
             CategoryRepository::class,
-            $container['makaira.connect.repository.category']
+            $container->get(CategoryRepository::class)
         );
     }
 }

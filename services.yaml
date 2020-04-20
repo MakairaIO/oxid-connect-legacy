@@ -98,6 +98,7 @@ services:
   # makaira.connect.searchhandler
   Makaira\Connect\SearchHandler:
     class: Makaira\Connect\SearchHandler
+    public: true
     arguments:
       $httpClient: '@Makaira\HttpClient\Signing'
       $url: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_application_url', null, 'module:makaira/connect')"
@@ -284,7 +285,7 @@ services:
   makaira.connect.modifiers.product.category:
     class: Makaira\Connect\Modifier\Product\CategoryModifier
     tags:
-      - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
+      - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.mainCategory:
     class: Makaira\Connect\Modifier\Product\MainCategoryModifier

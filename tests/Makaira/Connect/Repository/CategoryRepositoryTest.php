@@ -15,7 +15,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testLoadCategory()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock
@@ -48,7 +48,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSetDeletedMarker()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock
@@ -76,7 +76,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testRunModifierLoadCategory()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock
@@ -105,7 +105,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetAllIds()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $modifiersMock = $this->getMock(ModifierList::class);
+        $modifiersMock = $this->getMock(ModifierList::class, [], [], '', false);
         $repository = new CategoryRepository($databaseMock, $modifiersMock);
 
         $databaseMock

@@ -5,7 +5,11 @@
     "phpunit/phpunit": "^4.0",
     "pdepend/pdepend": "@stable",
     "phpmd/phpmd": "@stable",
-    "squizlabs/php_codesniffer": "@stable"
+    "squizlabs/php_codesniffer": "@stable",
+    "doctrine/dbal": "^2",
+    "symfony/dependency-injection": "^3.4",
+    "symfony/expression-language": "^3.4",
+    "symfony/event-dispatcher": "^3.4"
   },
   "autoload": {
     "classmap": ["src/"],

@@ -1,9 +1,9 @@
-types:
+stages:
   - test
   - build
 
 execute_tests:
-  type: test
+  stage: test
   script:
     - php /usr/local/bin/composer install
     - php vendor/bin/phpunit --coverage-text
@@ -11,7 +11,7 @@ execute_tests:
     - php vendor/bin/phpmd src/Makaira/ text codesize,design
 
 execute_build:
-  type: build
+  stage: build
   only:
     - tags
   script:

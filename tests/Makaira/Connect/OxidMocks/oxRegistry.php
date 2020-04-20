@@ -20,6 +20,11 @@ class oxSeoEncoder
 {
 }
 
+class oxUtilsServer
+{
+
+}
+
 class oxConfig
 {
     const OXMODULE_MODULE_PREFIX = null;
@@ -68,5 +73,10 @@ class oxRegistry
     public static function getConfig()
     {
         return new oxConfig();
+    }
+
+    public static function getUtilsServer()
+    {
+        return new oxUtilsServer();
     }
 }

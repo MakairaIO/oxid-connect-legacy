@@ -69,7 +69,7 @@ abstract class AbstractRepository
         );
     }
 
-    abstract protected function getType();
+    abstract public function getType();
 
     abstract protected function getInstance($id);
 

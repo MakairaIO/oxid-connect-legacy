@@ -36,8 +36,11 @@ class Autosuggester
      */
     private $searchHandler;
 
-    public function __construct(Language $oxLang, OperationalIntelligence $operationalIntelligence, SearchHandler $searchHandler)
-    {
+    public function __construct(
+        Language $oxLang,
+        OperationalIntelligence $operationalIntelligence,
+        SearchHandler $searchHandler
+    ) {
         $this->oxLang = $oxLang;
         $this->operationalIntelligence = $operationalIntelligence;
         $this->searchHandler = $searchHandler;
@@ -49,6 +52,9 @@ class Autosuggester
      * @param string $searchPhrase
      *
      * @return array
+     * @SuppressWarnings(CyclomaticComplexity)
+     * @SuppressWarnings(NPathComplexity)
+     * @SuppressWarnings(ExcessiveMethodLength)
      */
     public function search($searchPhrase = "")
     {
@@ -59,21 +65,21 @@ class Autosuggester
         $query->count              = 7;
         $query->fields             = $this->getFieldsForResults();
 
-        $oxConfig = oxRegistry::getConfig();
+        $oxConfig = \oxRegistry::getConfig();
 
         $query->constraints = array_filter(
             [
                 Constraints::SHOP      => $oxConfig->getShopId(),
-                Constraints::LANGUAGE  => oxRegistry::getLang()->getLanguageAbbr(),
+                Constraints::LANGUAGE  => \oxRegistry::getLang()->getLanguageAbbr(),
                 Constraints::USE_STOCK => $oxConfig->getShopConfVar('blUseStock'),
             ]
         );
 
         $personalizationType = null;
-        if (oxRegistry::getConfig()->getShopConfVar(
+        if (\oxRegistry::getConfig()->getShopConfVar(
             'makaira_connect_use_econda',
             null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            \oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
             if (isset($_COOKIE['mak_econda_session'])) {
                 $personalizationType                                     = 'econda';
@@ -81,23 +87,23 @@ class Autosuggester
                 $econdaData                                              = json_decode($_COOKIE['mak_econda_session']);
                 $query->constraints[ Constraints::PERSONALIZATION_DATA ] = $econdaData;
             }
-        } elseif (oxRegistry::getConfig()->getShopConfVar(
+        } elseif (\oxRegistry::getConfig()->getShopConfVar(
             'makaira_connect_use_odoscope',
             null,
-            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            \oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
             $personalizationType                                     = 'odoscope';
             $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
 
-            $token  = oxRegistry::getConfig()->getShopConfVar(
+            $token  = \oxRegistry::getConfig()->getShopConfVar(
                 'makaira_connect_odoscope_token',
                 null,
-                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+                \oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
             );
-            $siteId = oxRegistry::getConfig()->getShopConfVar(
+            $siteId = \oxRegistry::getConfig()->getShopConfVar(
                 'makaira_connect_odoscope_siteid',
                 null,
-                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+                \oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
             );
 
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -141,10 +147,10 @@ class Autosuggester
 
         if ('odoscope' === $personalizationType && isset($this->result['personalization']['oscCookie'])) {
             $cookieValue = $this->result['personalization']['oscCookie'];
-            oxRegistry::get('oxutilsserver')->setOxCookie(
+            \oxRegistry::get('oxutilsserver')->setOxCookie(
                 "osc-{$token}",
                 $cookieValue,
-                oxRegistry::get("oxutilsdate")->getTime() + 86400
+                \oxRegistry::get("oxutilsdate")->getTime() + 86400
             );
         }
 
@@ -220,7 +226,7 @@ class Autosuggester
     protected function loadProductItem($doc)
     {
         /** @var \oxArticle */
-        $product = oxNew('oxarticle');
+        $product = \oxNew('oxarticle');
 
         if (!$product->load($doc->id)) {
             return [];
@@ -235,7 +241,7 @@ class Autosuggester
             return [];
         }
 
-        $category = oxNew('oxcategory');
+        $category = \oxNew('oxcategory');
 
         if (!$category->load($doc->id)) {
             return [];
@@ -253,7 +259,7 @@ class Autosuggester
             return [];
         }
 
-        $manufacturer = oxNew('oxmanufacturer');
+        $manufacturer = \oxNew('oxmanufacturer');
 
         if (!$manufacturer->load($doc->id)) {
             return [];
