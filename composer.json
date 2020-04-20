@@ -32,5 +32,10 @@
       ],
       "target-directory": "makaira/connect"
     }
+  },
+  "config": {
+    "platform": {
+        "php": "7.1.7"
+    }
   }
 }
