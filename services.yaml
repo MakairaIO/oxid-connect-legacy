@@ -319,7 +319,7 @@ services:
     arguments:
       $modifiers: '@makaira.connect.repository.product.mofifier_list'
     tags:
-    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', method: 'addRepository' }
+    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 1000, method: 'addRepository' }
 
   makaira.connect.repository.product.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
@@ -333,7 +333,7 @@ services:
     arguments:
       $modifiers: '@makaira.connect.repository.variant.mofifier_list'
     tags:
-    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', method: 'addRepository' }
+    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 990, method: 'addRepository' }
 
   makaira.connect.repository.variant.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
@@ -347,7 +347,7 @@ services:
     arguments:
       $modifiers: '@makaira.connect.repository.category.mofifier_list'
     tags:
-    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', method: 'addRepository' }
+    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 980, method: 'addRepository' }
 
   makaira.connect.repository.category.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
@@ -361,7 +361,7 @@ services:
     arguments:
       $modifiers: '@makaira.connect.repository.manufacturer.mofifier_list'
     tags:
-    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', method: 'addRepository' }
+    - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 970, method: 'addRepository' }
 
   makaira.connect.repository.manufacturer.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList

@@ -1,6 +1,13 @@
 Makaira Connect CHANGELOG
 =========================
 
+version 2.0.0
+-------------
+
+- Using Oxid/Symfony DI
+- Register Modifier through events (see services.yaml)
+
+
 version 1.0.0
 -------------
 Initial release

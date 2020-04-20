@@ -276,10 +276,15 @@ $aModule = [
     ],
 ];
 
-// if (!class_exists('OxidEsales\Eshop\Core\Registry')) {
-//     include __DIR__ . '/../../autoload.php';
-// }
+$isEE = false;
+if (class_exists('OxidEsales\Facts\Facts')) {
+    $isEE = \OxidEsales\Facts\Facts::getEdition() === 'EE';
+} elseif (class_exists('OxidEsales\Eshop\Core\Registry')) {
+    $isEE = \OxidEsales\Eshop\Core\Registry::getConfig()->getEdition() === 'EE';
+} elseif (class_exists('oxRegistry')) {
+    $isEE = oxRegistry::getConfig()->getEdition() === 'EE';
+}
 
-if (true || \OxidEsales\Eshop\Core\Registry::getConfig()->getEdition() === 'EE') { // TODO: fixme
+if ($isEE) {
     $aModule['extend']['oxcache'] = 'makaira/connect/src/oxid/core/makaira_connect_oxcache';
 }
