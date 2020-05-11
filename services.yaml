@@ -34,11 +34,6 @@ services:
     factory: ['OxidEsales\Eshop\Core\Registry', 'getLang']
     public: true
 
-  # oxid.language
-  makaira.connect.oxid.utils_server:
-    class: OxidEsales\Eshop\Core\UtilsServer
-    factory: ['OxidEsales\Eshop\Core\Registry', 'getUtilsServer']
-
   makaira.connect.oxid.article:
     class: OxidEsales\Eshop\Application\Model\Article
     factory: ['OxidEsales\Eshop\Core\Registry', 'get']
@@ -134,7 +129,12 @@ services:
     class: Makaira\Connect\Utils\OperationalIntelligence
     public: true
     arguments:
-      $utilsServer: '@makaira.connect.oxid.utils_server'
+      $cookieUtils: '@makaira_cookie_utils'
+
+  makaira_cookie_utils:
+    class: makaira_cookie_utils
+    factory: ['OxidEsales\Eshop\Core\Registry', 'get']
+    arguments: ['makaira_cookie_utils']
 
   Makaira\Connect\Command\TouchAllCommand:
     class: Makaira\Connect\Command\TouchAllCommand

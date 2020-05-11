@@ -38,6 +38,8 @@ class makaira_connect_events
         // Oxid 6 compatibility
         self::addOxTagsToOxArtExtends();
 
+        self::migrateTrackingSettings();
+
         $oDbHandler = oxNew("oxDbMetaDataHandler");
         $oDbHandler->updateViews();
     }
@@ -50,6 +52,31 @@ class makaira_connect_events
         self::cleanupTplBlocks();
     }
 
+    private static function migrateTrackingSettings()
+    {
+        $oxidConfig  = oxRegistry::getConfig();
+        $oldSiteId = $oxidConfig->getShopConfVar(
+            'makaira_tracking_page_id',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/tracking'
+        );
+
+        $newSiteId = $oxidConfig->getShopConfVar(
+            'makaira_tracking_page_id',
+            null,
+            oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+        );
+
+        if ($oldSiteId && !$newSiteId) {
+            $oxidConfig->saveShopConfVar(
+                'str',
+                'makaira_tracking_page_id',
+                $oldSiteId,
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+        }
+    }
     /**
      * Add new table to configurate landing pages
      */

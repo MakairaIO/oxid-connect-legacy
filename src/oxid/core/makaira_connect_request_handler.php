@@ -61,9 +61,6 @@ class makaira_connect_request_handler
 
     public function getProductsFromMakaira(Query $query)
     {
-        global $odoscopeTracking;
-        $odoscopeTracking = false;
-
         $container = Connect::getContainerFactory()->getContainer();
 
         /** @var OperationalIntelligence $operationalIntelligence */
@@ -150,7 +147,7 @@ class makaira_connect_request_handler
         if ('odoscope' === $personalizationType) {
             if (isset($this->result['personalization']['oscCookie'])) {
                 $cookieValue = $this->result['personalization']['oscCookie'];
-                oxRegistry::get('oxutilsserver')->setOxCookie(
+                oxRegistry::get(makaira_cookie_utils::class)->setCookie(
                     "osc-{$token}",
                     $cookieValue,
                     oxRegistry::get("oxutilsdate")->getTime() + 86400
@@ -168,6 +165,10 @@ class makaira_connect_request_handler
             } else {
                 $odoscopeTracking['data'] = $token;
             }
+
+            /** @var makaira_tracking_data_generator $trackingDataGenerator */
+            $trackingDataGenerator = oxRegistry::get(makaira_tracking_data_generator::class);
+            $trackingDataGenerator::setOdoscopeData($odoscopeTracking);
         }
 
         $productResult = $this->result['product'];
