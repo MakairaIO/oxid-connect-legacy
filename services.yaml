@@ -1,15 +1,16 @@
 
 services:
-  _defaults:
-    autowire: true
-    public: false
-    bind:
-      $oxLang: '@makaira.connect.oxid.language'
+  # _defaults: ### DO NOT USE _defaults to be compatible with makaira/connect-compat !
+  #   autowire: false
+  #   public: false
 
   # oxid.database
   Makaira\Connect\Database\DoctrineDatabase:
     class: Makaira\Connect\Database\DoctrineDatabase
     public: true
+    arguments:
+      $database: '@Doctrine\DBAL\Connection'
+      $translator: '@Makaira\Connect\Utils\TableTranslator'
 
   # oxid.table_translator
   Makaira\Connect\Utils\TableTranslator:
@@ -22,7 +23,9 @@ services:
   # makaira.content_parser
   Makaira\Connect\Utils\OxidSmartyParser:
     class: Makaira\Connect\Utils\OxidSmartyParser
+    public: false
     arguments:
+      $oxLang: '@makaira.connect.oxid.language'
       $oxUtilsView: '@makaira.connect.oxid.utils_view'
 
   # oxid.language
@@ -63,7 +66,6 @@ services:
   makaira.connect.oxid.config:
     class: OxidEsales\Eshop\Core\Config
     factory: ['OxidEsales\Eshop\Core\Registry', 'getConfig']
-    # public: true
 
   # makaira.connect.http_client
   Makaira\HttpClient\Signing:
@@ -74,6 +76,7 @@ services:
 
   Makaira\HttpClient\Curl:
     class: Makaira\HttpClient\Curl
+    public: false
     arguments:
       $timeout: "@=service('makaira.connect.oxid.config').getConfigParam('makairaConnectTimeout', 2)"
 
@@ -81,12 +84,15 @@ services:
   Makaira\Connect\Utils\BoostFields:
     class: Makaira\Connect\Utils\BoostFields
     public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
 
   # makaira.connect.category_inheritance
   Makaira\Connect\Utils\CategoryInheritance:
     class: Makaira\Connect\Utils\CategoryInheritance
     public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $useCategoryInheritance: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_connect_category_inheritance', null, 'module:makaira/connect')"
       $categoryAggregationId: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_connect_categorytree_id', null, 'module:makaira/connect')"
 
@@ -94,6 +100,10 @@ services:
   Makaira\Connect\Core\Autosuggester:
     class: Makaira\Connect\Core\Autosuggester
     public: true
+    arguments:
+      $oxLang: '@makaira.connect.oxid.language'
+      $operationalIntelligence: '@Makaira\Connect\Utils\OperationalIntelligence'
+      $searchHandler: '@Makaira\Connect\SearchHandler'
 
   # makaira.connect.searchhandler
   Makaira\Connect\SearchHandler:
@@ -103,6 +113,7 @@ services:
       $httpClient: '@Makaira\HttpClient\Signing'
       $url: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_application_url', null, 'module:makaira/connect')"
       $instance: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_instance', null, 'module:makaira/connect')"
+      $versionHandler: '@Makaira\Connect\VersionHandler'
 
   # makaira.connect.utils.tokengenerator
   Makaira\Connect\Utils\TokenGenerator:
@@ -141,29 +152,41 @@ services:
   Makaira\Connect\Repository:
     class: Makaira\Connect\Repository
     public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.user
   Makaira\Connect\Repository\UserRepository:
     class: Makaira\Connect\Repository\UserRepository
     public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
 
   makaira.connect.modifiers.common.product2shop:
     class: Makaira\Connect\Modifier\Common\ShopModifier
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $isMultiShop: "@=service('makaira.connect.oxid.config').isMall()"
       $mappingTable: 'oxarticles2shop'
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.boost_field:
     class: Makaira\Connect\Modifier\Product\BoostFieldModifier
+    public: true
+    arguments:
+      $boostFieldUtilities: '@Makaira\Connect\Utils\BoostFields'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.category2shop:
     class: Makaira\Connect\Modifier\Common\ShopModifier
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $isMultiShop: "@=service('makaira.connect.oxid.config').isMall()"
       $mappingTable: 'oxcategories2shop'
     tags:
@@ -171,7 +194,9 @@ services:
 
   makaira.connect.modifiers.common.manufacturer2shop:
     class: Makaira\Connect\Modifier\Common\ShopModifier
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $isMultiShop: "@=service('makaira.connect.oxid.config').isMall()"
       $mappingTable: 'oxmanufacturers2shop'
     tags:
@@ -179,7 +204,9 @@ services:
 
   makaira.connect.modifiers.common.attribute:
     class: Makaira\Connect\Modifier\Common\AttributeModifier
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $activeSnippet: "@=service('makaira.connect.oxid.article').getSqlActiveSnippet(true)"
       $attributeInt: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_int', null, 'module:makaira/connect')"
       $attributeFloat: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_float', null, 'module:makaira/connect')"
@@ -189,7 +216,9 @@ services:
 
   makaira.connect.modifiers.product.variant.attributes:
     class: Makaira\Connect\Modifier\Product\VariantAttributesModifier
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $activeSnippet: "@=service('makaira.connect.oxid.article').getSqlActiveSnippet(true)"
       $attributeInt: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_int', null, 'module:makaira/connect')"
       $attributeFloat: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_attribute_as_float', null, 'module:makaira/connect')"
@@ -198,6 +227,7 @@ services:
 
   makaira.connect.modifiers.common.vat:
     class: Makaira\Connect\Modifier\Common\PriceModifier
+    public: true
     arguments:
       $isNetto: "@=service('makaira.connect.oxid.config').getConfigParam('blEnterNetPrice')"
       $showNetto: "@=service('makaira.connect.oxid.config').getConfigParam('blShowNetPrice')"
@@ -208,6 +238,9 @@ services:
 
   makaira.connect.modifiers.common.active:
     class: Makaira\Connect\Modifier\Common\ActiveModifier
+    public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
@@ -216,12 +249,16 @@ services:
 
   makaira.connect.modifiers.common.stock:
     class: Makaira\Connect\Modifier\Common\StockModifier
+    public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.longdescription:
     class: Makaira\Connect\Modifier\Common\LongDescriptionModifier
+    public: true
     arguments:
       $contentParser: '@Makaira\Connect\Utils\OxidSmartyParser'
       $parseThroughSmarty: "@=service('makaira.connect.oxid.config').getShopConfVar('bl_perfParseLongDescinSmarty', null, 'module:makaira/connect')"
@@ -231,6 +268,7 @@ services:
 
   makaira.connect.modifiers.common.zerodatetime:
     class: Makaira\Connect\Modifier\Common\ZeroDateTimeModifier
+    public: true
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 1000, method: addModifier }
@@ -238,30 +276,37 @@ services:
 
   makaira.connect.modifiers.category.url:
     class: Makaira\Connect\Modifier\Common\UrlModifier
+    public: true
     arguments:
       $objectClass: OxidEsales\Eshop\Application\Model\Category
       $encoder: '@makaira.connect.oxid.seo_encoder_category'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.manufacturer.url:
     class: Makaira\Connect\Modifier\Common\UrlModifier
+    public: true
     arguments:
       $objectClass: OxidEsales\Eshop\Application\Model\Manufacturer
       $encoder: '@makaira.connect.oxid.seo_encoder_manufacturer'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.manufacturer', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.url:
     class: Makaira\Connect\Modifier\Common\UrlModifier
+    public: true
     arguments:
       $objectClass: OxidEsales\Eshop\Application\Model\Article
       $encoder: '@makaira.connect.oxid.seo_encoder_article'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.blacklist.product:
     class: Makaira\Connect\Modifier\Common\BlacklistModifier
+    public: true
     arguments:
       $blacklistedFields: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_field_blacklist_product', null, 'module:makaira/connect')"
     tags:
@@ -270,6 +315,8 @@ services:
 
   makaira.connect.modifiers.common.blacklist.category:
     class: Makaira\Connect\Modifier\Common\BlacklistModifier
+
+    public: true
     arguments:
       $blacklistedFields: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_field_blacklist_category', null, 'module:makaira/connect')"
     tags:
@@ -277,6 +324,7 @@ services:
 
   makaira.connect.modifiers.common.blacklist.manufacturer:
     class: Makaira\Connect\Modifier\Common\BlacklistModifier
+    public: true
     arguments:
       $blacklistedFields: "@=service('makaira.connect.oxid.config').getShopConfVar('makaira_field_blacklist_manufacturer', null, 'module:makaira/connect')"
     tags:
@@ -284,28 +332,43 @@ services:
 
   makaira.connect.modifiers.product.category:
     class: Makaira\Connect\Modifier\Product\CategoryModifier
+    public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.product.mainCategory:
     class: Makaira\Connect\Modifier\Product\MainCategoryModifier
+    public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $encoder: '@makaira.connect.oxid.seo_encoder_category'
+      $oxLang: '@makaira.connect.oxid.language'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.category.hierarchy:
     class: Makaira\Connect\Modifier\Category\HierarchyModifier
+    public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.category.subcategories:
     class: Makaira\Connect\Modifier\Category\SubcategoriesModifier
+    public: true
+    arguments:
+      $categoryInheritance: '@Makaira\Connect\Utils\CategoryInheritance'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.category', priority: 1000, method: addModifier }
 
   makaira.connect.modifiers.common.default.values:
     class: Makaira\Connect\Modifier\Common\DefaultProperties
+    public: true
+    arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
     tags:
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.product', priority: 9999, method: addModifier }
       - { name: 'kernel.event_listener', event: 'makaira.importer.modifier.variant', priority: 9999, method: addModifier }
@@ -317,56 +380,68 @@ services:
     class: Makaira\Connect\Repository\ProductRepository
     public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $modifiers: '@makaira.connect.repository.product.mofifier_list'
     tags:
     - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 1000, method: 'addRepository' }
 
   makaira.connect.repository.product.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.product'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.variant
   Makaira\Connect\Repository\VariantRepository:
     class: Makaira\Connect\Repository\VariantRepository
     public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $modifiers: '@makaira.connect.repository.variant.mofifier_list'
     tags:
     - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 990, method: 'addRepository' }
 
   makaira.connect.repository.variant.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.variant'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.category
   Makaira\Connect\Repository\CategoryRepository:
     class: Makaira\Connect\Repository\CategoryRepository
     public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $modifiers: '@makaira.connect.repository.category.mofifier_list'
     tags:
     - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 980, method: 'addRepository' }
 
   makaira.connect.repository.category.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.category'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.repository.manufacturer
   Makaira\Connect\Repository\ManufacturerRepository:
     class: Makaira\Connect\Repository\ManufacturerRepository
     public: true
     arguments:
+      $database: '@Makaira\Connect\Database\DoctrineDatabase'
       $modifiers: '@makaira.connect.repository.manufacturer.mofifier_list'
     tags:
     - { name: 'kernel.event_listener', event: 'makaira.connect.repository', priority: 970, method: 'addRepository' }
 
   makaira.connect.repository.manufacturer.mofifier_list:
     class: Makaira\Connect\Repository\ModifierList
+    public: false
     arguments:
       $tag: 'makaira.importer.modifier.manufacturer'
+      $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
 
   # makaira.connect.version.handler
   Makaira\Connect\VersionHandler:
