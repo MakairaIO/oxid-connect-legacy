@@ -65,7 +65,7 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
 };
 
 $dic['makaira.connect.operational_intelligence'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Utils\OperationalIntelligence(oxRegistry::get('oxUtilsServer'));
+    return new \Makaira\Connect\Utils\OperationalIntelligence(oxRegistry::get(makaira_cookie_utils::class));
 };
 
 $dic['makaira.connect.category_inheritance'] = function (\Marm\Yamm\DIC $dic) {

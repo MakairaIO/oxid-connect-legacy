@@ -12,17 +12,18 @@ namespace Makaira\Connect\Utils;
 
 use Makaira\Constraints;
 use Makaira\Query;
+use makaira_cookie_utils;
 
 class OperationalIntelligence
 {
     const COOKIE_NAME_ID       = 'oiID';
     const COOKIE_NAME_TIMEZONE = 'oiLocalTimeZone';
 
-    private $utilsServer;
+    private $cookieUtils;
 
-    public function __construct(\oxUtilsServer $utilsServer)
+    public function __construct(makaira_cookie_utils $cookieUtils)
     {
-        $this->utilsServer = $utilsServer;
+        $this->cookieUtils = $cookieUtils;
     }
 
     public function apply(Query $query)
@@ -47,7 +48,7 @@ class OperationalIntelligence
 
             $userID = md5($userID);
 
-            $this->utilsServer->setOxCookie(self::COOKIE_NAME_ID, $userID, time() + 86400);
+            $this->cookieUtils->setCookie(self::COOKIE_NAME_ID, $userID, time() + 86400);
         }
 
         return $userID;
@@ -61,9 +62,8 @@ class OperationalIntelligence
     private function getUserIP()
     {
         /** @var string $userIP */
-        $userIP =
-            isset($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] :
-                isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        $remoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        $userIP     = isset($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $remoteAddr;
 
         return is_string($userIP) ? $userIP : '';
     }
