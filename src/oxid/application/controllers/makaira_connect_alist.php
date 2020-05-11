@@ -4,7 +4,7 @@ use Makaira\Constraints;
 use Makaira\Query;
 use Makaira\Connect\Exception as ConnectException;
 use Makaira\Connect\Utils\CategoryInheritance;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use Makaira\Connect\Connect;
 
 /**
  * This file is part of a marmalade GmbH project
@@ -226,7 +226,7 @@ class makaira_connect_alist extends makaira_connect_alist_parent
         // TODO: Is there a reason to not use $oCategory->getId() here?
         $categoryId = oxRegistry::getConfig()->getRequestParameter('cnid');
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var CategoryInheritance $categoryInheritance */
         $categoryInheritance = $container->get(CategoryInheritance::class);
 

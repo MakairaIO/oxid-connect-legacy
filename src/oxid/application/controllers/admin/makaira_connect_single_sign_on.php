@@ -10,7 +10,7 @@
 
 use Makaira\Connect\Utils\TokenGenerator;
 use Makaira\Connect\Repository\UserRepository;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use Makaira\Connect\Connect;
 
 /**
  * Class makaira_connect_single_sign_on
@@ -23,7 +23,7 @@ class makaira_connect_single_sign_on extends oxAdminDetails
     {
         parent::render();
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var TokenGenerator $tokenGenerator */
         $tokenGenerator = $container->get(TokenGenerator::class);
 

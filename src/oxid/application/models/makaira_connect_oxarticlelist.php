@@ -15,7 +15,7 @@ use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\Connect\RecommendationHandler;
 use Makaira\Constraints;
 use Makaira\RecommendationQuery;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use Makaira\Connect\Connect;
 
 class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
 {
@@ -99,7 +99,7 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
      */
     protected function fetchFromMakaira($recommendationType, $recommendationId, $productId, $count = 50)
     {
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var RecommendationHandler $handler */
         $handler = $container->get(RecommendationHandler::class);
 
@@ -329,7 +329,7 @@ class makaira_connect_oxarticlelist extends makaira_connect_oxarticlelist_parent
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
-            $container = ContainerFactory::getInstance()->getContainer();
+            $container = Connect::getContainerFactory()->getContainer();
             $db       = $container->get(DoctrineDatabase::class);
             $catIds   = $db->getColumn(
                 'SELECT c2.OXID FROM oxcategories c1

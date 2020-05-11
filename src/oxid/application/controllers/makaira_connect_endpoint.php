@@ -5,7 +5,7 @@ use Makaira\Connect\Utils\BoostFields;
 use Makaira\Connect\Utils\TableTranslator;
 use Makaira\Connect\Exception as ConnectException;
 use Makaira\Connect\Repository\UserRepository;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use Makaira\Connect\Connect;
 
 class makaira_connect_endpoint extends oxUBase
 {
@@ -99,7 +99,7 @@ class makaira_connect_endpoint extends oxUBase
                     $updates = $this->getReplicationStatusAction($body);
                     break;
                 case 'getVersionNumber':
-                    $container = ContainerFactory::getInstance()->getContainer();
+                    $container = Connect::getContainerFactory()->getContainer();
                     $versionHandler = $container->get(\Makaira\Connect\VersionHandler::class);
                     $updates        = $versionHandler->getVersionNumber();
                     break;
@@ -162,7 +162,7 @@ class makaira_connect_endpoint extends oxUBase
             throw new ConnectException("since parameter not set");
         }
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
 
         if (property_exists($body, 'language')) {
             $oxLang = $container->get('makaira.connect.oxid.language');
@@ -221,7 +221,7 @@ class makaira_connect_endpoint extends oxUBase
             throw new ConnectException("username parameter not set");
         }
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var UserRepository $repository */
         $repository = $container->get(UserRepository::class);
         $user = $repository->getAuthorizedUserByUsername($body->username);
@@ -235,7 +235,7 @@ class makaira_connect_endpoint extends oxUBase
             throw new ConnectException("token parameter not set");
         }
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var UserRepository $repository */
         $repository = $container->get(UserRepository::class);
         $user = $repository->getAuthorizedUserByToken($body->token);
@@ -249,7 +249,7 @@ class makaira_connect_endpoint extends oxUBase
             return [];
         }
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var UserRepository $repository */
         $repository = $container->get(\Makaira\Connect\Repository::class);
 
@@ -262,7 +262,7 @@ class makaira_connect_endpoint extends oxUBase
 
     protected function getBoostFieldStatistics()
     {
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
         /** @var UserRepository $repository */
 
         /** @var BoostFields $boostFieldStatistics */

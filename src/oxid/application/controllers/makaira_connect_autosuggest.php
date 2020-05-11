@@ -2,7 +2,7 @@
 
 use Makaira\Connect\Exception as ConnectException;
 use Makaira\Connect\Core\Autosuggester;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use Makaira\Connect\Connect;
 
 class makaira_connect_autosuggest extends oxUBase
 {
@@ -11,7 +11,7 @@ class makaira_connect_autosuggest extends oxUBase
         parent::__construct();
 
         try {
-            $container = ContainerFactory::getInstance()->getContainer();
+            $container = Connect::getContainerFactory()->getContainer();
             /** @var Autosuggester $suggester */
             $suggester = $container->get(Autosuggester::class);
 

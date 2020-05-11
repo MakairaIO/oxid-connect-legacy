@@ -15,7 +15,7 @@ use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Constraints;
 use Makaira\Query;
 use Makaira\Result;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use Makaira\Connect\Connect;
 
 /**
  * Class makaira_connect_request_handler
@@ -64,7 +64,7 @@ class makaira_connect_request_handler
         global $odoscopeTracking;
         $odoscopeTracking = false;
 
-        $container = ContainerFactory::getInstance()->getContainer();
+        $container = Connect::getContainerFactory()->getContainer();
 
         /** @var OperationalIntelligence $operationalIntelligence */
         $operationalIntelligence = $container->get(OperationalIntelligence::class);
@@ -213,7 +213,7 @@ class makaira_connect_request_handler
     public function getProductCount(Query $query)
     {
         if (!isset($this->result)) {
-            $container = ContainerFactory::getInstance()->getContainer();
+            $container = Connect::getContainerFactory()->getContainer();
             /** @var SearchHandler $searchHandler */
             $searchHandler = $container->get(SearchHandler::class);
 
