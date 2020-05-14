@@ -30,37 +30,38 @@ services:
 
   # oxid.language
   makaira.connect.oxid.language:
-    class: OxidEsales\Eshop\Core\Language
-    factory: ['OxidEsales\Eshop\Core\Registry', 'getLang']
+    class: oxLang
+    factory: ['oxRegistry', 'getLang']
     public: true
 
   makaira.connect.oxid.article:
-    class: OxidEsales\Eshop\Application\Model\Article
-    factory: ['OxidEsales\Eshop\Core\Registry', 'get']
-    arguments: ['OxidEsales\Eshop\Application\Model\Article']
+    class: oxArticle
+    factory: ['oxRegistry', 'get']
+    arguments: ['oxArticle']
 
   makaira.connect.oxid.seo_encoder_category:
-    class: OxidEsales\Eshop\Application\Model\SeoEncoderCategory
-    factory: ['OxidEsales\Eshop\Core\Registry', 'get']
-    arguments: ['OxidEsales\Eshop\Application\Model\SeoEncoderCategory']
+    class: oxSeoEncoderCategory
+    factory: ['oxRegistry', 'get']
+    arguments: ['oxSeoEncoderCategory']
 
   makaira.connect.oxid.seo_encoder_manufacturer:
-    class: OxidEsales\Eshop\Application\Model\SeoEncoderManufacturer
-    factory: ['OxidEsales\Eshop\Core\Registry', 'get']
-    arguments: ['OxidEsales\Eshop\Application\Model\SeoEncoderManufacturer']
+    class: oxSeoEncoderManufacturer
+    factory: ['oxRegistry', 'get']
+    arguments: ['oxSeoEncoderManufacturer']
 
   makaira.connect.oxid.seo_encoder_article:
-    class: OxidEsales\Eshop\Application\Model\SeoEncoderArticle
-    factory: ['OxidEsales\Eshop\Core\Registry', 'get']
-    arguments: ['OxidEsales\Eshop\Application\Model\SeoEncoderArticle']
+    class: oxSeoEncoderArticle
+    factory: ['oxRegistry', 'get']
+    arguments: ['oxSeoEncoderArticle']
 
   makaira.connect.oxid.utils_view:
-    class: OxidEsales\Eshop\Core\UtilsView
-    factory: ['OxidEsales\Eshop\Core\Registry', 'getUtilsView']
+    class: oxUtilsView
+    factory: ['oxRegistry', 'get']
+    arguments: ['oxUtilsView']
 
   makaira.connect.oxid.config:
-    class: OxidEsales\Eshop\Core\Config
-    factory: ['OxidEsales\Eshop\Core\Registry', 'getConfig']
+    class: oxConfig
+    factory: ['oxRegistry', 'getConfig']
 
   # makaira.connect.http_client
   Makaira\HttpClient\Signing:
@@ -133,7 +134,7 @@ services:
 
   makaira_cookie_utils:
     class: makaira_cookie_utils
-    factory: ['OxidEsales\Eshop\Core\Registry', 'get']
+    factory: ['oxRegistry', 'get']
     arguments: ['makaira_cookie_utils']
 
   Makaira\Connect\Command\TouchAllCommand:
@@ -278,7 +279,7 @@ services:
     class: Makaira\Connect\Modifier\Common\UrlModifier
     public: true
     arguments:
-      $objectClass: OxidEsales\Eshop\Application\Model\Category
+      $objectClass: oxCategory
       $encoder: '@makaira.connect.oxid.seo_encoder_category'
       $oxLang: '@makaira.connect.oxid.language'
     tags:
@@ -288,7 +289,7 @@ services:
     class: Makaira\Connect\Modifier\Common\UrlModifier
     public: true
     arguments:
-      $objectClass: OxidEsales\Eshop\Application\Model\Manufacturer
+      $objectClass: oxManufacturer
       $encoder: '@makaira.connect.oxid.seo_encoder_manufacturer'
       $oxLang: '@makaira.connect.oxid.language'
     tags:
@@ -298,7 +299,7 @@ services:
     class: Makaira\Connect\Modifier\Common\UrlModifier
     public: true
     arguments:
-      $objectClass: OxidEsales\Eshop\Application\Model\Article
+      $objectClass: oxArticle
       $encoder: '@makaira.connect.oxid.seo_encoder_article'
       $oxLang: '@makaira.connect.oxid.language'
     tags:

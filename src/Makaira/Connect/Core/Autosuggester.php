@@ -10,7 +10,7 @@
 
 namespace Makaira\Connect\Core;
 
-use OxidEsales\Eshop\Core\Language;
+use oxLang as Language;
 use Makaira\Connect\SearchHandler;
 use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\Constraints;
