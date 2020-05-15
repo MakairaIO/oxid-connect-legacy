@@ -23,7 +23,7 @@ services:
   # makaira.content_parser
   Makaira\Connect\Utils\OxidSmartyParser:
     class: Makaira\Connect\Utils\OxidSmartyParser
-    public: false
+    public: public
     arguments:
       $oxLang: '@makaira.connect.oxid.language'
       $oxUtilsView: '@makaira.connect.oxid.utils_view'
@@ -36,31 +36,37 @@ services:
 
   makaira.connect.oxid.article:
     class: oxArticle
+    public: true
     factory: ['oxRegistry', 'get']
     arguments: ['oxArticle']
 
   makaira.connect.oxid.seo_encoder_category:
     class: oxSeoEncoderCategory
+    public: true
     factory: ['oxRegistry', 'get']
     arguments: ['oxSeoEncoderCategory']
 
   makaira.connect.oxid.seo_encoder_manufacturer:
     class: oxSeoEncoderManufacturer
+    public: true
     factory: ['oxRegistry', 'get']
     arguments: ['oxSeoEncoderManufacturer']
 
   makaira.connect.oxid.seo_encoder_article:
     class: oxSeoEncoderArticle
+    public: true
     factory: ['oxRegistry', 'get']
     arguments: ['oxSeoEncoderArticle']
 
   makaira.connect.oxid.utils_view:
     class: oxUtilsView
+    public: true
     factory: ['oxRegistry', 'get']
     arguments: ['oxUtilsView']
 
   makaira.connect.oxid.config:
     class: oxConfig
+    public: true
     factory: ['oxRegistry', 'getConfig']
 
   # makaira.connect.http_client
