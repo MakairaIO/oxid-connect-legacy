@@ -43,6 +43,10 @@ class DebugChangeCommand extends Command
             ]
         ];
         $changes = $repo->getChangesFromList($list, 0, 1);
-        dump($changes);
+        if (function_exists('dump')) {
+            dump($changes);
+        } else {
+            var_dump($changes);
+        }
     }
 }
