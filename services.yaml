@@ -155,6 +155,12 @@ services:
     tags:
     - { name: 'console.command' }
 
+  Makaira\Connect\Command\DebugChangeCommand:
+    class: Makaira\Connect\Command\DebugChangeCommand
+    public: true
+    tags:
+    - { name: 'console.command' }
+
   # makaira.connect.repository
   Makaira\Connect\Repository:
     class: Makaira\Connect\Repository

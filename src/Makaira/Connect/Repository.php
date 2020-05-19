@@ -145,6 +145,21 @@ class Repository
     {
         $result = $this->database->query($this->selectQuery, ['since' => $since ?: 0, 'limit' => $limit]);
 
+        return $this->getChangesFromList($result, $since, $limit);
+    }
+
+    /**
+     * Fetch and serialize changes from list.
+     *
+     * @param int $since Sequence offset
+     * @param int $limit Fetch limit
+     *
+     * @return Changes
+     * @SuppressWarnings(CyclomaticComplexity)
+     * @SuppressWarnings(NPathComplexity)
+     */
+    public function getChangesFromList($result, $since, $limit = 50)
+    {
         $changes           = array();
         $productRepository = $this->getRepositoryForType('product');
         $typeProduct       = $productRepository->getType();
