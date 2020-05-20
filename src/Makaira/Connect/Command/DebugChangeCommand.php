@@ -14,6 +14,7 @@ namespace Makaira\Connect\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Makaira\Connect\Repository;
 use Makaira\Connect\Connect;
@@ -26,12 +27,17 @@ class DebugChangeCommand extends Command
         ->setDescription('Debug change')
         ->setHelp('Clean up changes list older then 1 day')
         ->addArgument('type', InputArgument::REQUIRED, 'product|variant|category|manufacturer')
-        ->addArgument('id', InputArgument::REQUIRED, 'ID of entity');
+        ->addArgument('id', InputArgument::REQUIRED, 'ID of entity')
+        ->addOption('modifier', 'm', InputOption::VALUE_NONE, 'debug modifier changes');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = Connect::getContainerFactory()->getContainer();
+
+        if ($input->getOption('modifier')) {
+            define('MAKAIRA_CONNECT_DEBUG_MODIFIER', true);
+        }
 
         $repo = $container->get(\Makaira\Connect\Repository::class);
         /** @var $repo \Makaira\Connect\Repository */
