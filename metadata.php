@@ -12,13 +12,13 @@
  */
 $sMetadataVersion = '1.1';
 
-$moduleId = 'makaira/connect';
+$modulePath = 'makaira/connect';
 
 /**
  * Module information
  */
 $aModule = [
-    'id'          => $moduleId,
+    'id'          => 'makaira_connect',
     'title'       => 'Makaira :: Connect',
     'description' => [
         'en' => '<p>Connector to Makaira</p><p>The Makaira :: Connect module GDPR is compliant with this version.</p><div class="errorbox"><p>Please deactivate the Makaira :: Tracking module, if available and activated, before you activate the new Connect version.</p></div>',
@@ -31,71 +31,71 @@ $aModule = [
     'email'       => 'support@makaira.io',
     'extend'      => [
         /* controllers */
-        'search'                       => "{$moduleId}/src/oxid/application/controllers/makaira_connect_search",
-        'alist'                        => "{$moduleId}/src/oxid/application/controllers/makaira_connect_alist",
-        'manufacturerlist'             => "{$moduleId}/src/oxid/application/controllers/makaira_connect_manufacturerlist",
+        'search'                       => "{$modulePath}/src/oxid/application/controllers/makaira_connect_search",
+        'alist'                        => "{$modulePath}/src/oxid/application/controllers/makaira_connect_alist",
+        'manufacturerlist'             => "{$modulePath}/src/oxid/application/controllers/makaira_connect_manufacturerlist",
         /* admin controllers */
-        'article_attribute_ajax'       => "{$moduleId}/src/oxid/application/controllers/admin/makaira_article_attribute_ajax",
-        'attribute_main_ajax'          => "{$moduleId}/src/oxid/application/controllers/admin/makaira_attribute_main_ajax",
-        'category_order_ajax'          => "{$moduleId}/src/oxid/application/controllers/admin/makaira_category_order_ajax",
-        'article_extend_ajax'          => "{$moduleId}/src/oxid/application/controllers/admin/makaira_article_extend_ajax",
-        'article_crossselling_ajax'    => "{$moduleId}/src/oxid/application/controllers/admin/makaira_article_crossselling_ajax",
-        'manufacturer_main_ajax'       => "{$moduleId}/src/oxid/application/controllers/admin/makaira_manufacturer_main_ajax",
+        'article_attribute_ajax'       => "{$modulePath}/src/oxid/application/controllers/admin/makaira_article_attribute_ajax",
+        'attribute_main_ajax'          => "{$modulePath}/src/oxid/application/controllers/admin/makaira_attribute_main_ajax",
+        'category_order_ajax'          => "{$modulePath}/src/oxid/application/controllers/admin/makaira_category_order_ajax",
+        'article_extend_ajax'          => "{$modulePath}/src/oxid/application/controllers/admin/makaira_article_extend_ajax",
+        'article_crossselling_ajax'    => "{$modulePath}/src/oxid/application/controllers/admin/makaira_article_crossselling_ajax",
+        'manufacturer_main_ajax'       => "{$modulePath}/src/oxid/application/controllers/admin/makaira_manufacturer_main_ajax",
         /* models */
-        'oxarticle'                    => "{$moduleId}/src/oxid/application/models/makaira_connect_oxarticle",
-        'oxarticlelist'                => "{$moduleId}/src/oxid/application/models/makaira_connect_oxarticlelist",
-        'oxcategory'                   => "{$moduleId}/src/oxid/application/models/makaira_connect_oxcategory",
-        'oxobject2category'            => "{$moduleId}/src/oxid/application/models/makaira_connect_oxobject2category",
-        'oxmanufacturer'               => "{$moduleId}/src/oxid/application/models/makaira_connect_oxmanufacturer",
+        'oxarticle'                    => "{$modulePath}/src/oxid/application/models/makaira_connect_oxarticle",
+        'oxarticlelist'                => "{$modulePath}/src/oxid/application/models/makaira_connect_oxarticlelist",
+        'oxcategory'                   => "{$modulePath}/src/oxid/application/models/makaira_connect_oxcategory",
+        'oxobject2category'            => "{$modulePath}/src/oxid/application/models/makaira_connect_oxobject2category",
+        'oxmanufacturer'               => "{$modulePath}/src/oxid/application/models/makaira_connect_oxmanufacturer",
         /* core */
-        'oxviewconfig'                 => "{$moduleId}/src/oxid/core/makaira_connect_oxviewconfig",
-        'oxseodecoder'                 => "{$moduleId}/src/oxid/core/makaira_connect_oxseodecoder",
-        'oxoutput'                     => "{$moduleId}/src/oxid/core/makaira_connect_oxoutput",
-        'oxconfig'                     => "{$moduleId}/src/oxid/core/makaira_connect_oxconfig",
+        'oxviewconfig'                 => "{$modulePath}/src/oxid/core/makaira_connect_oxviewconfig",
+        'oxseodecoder'                 => "{$modulePath}/src/oxid/core/makaira_connect_oxseodecoder",
+        'oxoutput'                     => "{$modulePath}/src/oxid/core/makaira_connect_oxoutput",
+        'oxconfig'                     => "{$modulePath}/src/oxid/core/makaira_connect_oxconfig",
         /* components */
-        'oxlocator'                    => "{$moduleId}/src/oxid/application/components/makaira_connect_oxlocator",
+        'oxlocator'                    => "{$modulePath}/src/oxid/application/components/makaira_connect_oxlocator",
     ],
     'files'       => [
-        'makaira_connect_helper'          => "{$moduleId}/src/oxid/core/makaira_connect_helper.php",
-        'makaira_connect_endpoint'        => "{$moduleId}/src/oxid/application/controllers/makaira_connect_endpoint.php",
-        'makaira_connect_single_sign_on'  => "{$moduleId}/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php",
-        'makaira_connect_events'          => "{$moduleId}/src/oxid/core/makaira_connect_events.php",
-        'makaira_connect_request_handler' => "{$moduleId}/src/oxid/core/makaira_connect_request_handler.php",
-        'makaira_connect_autosuggest'     => "{$moduleId}/src/oxid/application/controllers/makaira_connect_autosuggest.php",
-        'makaira_connect_econda'          => "{$moduleId}/src/oxid/application/controllers/makaira_connect_econda.php",
-        'makaira_tracking_data_generator' => "{$moduleId}/src/oxid/core/makaira_tracking_data_generator.php",
-        'makaira_cookie_utils'            => "{$moduleId}/src/oxid/core/makaira_cookie_utils.php"
+        'makaira_connect_helper'          => "{$modulePath}/src/oxid/core/makaira_connect_helper.php",
+        'makaira_connect_endpoint'        => "{$modulePath}/src/oxid/application/controllers/makaira_connect_endpoint.php",
+        'makaira_connect_single_sign_on'  => "{$modulePath}/src/oxid/application/controllers/admin/makaira_connect_single_sign_on.php",
+        'makaira_connect_events'          => "{$modulePath}/src/oxid/core/makaira_connect_events.php",
+        'makaira_connect_request_handler' => "{$modulePath}/src/oxid/core/makaira_connect_request_handler.php",
+        'makaira_connect_autosuggest'     => "{$modulePath}/src/oxid/application/controllers/makaira_connect_autosuggest.php",
+        'makaira_connect_econda'          => "{$modulePath}/src/oxid/application/controllers/makaira_connect_econda.php",
+        'makaira_tracking_data_generator' => "{$modulePath}/src/oxid/core/makaira_tracking_data_generator.php",
+        'makaira_cookie_utils'            => "{$modulePath}/src/oxid/core/makaira_cookie_utils.php"
     ],
     'templates'   => [
-        'makaira_connect_single_sign_on.tpl'           => "{$moduleId}/views/admin/tpl/makaira_connect_single_sign_on.tpl",
+        'makaira_connect_single_sign_on.tpl'           => "{$modulePath}/views/admin/tpl/makaira_connect_single_sign_on.tpl",
         /* frontend filter */
-        'makaira/filter/base.tpl'                      => "{$moduleId}/views/tpl/filter/base.tpl",
-        'makaira/filter/list.tpl'                      => "{$moduleId}/views/tpl/filter/list.tpl",
-        'makaira/filter/list_multiselect.tpl'          => "{$moduleId}/views/tpl/filter/list_multiselect.tpl",
-        'makaira/filter/range_slider.tpl'              => "{$moduleId}/views/tpl/filter/range_slider.tpl",
-        'makaira/filter/range_slider_price.tpl'        => "{$moduleId}/views/tpl/filter/range_slider_price.tpl",
-        'makaira/filter/script.tpl'                    => "{$moduleId}/views/tpl/filter/script.tpl",
-        'makaira/filter/categorytree.tpl'              => "{$moduleId}/views/tpl/filter/category/tree.tpl",
+        'makaira/filter/base.tpl'                      => "{$modulePath}/views/tpl/filter/base.tpl",
+        'makaira/filter/list.tpl'                      => "{$modulePath}/views/tpl/filter/list.tpl",
+        'makaira/filter/list_multiselect.tpl'          => "{$modulePath}/views/tpl/filter/list_multiselect.tpl",
+        'makaira/filter/range_slider.tpl'              => "{$modulePath}/views/tpl/filter/range_slider.tpl",
+        'makaira/filter/range_slider_price.tpl'        => "{$modulePath}/views/tpl/filter/range_slider_price.tpl",
+        'makaira/filter/script.tpl'                    => "{$modulePath}/views/tpl/filter/script.tpl",
+        'makaira/filter/categorytree.tpl'              => "{$modulePath}/views/tpl/filter/category/tree.tpl",
         /* custom frontend filter */
-        'makaira/filter/list_custom_1.tpl'             => "{$moduleId}/views/tpl/filter/custom/list_custom_1.tpl",
-        'makaira/filter/list_custom_2.tpl'             => "{$moduleId}/views/tpl/filter/custom/list_custom_2.tpl",
-        'makaira/filter/list_multiselect_custom_1.tpl' => "{$moduleId}/views/tpl/filter/custom/list_multiselect_custom_1.tpl",
-        'makaira/filter/list_multiselect_custom_2.tpl' => "{$moduleId}/views/tpl/filter/custom/list_multiselect_custom_2.tpl",
-        'makaira/filter/range_slider_custom_1.tpl'     => "{$moduleId}/views/tpl/filter/custom/range_slider_custom_1.tpl",
-        'makaira/filter/range_slider_custom_2.tpl'     => "{$moduleId}/views/tpl/filter/custom/range_slider_custom_2.tpl",
+        'makaira/filter/list_custom_1.tpl'             => "{$modulePath}/views/tpl/filter/custom/list_custom_1.tpl",
+        'makaira/filter/list_custom_2.tpl'             => "{$modulePath}/views/tpl/filter/custom/list_custom_2.tpl",
+        'makaira/filter/list_multiselect_custom_1.tpl' => "{$modulePath}/views/tpl/filter/custom/list_multiselect_custom_1.tpl",
+        'makaira/filter/list_multiselect_custom_2.tpl' => "{$modulePath}/views/tpl/filter/custom/list_multiselect_custom_2.tpl",
+        'makaira/filter/range_slider_custom_1.tpl'     => "{$modulePath}/views/tpl/filter/custom/range_slider_custom_1.tpl",
+        'makaira/filter/range_slider_custom_2.tpl'     => "{$modulePath}/views/tpl/filter/custom/range_slider_custom_2.tpl",
         /* autosuggest */
-        'makaira/autosuggest/assets.tpl'               => "{$moduleId}/views/tpl/autosuggest/assets.tpl",
-        'makaira/autosuggest/autosuggest.tpl'          => "{$moduleId}/views/tpl/autosuggest/autosuggest.tpl",
-        'makaira/autosuggest/types/products.tpl'       => "{$moduleId}/views/tpl/autosuggest/types/products.tpl",
-        'makaira/autosuggest/types/categories.tpl'     => "{$moduleId}/views/tpl/autosuggest/types/categories.tpl",
-        'makaira/autosuggest/types/manufacturers.tpl'  => "{$moduleId}/views/tpl/autosuggest/types/manufacturers.tpl",
-        'makaira/autosuggest/types/links.tpl'          => "{$moduleId}/views/tpl/autosuggest/types/links.tpl",
-        'makaira/autosuggest/types/suggestions.tpl'    => "{$moduleId}/views/tpl/autosuggest/types/suggestions.tpl",
+        'makaira/autosuggest/assets.tpl'               => "{$modulePath}/views/tpl/autosuggest/assets.tpl",
+        'makaira/autosuggest/autosuggest.tpl'          => "{$modulePath}/views/tpl/autosuggest/autosuggest.tpl",
+        'makaira/autosuggest/types/products.tpl'       => "{$modulePath}/views/tpl/autosuggest/types/products.tpl",
+        'makaira/autosuggest/types/categories.tpl'     => "{$modulePath}/views/tpl/autosuggest/types/categories.tpl",
+        'makaira/autosuggest/types/manufacturers.tpl'  => "{$modulePath}/views/tpl/autosuggest/types/manufacturers.tpl",
+        'makaira/autosuggest/types/links.tpl'          => "{$modulePath}/views/tpl/autosuggest/types/links.tpl",
+        'makaira/autosuggest/types/suggestions.tpl'    => "{$modulePath}/views/tpl/autosuggest/types/suggestions.tpl",
         /* results */
-        'makaira/results/search.tpl'                   => "{$moduleId}/views/tpl/results/search.tpl",
+        'makaira/results/search.tpl'                   => "{$modulePath}/views/tpl/results/search.tpl",
         /* econda */
-        'makaira/econda_base.tpl'                      => "{$moduleId}/views/tpl/econda_base.tpl",
-        'layout/cookie-banner.tpl'                     => "{$moduleId}/views/tpl/layout/cookie-banner.tpl",
+        'makaira/econda_base.tpl'                      => "{$modulePath}/views/tpl/econda_base.tpl",
+        'layout/cookie-banner.tpl'                     => "{$modulePath}/views/tpl/layout/cookie-banner.tpl",
     ],
     'blocks'      => [
         [
