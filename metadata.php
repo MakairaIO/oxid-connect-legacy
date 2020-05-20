@@ -299,7 +299,9 @@ $aModule = [
 ];
 
 $isEE = false;
-if (class_exists('OxidEsales\Facts\Facts')) {
+if (class_exists('OxidEsales\Facts\Edition\EditionSelector')) {
+    $isEE = (new \OxidEsales\Facts\Edition\EditionSelector())->isEnterprise();
+} elseif (class_exists('OxidEsales\Facts\Facts')) {
     $isEE = \OxidEsales\Facts\Facts::getEdition() === 'EE';
 } elseif (class_exists('OxidEsales\Eshop\Core\Registry')) {
     $isEE = \OxidEsales\Eshop\Core\Registry::getConfig()->getEdition() === 'EE';
