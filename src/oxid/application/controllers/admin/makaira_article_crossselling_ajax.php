@@ -17,8 +17,10 @@ class makaira_article_crossselling_ajax extends makaira_article_crossselling_aja
     {
         $aChosenArt = $this->_getActionIds('oxobject2article.oxid');
         $sO2ArticleView = $this->_getViewName('oxobject2article');
+
+        $container = \Makaira\Connect\Connect::getContainerFactory()->getContainer();
         /** @var \Doctrine\DBAL\Connection $db */
-        $db = oxRegistry::get('yamm_dic')['doctrine.connection'];
+        $db = $container->get(\Doctrine\DBAL\Connection::class);
 
         if (oxRegistry::getConfig()->getRequestParameter('all')) {
             $sSelectSql = "SELECT $sO2ArticleView.`OXOBJECTID` " . $this->_getQuery();

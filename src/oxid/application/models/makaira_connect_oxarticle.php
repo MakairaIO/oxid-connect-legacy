@@ -8,6 +8,7 @@
  * Author URI: http://www.marmalade.de
  */
 
+use Makaira\Connect\Connect;
 use Makaira\Connect\Exceptions\FeatureNotAvailableException;
 use Makaira\Connect\Exception as ConnectException;
 
@@ -90,8 +91,8 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
 
             return parent::getParentId();
         } else {
-            /** @var \Makaira\Connect\DatabaseInterface $db */
-            $db       = oxRegistry::get('yamm_dic')['oxid.database'];
+            $container = Connect::getContainerFactory()->getContainer();
+            $db = $container->get(\Makaira\Connect\Database\DoctrineDatabase::class);
             $parentId = $db->query('SELECT OXPARENTID FROM oxarticles WHERE OXID = :id', ['id' => $oxid]);
 
             return empty($parentId) ? null : $parentId[0]['OXPARENTID'];
@@ -114,8 +115,8 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
             $this->getRepository()->touch('variant', $id);
         } else {
             $this->getRepository()->touch('product', $id);
-            /** @var \Makaira\Connect\DatabaseInterface $db */
-            $db       = oxRegistry::get('yamm_dic')['oxid.database'];
+            $container = Connect::getContainerFactory()->getContainer();
+            $db = $container->get(\Makaira\Connect\Database\DoctrineDatabase::class);
             $variants = $db->query(
                 'SELECT OXID FROM oxarticles WHERE OXPARENTID = :parentId',
                 ['parentId' => $id]
@@ -146,7 +147,8 @@ class makaira_connect_oxarticle extends makaira_connect_oxarticle_parent
      */
     private function getRepository()
     {
-        return oxRegistry::get('yamm_dic')['makaira.connect.repository'];
+        $container = Connect::getContainerFactory()->getContainer();
+        return $container->get(\Makaira\Connect\Repository::class);
     }
 
     public function executeDependencyEvent($iDependencyEvent = null)

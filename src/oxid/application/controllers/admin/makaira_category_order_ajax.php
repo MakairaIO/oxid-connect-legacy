@@ -32,8 +32,9 @@ class makaira_category_order_ajax extends makaira_category_order_ajax_parent
         $oCategory = oxNew("oxcategory");
         $sId       = oxRegistry::getConfig()->getRequestParameter("oxid");
         if ($oCategory->load($sId)) {
+            $container = \Makaira\Connect\Connect::getContainerFactory()->getContainer();
             /** @var \Doctrine\DBAL\Connection $db */
-            $db = oxRegistry::get('yamm_dic')['doctrine.connection'];
+            $db = $container->get(\Doctrine\DBAL\Connection::class);
 
             $sO2CView = $this->_getViewName('oxobject2category');
             $sSelect  = "SELECT OXOBJECTID FROM $sO2CView WHERE $sO2CView.OXCATNID=" . $db->quote($sId) . ';';

@@ -18,8 +18,9 @@ class makaira_attribute_main_ajax extends makaira_attribute_main_ajax_parent
         if (oxRegistry::get('makaira_connect_helper')->isOxid6()) {
             $aChosenCat       = $this->_getActionIds('oxobject2attribute.oxid');
             $sO2AttributeView = $this->_getViewName('oxobject2attribute');
+            $container = \Makaira\Connect\Connect::getContainerFactory()->getContainer();
             /** @var \Doctrine\DBAL\Connection $db */
-            $db = oxRegistry::get('yamm_dic')['doctrine.connection'];
+            $db = $container->get(\Doctrine\DBAL\Connection::class);
 
             if (oxRegistry::getConfig()->getRequestParameter('all')) {
                 $sSelectSql = "SELECT $sO2AttributeView.`OXOBJECTID` " . $this->_getQuery();

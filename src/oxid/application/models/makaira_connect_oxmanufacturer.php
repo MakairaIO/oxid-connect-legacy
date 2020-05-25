@@ -56,7 +56,8 @@ class makaira_connect_oxmanufacturer extends makaira_connect_oxmanufacturer_pare
      */
     private function getRepository()
     {
-        return oxRegistry::get('yamm_dic')['makaira.connect.repository'];
+        $container = \Makaira\Connect\Connect::getContainerFactory()->getContainer();
+        return $container->get(\Makaira\Connect\Repository::class);
     }
 
     public function save()

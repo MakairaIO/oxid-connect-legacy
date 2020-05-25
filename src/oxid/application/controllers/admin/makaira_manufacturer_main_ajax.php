@@ -19,8 +19,9 @@ class makaira_manufacturer_main_ajax extends makaira_manufacturer_main_ajax_pare
         $manufacturerId = $this->getConfig()->getRequestParameter('oxid');
 
         if (oxRegistry::getConfig()->getRequestParameter('all')) {
+            $container = \Makaira\Connect\Connect::getContainerFactory()->getContainer();
             /** @var \Doctrine\DBAL\Connection $db */
-            $db        = oxRegistry::get('yamm_dic')['doctrine.connection'];
+            $db = $container->get(\Doctrine\DBAL\Connection::class);
             $sArtTable = $this->_getViewName('oxarticles');
 
             $sSelectSql  = "SELECT $sArtTable.`OXID` " . $this->_getQuery();
