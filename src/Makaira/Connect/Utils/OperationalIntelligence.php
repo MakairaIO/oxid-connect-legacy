@@ -10,8 +10,8 @@
 
 namespace Makaira\Connect\Utils;
 
+use Makaira\AbstractQuery;
 use Makaira\Constraints;
-use Makaira\Query;
 use makaira_cookie_utils;
 
 class OperationalIntelligence
@@ -26,7 +26,7 @@ class OperationalIntelligence
         $this->cookieUtils = $cookieUtils;
     }
 
-    public function apply(Query $query)
+    public function apply(AbstractQuery $query)
     {
         $query->constraints[ Constraints::OI_USER_AGENT ]    = $this->getUserAgentString();
         $query->constraints[ Constraints::OI_USER_IP ]       = $this->getUserIP();
