@@ -12,16 +12,24 @@
 namespace Makaira\Connect;
 
 use Makaira\Connect\Exceptions\FeatureNotAvailableException;
+use Makaira\Connect\Utils\OperationalIntelligence;
 use Makaira\RecommendationQuery;
 use Makaira\Result;
 use Makaira\ResultItem;
 use Makaira\Connect\Exception as ConnectException;
 use Makaira\Connect\Exceptions\UnexpectedValueException;
+use oxRegistry;
 
 class RecommendationHandler extends AbstractHandler
 {
     public function recommendation(RecommendationQuery $query, $debugTrace = null)
     {
+        $dic = oxRegistry::get('yamm_dic');
+
+        /** @var OperationalIntelligence $operationalIntelligence */
+        $operationalIntelligence = $dic['makaira.connect.operational_intelligence'];
+        $operationalIntelligence->apply($query);
+
         $request = "{$this->url}recommendation";
         $body    = json_encode($query);
         $headers = ["X-Makaira-Instance: {$this->instance}"];

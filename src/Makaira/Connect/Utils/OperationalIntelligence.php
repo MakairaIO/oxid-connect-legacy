@@ -10,8 +10,8 @@
 
 namespace Makaira\Connect\Utils;
 
+use Makaira\AbstractQuery;
 use Makaira\Constraints;
-use Makaira\Query;
 use makaira_cookie_utils;
 
 class OperationalIntelligence
@@ -26,10 +26,10 @@ class OperationalIntelligence
         $this->cookieUtils = $cookieUtils;
     }
 
-    public function apply(Query $query)
+    public function apply(AbstractQuery $query)
     {
         $query->constraints[ Constraints::OI_USER_AGENT ]    = $this->getUserAgentString();
-        $query->constraints[ Constraints::OI_USER_IP ]       = $this->getUserIP();
+        $query->constraints[ Constraints::OI_USER_IP ]       = $this->anonymizeIp($this->getUserIP());
         $query->constraints[ Constraints::OI_USER_ID ]       = $this->generateUserID();
         $query->constraints[ Constraints::OI_USER_TIMEZONE ] = $this->getUserTimeZone();
     }
@@ -66,6 +66,18 @@ class OperationalIntelligence
         $userIP     = isset($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $remoteAddr;
 
         return is_string($userIP) ? $userIP : '';
+    }
+
+    /**
+     * Replaces the last two digits of an IPv4 address with ".0.0".
+     *
+     * @param string $ip IPv4 address to anonymize.
+     *
+     * @return string
+     */
+    private function anonymizeIp($ip)
+    {
+        return preg_replace('/\.\d+\.\d+$/', '.0.0', $ip);
     }
 
     /**
