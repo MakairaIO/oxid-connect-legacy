@@ -1,4 +1,4 @@
 [{if $oViewConf->isEcondaActive() }]
-    [{oxscript include=$oViewConf->getModuleUrl('makaira/connect', 'out/src/scripts/features/econda-recommendations.js') priority=10 }]
-    [{oxscript include=$oViewConf->getModuleUrl('makaira/connect', 'out/src/scripts/features/econda.js') priority=20 }]
+    <script type="text/javascript" defer="defer" src="[{$oViewConf->getEcondaUrl()}]" client-key="[{$oViewConf->getEcondaClientKey()}]" container-id="[{$oViewConf->getEcondaContainerId()}]"></script>
+    <script type="text/javascript" src="[{$oViewConf->getModuleUrl('makaira/connect', 'out/src/scripts/features/econda.js')}]"></script>
 [{/if}]

@@ -22,6 +22,7 @@ $aLang = [
     'SHOP_MODULE_makaira_connect_use_econda'        => 'Econda Unterstützung aktivieren',
     'HELP_SHOP_MODULE_makaira_connect_use_econda'   => '???',
     'SHOP_MODULE_makaira_connect_econda_aid'        => 'Econda Account ID',
+    'SHOP_MODULE_makaira_connect_econda_cid'        => 'Econda Container ID',
     'SHOP_MODULE_makaira_connect_use_odoscope'      => 'Odoscope Unterstützung aktivieren',
     'HELP_SHOP_MODULE_makaira_connect_use_odoscope' => '???',
     'SHOP_MODULE_makaira_connect_odoscope_siteid'   => 'Odoscope Site ID',
