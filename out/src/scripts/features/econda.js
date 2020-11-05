@@ -30,7 +30,7 @@ function hReadCookie(name) {
 }
 
 function hDeleteCookie(name) {
-    createCookie(name, "", -1);
+    hCreateCookie(name, "", -1);
 }
 
 function initEcondaCookie() {
@@ -81,4 +81,6 @@ function initEcondaCookie() {
     }
 }
 
-setTimeout(initEcondaCookie, 500);
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(initEcondaCookie, 500);
+});
