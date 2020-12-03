@@ -32,6 +32,12 @@ class makaira_tracking_data_generator
      */
     public function generate($oxidControllerClass)
     {
+        $siteId = oxRegistry::getConfig()->getShopConfVar('makaira_tracking_page_id', null, 'module:makaira/connect');
+
+        if (empty($siteId)) {
+            return [];
+        }
+
         $childTrackingData = null;
         $normalizedClass   = $this->normalize($oxidControllerClass);
         $methodName        = "generateFor{$normalizedClass}";
@@ -48,7 +54,6 @@ class makaira_tracking_data_generator
             $childTrackingData = [['trackPageView']];
         }
 
-        $siteId = oxRegistry::getConfig()->getShopConfVar('makaira_tracking_page_id', null, 'module:makaira/tracking');
         $trackingData = [
             $childTrackingData,
             [

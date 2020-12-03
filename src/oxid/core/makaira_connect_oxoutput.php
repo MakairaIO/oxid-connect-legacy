@@ -28,6 +28,7 @@ class makaira_connect_oxoutput extends makaira_connect_oxoutput_parent
         $output = parent::process($sValue, $sClassName);
 
         if (
+            $this->isAdmin() ||
             false === strpos($output, '</head>') ||
             !oxRegistry::get(makaira_cookie_utils::class)->hasCookiesAccepted()
         ) {
