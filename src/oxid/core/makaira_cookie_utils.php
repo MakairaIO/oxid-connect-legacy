@@ -18,16 +18,25 @@ class makaira_cookie_utils
         $value,
         $expire = 0,
         $path = '/',
+        $domain = null,
         $saveToSession = true,
         $secure = false,
         $httpOnly = true
-    )
-    {
+    ) {
         if ($this->hasCookiesAccepted()) {
             /** @var oxUtilsServer $oxidServerUtils */
             $oxidServerUtils = oxRegistry::get('oxutilsserver');
 
-            return $oxidServerUtils->setOxCookie($name, $value, $expire, $path, $saveToSession, $secure, $httpOnly);
+            return $oxidServerUtils->setOxCookie(
+                $name,
+                $value,
+                $expire,
+                $path,
+                $domain,
+                $saveToSession,
+                $secure,
+                $httpOnly
+            );
         }
 
         return false;
