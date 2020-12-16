@@ -25,7 +25,7 @@ $aModule = [
         'de' => '<p>Connector zum Makaira</p><p>Mit dieser Version ist das Makaira :: Connect Modul DSGVO konform.</p><div class="errorbox"><p>Bitte deaktivieren Sie das Makaira :: Tracking Modul, falls vorhanden und aktiviert, bevor Sie die neue Connect Version aktivieren.</p></div>',
     ],
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2020.12.0',
+    'version'     => '2020.12.1',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
