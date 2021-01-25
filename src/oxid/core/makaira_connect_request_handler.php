@@ -171,10 +171,7 @@ class makaira_connect_request_handler
 
         $productResult = $this->result['product'];
 
-        $productIds = [];
-        foreach ($productResult->items as $item) {
-            $productIds[] = $item->fields['id'];
-        }
+        $productIds = $this->mapResultIDs($productResult->items);
 
         // Hook for result modification
         $this->afterSearchRequest($productIds);
@@ -386,5 +383,18 @@ class makaira_connect_request_handler
         }
 
         return $aggregations;
+    }
+
+    /**
+     * @param $items
+     * @return array
+     */
+    protected function mapResultIDs($items)
+    {
+        $productIds = [];
+        foreach ($items as $item) {
+            $productIds[] = $item->fields['id'];
+        }
+        return $productIds;
     }
 }
