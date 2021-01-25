@@ -1,5 +1,6 @@
 [{*oxscript include=$oViewConf->getModuleUrl('marm/cookie-banner', 'out/js/dist/main.js')*}]
 
+[{if $oViewConf->isCookieBannerActive()}]
 <div class="makaira-cookie-banner" id="cookieConsentBanner">
     <div class="container-fluid makaira-cookie-banner__container">
         <div class="makaira-cookie-banner__hint">
@@ -13,3 +14,4 @@
         </div>
     </div>
 </div>
+[{/if}]

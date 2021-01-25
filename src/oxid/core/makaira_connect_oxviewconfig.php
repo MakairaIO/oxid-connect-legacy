@@ -25,6 +25,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private static $filterParamName;
 
+    private $cookieBannerActive;
+
     public function redirectMakairaFilter($baseUrl, $disableSeoFilter = false)
     {
         $useSeoFilter = $this->getConfig()->getShopConfVar(
@@ -398,5 +400,21 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
 
         return self::$filterParamName;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCookieBannerActive()
+    {
+        if (null === $this->cookieBannerActive) {
+            $this->cookieBannerActive = (bool) oxRegistry::getConfig()->getShopConfVar(
+                'makaira_cookie_banner_enabled',
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+        }
+
+        return $this->cookieBannerActive;
     }
 }
