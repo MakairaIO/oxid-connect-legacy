@@ -1,4 +1,4 @@
-<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--header">Produkte</li>
+<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--header">[{oxmultilang ident="MAKAIRA_PRODUCTS"}]</li>
 
 [{foreach from=$products item=product}]
     <li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--product">
@@ -13,6 +13,6 @@
 
 <li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--show-all">
     <button class="makaira-autosuggestion__submit" type="submit">
-        Alle Ergebnisse anzeigen ([{$productCount}])
+        [{oxmultilang ident="MAKAIRA_SUGGESTION_SHOW_ALL"}] ([{$productCount}])
     </button>
 </li>

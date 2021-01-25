@@ -16,6 +16,10 @@ $aLang = [
     'MAKAIRA_SEARCHRESULT_SUGGESTION'   => "Suchvorschläge",
     'MAKAIRA_PRODUCTS'                  => "Produkte",
 
+    // SUGGESTIONS
+    'MAKAIRA_SUGGESTION_SEARCHLINK'     => "Links",
+    'MAKAIRA_SUGGESTION_SHOW_ALL'       => "Alle Ergebnisse anzeigen",
+
     // Cookie consent hint
     'MAKAIRA_COOKIE_BANNER_HEADING'     => 'Cookie-Einstellungen',
     'MAKAIRA_COOKIE_BANNER_INFO'        => 'Unsere Webseite setzt Cookies ein, um unsere Dienste für Sie bereitzustellen. Ebenfalls werden Cookies ' .

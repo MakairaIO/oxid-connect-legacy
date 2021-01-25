@@ -1,4 +1,4 @@
-<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--header">Kategorien</li>
+<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--header">[{oxmultilang ident="MAKAIRA_SEARCHRESULT_CATEGORY"}]</li>
 
 [{foreach from=$categories item=category}]
     <li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--category">

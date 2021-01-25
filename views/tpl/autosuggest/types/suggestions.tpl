@@ -1,4 +1,4 @@
-<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--header">Suchvorschläge</li>
+<li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--header">[{oxmultilang ident="MAKAIRA_SEARCHRESULT_SUGGESTION"}]</li>
 
 [{foreach from=$suggestions item=suggestion}]
     <li class="makaira-autosuggestion__list-item makaira-autosuggestion__list-item--suggestion">
