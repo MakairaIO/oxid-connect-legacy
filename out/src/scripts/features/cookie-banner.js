@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const consentBanner = document.querySelector('#cookieConsentBanner');
-    if (!document.cookie.match(/cookie-consent=/)) {
+    if (consentBanner && !document.cookie.match(/cookie-consent=/)) {
         consentBanner.style.display = 'block';
         document.querySelector('#cookieConsentBanner').addEventListener('click', clickEvent => {
             if (clickEvent.target.dataset.consentDecision) {
