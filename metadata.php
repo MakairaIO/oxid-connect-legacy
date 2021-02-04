@@ -25,7 +25,7 @@ $aModule = [
         'de' => '<p>Connector zum Makaira</p><p>Mit dieser Version ist das Makaira :: Connect Modul DSGVO konform.</p><div class="errorbox"><p>Bitte deaktivieren Sie das Makaira :: Tracking Modul, falls vorhanden und aktiviert, bevor Sie die neue Connect Version aktivieren.</p></div>',
     ],
     'thumbnail'   => 'makaira.jpg',
-    'version'     => '2021.1.3',
+    'version'     => '2021.2.1',
     'author'      => 'marmalade GmbH',
     'url'         => 'https://www.makaira.io/',
     'email'       => 'support@makaira.io',
@@ -52,6 +52,7 @@ $aModule = [
         'oxseodecoder'                 => "{$moduleId}/src/oxid/core/makaira_connect_oxseodecoder",
         'oxoutput'                     => "{$moduleId}/src/oxid/core/makaira_connect_oxoutput",
         'oxconfig'                     => "{$moduleId}/src/oxid/core/makaira_connect_oxconfig",
+        'oxshopcontrol'                => "{$moduleId}/src/oxid/core/makaira_connect_oxshopcontrol",
         /* components */
         'oxlocator'                    => "{$moduleId}/src/oxid/application/components/makaira_connect_oxlocator",
     ],
@@ -296,6 +297,24 @@ $aModule = [
             'name'  => 'makaira_search_results_suggestion',
             'type'  => 'str',
             'value' => '-1',
+        ],
+        [
+            'group' => 'makaira_ab_testing',
+            'name'  => 'makaira_ab_testing_local_group_select',
+            'type'  => 'bool',
+            'value' => false
+        ],
+        [
+            'group' => 'makaira_ab_testing',
+            'name'  => 'makaira_ab_testing_local_group_id',
+            'type'  => 'str',
+            'value' => ''
+        ],
+        [
+            'group' => 'makaira_ab_testing',
+            'name'  => 'makaira_ab_testing_local_group_variation',
+            'type'  => 'str',
+            'value' => ''
         ],
     ],
 ];

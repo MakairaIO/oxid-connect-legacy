@@ -59,4 +59,10 @@ $aLang = [
         'die Rechtssicherheit Ihres Shops gewährleisten!</strong>',
 
     'SHOP_MODULE_GROUP_TRACKING_PRIVACY'               => 'Tracking & Datenschutz',
+
+    'SHOP_MODULE_GROUP_makaira_ab_testing'  => 'A/B-Experimente',
+    'SHOP_MODULE_makaira_ab_testing_local_group_select' => 'Connect-gesteuertes A/B-Experiment aktivieren',
+    'HELP_SHOP_MODULE_makaira_ab_testing_local_group_select' => '<strong>Achtung:</strong> Diese Option ist nur in bestimmten Fällen sinnvoll. Es wird empfohlen die Steuerung der A/B-Tests Makaira zu überlassen. Mit dieser Option ist lediglich eine 50/50 Verteilung möglich.',
+    'SHOP_MODULE_makaira_ab_testing_local_group_id' => 'Experiment ID',
+    'SHOP_MODULE_makaira_ab_testing_local_group_variation' => 'Variation ID (B-Variante, nicht original)',
 ];

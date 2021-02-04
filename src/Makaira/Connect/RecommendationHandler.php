@@ -32,7 +32,7 @@ class RecommendationHandler extends AbstractHandler
 
         $request = "{$this->url}recommendation";
         $body    = json_encode($query);
-        $headers = ["X-Makaira-Instance: {$this->instance}"];
+        $headers = ["X-Makaira-Instance: {$this->instance}", "Content-Type: application/json; charset=UTF-8"];
 
         if ($debugTrace) {
             $headers[] = "X-Makaira-Trace: {$debugTrace}";
