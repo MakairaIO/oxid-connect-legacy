@@ -52,6 +52,7 @@ $aModule = [
         'oxseodecoder'                 => "{$moduleId}/src/oxid/core/makaira_connect_oxseodecoder",
         'oxoutput'                     => "{$moduleId}/src/oxid/core/makaira_connect_oxoutput",
         'oxconfig'                     => "{$moduleId}/src/oxid/core/makaira_connect_oxconfig",
+        'oxshopcontrol'                => "{$moduleId}/src/oxid/core/makaira_connect_oxshopcontrol",
         /* components */
         'oxlocator'                    => "{$moduleId}/src/oxid/application/components/makaira_connect_oxlocator",
     ],
@@ -296,6 +297,24 @@ $aModule = [
             'name'  => 'makaira_search_results_suggestion',
             'type'  => 'str',
             'value' => '-1',
+        ],
+        [
+            'group' => 'makaira_ab_testing',
+            'name'  => 'makaira_ab_testing_local_group_select',
+            'type'  => 'bool',
+            'value' => false
+        ],
+        [
+            'group' => 'makaira_ab_testing',
+            'name'  => 'makaira_ab_testing_local_group_id',
+            'type'  => 'str',
+            'value' => ''
+        ],
+        [
+            'group' => 'makaira_ab_testing',
+            'name'  => 'makaira_ab_testing_local_group_variation',
+            'type'  => 'str',
+            'value' => ''
         ],
     ],
 ];
