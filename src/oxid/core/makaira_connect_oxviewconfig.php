@@ -125,6 +125,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         return self::$econdaContainerId;
     }
 
+    public function getEcondaLoaderUrl()
+    {
+        return "https://d35ojb8dweouoy.cloudfront.net/loader/loader.js";
+    }
+
     public function resetMakairaFilter($type, $ident)
     {
         $cookieFilter = $this->loadMakairaFilterFromCookie();
