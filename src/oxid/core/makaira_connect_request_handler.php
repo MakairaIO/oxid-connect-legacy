@@ -196,11 +196,13 @@ class makaira_connect_request_handler
             $oxidViewConfig->setExperiments($experiments);
         }
 
-        oxRegistry::get('oxUtilsServer')->setOxCookie(
-            'mak_experiments',
-            json_encode($responseExperiments),
-            time() + 15552000 // 180 days
-        );
+        if ($responseExperiments) {
+            oxRegistry::get('oxUtilsServer')->setOxCookie(
+                'mak_experiments',
+                json_encode($responseExperiments),
+                time() + 15552000 // 180 days
+            );
+        }
 
         return $oxArticleList;
     }
