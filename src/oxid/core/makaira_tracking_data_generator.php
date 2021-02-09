@@ -281,6 +281,7 @@ class makaira_tracking_data_generator
 
         return [
             ['setEcommerceView', false, false, $listController->getTitle()],
+            ['trackPageView']
         ];
     }
 
