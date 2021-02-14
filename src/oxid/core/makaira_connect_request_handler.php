@@ -79,20 +79,25 @@ class makaira_connect_request_handler
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
             if (isset($_COOKIE['mak_econda_session'])) {
-                $personalizationType                                     = 'econda';
-                $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
-                $econdaData                                              = json_decode($_COOKIE['mak_econda_session']);
-                $query->constraints[ Constraints::PERSONALIZATION_DATA ] = $econdaData;
+                $econdaData = json_decode($_COOKIE['mak_econda_session']);
+            } else {
+                // First request has no emvid yet, we need to create dummy id to get already reordered results by econda
+                $econdaData['timestamp'] = (new DateTime('NOW'))->format(DateTime::ISO8601);
+                $econdaData['emvid'] = 'first_request_dummy_id';
             }
+
+            $personalizationType = 'econda';
+            $query->constraints[Constraints::PERSONALIZATION_TYPE] = $personalizationType;
+            $query->constraints[Constraints::PERSONALIZATION_DATA] = $econdaData;
         } elseif (oxRegistry::getConfig()->getShopConfVar(
             'makaira_connect_use_odoscope',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
-            $personalizationType                                     = 'odoscope';
-            $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
+            $personalizationType = 'odoscope';
+            $query->constraints[Constraints::PERSONALIZATION_TYPE] = $personalizationType;
 
-            $token  = oxRegistry::getConfig()->getShopConfVar(
+            $token = oxRegistry::getConfig()->getShopConfVar(
                 'makaira_connect_odoscope_token',
                 null,
                 oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
