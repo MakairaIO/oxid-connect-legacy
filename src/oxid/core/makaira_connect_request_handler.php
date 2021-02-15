@@ -81,9 +81,13 @@ class makaira_connect_request_handler
             if (isset($_COOKIE['mak_econda_session'])) {
                 $econdaData = json_decode($_COOKIE['mak_econda_session']);
             } else {
-                // First request has no emvid yet, we need to create dummy id to get already reordered results by econda
-                $econdaData['timestamp'] = (new DateTime('NOW'))->format(DateTime::ISO8601);
-                $econdaData['emvid'] = 'first_request_dummy_id';
+                // First request has no emvid yet, we need to create dummy data to get already reordered results by econda
+                $oxidViewConfig = oxRegistry::get('oxviewconfig');
+                if ($oxidViewConfig instanceof makaira_connect_oxviewconfig) {
+                    $econdaData['timestamp'] = (new DateTime('NOW'))->format(DateTime::ISO8601);
+                    $econdaData['emvid'] = 'first_request_dummy_id';
+                    $econdaData['aid'] = $oxidViewConfig->getEcondaClientKey();
+                }
             }
 
             $personalizationType = 'econda';
