@@ -136,6 +136,8 @@ class makaira_connect_search extends makaira_connect_search_parent
         $this->aggregations      = $requestHelper->getAggregations();
         $this->additionalResults = $requestHelper->getAdditionalResults();
 
+        $this->checkForSearchRedirect();
+
         $isPaginationActive = $oxConfig->getRequestParameter('pgNr') !== null;
         if (empty($query->aggregations) && 1 === $oSearchList->count() && !$isPaginationActive) {
             $productNumberProduct = $oSearchList->current();
@@ -193,5 +195,21 @@ class makaira_connect_search extends makaira_connect_search_parent
         $offset            = $displayedProducts * $currentPage;
 
         return array($displayedProducts, $offset);
+    }
+
+    private function checkForSearchRedirect()
+    {
+        $additionalResults = (array) $this->additionalResults;
+        $redirects         =
+            isset($additionalResults['searchredirect']) ? $additionalResults['searchredirect']->items : [];
+
+        if (count($redirects) > 0) {
+            $targetUrl = $redirects[0]->fields['targetUrl'];
+
+            if ($targetUrl) {
+                oxRegistry::getUtils()
+                    ->redirect($targetUrl, false, 302);
+            }
+        }
     }
 }
