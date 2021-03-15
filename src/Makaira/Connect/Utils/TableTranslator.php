@@ -30,6 +30,18 @@ class TableTranslator
     }
 
     /**
+     * @param Closure $viewNameGenerator
+     *
+     * @return TableTranslator
+     */
+    public function setViewNameGenerator(Closure $viewNameGenerator): TableTranslator
+    {
+        $this->viewNameGenerator = $viewNameGenerator;
+
+        return $this;
+    }
+
+    /**
      * Set the language
      *
      * @param string $language
