@@ -2,6 +2,18 @@
 
 class oxLang
 {
+    public function getLanguageArray()
+    {
+        $german       = new stdClass();
+        $german->id   = 1;
+        $german->abbr = 'de';
+
+        $english       = new stdClass();
+        $english->id   = 2;
+        $english->abbr = 'en';
+
+        return [$german, $english];
+    }
 }
 
 class oxUtilsView

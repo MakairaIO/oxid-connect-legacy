@@ -2,11 +2,18 @@
 
 namespace Makaira\Connect\Utils;
 
+use Closure;
+
 class TableTranslator
 {
     private $searchTables = [];
 
     private $language = 'de';
+
+    /**
+     * @var Closure
+     */
+    private $viewNameGenerator;
 
     /**
      * TableTranslator constructor.
@@ -16,6 +23,10 @@ class TableTranslator
     public function __construct(array $searchTables)
     {
         $this->searchTables = $searchTables;
+
+        $this->viewNameGenerator = static function ($table, $language) {
+            return "oxv_{$table}_{$language}";
+        };
     }
 
     /**
@@ -38,7 +49,7 @@ class TableTranslator
     public function translate($sql)
     {
         foreach ($this->searchTables as $searchTable) {
-            $replaceTable = "oxv_{$searchTable}_{$this->language}";
+            $replaceTable = ($this->viewNameGenerator)($searchTable, $this->language);
             $sql          = preg_replace_callback(
                 "((?P<tableName>{$searchTable})(?P<end>[^A-Za-z0-9_]|$))",
                 function ($match) use ($replaceTable) {
