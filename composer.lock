@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d7aa0e147849b4ed3f193136a69c898",
+    "content-hash": "3ba9cbc7244a37d7e2b3dc00de68c1e7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -518,11 +518,17 @@
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2020.12.0",
+            "version": "2021.3.2",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "1c72cd94c3ec2a853f6b1778f9c801878f01cb3c"
+                "url": "https://github.com/MakairaIO/shared-libs.git",
+                "reference": "6f27862231ccc9956f62715682677de1213ab4d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MakairaIO/shared-libs/zipball/6f27862231ccc9956f62715682677de1213ab4d1",
+                "reference": "6f27862231ccc9956f62715682677de1213ab4d1",
+                "shasum": ""
             },
             "require": {
                 "kore/data-object": "1.2"
@@ -539,7 +545,8 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2020-12-10T10:19:37+00:00"
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2021-03-19T14:11:12+00:00"
         },
         {
             "name": "marm/yamm",
@@ -719,12 +726,6 @@
             "keywords": [
                 "Xdebug",
                 "performance"
-            ],
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                }
             ],
             "time": "2020-03-01T12:26:26+00:00"
         },
@@ -2256,20 +2257,6 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-01-16T19:04:26+00:00"
         },
         {
@@ -2336,6 +2323,5 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.6.40"
-    },
-    "plugin-api-version": "1.1.0"
+    }
 }
