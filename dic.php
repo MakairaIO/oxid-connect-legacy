@@ -1,5 +1,7 @@
 <?php
 
+use OxidEsales\Eshop\Core\Registry;
+
 $autoloadLocations = [
     __DIR__ . '/vendor/autoload.php',
     __DIR__ . '/../../../vendor/autoload.php',
@@ -52,7 +54,7 @@ $dic['makaira.content_parser'] = function (\Marm\Yamm\DIC $dic) {
 };
 
 $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
-    return new \Makaira\Connect\Utils\TableTranslator(
+    $tableTranslator = new \Makaira\Connect\Utils\TableTranslator(
         [
             'oxarticles',
             'oxartextends',
@@ -62,6 +64,39 @@ $dic['oxid.table_translator'] = function (\Marm\Yamm\DIC $dic) {
             'oxobject2attribute',
         ]
     );
+
+    $languageMap = [];
+
+    foreach (oxRegistry::getLang()->getLanguageArray() as $language) {
+        $languageMap[$language->abbr] = $language->id;
+    }
+
+    $mapLanguage = static function ($language) use ($languageMap) {
+        if (is_numeric($language)) {
+            return $language;
+        }
+
+        return isset($languageMap[$language]) ? $languageMap[$language] : null;
+    };
+
+    if (class_exists(\OxidEsales\Eshop\Core\TableViewNameGenerator::class)) {
+        $tableTranslator->setViewNameGenerator(
+            static function ($table, $language, $shopId = null) use ($mapLanguage) {
+                /** @var \OxidEsales\Eshop\Core\TableViewNameGenerator $oxid6ViewNameGenerator */
+                $oxid6ViewNameGenerator = Registry::get(\OxidEsales\Eshop\Core\TableViewNameGenerator::class);
+
+                return $oxid6ViewNameGenerator->getViewName($table, $mapLanguage($language), $shopId);
+            }
+        );
+    } else {
+        $tableTranslator->setViewNameGenerator(
+            static function ($table, $language, $shopId = null) use ($mapLanguage) {
+                return getViewName($table, $mapLanguage($language), $shopId);
+            }
+        );
+    }
+
+    return $tableTranslator;
 };
 
 $dic['makaira.connect.operational_intelligence'] = function (\Marm\Yamm\DIC $dic) {
