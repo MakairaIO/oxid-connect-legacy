@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a15b7f45f1b0cd2c99e3e36d76ca9f56",
+    "content-hash": "232223f7736dc42649eff01269efdfda",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -550,19 +550,20 @@
         },
         {
             "name": "marm/yamm",
-            "version": "2.0.2",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marmaladeDE/yamm.git",
-                "reference": "acde4a9899fea63dce30ae0ef1944ff023b83d7b"
+                "reference": "2359259bcd717404fd04c96e23c4cae62fc5062f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/acde4a9899fea63dce30ae0ef1944ff023b83d7b",
-                "reference": "acde4a9899fea63dce30ae0ef1944ff023b83d7b",
+                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/2359259bcd717404fd04c96e23c4cae62fc5062f",
+                "reference": "2359259bcd717404fd04c96e23c4cae62fc5062f",
                 "shasum": ""
             },
             "require": {
+                "kore/data-object": "@stable",
                 "pimple/pimple": "@stable"
             },
             "require-dev": {
@@ -578,18 +579,13 @@
             "autoload": {
                 "classmap": [
                     "src/"
-                ],
-                "psr-4": {
-                    "Marmalade\\Yamm\\": [
-                        "src/oxid/core/"
-                    ]
-                }
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "time": "2018-11-07T10:52:13+00:00"
+            "time": "2018-02-08T15:47:04+00:00"
         },
         {
             "name": "pimple/pimple",
