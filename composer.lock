@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ba9cbc7244a37d7e2b3dc00de68c1e7",
+    "content-hash": "a15b7f45f1b0cd2c99e3e36d76ca9f56",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -550,11 +550,17 @@
         },
         {
             "name": "marm/yamm",
-            "version": "2.0.3",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.marmalade.de:marm/yamm.git",
-                "reference": "80001d11ceb0031122c40bfd750ae9922bd055df"
+                "url": "https://github.com/marmaladeDE/yamm.git",
+                "reference": "acde4a9899fea63dce30ae0ef1944ff023b83d7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/acde4a9899fea63dce30ae0ef1944ff023b83d7b",
+                "reference": "acde4a9899fea63dce30ae0ef1944ff023b83d7b",
+                "shasum": ""
             },
             "require": {
                 "pimple/pimple": "@stable"
@@ -570,19 +576,20 @@
                 "installer-name": "marm/yamm"
             },
             "autoload": {
+                "classmap": [
+                    "src/"
+                ],
                 "psr-4": {
-                    "Marm\\Yamm\\": [
-                        "src/Yamm/"
-                    ],
                     "Marmalade\\Yamm\\": [
                         "src/oxid/core/"
                     ]
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "time": "2019-01-15T13:44:50+00:00"
+            "time": "2018-11-07T10:52:13+00:00"
         },
         {
             "name": "pimple/pimple",
