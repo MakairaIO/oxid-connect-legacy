@@ -41,6 +41,16 @@ class AttributeModifier extends Modifier
                             variant.oxparentid = :productId
                         ';
 
+    public $selectVariantsNameQuery = '
+                        SELECT
+                            parent.oxvarname as `title`
+                        FROM
+                            oxarticles parent
+                            JOIN oxarticles variant ON parent.oxid = variant.oxparentid
+                        WHERE
+                            variant.oxparentid = :productId
+                        ';
+
     public $selectVariantsAttributesQuery = '
                         SELECT
                             oxattribute.oxid as `id`,
@@ -60,6 +70,16 @@ class AttributeModifier extends Modifier
                         SELECT
                             parent.oxvarname as `title`,
                             variant.oxvarselect as `value`
+                        FROM
+                            oxarticles parent
+                            JOIN oxarticles variant ON parent.oxid = variant.oxparentid
+                        WHERE
+                            variant.oxid = :productId
+                        ';
+
+    public $selectVariantNameQuery = '
+                        SELECT
+                            parent.oxvarname as `title`
                         FROM
                             oxarticles parent
                             JOIN oxarticles variant ON parent.oxid = variant.oxparentid
@@ -171,6 +191,13 @@ class AttributeModifier extends Modifier
         }
 
         if (false === $product->isVariant) {
+            $variantsName = $this->database->query(
+                $this->selectVariantsNameQuery,
+                [
+                    'productId' => $product->id,
+                ],
+                false
+            );
             $variants = $this->database->query(
                 $this->selectVariantsQuery,
                 [
@@ -178,6 +205,13 @@ class AttributeModifier extends Modifier
                 ]
             );
         } else {
+            $variantsName = $this->database->query(
+                $this->selectVariantNameQuery,
+                [
+                    'productId' => $product->id,
+                ],
+                false
+            );
             $variants = $this->database->query(
                 $this->selectVariantQuery,
                 [
@@ -187,7 +221,7 @@ class AttributeModifier extends Modifier
         }
 
         if ($variants) {
-            $hashArray = array_map('md5', array_map('trim', explode('|', $variants[0]['title'])));
+            $hashArray = array_map('md5', array_map('trim', explode('|', $variantsName[0]['title'])));
 
             $allVariants = [];
             foreach ($variants as $variantData) {
