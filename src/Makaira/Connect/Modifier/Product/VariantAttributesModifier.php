@@ -18,7 +18,7 @@ class VariantAttributesModifier extends Modifier
 {
     private $selectVariantNameQuery = '
                         SELECT
-                            OXVARNAME
+                            oxvarname
                         FROM
                             oxarticles
                         WHERE
@@ -101,12 +101,12 @@ class VariantAttributesModifier extends Modifier
             [
                 'productId' => $product->id,
             ],
-            true
+            false
         );
-        $single      = ($variantName[0]['OXVARNAME'] === '');
+        $single      = ($variantName[0]['oxvarname'] === '');
 
         if (!$single) {
-            $titleArray = array_map('trim', explode('|', $variantName[0]['OXVARNAME']));
+            $titleArray = array_map('trim', explode('|', $variantName[0]['oxvarname']));
             $hashArray  = array_map('md5', $titleArray);
 
             $query    = str_replace('{{activeSnippet}}', $this->activeSnippet, $this->selectVariantDataQuery);
