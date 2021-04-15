@@ -121,11 +121,11 @@ class Repository
      */
     public function __construct(
         DatabaseInterface $database,
-        array $repositoryMapping = array(),
+        $repositoryMapping,
         $parentsPurchasable
     ) {
         $this->database           = $database;
-        $this->repositoryMapping  = $repositoryMapping;
+        $this->repositoryMapping  = (array) $repositoryMapping;
         $this->parentsPurchasable = (bool) $parentsPurchasable;
     }
 

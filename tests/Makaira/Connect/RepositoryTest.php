@@ -4,7 +4,6 @@ namespace Makaira\Connect;
 
 use Makaira\Connect\Repository\AbstractRepository;
 use Makaira\Connect\Repository\ModifierList;
-use Makaira\Import\Changes;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -155,7 +154,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testTouchExecutesQuery()
     {
         $databaseMock = $this->getMock(DatabaseInterface::class);
-        $repository = new Repository($databaseMock);
+        $repository = new Repository($databaseMock, array(), false);
 
         $databaseMock
             ->expects($this->any())
@@ -182,9 +181,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getAllIds')
             ->will($this->returnValue([1,2,3]));
-        $repository = new Repository($databaseMock, [
-            'firstRepo' => $repositoryMock1,
-        ]);
+        $repository = new Repository(
+            $databaseMock, [
+                'firstRepo' => $repositoryMock1,
+            ],
+            false
+        );
         $repository->touchAll();
     }
 
@@ -211,10 +213,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getAllIds')
             ->will($this->returnValue([4]));
-        $repository = new Repository($databaseMock, [
-            'firstRepo' => $repositoryMock1,
-            'secondRepo' => $repositoryMock2,
-        ]);
+        $repository = new Repository(
+            $databaseMock, [
+                'firstRepo'  => $repositoryMock1,
+                'secondRepo' => $repositoryMock2,
+            ],
+            false
+        );
         $repository->touchAll();
     }
 }
