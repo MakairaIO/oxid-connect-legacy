@@ -108,15 +108,25 @@ class Repository
     private $propsSpecial = [];
 
     /**
+     * @var bool
+     */
+    private $parentsPurchasable;
+
+    /**
      * Repository constructor.
      *
      * @param \Makaira\Connect\DatabaseInterface $database
      * @param array                              $repositoryMapping
+     * @param bool $parentsPurchasable
      */
-    public function __construct(DatabaseInterface $database, array $repositoryMapping = array())
-    {
-        $this->database          = $database;
-        $this->repositoryMapping = $repositoryMapping;
+    public function __construct(
+        DatabaseInterface $database,
+        array $repositoryMapping = array(),
+        $parentsPurchasable
+    ) {
+        $this->database           = $database;
+        $this->repositoryMapping  = $repositoryMapping;
+        $this->parentsPurchasable = (bool) $parentsPurchasable;
     }
 
     /**
@@ -190,7 +200,9 @@ class Repository
 
                 if ($typeProduct === $type) {
                     if (true === $change->deleted ||
-                        (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT)) {
+                        (isset($change->data->OXVARCOUNT) && 0 === $change->data->OXVARCOUNT) ||
+                        $this->parentsPurchasable
+                    ) {
                         $pChange                  = clone $change;
 
                         if (is_null($pChange->data)) {

@@ -40,6 +40,11 @@ $dic['oxid.language'] = function (\Marm\Yamm\DIC $dic) {
     return oxRegistry::getLang();
 };
 
+$dic['makaira.oxid.config'] = function () {
+    return oxRegistry::getConfig();
+};
+
+
 $dic['content_parsers.oxid.smarty'] = function (\Marm\Yamm\DIC $dic) {
     return new \Makaira\Connect\Utils\OxidSmartyParser(
         $dic['oxid.language'],
@@ -121,7 +126,8 @@ $dic['makaira.connect.repository'] = function (\Marm\Yamm\DIC $dic) {
     }
     return new Makaira\Connect\Repository(
         $dic['oxid.database'],
-        $repositories
+        $repositories,
+        $dic['makaira.oxid.config']->getShopConfVar('blVariantParentBuyable')
     );
 };
 
