@@ -6,6 +6,18 @@ class makaira_cookie_utils
 
     public function hasCookiesAccepted()
     {
+        if (null === self::$bannerEnabled) {
+            self::$bannerEnabled = oxRegistry::get('oxconfig')->getShopConfVar(
+                'makaira_cookie_banner_enabled',
+                null,
+                oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
+            );
+        }
+
+        if (!self::$bannerEnabled) {
+            return true;
+        }
+
         if (isset($_COOKIE['cookie-consent'])) {
             return 'accept' === $_COOKIE['cookie-consent'];
         }

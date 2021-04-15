@@ -25,6 +25,8 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
      */
     private static $filterParamName;
 
+    private $experiments = [];
+
     private $cookieBannerActive;
 
     public function redirectMakairaFilter($baseUrl, $disableSeoFilter = false)
@@ -121,6 +123,11 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
 
         return self::$econdaContainerId;
+    }
+
+    public function getEcondaLoaderUrl()
+    {
+        return "https://d35ojb8dweouoy.cloudfront.net/loader/loader.js";
     }
 
     public function resetMakairaFilter($type, $ident)
@@ -400,6 +407,26 @@ class makaira_connect_oxviewconfig extends makaira_connect_oxviewconfig_parent
         }
 
         return self::$filterParamName;
+    }
+
+    /**
+     * @param array $experiments
+     *
+     * @return makaira_connect_oxviewconfig
+     */
+    public function setExperiments(array $experiments)
+    {
+        $this->experiments = $experiments;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExperiments()
+    {
+        return $this->experiments;
     }
 
     /**

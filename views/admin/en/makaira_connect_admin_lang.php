@@ -59,4 +59,10 @@ $aLang = [
         'the legal security of your store!</strong>',
 
     'SHOP_MODULE_GROUP_TRACKING_PRIVACY'               => 'Tracking & data protection',
+
+    'SHOP_MODULE_GROUP_makaira_ab_testing'  => 'A/B-Experiments',
+    'SHOP_MODULE_makaira_ab_testing_local_group_select' => 'Activate Connect-driven A/B-Experiment',
+    'HELP_SHOP_MODULE_makaira_ab_testing_local_group_select' => '<strong>Caution:</strong> This option is only suitable in some rare cases. Its always recommended to let Makaira drive the A/B-Experiment! With this option there is only a 50/50 traffic split available.',
+    'SHOP_MODULE_makaira_ab_testing_local_group_id' => 'Experiment ID',
+    'SHOP_MODULE_makaira_ab_testing_local_group_variation' => 'Variation ID (B-Variant, not original)',
 ];

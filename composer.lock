@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5e050ac2def1f1763c4d73827f169aa",
+    "content-hash": "232223f7736dc42649eff01269efdfda",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -484,16 +484,16 @@
         },
         {
             "name": "kore/data-object",
-            "version": "1.3",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kore/DataObject.git",
-                "reference": "ea2d6cd1c91d81131d7e537e8d8b038321b26e67"
+                "reference": "f1ea02846690f546eb01e117fb6c876a5cd11f7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kore/DataObject/zipball/ea2d6cd1c91d81131d7e537e8d8b038321b26e67",
-                "reference": "ea2d6cd1c91d81131d7e537e8d8b038321b26e67",
+                "url": "https://api.github.com/repos/kore/DataObject/zipball/f1ea02846690f546eb01e117fb6c876a5cd11f7f",
+                "reference": "f1ea02846690f546eb01e117fb6c876a5cd11f7f",
                 "shasum": ""
             },
             "require-dev": {
@@ -514,18 +514,24 @@
                 "MIT"
             ],
             "description": "Simple base class for data objects.",
-            "time": "2019-09-27T09:41:36+00:00"
+            "time": "2019-04-07T12:33:47+00:00"
         },
         {
             "name": "makaira/shared-libs",
-            "version": "2020.3.2",
+            "version": "2021.3.2",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.marmalade.de:makaira/shared-libs.git",
-                "reference": "bf51994c7fba56c6bfd4c745f6f53479bfb4e5b5"
+                "url": "https://github.com/MakairaIO/shared-libs.git",
+                "reference": "6f27862231ccc9956f62715682677de1213ab4d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MakairaIO/shared-libs/zipball/6f27862231ccc9956f62715682677de1213ab4d1",
+                "reference": "6f27862231ccc9956f62715682677de1213ab4d1",
+                "shasum": ""
             },
             "require": {
-                "kore/data-object": "@stable"
+                "kore/data-object": "1.2"
             },
             "require-dev": {
                 "pdepend/pdepend": "@stable",
@@ -539,17 +545,25 @@
                     "Makaira\\": "src/"
                 }
             },
-            "time": "2020-03-06T10:35:22+00:00"
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2021-03-19T14:11:12+00:00"
         },
         {
             "name": "marm/yamm",
-            "version": "2.0.3",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.marmalade.de:marm/yamm.git",
-                "reference": "80001d11ceb0031122c40bfd750ae9922bd055df"
+                "url": "https://github.com/marmaladeDE/yamm.git",
+                "reference": "2359259bcd717404fd04c96e23c4cae62fc5062f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marmaladeDE/yamm/zipball/2359259bcd717404fd04c96e23c4cae62fc5062f",
+                "reference": "2359259bcd717404fd04c96e23c4cae62fc5062f",
+                "shasum": ""
             },
             "require": {
+                "kore/data-object": "@stable",
                 "pimple/pimple": "@stable"
             },
             "require-dev": {
@@ -563,19 +577,15 @@
                 "installer-name": "marm/yamm"
             },
             "autoload": {
-                "psr-4": {
-                    "Marm\\Yamm\\": [
-                        "src/Yamm/"
-                    ],
-                    "Marmalade\\Yamm\\": [
-                        "src/oxid/core/"
-                    ]
-                }
+                "classmap": [
+                    "src/"
+                ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "time": "2019-01-15T13:44:50+00:00"
+            "time": "2018-02-08T15:47:04+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -1348,6 +1358,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2017-12-04T08:55:13+00:00"
         },
         {
@@ -2256,12 +2267,12 @@
             "version": "1.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "aed98a490f9a8f78468232db345ab9cf606cf598"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/aed98a490f9a8f78468232db345ab9cf606cf598",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/aed98a490f9a8f78468232db345ab9cf606cf598",
                 "reference": "aed98a490f9a8f78468232db345ab9cf606cf598",
                 "shasum": ""
             },

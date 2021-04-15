@@ -79,20 +79,29 @@ class makaira_connect_request_handler
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
             if (isset($_COOKIE['mak_econda_session'])) {
-                $personalizationType                                     = 'econda';
-                $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
-                $econdaData                                              = json_decode($_COOKIE['mak_econda_session']);
-                $query->constraints[ Constraints::PERSONALIZATION_DATA ] = $econdaData;
+                $econdaData = json_decode($_COOKIE['mak_econda_session']);
+            } else {
+                // First request has no emvid yet, we need to create dummy data to get already reordered results by econda
+                $oxidViewConfig = oxRegistry::get('oxviewconfig');
+                if ($oxidViewConfig instanceof makaira_connect_oxviewconfig) {
+                    $econdaData['timestamp'] = (new DateTime('NOW'))->format(DateTime::ISO8601);
+                    $econdaData['emvid'] = 'first_request_dummy_id';
+                    $econdaData['aid'] = $oxidViewConfig->getEcondaClientKey();
+                }
             }
+
+            $personalizationType = 'econda';
+            $query->constraints[Constraints::PERSONALIZATION_TYPE] = $personalizationType;
+            $query->constraints[Constraints::PERSONALIZATION_DATA] = $econdaData;
         } elseif (oxRegistry::getConfig()->getShopConfVar(
             'makaira_connect_use_odoscope',
             null,
             oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
         )) {
-            $personalizationType                                     = 'odoscope';
-            $query->constraints[ Constraints::PERSONALIZATION_TYPE ] = $personalizationType;
+            $personalizationType = 'odoscope';
+            $query->constraints[Constraints::PERSONALIZATION_TYPE] = $personalizationType;
 
-            $token  = oxRegistry::getConfig()->getShopConfVar(
+            $token = oxRegistry::getConfig()->getShopConfVar(
                 'makaira_connect_odoscope_token',
                 null,
                 oxConfig::OXMODULE_MODULE_PREFIX . 'makaira/connect'
@@ -140,6 +149,11 @@ class makaira_connect_request_handler
         $searchHandler = $dic['makaira.connect.searchhandler'];
         $debugTrace    = oxRegistry::getConfig()->getRequestParameter("mak_debug");
 
+        $requestExperiments = json_decode($_COOKIE['mak_experiments'], true);
+        if ($requestExperiments) {
+            $query->constraints[Constraints::AB_EXPERIMENTS] = $requestExperiments;
+        }
+
         $this->result = $searchHandler->search($query, $debugTrace);
 
         if ('odoscope' === $personalizationType) {
@@ -179,6 +193,25 @@ class makaira_connect_request_handler
         $oxArticleList = $this->loadProducts($productIds, $productResult);
 
         $this->aggregations = $this->postProcessAggregations($productResult->aggregations, $query, $unmodifiedQuery);
+
+        $responseExperiments = isset($this->result['experiments']) ? $this->result['experiments'] : [];
+
+        $oxidViewConfig = oxRegistry::get('oxviewconfig');
+        if ($oxidViewConfig instanceof makaira_connect_oxviewconfig) {
+            $experiments = [];
+            foreach ($responseExperiments as $responseExperiment) {
+                $experiments[$responseExperiment['experiment']] = $responseExperiment['variation'];
+            }
+            $oxidViewConfig->setExperiments($experiments);
+        }
+
+        if ($responseExperiments) {
+            oxRegistry::get('oxUtilsServer')->setOxCookie(
+                'mak_experiments',
+                json_encode($responseExperiments),
+                time() + 15552000 // 180 days
+            );
+        }
 
         return $oxArticleList;
     }
