@@ -23,7 +23,7 @@
     "babelify": "^7.3.0",
     "braces": "^2.3.1",
     "browserify": "^14.5.0",
-    "cached-path-relative": "^1.0.2",
+    "cached-path-relative": "^1.1.0",
     "debug": "^2.6.9",
     "hashmark": "^5.0.0",
     "lodash": "^4.17.21",
